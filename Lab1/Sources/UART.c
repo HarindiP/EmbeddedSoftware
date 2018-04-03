@@ -32,6 +32,10 @@ static TFIFO *const RxPtr = &RxFIFO;*/
  */
 bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 {
+    /*BaudRate settings*/
+    uint16union_t SBR;
+    uint8_t brfd;
+
     /*Turn UART2 on*/
     SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
     /* Tx Pin */
@@ -42,19 +46,25 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
     /*Activate PORTE*/
     SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;
 
-    /*BaudRate settings*/
-    uint16_t SBR = moduleClk/(16*baudRate);
-    uint8_t brfd = (moduleClk-16*baudRate*SBR)*32/(16*baudRate);
+    SBR.l =  moduleClk/(16*baudRate);
+
+    brfd  = ((moduleClk % (16*baudRate))*32/(16*baudRate));
+
+
     /*High half of the new value goes to BDH*/
-    UART2_BDH |= SBR/256;
+    UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
+
     /*The remainder writes to BDL*/
-    UART2_BDL |= SBR%256;
+    UART2_BDL = UART_BDL_SBR(SBR.s.Lo);
+
     /*set UART2_C4 to brfd	*/
-    UART2_C4 |= brfd;
+    UART2_C4 = UART_C4_BRFA(brfd);
 
     /*Initialization of Transmit Watermark and Receive Watermark to the size of a complete packet*/
-    UART2_TWFIFO |= 40;
-    UART2_RWFIFO |= 40;
+    /*UART2_TWFIFO |= 40;
+    UART2_RWFIFO |= 40;*/
+
+
 
     /*Enable Transmitter and Receiver*/
     UART2_C2 |= UART_C2_TE_MASK | UART_C2_RE_MASK;
