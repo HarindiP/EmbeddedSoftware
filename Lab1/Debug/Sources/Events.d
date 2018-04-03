@@ -1,4 +1,4 @@
-Sources/main.o: ../Sources/main.c \
+Sources/Events.o: ../Sources/Events.c \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/Cpu.h \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Types.h \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Error.h \
@@ -9,9 +9,7 @@ Sources/main.o: ../Sources/main.c \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Types.h \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Error.h \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Const.h \
- C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/IO_Map.h \
- ../Sources/types.h ../Sources/UART.h ../Sources/FIFO.h \
- ../Sources/packet.h
+ C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/IO_Map.h
 
 C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/Cpu.h:
 
@@ -34,11 +32,3 @@ C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Error.h:
 C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Const.h:
 
 C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/IO_Map.h:
-
-../Sources/types.h:
-
-../Sources/UART.h:
-
-../Sources/FIFO.h:
-
-../Sources/packet.h:

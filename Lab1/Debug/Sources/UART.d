@@ -1,4 +1,4 @@
-Sources/main.o: ../Sources/main.c \
+Sources/UART.o: ../Sources/UART.c \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/Cpu.h \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Types.h \
  C:/Users/Harindi\ Perera/git/es18aut35/es18aut35/Lab1/Generated_Code/PE_Error.h \
