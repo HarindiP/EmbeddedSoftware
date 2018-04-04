@@ -17,11 +17,6 @@
 #include "MK70F12.h"
 #include"FIFO.h"
 
-static TFIFO TxFIFO, RxFIFO;
-static TFIFO *const TxPtr = &TxFIFO;
-static TFIFO *const RxPtr = &RxFIFO;
-
-
 /*! @brief Sets up the UART interface before first use.
  *
  *  @param baudRate The desired baud rate in bits/sec.
