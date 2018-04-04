@@ -42,12 +42,13 @@
 #include "FIFO.h"
 
 //If we dont put that here, we have an error "undeclared variable Packet_***, but does it raise issues ?
-uint8_t 	Packet_Command,		/*!< The packet's command */
-		Packet_Parameter1, 	/*!< The packet's 1st parameter */
-		Packet_Parameter2, 	/*!< The packet's 2nd parameter */
-		Packet_Parameter3,	/*!< The packet's 3rd parameter */
-		Packet_Checksum;	/*!< The packet's checksum */
+//uint8_t 	Packet_Command,		/*!< The packet's command */
+//		Packet_Parameter1, 	/*!< The packet's 1st parameter */
+//		Packet_Parameter2, 	/*!< The packet's 2nd parameter */
+//		Packet_Parameter3,	/*!< The packet's 3rd parameter */
+//		Packet_Checksum;	/*!< The packet's checksum */
 
+// Create a private function for startup packets!
 
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
@@ -56,8 +57,7 @@ int main(void)
   /* Write your local variable definition here */
   //Tower Number
   uint16union_t towerNb;	//my student nb is 13115605
-  towerNb.s.Lo=5605%256;	// this representation makes things easier with the Communication Protocol
-  towerNb.s.Hi=5605/256;
+  towerNb.l=5605;	// this representation makes things easier with the Communication Protocol
 
   // Baud Rate and Module Clock
   uint32_t baudRate = 38400;
@@ -93,7 +93,7 @@ int main(void)
 	      Packet_Put(0x09,'v',1,0);			//Send Tower Version V1.0
 	      Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi);	//Send Tower Number
 	      break;
-	    case 0x09 :		//Command is : Special – Get version
+	    case 0x09 :		//Command is : Special â€“ Get version
 	      Packet_Put(0x09,'v',1,0);		//Send Tower version
 	      break;
 	    case 0x0B :		//Command is : Tower number (get & set)
@@ -122,7 +122,7 @@ int main(void)
 		  Packet_Put(0x04,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
 		}
 	      break;
-	    case 0x89 :		//Command is : Special – Get version
+	    case 0x89 :		//Command is : Special â€“ Get version
 	      if(Packet_Put(0x09,'v',1,0))		//Send Tower version
 		{
 		  Packet_Put(Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
