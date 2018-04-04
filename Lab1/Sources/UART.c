@@ -120,16 +120,17 @@ bool UART_OutChar(const uint8_t data)
  */
 void UART_Poll(void)
 {
-
+    uint8_t statusReg = UART2_S1;
+    
   /*56.3.5*/
-  if ((UART2_S1 & UART_S1_RDRF_MASK) != 0)
+  if ((statusReg & UART_S1_RDRF_MASK) != 0)
     {
       FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
     }
   /**/
-  if ((UART2_S1 & UART_S1_TDRE_MASK) != 0 )
+  if ((statusReg & UART_S1_TDRE_MASK) != 0 )
     {
-      FIFO_Get(&TxFIFO, &UART2_D); //Transmits one bit
+      FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
     }
 }
 
