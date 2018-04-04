@@ -52,7 +52,10 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 
     brfd  = ((moduleClk % (16*baudRate))*32/(16*baudRate));
 
-
+    /*Disable Transmitter and Receiver*/
+    UART2_C2 &= ~UART_C2_RE_MASK;
+    UART2_C2 &= ~UART_C2_TE_MASK
+    
     /*High half of the new value goes to BDH*/
     UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
 
