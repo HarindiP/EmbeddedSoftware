@@ -16,7 +16,9 @@
 
 
 
-void FIFO_Init(TFIFO * const FIFO){
+void FIFO_Init(TFIFO * const FIFO)
+{
+  /*No data in the buffer*/
     FIFO->Start=0;
     FIFO->End=0;
     FIFO->NbBytes=0;
@@ -29,14 +31,24 @@ void FIFO_Init(TFIFO * const FIFO){
  *  @return bool - TRUE if data is successfully stored in the FIFO.
  *  @note Assumes that FIFO_Init has been called.
  */
-bool FIFO_Put(TFIFO * const FIFO, const uint8_t data){
-    if(FIFO->NbBytes<200){
+bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
+{
+  /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
+    if(FIFO->NbBytes<256)
+    {
 	FIFO->Buffer[FIFO->End]=data;
 	FIFO->End++;
+
+	/*Makes sure Fifo Buffer circular*/
+	if (FIFO->End==256)
+	  {
+	    FIFO->End=0;
+	  }
 	FIFO->NbBytes++;
 	return true;
     }
-    else{
+    else
+    {
 	return false;
     }
 
@@ -49,16 +61,24 @@ bool FIFO_Put(TFIFO * const FIFO, const uint8_t data){
  *  @return bool - TRUE if data is successfully retrieved from the FIFO.
  *  @note Assumes that FIFO_Init has been called.
  */
-bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr){
-    if(FIFO->NbBytes==0){
-	/*checks if empty*/
-
+bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
+{
+  /*If buffer is not empty, take oldest data and update Fifo parameters*/
+    if(FIFO->NbBytes==0)
+    {
 	return false;
     }
 
-    else{
-	*dataptr=FIFO->Buffer[FIFO->Start];
+    else
+    {
+	*dataPtr=FIFO->Buffer[FIFO->Start];
 	FIFO->Start++;
+
+	/*Makes sure Fifo Buffer circular*/
+	if (FIFO->Start==256)
+	  {
+	    FIFO->Start=0;
+	  }
 	FIFO->NbBytes--;
 	return true;
     }

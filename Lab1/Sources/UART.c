@@ -5,10 +5,24 @@
  *      Author: 13115605
  */
 
+// CPU module - contains low level hardware initialization routines
+#include "Cpu.h"
+#include "Events.h"
+#include "PE_Types.h"
+#include "PE_Error.h"
+#include "PE_Const.h"
+#include "IO_Map.h"
 
+//Sources module
+#include "types.h"
 #include "UART.h"
+#include "packet.h"
+#include "FIFO.h"
 
-static TFIFO TxFIFO, RxFIFO;
+
+/*static TFIFO TxFIFO, RxFIFO;
+static TFIFO *const TxPtr = &TxFIFO;
+static TFIFO *const RxPtr = &RxFIFO;*/
 
 /*! @brief Sets up the UART interface before first use.
  *
@@ -16,25 +30,51 @@ static TFIFO TxFIFO, RxFIFO;
  *  @param moduleClk The module clock rate in Hz
  *  @return bool - TRUE if the UART was successfully initialized.
  */
-bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk){
-    //Turn UART2 on
+bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
+{
+    /*BaudRate settings*/
+    uint16union_t SBR;
+    uint8_t brfd;
+
+    /*Turn UART2 on*/
     SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
-    // Tx Pin
+    /* Tx Pin */
     PORTE_PCR16 = PORT_PCR_MUX(3);
-    // Rx Pin
+    /* Rx Pin */
     PORTE_PCR17 = PORT_PCR_MUX(3);
 
     /*Activate PORTE*/
     SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;
 
-    /*Baud settings*/
-    uint16_t sbr = moduleClk/(16*baudRate);
-    uint8_t brfd = (moduleClk-16*baudRate*sbr)*32/(16*baudRate);
+    SBR.l =  moduleClk/(16*baudRate);
 
-    UART2_BDH
+    brfd  = ((moduleClk % (16*baudRate))*32/(16*baudRate));
 
 
+    /*High half of the new value goes to BDH*/
+    UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
 
+    /*The remainder writes to BDL*/
+    UART2_BDL = UART_BDL_SBR(SBR.s.Lo);
+
+    /*set UART2_C4 to brfd	*/
+    UART2_C4 = UART_C4_BRFA(brfd);
+
+    /*Initialization of Transmit Watermark and Receive Watermark to the size of a complete packet*/
+    /*UART2_TWFIFO |= 40;
+    UART2_RWFIFO |= 40;*/
+
+
+
+    /*Enable Transmitter and Receiver*/
+    UART2_C2 |= UART_C2_TE_MASK | UART_C2_RE_MASK;
+
+
+    /*Initialising Transmiter and Reciever Fifo*/
+    FIFO_Init(&TxFIFO);
+    FIFO_Init(&RxFIFO);
+
+    return true;
 
     /*// Clear bit 4 which is w1c
     00010011
@@ -51,9 +91,9 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk){
  *  @return bool - TRUE if the receive FIFO returned a character.
  *  @note Assumes that UART_Init has been called.
  */
-bool UART_InChar(uint8_t * const dataPtr){
-    FIFO_Get(RxFIFO,dataPtr);
-
+bool UART_InChar(uint8_t * const dataPtr)
+{
+    return FIFO_Get(RxPtr,dataPtr);
 }
 
 /*! @brief Put a byte in the transmit FIFO if it is not full.
@@ -63,7 +103,7 @@ bool UART_InChar(uint8_t * const dataPtr){
  *  @note Assumes that UART_Init has been called.
  */
 bool UART_OutChar(const uint8_t data){
-    FIFO_Put(TxFIFO,data);
+    return FIFO_Put(TxPtr,data);
 }
 
 /*! @brief Poll the UART status register to try and receive and/or transmit one character.
@@ -73,5 +113,15 @@ bool UART_OutChar(const uint8_t data){
  */
 void UART_Poll(void){
 
+  /*56.3.5*/
+  if ((UART2_S1 & UART_S1_RDRF_MASK) != 0)
+    {
+      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
+    }
+  /**/
+  if ((UART2_S1 & UART_S1_TDRE_MASK) != 0 )
+    {
+      FIFO_Get(&TxFIFO, &UART2_D); //Transmits one bit
+    }
 }
 

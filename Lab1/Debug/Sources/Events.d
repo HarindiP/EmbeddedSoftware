@@ -1,4 +1,4 @@
-Sources/main.o: ../Sources/main.c \
+Sources/Events.o: ../Sources/Events.c \
  D:/GitLab/es18aut35/Lab1/Generated_Code/Cpu.h \
  D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Types.h \
  D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Error.h \
@@ -8,8 +8,7 @@ Sources/main.o: ../Sources/main.c \
  ../Sources/Events.h D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Types.h \
  D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Error.h \
  D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Const.h \
- D:/GitLab/es18aut35/Lab1/Generated_Code/IO_Map.h ../Sources/types.h \
- ../Sources/UART.h ../Sources/FIFO.h ../Sources/packet.h
+ D:/GitLab/es18aut35/Lab1/Generated_Code/IO_Map.h
 
 D:/GitLab/es18aut35/Lab1/Generated_Code/Cpu.h:
 
@@ -32,11 +31,3 @@ D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Error.h:
 D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Const.h:
 
 D:/GitLab/es18aut35/Lab1/Generated_Code/IO_Map.h:
-
-../Sources/types.h:
-
-../Sources/UART.h:
-
-../Sources/FIFO.h:
-
-../Sources/packet.h:

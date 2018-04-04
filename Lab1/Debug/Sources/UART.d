@@ -1,4 +1,4 @@
-Sources/main.o: ../Sources/main.c \
+Sources/UART.o: ../Sources/UART.c \
  D:/GitLab/es18aut35/Lab1/Generated_Code/Cpu.h \
  D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Types.h \
  D:/GitLab/es18aut35/Lab1/Generated_Code/PE_Error.h \
