@@ -20,9 +20,9 @@
 #include "FIFO.h"
 
 
-/*static TFIFO TxFIFO, RxFIFO;
-static TFIFO *const TxPtr = &TxFIFO;
-static TFIFO *const RxPtr = &RxFIFO;*/
+static TFIFO TxFIFO, RxFIFO;
+//static TFIFO *const TxPtr = &TxFIFO;
+//static TFIFO *const RxPtr = &RxFIFO;
 
 /*! @brief Sets up the UART interface before first use.
  *
@@ -99,7 +99,7 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
  */
 bool UART_InChar(uint8_t * const dataPtr)
 {
-    return FIFO_Get(RxPtr,dataPtr);
+    return FIFO_Get(&RxFIFO,dataPtr);
 }
 
 /*! @brief Put a byte in the transmit FIFO if it is not full.
@@ -110,7 +110,7 @@ bool UART_InChar(uint8_t * const dataPtr)
  */
 bool UART_OutChar(const uint8_t data)
 {
-    return FIFO_Put(TxPtr,data);
+    return FIFO_Put(&TxFIFO,data);
 }
 
 /*! @brief Poll the UART status register to try and receive and/or transmit one character.
