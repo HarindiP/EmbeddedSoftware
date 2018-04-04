@@ -16,7 +16,7 @@ extern uint8_t 	Packet_Command,		/*!< The packet's command */
 		Packet_Parameter3,	/*!< The packet's 3rd parameter */
 		Packet_Checksum;	/*!< The packet's checksum */
 
-
+// Private Gen checksum function
 
 /*! @brief Initializes the packets by calling the initialization routines of the supporting software modules.
  *
