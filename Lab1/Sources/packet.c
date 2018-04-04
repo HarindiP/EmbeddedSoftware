@@ -10,7 +10,7 @@
 #include "UART.h"
 
 // Packet structure
-extern uint8_t 	Packet_Command,		/*!< The packet's command */
+uint8_t 	Packet_Command,		/*!< The packet's command */
 		Packet_Parameter1, 	/*!< The packet's 1st parameter */
 		Packet_Parameter2, 	/*!< The packet's 2nd parameter */
 		Packet_Parameter3,	/*!< The packet's 3rd parameter */
@@ -40,22 +40,22 @@ bool Packet_Get(void)
 
    while (UART_InChar(&tempData) && count<5)
    {
-       if (count = 0)
- 	{
+       if (count == 0)
+       {
  	  Packet_Command = tempData;
  	  count++;
- 	}
-       else if (count = 1)
+       }
+       else if (count == 1)
  	{
  	  Packet_Parameter1 = tempData;
  	  count++;
  	}
- 	else if (count = 2)
+ 	else if (count == 2)
  	{
  	  Packet_Parameter2 = tempData;
  	  count++;
  	}
- 	else if (count = 3)
+ 	else if (count == 3)
  	{
  	  Packet_Parameter3 = tempData;
  	  count++;
