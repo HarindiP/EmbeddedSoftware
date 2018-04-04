@@ -34,13 +34,13 @@ void FIFO_Init(TFIFO * const FIFO)
 bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 {
   /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
-    if(FIFO->NbBytes<256)
+    if(FIFO->NbBytes<FIFO_SIZE)
     {
 	FIFO->Buffer[FIFO->End]=data;
 	FIFO->End++;
 
 	/*Makes sure Fifo Buffer circular*/
-	if (FIFO->End==256)
+	if (FIFO->End==FIFO_SIZE)
 	  {
 	    FIFO->End=0;
 	  }
@@ -75,7 +75,7 @@ bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
 	FIFO->Start++;
 
 	/*Makes sure Fifo Buffer circular*/
-	if (FIFO->Start==256)
+	if (FIFO->Start==FIFO_SIZE)
 	  {
 	    FIFO->Start=0;
 	  }
