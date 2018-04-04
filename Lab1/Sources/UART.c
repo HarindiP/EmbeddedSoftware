@@ -38,13 +38,15 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 
     /*Turn UART2 on*/
     SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
+    /*Activate PORTE*/
+    SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;
+
     /* Tx Pin */
     PORTE_PCR16 = PORT_PCR_MUX(3);
     /* Rx Pin */
     PORTE_PCR17 = PORT_PCR_MUX(3);
 
-    /*Activate PORTE*/
-    SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;
+
 
     SBR.l =  moduleClk/(16*baudRate);
 
@@ -67,7 +69,8 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 
 
     /*Enable Transmitter and Receiver*/
-    UART2_C2 |= UART_C2_TE_MASK | UART_C2_RE_MASK;
+    UART2_C2 |= UART_C2_RE_MASK;
+    UART2_C2 |= UART_C2_TE_MASK
 
 
     /*Initialising Transmiter and Reciever Fifo*/
@@ -102,7 +105,8 @@ bool UART_InChar(uint8_t * const dataPtr)
  *  @return bool - TRUE if the data was placed in the transmit FIFO.
  *  @note Assumes that UART_Init has been called.
  */
-bool UART_OutChar(const uint8_t data){
+bool UART_OutChar(const uint8_t data)
+{
     return FIFO_Put(TxPtr,data);
 }
 
@@ -111,7 +115,8 @@ bool UART_OutChar(const uint8_t data){
  *  @return void
  *  @note Assumes that UART_Init has been called.
  */
-void UART_Poll(void){
+void UART_Poll(void)
+{
 
   /*56.3.5*/
   if ((UART2_S1 & UART_S1_RDRF_MASK) != 0)

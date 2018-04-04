@@ -89,7 +89,7 @@ bool Packet_Get(void)
  */
 bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3){
   bool b = UART_OutChar(command) && UART_OutChar(parameter1) && UART_OutChar(parameter2) && UART_OutChar(parameter3);
-  return (b && UART_OutChar(command^parameter1^parameter2^parameter3));	//finally, calculate and put the checkSum
+  return (b && UART_OutChar(command^parameter1^parameter2^parameter3));			//finally, calculate and put the checkSum
 }
 
 

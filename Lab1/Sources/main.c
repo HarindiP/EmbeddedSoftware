@@ -48,6 +48,7 @@ uint8_t 	Packet_Command,		/*!< The packet's command */
 		Packet_Parameter3,	/*!< The packet's 3rd parameter */
 		Packet_Checksum;	/*!< The packet's checksum */
 
+
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
@@ -58,12 +59,9 @@ int main(void)
   towerNb.s.Lo=5605%256;	// this representation makes things easier with the Communication Protocol
   towerNb.s.Hi=5605/256;
 
-
-
   // Baud Rate and Module Clock
   uint32_t baudRate = 38400;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
-
 
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
