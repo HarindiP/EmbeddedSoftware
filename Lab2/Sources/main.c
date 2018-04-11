@@ -29,10 +29,13 @@
 
 // CPU module - contains low level hardware initialization routines
 #include "Cpu.h"
+#include "Events.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
 #include "IO_Map.h"
+
+#include "types.h"
 
 
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
@@ -41,12 +44,12 @@ int main(void)
 {
   /* Write your local variable definition here */
   //Tower Number
-    uint16union_t towerNb;	//my student nb is 13115605
-    towerNb.l=5605;	// this representation makes things easier with the Communication Protocol
+  uint16union_t towerNb;	//my student nb is 13115605
+  towerNb.l=5605;	// this representation makes things easier with the Communication Protocol
 
-    // Baud Rate and Module Clock
-    uint32_t baudRate = 115200;
-    uint32_t moduleClk = CPU_BUS_CLK_HZ;
+  // Baud Rate and Module Clock
+  uint32_t baudRate = 115200;
+  uint32_t moduleClk = CPU_BUS_CLK_HZ;
 
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();

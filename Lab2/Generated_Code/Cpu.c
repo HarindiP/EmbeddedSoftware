@@ -8,7 +8,7 @@
 **     Repository  : Kinetis
 **     Datasheet   : K70P256M150SF3RM, Rev. 2, Dec 2011
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2015-08-14, 10:44, # CodeGen: 7
+**     Date/Time   : 2018-04-11, 16:20, # CodeGen: 8
 **     Abstract    :
 **
 **     Settings    :
@@ -23,7 +23,12 @@
 **              Fast internal reference clock [MHz]        : 4
 **              Initialize fast trim value                 : no
 **            RTC oscillator                               : Disabled
-**            System oscillator 0                          : Disabled
+**            System oscillator 0                          : Enabled
+**              Clock source                               : External reference clock
+**                Clock input pin                          : 
+**                  Pin name                               : EXTAL0/PTA18/FTM0_FLT2/FTM_CLKIN0
+**                  Pin signal                             : 
+**                Clock frequency [MHz]                    : 50
 **            System oscillator 1                          : Disabled
 **            Clock source settings                        : 1
 **              Clock source setting 0                     : 
@@ -35,28 +40,29 @@
 **                External reference clock                 : 
 **                  OSC0ERCLK clock                        : Enabled
 **                  OSC0ERCLK in stop                      : Disabled
-**                  OSC0ERCLK clock [MHz]                  : 0
-**                  OSC1ERCLK clock                        : Disabled
+**                  OSC0ERCLK clock [MHz]                  : 50
+**                  OSC1ERCLK clock                        : Enabled
 **                  OSC1ERCLK in stop                      : Disabled
 **                  OSC1ERCLK clock [MHz]                  : 0
 **                  ERCLK32K clock source                  : System oscillator 0
-**                  ERCLK32K. clock [kHz]                  : 0
+**                  ERCLK32K. clock [kHz]                  : 50
 **                MCG settings                             : 
-**                  MCG mode                               : FEI
-**                  MCG output clock                       : FLL clock
-**                  MCG output [MHz]                       : 20.97152
+**                  MCG mode                               : BLPE
+**                  MCG output clock                       : External clock
+**                  MCG output [MHz]                       : 50
 **                  MCG external ref. clock source         : System oscillator 0
-**                  MCG external ref. clock [MHz]          : 0
+**                  MCG external ref. clock [MHz]          : 50
 **                  Clock monitor                          : 
 **                    System oscillator 0                  : Disabled
 **                    RTC oscillator                       : Disabled
 **                    System oscillator 1                  : Disabled
 **                  FLL settings                           : 
-**                    FLL module                           : Enabled
-**                    FLL output [MHz]                     : 20.97152
-**                    MCGFFCLK clock [kHz]                 : 16.384
-**                    Reference clock source               : Slow internal clock
-**                    FLL reference clock [kHz]            : 32.768
+**                    FLL module                           : Disabled
+**                    FLL output [MHz]                     : 0
+**                    MCGFFCLK clock [kHz]                 : 24.4140625
+**                    Reference clock source               : External clock
+**                      Reference clock divider            : Auto select
+**                    FLL reference clock [kHz]            : 48.828125
 **                    Multiplication factor                : Auto select
 **                  PLL 0 settings                         : 
 **                    PLL module                           : Disabled
@@ -79,7 +85,9 @@
 **          Initialization priority                        : minimal priority
 **          Watchdog disable                               : yes
 **          Internal peripherals                           : 
-**            NMI pin                                      : Disabled
+**            NMI pin                                      : Enabled
+**              NMI Pin                                    : TSI0_CH5/PTA4/LLWU_P3/FTM0_CH1/NMI_b/EZP_CS_b
+**              NMI Pin signal                             : 
 **            Reset control                                : Enabled
 **              Reset pin                                  : RESET_b
 **              Reset pin signal                           : 
@@ -128,84 +136,7 @@
 **                  Erase unit size                        : 4096
 **                  Protection unit size                   : 32768
 **            Flexible memory controller                   : Disabled
-**            Flash configuration field                    : Enabled
-**              Security settings                          : 
-**                Flash security                           : Disabled
-**                Freescale failure analysis access        : Enabled
-**                Mass erase                               : Enabled
-**                Backdoor key security                    : Disabled
-**                Backdoor key 0                           : 255
-**                Backdoor key 1                           : 255
-**                Backdoor key 2                           : 255
-**                Backdoor key 3                           : 255
-**                Backdoor key 4                           : 255
-**                Backdoor key 5                           : 255
-**                Backdoor key 6                           : 255
-**                Backdoor key 7                           : 255
-**              Protection regions                         : 
-**                P-Flash protection settings              : 
-**                  Protection region size                 : 32768
-**                  P-Flash protection                     : 0xFFFFFFFF
-**                  Protection regions                     : 
-**                    Protection region 0                  : Unprotected
-**                    Protection region 1                  : Unprotected
-**                    Protection region 2                  : Unprotected
-**                    Protection region 3                  : Unprotected
-**                    Protection region 4                  : Unprotected
-**                    Protection region 5                  : Unprotected
-**                    Protection region 6                  : Unprotected
-**                    Protection region 7                  : Unprotected
-**                    Protection region 8                  : Unprotected
-**                    Protection region 9                  : Unprotected
-**                    Protection region 10                 : Unprotected
-**                    Protection region 11                 : Unprotected
-**                    Protection region 12                 : Unprotected
-**                    Protection region 13                 : Unprotected
-**                    Protection region 14                 : Unprotected
-**                    Protection region 15                 : Unprotected
-**                    Protection region 16                 : Unprotected
-**                    Protection region 17                 : Unprotected
-**                    Protection region 18                 : Unprotected
-**                    Protection region 19                 : Unprotected
-**                    Protection region 20                 : Unprotected
-**                    Protection region 21                 : Unprotected
-**                    Protection region 22                 : Unprotected
-**                    Protection region 23                 : Unprotected
-**                    Protection region 24                 : Unprotected
-**                    Protection region 25                 : Unprotected
-**                    Protection region 26                 : Unprotected
-**                    Protection region 27                 : Unprotected
-**                    Protection region 28                 : Unprotected
-**                    Protection region 29                 : Unprotected
-**                    Protection region 30                 : Unprotected
-**                    Protection region 31                 : Unprotected
-**                D-Flash protection settings              : 
-**                  Protection region size                 : 
-**                  D-Flash protection                     : 0xFF
-**                  Protection regions                     : 
-**                    Protection region 0                  : Unprotected
-**                    Protection region 1                  : Unprotected
-**                    Protection region 2                  : Unprotected
-**                    Protection region 3                  : Unprotected
-**                    Protection region 4                  : Unprotected
-**                    Protection region 5                  : Unprotected
-**                    Protection region 6                  : Unprotected
-**                    Protection region 7                  : Unprotected
-**                Eeprom protection settings               : 
-**                  Protection region size                 : 
-**                  Eeprom protection                      : 0xFF
-**                  Protection regions                     : 
-**                    Protection region 0                  : Unprotected
-**                    Protection region 1                  : Unprotected
-**                    Protection region 2                  : Unprotected
-**                    Protection region 3                  : Unprotected
-**                    Protection region 4                  : Unprotected
-**                    Protection region 5                  : Unprotected
-**                    Protection region 6                  : Unprotected
-**                    Protection region 7                  : Unprotected
-**              Peripheral settings                        : 
-**                EzPort operation at boot                 : Enabled
-**                Low power boot                           : Disabled
+**            Flash configuration field                    : Disabled
 **            MPU settings                                 : Enabled
 **              MPU module                                 : Disabled
 **            AXBS settings                                : Disabled
@@ -229,7 +160,8 @@
 **              CMT/UART pad drive strength                : Single-pad drive
 **              Clock gating control                       : Disabled
 **          CPU interrupts/resets                          : 
-**            NMI interrupt                                : Disabled
+**            NMI interrupt                                : Enabled
+**              Interrupt                                  : INT_NMI
 **            Hard Fault                                   : Disabled
 **            Bus Fault                                    : Disabled
 **            Usage Fault                                  : Disabled
@@ -259,23 +191,23 @@
 **              __RTC_OSC                                  : 0
 **              Very low power mode                        : Disabled
 **              Clock source setting                       : configuration 0
-**                MCG mode                                 : FEI
-**                MCG output [MHz]                         : 20.97152
+**                MCG mode                                 : BLPE
+**                MCG output [MHz]                         : 50
 **                MCGIRCLK clock [MHz]                     : 0.032768
-**                OSCERCLK clock [MHz]                     : 0
-**                ERCLK32K. clock [kHz]                    : 0
-**                MCGFFCLK [kHz]                           : 16.384
+**                OSCERCLK clock [MHz]                     : 50
+**                ERCLK32K. clock [kHz]                    : 50
+**                MCGFFCLK [kHz]                           : 24.4140625
 **              System clocks                              : 
 **                Core clock prescaler                     : Auto select
-**                Core clock                               : 20.97152
+**                Core clock                               : 50
 **                Bus clock prescaler                      : Auto select
-**                Bus clock                                : 20.97152
+**                Bus clock                                : 25
 **                External clock prescaler                 : Auto select
-**                External bus clock                       : 10.48576
+**                External bus clock                       : 10
 **                Flash clock prescaler                    : Auto select
-**                Flash clock                              : 10.48576
+**                Flash clock                              : 12.5
 **                PLL/FLL clock selection                  : FLL
-**                  Clock frequency [MHz]                  : 20.97152
+**                  Clock frequency [MHz]                  : 0
 **     Contents    :
 **         No public methods
 **
@@ -328,6 +260,7 @@
 #include "PE_Error.h"
 #include "PE_Const.h"
 #include "IO_Map.h"
+#include "Events.h"
 #include "Cpu.h"
 
 #ifdef __cplusplus
@@ -348,6 +281,20 @@ volatile uint8_t SR_lock = 0x00U;      /* Lock */
 ** ===================================================================
 */
 void Cpu_SetBASEPRI(uint32_t Level);
+
+/*
+** ===================================================================
+**     Method      :  Cpu_INT_NMIInterrupt (component MK70FN1M0MJ15)
+**
+**     Description :
+**         This ISR services the Non Maskable Interrupt interrupt.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
+PE_ISR(Cpu_INT_NMIInterrupt)
+{
+  Cpu_OnNMIINT();
+}
 
 /*
 ** ===================================================================
@@ -402,35 +349,34 @@ void __init_hardware(void)
     /* PMC_REGSC: ACKISO=1 */
     PMC_REGSC |= PMC_REGSC_ACKISO_MASK; /* Release IO pads after wakeup from VLLS mode. */
   }
-  /* SIM_CLKDIV1: OUTDIV1=0,OUTDIV2=0,OUTDIV3=1,OUTDIV4=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
+  /* SIM_CLKDIV1: OUTDIV1=0,OUTDIV2=1,OUTDIV3=4,OUTDIV4=3,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
   SIM_CLKDIV1 = SIM_CLKDIV1_OUTDIV1(0x00) |
-                SIM_CLKDIV1_OUTDIV2(0x00) |
-                SIM_CLKDIV1_OUTDIV3(0x01) |
-                SIM_CLKDIV1_OUTDIV4(0x01); /* Update system prescalers */
+                SIM_CLKDIV1_OUTDIV2(0x01) |
+                SIM_CLKDIV1_OUTDIV3(0x04) |
+                SIM_CLKDIV1_OUTDIV4(0x03); /* Update system prescalers */
   /* SIM_SOPT2: PLLFLLSEL=0 */
   SIM_SOPT2 &= (uint32_t)~(uint32_t)(SIM_SOPT2_PLLFLLSEL(0x03)); /* Select FLL as a clock source for various peripherals */
   /* SIM_SOPT1: OSC32KSEL=0 */
   SIM_SOPT1 &= (uint32_t)~(uint32_t)(SIM_SOPT1_OSC32KSEL_MASK); /* System oscillator drives 32 kHz clock for various peripherals */
   /* SIM_SCGC1: OSC1=1 */
   SIM_SCGC1 |= SIM_SCGC1_OSC1_MASK;
-  /* Switch to FEI Mode */
-  /* MCG_C1: CLKS=0,FRDIV=0,IREFS=1,IRCLKEN=1,IREFSTEN=0 */
-  MCG_C1 = MCG_C1_CLKS(0x00) |
-           MCG_C1_FRDIV(0x00) |
-           MCG_C1_IREFS_MASK |
-           MCG_C1_IRCLKEN_MASK;
-  /* MCG_C2: LOCRE0=0,??=0,RANGE0=0,HGO0=0,EREFS0=0,LP=0,IRCS=0 */
-  MCG_C2 = MCG_C2_RANGE0(0x00);
-  /* MCG_C4: DMX32=0,DRST_DRS=0 */
-  MCG_C4 &= (uint8_t)~(uint8_t)((MCG_C4_DMX32_MASK | MCG_C4_DRST_DRS(0x03)));
-  /* OSC0_CR: ERCLKEN=1,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
-  OSC0_CR = OSC_CR_ERCLKEN_MASK;
-  /* MCG_C10: LOCRE2=0,??=0,RANGE1=0,HGO1=0,EREFS1=0,??=0,??=0 */
-  MCG_C10 = MCG_C10_RANGE1(0x00);
-  /* OSC1_CR: ERCLKEN=0,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
-  OSC1_CR = 0x00U;
+  /* PORTA_PCR18: ISF=0,MUX=0 */
+  PORTA_PCR18 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
+  /* Switch to FBE Mode */
   /* MCG_C7: OSCSEL=0 */
   MCG_C7 &= (uint8_t)~(uint8_t)(MCG_C7_OSCSEL_MASK);
+  /* MCG_C10: LOCRE2=0,??=0,RANGE1=0,HGO1=0,EREFS1=0,??=0,??=0 */
+  MCG_C10 = MCG_C10_RANGE1(0x00);
+  /* MCG_C2: LOCRE0=0,??=0,RANGE0=2,HGO0=0,EREFS0=0,LP=0,IRCS=0 */
+  MCG_C2 = MCG_C2_RANGE0(0x02);
+  /* OSC0_CR: ERCLKEN=1,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
+  OSC0_CR = OSC_CR_ERCLKEN_MASK;
+  /* OSC1_CR: ERCLKEN=1,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
+  OSC1_CR = OSC_CR_ERCLKEN_MASK;
+  /* MCG_C1: CLKS=2,FRDIV=5,IREFS=0,IRCLKEN=1,IREFSTEN=0 */
+  MCG_C1 = (MCG_C1_CLKS(0x02) | MCG_C1_FRDIV(0x05) | MCG_C1_IRCLKEN_MASK);
+  /* MCG_C4: DMX32=0,DRST_DRS=0 */
+  MCG_C4 &= (uint8_t)~(uint8_t)((MCG_C4_DMX32_MASK | MCG_C4_DRST_DRS(0x03)));
   /* MCG_C5: PLLREFSEL0=0,PLLCLKEN0=0,PLLSTEN0=0,??=0,??=0,PRDIV0=0 */
   MCG_C5 = MCG_C5_PRDIV0(0x00);
   /* MCG_C6: LOLIE0=0,PLLS=0,CME0=0,VDIV0=0 */
@@ -438,10 +384,15 @@ void __init_hardware(void)
   /* MCG_C11: PLLREFSEL1=0,PLLCLKEN1=0,PLLSTEN1=0,PLLCS=0,??=0,PRDIV1=0 */
   MCG_C11 = MCG_C11_PRDIV1(0x00);
   /* MCG_C12: LOLIE1=0,??=0,CME2=0,VDIV1=0 */
-  MCG_C12 = MCG_C12_VDIV1(0x00);       /* 3 */
-  while((MCG_S & MCG_S_IREFST_MASK) == 0x00U) { /* Check that the source of the FLL reference clock is the internal reference clock. */
+  MCG_C12 = MCG_C12_VDIV1(0x00);
+  while((MCG_S & MCG_S_IREFST_MASK) != 0x00U) { /* Check that the source of the FLL reference clock is the external reference clock. */
   }
-  while((MCG_S & 0x0CU) != 0x00U) {    /* Wait until output of the FLL is selected */
+  while((MCG_S & 0x0CU) != 0x08U) {    /* Wait until external reference clock is selected as MCG output */
+  }
+  /* Switch to BLPE Mode */
+  /* MCG_C2: LOCRE0=0,??=0,RANGE0=2,HGO0=0,EREFS0=0,LP=1,IRCS=0 */
+  MCG_C2 = (MCG_C2_RANGE0(0x02) | MCG_C2_LP_MASK);
+  while((MCG_S & 0x0CU) != 0x08U) {    /* Wait until external reference clock is selected as MCG output */
   }
   /*** End of PE initialization code after reset ***/
 
@@ -488,8 +439,12 @@ void PE_low_level_init(void)
       /* Initialization of the SIM module */
   /* SIM_SOPT2: CMTUARTPAD=0 */
   SIM_SOPT2 &= (uint32_t)~(uint32_t)(SIM_SOPT2_CMTUARTPAD_MASK);
-  /* PORTA_PCR4: MUX=0 */
-  PORTA_PCR4 &= (uint32_t)~(uint32_t)(PORT_PCR_MUX(0x07)); /* Disable NMI function on the NMI pin */
+  /* PORTA_PCR4: ISF=0,MUX=7 */
+  PORTA_PCR4 = (uint32_t)((PORTA_PCR4 & (uint32_t)~(uint32_t)(
+                PORT_PCR_ISF_MASK
+               )) | (uint32_t)(
+                PORT_PCR_MUX(0x07)
+               ));
         /* Initialization of the RCM module */
   /* RCM_RPFW: RSTFLTSEL=0 */
   RCM_RPFW &= (uint8_t)~(uint8_t)(RCM_RPFW_RSTFLTSEL(0x1F));
@@ -498,7 +453,6 @@ void PE_low_level_init(void)
                RCM_RPFC_RSTFLTSS_MASK |
                RCM_RPFC_RSTFLTSRW(0x03)
               );
-        /* Initialization of the FTFL_FlashConfig module */
   /* SIM_SCGC7: MPU=1 */
   SIM_SCGC7 |= SIM_SCGC7_MPU_MASK;
         /* Initialization of the MPU module */
@@ -533,41 +487,6 @@ void PE_low_level_init(void)
   /* Enable interrupts of the given priority level */
   Cpu_SetBASEPRI(0U);
 }
-  /* Flash configuration field */
-  __attribute__ ((section (".cfmconfig"))) const uint8_t _cfm[0x10] = {
-   /* NV_BACKKEY3: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY2: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY1: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY0: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY7: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY6: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY5: KEY=0xFF */
-    0xFFU,
-   /* NV_BACKKEY4: KEY=0xFF */
-    0xFFU,
-   /* NV_FPROT3: PROT=0xFF */
-    0xFFU,
-   /* NV_FPROT2: PROT=0xFF */
-    0xFFU,
-   /* NV_FPROT1: PROT=0xFF */
-    0xFFU,
-   /* NV_FPROT0: PROT=0xFF */
-    0xFFU,
-   /* NV_FSEC: KEYEN=1,MEEN=3,FSLACC=3,SEC=2 */
-    0x7EU,
-   /* NV_FOPT: ??=1,??=1,??=1,??=1,??=1,??=1,EZPORT_DIS=1,LPBOOT=1 */
-    0xFFU,
-   /* NV_FEPROT: EPROT=0xFF */
-    0xFFU,
-   /* NV_FDPROT: DPROT=0xFF */
-    0xFFU
-  };
 
 /* END Cpu. */
 

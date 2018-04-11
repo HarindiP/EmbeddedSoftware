@@ -1,26 +1,44 @@
-Sources/UART.o: ../Sources/UART.c ../Sources/UART.h ../Sources/types.h \
- ../Sources/FIFO.h \
- C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/Cpu.h \
- C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/PE_Types.h \
- C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/PE_Error.h \
- C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/PE_Const.h \
- C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/IO_Map.h \
- C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Static_Code/IO_Map/MK70F12.h
+Sources/UART.o: ../Sources/UART.c \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/Cpu.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Types.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Error.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Const.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/IO_Map.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Static_Code/IO_Map/MK70F12.h \
+ ../Sources/Events.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Types.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Error.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Const.h \
+ C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/IO_Map.h \
+ ../Sources/types.h ../Sources/UART.h ../Sources/packet.h \
+ ../Sources/FIFO.h
 
-../Sources/UART.h:
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/Cpu.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Types.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Error.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Const.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/IO_Map.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Static_Code/IO_Map/MK70F12.h:
+
+../Sources/Events.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Types.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Error.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/PE_Const.h:
+
+C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code/IO_Map.h:
 
 ../Sources/types.h:
 
+../Sources/UART.h:
+
+../Sources/packet.h:
+
 ../Sources/FIFO.h:
-
-C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/Cpu.h:
-
-C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/PE_Types.h:
-
-C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/PE_Error.h:
-
-C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/PE_Const.h:
-
-C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Generated_Code/IO_Map.h:
-
-C:/Users/PMcL/Documents/Subjects/48434\ Embedded\ Software/4\ Labs/Lab\ 2/Solution/Lab2/Static_Code/IO_Map/MK70F12.h:

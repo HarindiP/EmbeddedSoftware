@@ -64,6 +64,12 @@ extern TPacket Packet;
 // Acknowledgment bit mask
 extern const uint8_t PACKET_ACK_MASK;
 
+/*! @brief Private Generating checksum function.
+ *
+ *  @return uint8_t - Packet CheckSum
+ */
+uint8_t CheckSum(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3);
+
 /*! @brief Initializes the packets by calling the initialization routines of the supporting software modules.
  *
  *  @param baudRate The desired baud rate in bits/sec.

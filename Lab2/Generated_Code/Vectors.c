@@ -6,7 +6,7 @@
 **     Version     : Component 01.028, Driver 01.04, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2015-08-14, 10:44, # CodeGen: 7
+**     Date/Time   : 2018-04-11, 16:20, # CodeGen: 8
 **     Abstract    :
 **
 **     Settings    :
@@ -55,6 +55,7 @@
 */         
 
   #include "Cpu.h"
+  #include "Events.h"
 
 
   /* ISR prototype */
@@ -75,7 +76,7 @@
     &__SP_INIT,                        /* 0x00  0x00000000   -   ivINT_Initial_Stack_Pointer    used by PE */
     {
     (tIsrFunc)&__thumb_startup,        /* 0x01  0x00000004   -   ivINT_Initial_Program_Counter  used by PE */
-    (tIsrFunc)&Cpu_Interrupt,          /* 0x02  0x00000008   -2   ivINT_NMI                      unused by PE */
+    (tIsrFunc)&Cpu_INT_NMIInterrupt,   /* 0x02  0x00000008   -2   ivINT_NMI                      used by PE */
     (tIsrFunc)&Cpu_Interrupt,          /* 0x03  0x0000000C   -1   ivINT_Hard_Fault               unused by PE */
     (tIsrFunc)&Cpu_Interrupt,          /* 0x04  0x00000010   -   ivINT_Mem_Manage_Fault         unused by PE */
     (tIsrFunc)&Cpu_Interrupt,          /* 0x05  0x00000014   -   ivINT_Bus_Fault                unused by PE */

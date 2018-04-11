@@ -14,6 +14,7 @@
 
 // new types
 #include "types.h"
+#include "Cpu.h"
 
 /*! @brief LED to pin mapping on the TWR-K70F120M
  *
@@ -42,7 +43,7 @@ bool LEDs_Init(void)
   PORTA_PCR10 |= PORT_PCR_MUX(1);
 
   /*Setting  the right pins as OutPut */
-  GPIO_PDOR = LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE;
+  GPIOA_PDOR = LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE;
 
   return true;
 }
@@ -56,16 +57,16 @@ void LEDs_On(const TLED color)
 {
   switch (color){
       case LED_BLUE :
-	GPIO_PCOR |= GPIO_PCOR_PTCO(10);
+	GPIOA_PCOR |= GPIO_PCOR_PTCO(10);
         break;
       case LED_GREEN :
-	GPIO_PCOR |= GPIO_PCOR_PTCO(29);
+	GPIOA_PCOR |= GPIO_PCOR_PTCO(29);
         break;
       case LED_YELLOW :
-	GPIO_PCOR |= GPIO_PCOR_PTCO(28);
+	GPIOA_PCOR |= GPIO_PCOR_PTCO(28);
         break;
       case LED_ORANGE :
-	GPIO_PCOR |= GPIO_PCOR_PTCO(11);
+	GPIOA_PCOR |= GPIO_PCOR_PTCO(11);
         break;
     }
 
@@ -80,16 +81,16 @@ void LEDs_Off(const TLED color)
 {
   switch (color){
       case LED_BLUE :
-        GPIO_PSOR |= GPIO_PCOR_PTCO(10);
+        GPIOA_PSOR |= GPIO_PCOR_PTCO(10);
         break;
       case LED_GREEN :
-        GPIO_PSOR |= GPIO_PCOR_PTCO(29);
+        GPIOA_PSOR |= GPIO_PCOR_PTCO(29);
         break;
       case LED_YELLOW :
-        GPIO_PSOR |= GPIO_PCOR_PTCO(28);
+        GPIOA_PSOR |= GPIO_PCOR_PTCO(28);
         break;
       case LED_ORANGE :
-        GPIO_PSOR |= GPIO_PCOR_PTCO(11);
+        GPIOA_PSOR |= GPIO_PCOR_PTCO(11);
         break;
     }
 }
@@ -101,7 +102,7 @@ void LEDs_Off(const TLED color)
  */
 void LEDs_Toggle(const TLED color)
 {
-  GPIO_PTOR = color;
+  GPIOA_PTOR = color;
 }
 
 
