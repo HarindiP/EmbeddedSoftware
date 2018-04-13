@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Sources/Events.c \
+../Sources/FIFO.c \
 ../Sources/Flash.c \
 ../Sources/LEDs.c \
 ../Sources/UART.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 
 OBJS += \
 ./Sources/Events.o \
+./Sources/FIFO.o \
 ./Sources/Flash.o \
 ./Sources/LEDs.o \
 ./Sources/UART.o \
@@ -21,6 +23,7 @@ OBJS += \
 
 C_DEPS += \
 ./Sources/Events.d \
+./Sources/FIFO.d \
 ./Sources/Flash.d \
 ./Sources/LEDs.d \
 ./Sources/UART.d \
@@ -32,14 +35,14 @@ C_DEPS += \
 Sources/%.o: ../Sources/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross ARM C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Sources" -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code" -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Static_Code/PDD" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/13115605/git/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/13115605/git/es18aut35/Lab2/Sources" -I"C:/Users/13115605/git/es18aut35/Lab2/Generated_Code" -I"C:/Users/13115605/git/es18aut35/Lab2/Static_Code/PDD" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 Sources/main.o: ../Sources/main.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross ARM C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Sources" -I"C:/Users/13115605/Documents/GitRepo/es18aut35/Lab2/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"Sources/main.d" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/13115605/git/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/13115605/git/es18aut35/Lab2/Sources" -I"C:/Users/13115605/git/es18aut35/Lab2/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"Sources/main.d" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

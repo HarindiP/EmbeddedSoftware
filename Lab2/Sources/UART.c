@@ -53,22 +53,30 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
      * C2[LP] = 1
      */
 
-    SBR.l =  moduleClk/(16*baudRate);
+    // For 38400 lab 1 0 - 34 - 0
+    // For 115200 Lab 2 0 - 13 - 18
 
-    brfd  = ((moduleClk % (16*baudRate))*32/(16*baudRate));
+    SBR.l =  2 * moduleClk/baudRate;
+
+    brfd  = (uint8_t)(SBR.l % 32);
+
+    SBR.l = (uint16_t)(SBR.l / 32);
 
     /*Disable Transmitter and Receiver*/
     UART2_C2 &= ~UART_C2_RE_MASK;
     UART2_C2 &= ~UART_C2_TE_MASK;
 
     /*High half of the new value goes to BDH*/
-    UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
+//    UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
+    UART2_BDH = UART_BDH_SBR(0);
 
     /*The remainder writes to BDL*/
-    UART2_BDL = UART_BDL_SBR(SBR.s.Lo);
+//    UART2_BDL = UART_BDL_SBR(SBR.s.Lo);
+    UART2_BDL = UART_BDL_SBR(34);
 
     /*set UART2_C4 to brfd	*/
-    UART2_C4 = UART_C4_BRFA(brfd);
+//    UART2_C4 = UART_C4_BRFA(brfd);
+    UART2_C4 = UART_C4_BRFA(4);
 
     /*Initialization of Transmit Watermark and Receive Watermark to the size of a complete packet*/
     /*UART2_TWFIFO |= 40;
