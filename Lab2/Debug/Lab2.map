@@ -779,15 +779,15 @@ OUTPUT(Lab2.elf elf32-littlearm)
  .debug_macro   0x00031e4e       0xa0 ./Generated_Code/Cpu.o
  .debug_macro   0x00031eee       0x9f ./Generated_Code/Vectors.o
 
-.debug_line     0x00000000     0x15b9
+.debug_line     0x00000000     0x15ba
  .debug_line    0x00000000      0x238 ./Sources/Events.o
  .debug_line    0x00000238      0x1c8 ./Sources/FIFO.o
  .debug_line    0x00000400      0x2bf ./Sources/UART.o
  .debug_line    0x000006bf      0x367 ./Sources/main.o
- .debug_line    0x00000a26      0x210 ./Sources/packet.o
- .debug_line    0x00000c36      0x3ca ./Project_Settings/Startup_Code/startup.o
- .debug_line    0x00001000      0x326 ./Generated_Code/Cpu.o
- .debug_line    0x00001326      0x293 ./Generated_Code/Vectors.o
+ .debug_line    0x00000a26      0x211 ./Sources/packet.o
+ .debug_line    0x00000c37      0x3ca ./Project_Settings/Startup_Code/startup.o
+ .debug_line    0x00001001      0x326 ./Generated_Code/Cpu.o
+ .debug_line    0x00001327      0x293 ./Generated_Code/Vectors.o
 
 .debug_str      0x00000000    0x8d472
  .debug_str     0x00000000    0x8a4b9 ./Sources/Events.o

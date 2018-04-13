@@ -25,11 +25,32 @@
 // Address of the end of the Flash block we are using for data storage
 #define FLASH_DATA_END   0x00080007LU
 
+// Private Function Dec's
+static BOOL LaunchCommand(TFCCOB* commonCommandObject)
+{
+
+}
+static BOOL WritePhrase(const uint32_t address, const unint64union_t phrase)
+{
+
+}
+static BOOL EraseSector(const uint32_t address)
+{
+
+}
+static BOOL ModifyPhrase(const uint32_t address, const uint64union_t phrase)
+{
+  return EraseSector(address) && WritePhrase(address, phrase);
+}
+
 /*! @brief Enables the Flash module.
  *
  *  @return bool - TRUE if the Flash was setup successfully.
  */
-bool Flash_Init(void);
+bool Flash_Init(void)
+{
+  return true;
+}
 
 /*! @brief Allocates space for a non-volatile variable in the Flash memory.
  *
@@ -46,8 +67,10 @@ bool Flash_Init(void);
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 {
-
-
+  /*user allocates  memory we create pointer to said variable */
+  /*if variable is a byte any adress
+   * if variable is a 2 byte= half word -> only even address
+   * if variable is*/
 }
 
 /*! @brief Writes a 32-bit number to Flash.
@@ -71,7 +94,7 @@ bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
  */
 bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
 {
-
+  // callFlash_Write32
 }
 
 /*! @brief Writes an 8-bit number to Flash.
@@ -83,7 +106,7 @@ bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
  */
 bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
 {
-
+  // call Flash_Write16
 }
 
 /*! @brief Erases the entire Flash sector.
