@@ -27,10 +27,10 @@
 #define FLASH_DATA_END   0x00080007LU
 
 // Private Function Dec's`
-static BOOL LaunchCommand(TFCCOB* commonCommandObject);
-static BOOL WritePhrase(const uint32_t address, const unint64union_t phrase);
-static BOOL EraseSector(const uint32_t address);
-static BOOL ModifyPhrase(const uint32_ taddress, const uint64union_t phrase);
+static bool LaunchCommand(TFCCOB* commonCommandObject);
+static bool WritePhrase(const uint32_t address, const unint64union_t phrase);
+static bool EraseSector(const uint32_t address);
+static bool ModifyPhrase(const uint32_ taddress, const uint64union_t phrase);
 
 /*! @brief Enables the Flash module.
  *

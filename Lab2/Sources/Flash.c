@@ -26,31 +26,68 @@
 #define FLASH_DATA_START 0x00080000LU
 // Address of the end of the Flash block we are using for data storage
 #define FLASH_DATA_END   0x00080007LU
+// The command that programs 8 bytes into flash
+#define FLASH_PROGRAM_PHRASE 0X07
+// the command that erases a flash block
+#define FLASH_ERASE_SECTOR 0X09
 
 // Private Function Dec's
-static BOOL LaunchCommand(TFCCOB* commonCommandObject)
+static bool LaunchCommand(TFCCOB* commonCommandObject)
 {
   /*Set ACCERR bit and FPVIOL bit to zero*/
   FTFE_FSTAT = FTFE_FSTAT_ACCERR_MASK | FTFE_FSTAT_FPVIOL_MASK;
 
   /*FTFE_FSTAT_CCIF_MASK =1  CLEARS IT
-   * FTFE_FSTAT_CCIF_MASK = 0 SETS IT*/
-  /*fcmd code that matters 0x07 and 0x09*/
+   * FTFE_FSTAT_CCIF_MASK = 0 SETS IT that launches it*/
+  FTFE_FCCOB3 = commonCommandObject-> addressreg.address_t.reg0;
+  FTFE_FCCOB2 = commonCommandObject-> addressreg.address_t.reg1;
+  FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
+  FTFE_FCCOB0 = commonCommandObject-> fcmd;
+
+  FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[0];
+  FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[1];
+  FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[2];
+  FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[3];
+  FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[4];
+  FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[5];
+  FTFE_FCCOBA = commonCommandObject->datacmd.databyte[6];
+  FTFE_FCCOBB = commonCommandObject->datacmd.databyte[7];
+
+  FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
+
+  while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0){}
+
+  /* checks error checks*/
+  return (FTFE_FSTAT & FTFE_FSTAT_ACCERR_MASK | (FTFE_FSTAT & FTFE_FSTAT_FPVIOL_MASK) != 0);
 
 
 }
-static BOOL WritePhrase(const uint32_t address, const unint64union_t phrase)
+static bool WritePhrase(const uint32_t address, const unint64union_t phrase)
 {
+  /*create variable but right values into right regs and then execute righ command*/
+  TFCCOB writephrase;
+  writephrase.addressreg.address_t = address;
+  writephrase.datacmd.data = phrase.l;
+  writephrase.fcmd = FTFE_FCCOB0_CCOBn(FLASH_PROGRAM_PHRASE);
+  return (LaunchCommand(&writephrase));
 
 }
-static BOOL EraseSector(const uint32_t address)
+static bool EraseSector(const uint32_t address)
 {
+  /**/
+  TFCCOB erasesector;
+  erasesector.addressreg.address_t = address;
+  erasesector.fcmd = FTFE_FCCOB0_CCOBn(FLASH_ERASE_SECTOR);
+  return (LaunchCommand(&erasesector));
 
 }
-static BOOL ModifyPhrase(const uint32_t address, const uint64union_t phrase)
+static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
 {
 
-  return EraseSector(address) && WritePhrase(address, phrase);
+  //Checks if EraseSector function is successful in the right location
+  if ((!EraseSector(FLASH_DATA_START)))
+    return false;
+  return WritePhrase(address,phrase);
 }
 
 /*! @brief Enables the Flash module.
@@ -80,7 +117,17 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
   /*user allocates  memory we create pointer to said variable */
   /*if variable is a byte any adress
    * if variable is a 2 byte= half word -> only even address
-   * if variable is*/
+   * if variable is a 4 byte=word*/
+
+
+  /*switch 3 case regarded*/
+  switch(size){
+    case1:
+    case2:
+    case3:
+  }
+
+
 }
 
 /*! @brief Writes a 32-bit number to Flash.
