@@ -14,6 +14,7 @@
 // new types
 #include "types.h"
 
+
 // FLASH data access
 #define _FB(flashAddress)  *(uint8_t  volatile *)(flashAddress)
 #define _FH(flashAddress)  *(uint16_t volatile *)(flashAddress)
@@ -25,7 +26,7 @@
 // Address of the end of the Flash block we are using for data storage
 #define FLASH_DATA_END   0x00080007LU
 
-// Private Function Dec's
+// Private Function Dec's`
 static BOOL LaunchCommand(TFCCOB* commonCommandObject);
 static BOOL WritePhrase(const uint32_t address, const unint64union_t phrase);
 static BOOL EraseSector(const uint32_t address);

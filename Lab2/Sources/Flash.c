@@ -13,6 +13,8 @@
 
 // new types
 #include "types.h"
+#include "Flash.h"
+#include "MK70F12.h"
 
 // FLASH data access
 #define _FB(flashAddress)  *(uint8_t  volatile *)(flashAddress)
@@ -28,6 +30,13 @@
 // Private Function Dec's
 static BOOL LaunchCommand(TFCCOB* commonCommandObject)
 {
+  /*Set ACCERR bit and FPVIOL bit to zero*/
+  FTFE_FSTAT = FTFE_FSTAT_ACCERR_MASK | FTFE_FSTAT_FPVIOL_MASK;
+
+  /*FTFE_FSTAT_CCIF_MASK =1  CLEARS IT
+   * FTFE_FSTAT_CCIF_MASK = 0 SETS IT*/
+  /*fcmd code that matters 0x07 and 0x09*/
+
 
 }
 static BOOL WritePhrase(const uint32_t address, const unint64union_t phrase)
@@ -40,6 +49,7 @@ static BOOL EraseSector(const uint32_t address)
 }
 static BOOL ModifyPhrase(const uint32_t address, const uint64union_t phrase)
 {
+
   return EraseSector(address) && WritePhrase(address, phrase);
 }
 
