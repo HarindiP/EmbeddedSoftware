@@ -7,6 +7,12 @@
 
 #include "types.h"
 #include "SCP.h"
+#include "Flash.h"
+
+/*Tower Number*/
+uint16union_t towerNb;
+/*Tower Mode*/
+uint16union_t towerMd;
 
 /*Communication functions : */
 /*Tower Startup
@@ -15,10 +21,11 @@ Parameter 2: 0
 Parameter 3: 0*/
 bool SendStartUpValues()
 {
-  return (Packet_Put(0x04,0,0,0)			//Send Tower Start up
+  /*return (Packet_Put(0x04,0,0,0)			//Send Tower Start up
       &&Packet_Put(0x09,'v',1,0)			//Send Tower Version V1.0
       &&Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi)	//Send Tower Number
-      &&Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi));	//Send Tower Mode
+      &&Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi));	//Send Tower Mode*/
+  return (Packet_Put(0x04,0,0,0) && SendVersion()  && SendTowerNumber(towerNb) && SendTowerMode(towerMd));
 }
 /*Special – Tower version
 Parameter 1: ‘v’ = version
@@ -62,14 +69,15 @@ bool SetTowerMode()
 Parameter 1: address offset (0-7)
 Parameter 2: 0
 Parameter 3: data*/
-bool ReadByte()
+bool ReadByte(uint8_t address)
 {
-
+  return Packet_Put(0x08,address,0,_FB(address));
 }
 
-bool ProgramByte()
+bool ProgramByte(uint8_t address, uint8_t data)
 {
-
+  Flash_Write8(address, data);
+  return ReadByte(address);
 }
 
 /*Acknowledgement and NonAcknowledgement functions*/

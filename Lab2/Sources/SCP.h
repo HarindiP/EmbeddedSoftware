@@ -8,6 +8,11 @@
 #ifndef SOURCES_SCP_H_
 #define SOURCES_SCP_H_
 
+/*Tower Number*/
+extern uint16union_t towerNb;
+/*Tower Mode*/
+extern uint16union_t towerMd;
+
 //Communication commands : PC to Tower
 /*Special - Get startup values
 Parameter 1: 0
@@ -66,23 +71,23 @@ bool SendVersion();
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
-bool SendTowerNumber();
+bool SendTowerNumber(uint16union_t towerNb);
 
-bool SetTowerNumber();
+bool SetTowerNumber(uint16union_t towerNb);
 /*Tower Mode
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
-bool SendTowerMode();
+bool SendTowerMode(uint16union_t towerMd);
 
-bool SetTowerMode();
+bool SetTowerMode(uint16union_t towerMd);
 /*Flash – Read byte
 Parameter 1: address offset (0-7)
 Parameter 2: 0
 Parameter 3: data*/
-bool ReadByte();
+bool ReadByte(uint8_t address);
 
-bool ProgramByte();
+bool ProgramByte(uint8_t address, uint8_t data);
 
 /*Acknowledgement and NonAcknowledgement functions*/
 bool Packet_ACK();

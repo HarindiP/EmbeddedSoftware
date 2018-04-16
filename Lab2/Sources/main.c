@@ -42,10 +42,7 @@
 #include "FIFO.h"
 #include "SCP.h"
 
-/*Tower Number*/
-uint16union_t towerNb;
-/*Tower Mode*/
-uint16union_t towerMd;
+
 
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
