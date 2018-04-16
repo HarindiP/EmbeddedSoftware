@@ -40,68 +40,12 @@
 #include "UART.h"
 #include "packet.h"
 #include "FIFO.h"
-
-//Communication commands : PC to Tower
-#define Get_Start_Up_Values 0x04	//Command is : Special - Get Start up Values
-#define Get_Version 0x09		//Command is : Special – Get version
-#define Tower_Number 0x0B		//Command is : Tower number (get & set)
-#define Tower_Mode 0x0D			//Command is : Tower Mode (get & set)
-#define Flash_Read_Byte 0x08		//Command is : Flash - Read byte
-#define Flash_Program_Byte 0x07		//Command is : Flash - Program byte
-
+#include "SCP.h"
 
 /*Tower Number*/
 uint16union_t towerNb;
 /*Tower Mode*/
 uint16union_t towerMd;
-
-/*Communication functions : */
-bool SendStartUpValues()
-{
-  return (Packet_Put(0x04,0,0,0)			//Send Tower Start up
-      &&Packet_Put(0x09,'v',1,0)			//Send Tower Version V1.0
-      &&Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi)	//Send Tower Number
-      /*&&Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi)*/);	//Send Tower Mode
-}
-bool SendVersion()
-{
-  return Packet_Put(0x09,'v',1,0);			//Send Tower Version V1.0
-}
-bool SendTowerNumber()
-{
-  return Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi);	//Send Tower Number
-}
-bool SetTowerNumber()
-{
-  towerNb.s.Lo = Packet_Parameter2;	//LSB
-  towerNb.s.Hi = Packet_Parameter3;	//MSB
-  return Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi);	//Send Tower Number
-}
-bool SendTowerMode()
-{
-  return Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi);	//Send Tower Mode
-}
-bool SetTowerMode()
-{
-  towerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
-  towerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
-  return Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi);	//Send Tower Mode
-}
-bool ReadByte()
-{
-
-}
-
-/*Acknowledgement and NonAcknowledgement functions*/
-bool Packet_ACK()
-{
-  return Packet_Put(Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
-}
-bool Packet_NAK()
-{
-  return Packet_Put(PACKET_ACK_MASK|Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
-}
-
 
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
@@ -123,10 +67,13 @@ int main(void)
   /* Write your code here */
 
   // Initialization of communication
-  Packet_Init(baudRate, moduleClk);
-  SendStartUpValues();
+  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
+    {
+      LEDs_On(LED_ORANGE);
+      SendStartUpValues();
+    }
 
-  for (;;)
+  for (;;)	//Should we put that i the previous if loop ?
     {
       /*Checks the status of the serial port*/
       UART_Poll();
@@ -163,6 +110,12 @@ int main(void)
 		    {
 		      SetTowerMode();
 		    }
+		  break;
+		case Flash_Read_Byte :
+
+		  break;
+		case Flash_Program_Byte :
+
 		  break;
 		default:	//Unknown command
 		  //Do nothing or return command with NAK

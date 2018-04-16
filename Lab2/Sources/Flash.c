@@ -64,7 +64,7 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)
 }
 static bool WritePhrase(const uint32_t address, const unint64union_t phrase)
 {
-  /*create variable but right values into right regs and then execute righ command*/
+  /*create variable but right values into right regs and then execute right command*/
   TFCCOB writephrase;
   writephrase.addressreg.address_t = address;
   writephrase.datacmd.data = phrase.l;
@@ -83,7 +83,6 @@ static bool EraseSector(const uint32_t address)
 }
 static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
 {
-
   //Checks if EraseSector function is successful in the right location
   if ((!EraseSector(FLASH_DATA_START)))
     return false;
@@ -139,7 +138,8 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
  */
 bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
 {
-
+  uint64union_t phrase = data;
+  return ModifyPhrase(address, phrase);
 }
 
 /*! @brief Writes a 16-bit number to Flash.
@@ -152,6 +152,8 @@ bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
 bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
 {
   // callFlash_Write32
+  uint32_t word = data;
+  return Flash_Write32(address,word);
 }
 
 /*! @brief Writes an 8-bit number to Flash.
@@ -164,6 +166,8 @@ bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
 bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
 {
   // call Flash_Write16
+  uint16_t halfWord = data;
+  return Flash_Write16(address,halfWword);
 }
 
 /*! @brief Erases the entire Flash sector.
