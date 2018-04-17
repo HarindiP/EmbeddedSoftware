@@ -71,16 +71,16 @@ bool SendVersion();
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
-bool SendTowerNumber(uint16union_t towerNb);
+bool SendTowerNumber();
 
-bool SetTowerNumber(uint16union_t towerNb);
+bool SetTowerNumber();
 /*Tower Mode
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
-bool SendTowerMode(uint16union_t towerMd);
+bool SendTowerMode();
 
-bool SetTowerMode(uint16union_t towerMd);
+bool SetTowerMode();
 /*Flash – Read byte
 Parameter 1: address offset (0-7)
 Parameter 2: 0

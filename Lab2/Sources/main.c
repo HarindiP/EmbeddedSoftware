@@ -41,6 +41,8 @@
 #include "packet.h"
 #include "FIFO.h"
 #include "SCP.h"
+#include "LEDs.h"
+#include "Flash.h"
 
 
 
@@ -54,7 +56,7 @@ int main(void)
   //Tower Mode Initialization
   towerMd.l = 0;
   // Baud Rate and Module Clock
-  uint32_t baudRate = 38400;
+  uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
 
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/

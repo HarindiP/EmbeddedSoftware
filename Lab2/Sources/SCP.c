@@ -8,6 +8,7 @@
 #include "types.h"
 #include "SCP.h"
 #include "Flash.h"
+#include "packet.h"
 
 /*Tower Number*/
 uint16union_t towerNb;
