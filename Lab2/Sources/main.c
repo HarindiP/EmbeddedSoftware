@@ -70,7 +70,7 @@ int main(void)
       SendStartUpValues();
     }
 
-  for (;;)	//Should we put that i the previous if loop ?
+  for (;;)	//Should we put that in the previous if loop ?
     {
       /*Checks the status of the serial port*/
       UART_Poll();
@@ -109,10 +109,10 @@ int main(void)
 		    }
 		  break;
 		case Flash_Read_Byte :
-
+		  ReadByte(Packet_Parameter1);
 		  break;
 		case Flash_Program_Byte :
-
+		  ProgramByte(Packet_Parameter1,Packet_Parameter3);
 		  break;
 		default:	//Unknown command
 		  //Do nothing or return command with NAK
@@ -192,7 +192,26 @@ int main(void)
 			}
 		    }
 		  break;
-
+		case Flash_Program_Byte :		//Command is : Special - Get Start up Values
+		  if(ProgramByte(Packet_Parameter1,Packet_Parameter3))	//if Send Tower Number is ok,
+		    {
+		      Packet_ACK();		//ACK is sent
+		    }
+		  else
+		    {
+		      Packet_NAK();		//otherwise, NAK is sent
+		    }
+		  break;
+		case Flash_Read_Byte :		//Command is : Special – Get version
+		  if(ReadByte(Packet_Parameter1))		//Send Tower version
+		    {
+		      Packet_ACK();
+		    }
+		  else
+		    {
+		      Packet_NAK();
+		    }
+		  break;
 		default:	//Unknown command
 		  //Do nothing or return command with NAK
 		  //Packet_Put(0b1000000 | Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);

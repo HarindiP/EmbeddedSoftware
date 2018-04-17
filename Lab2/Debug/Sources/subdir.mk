@@ -8,6 +8,7 @@ C_SRCS += \
 ../Sources/FIFO.c \
 ../Sources/Flash.c \
 ../Sources/LEDs.c \
+../Sources/SCP.c \
 ../Sources/UART.c \
 ../Sources/main.c \
 ../Sources/packet.c 
@@ -17,6 +18,7 @@ OBJS += \
 ./Sources/FIFO.o \
 ./Sources/Flash.o \
 ./Sources/LEDs.o \
+./Sources/SCP.o \
 ./Sources/UART.o \
 ./Sources/main.o \
 ./Sources/packet.o 
@@ -26,6 +28,7 @@ C_DEPS += \
 ./Sources/FIFO.d \
 ./Sources/Flash.d \
 ./Sources/LEDs.d \
+./Sources/SCP.d \
 ./Sources/UART.d \
 ./Sources/main.d \
 ./Sources/packet.d 
@@ -35,14 +38,14 @@ C_DEPS += \
 Sources/%.o: ../Sources/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross ARM C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/12443166/git/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/12443166/git/es18aut35/Lab2/Sources" -I"C:/Users/12443166/git/es18aut35/Lab2/Generated_Code" -I"C:/Users/12443166/git/es18aut35/Lab2/Static_Code/PDD" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/Coralie/git/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/Coralie/git/es18aut35/Lab2/Sources" -I"C:/Users/Coralie/git/es18aut35/Lab2/Generated_Code" -I"C:/Users/Coralie/git/es18aut35/Lab2/Static_Code/PDD" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 Sources/main.o: ../Sources/main.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross ARM C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/12443166/git/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/12443166/git/es18aut35/Lab2/Sources" -I"C:/Users/12443166/git/es18aut35/Lab2/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"Sources/main.d" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:/Users/Coralie/git/es18aut35/Lab2/Static_Code/IO_Map" -I"C:/Users/Coralie/git/es18aut35/Lab2/Sources" -I"C:/Users/Coralie/git/es18aut35/Lab2/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"Sources/main.d" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
