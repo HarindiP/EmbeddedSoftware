@@ -27,61 +27,62 @@
 // Address of the end of the Flash block we are using for data storage
 #define FLASH_DATA_END   0x00080007LU
 // The command that programs 8 bytes into flash
-#define FLASH_PROGRAM_PHRASE 0X07
+#define FLASH_PROGRAM_PHRASE 0x07
 // the command that erases a flash block
-#define FLASH_ERASE_SECTOR 0X09
+#define FLASH_ERASE_SECTOR 0x09
 
 // Private Function Dec's
-static bool LaunchCommand(TFCCOB* commonCommandObject)
+static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
 {
   /*Set ACCERR bit and FPVIOL bit to zero*/
   FTFE_FSTAT = FTFE_FSTAT_ACCERR_MASK | FTFE_FSTAT_FPVIOL_MASK;
 
   /*FTFE_FSTAT_CCIF_MASK =1  CLEARS IT
    * FTFE_FSTAT_CCIF_MASK = 0 SETS IT that launches it*/
-  FTFE_FCCOB3 = commonCommandObject-> addressreg.address_t.reg0;
-  FTFE_FCCOB2 = commonCommandObject-> addressreg.address_t.reg1;
-  FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
-  FTFE_FCCOB0 = commonCommandObject-> fcmd;
+  do
+  {
+      FTFE_FCCOB3 = commonCommandObject-> addressreg.address_t.reg0;
+      FTFE_FCCOB2 = commonCommandObject-> addressreg.address_t.reg1;
+      FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
+      FTFE_FCCOB0 = commonCommandObject-> fcmd;
 
-  FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[0];
-  FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[1];
-  FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[2];
-  FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[3];
-  FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[4];
-  FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[5];
-  FTFE_FCCOBA = commonCommandObject->datacmd.databyte[6];
-  FTFE_FCCOBB = commonCommandObject->datacmd.databyte[7];
+      FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[0];
+      FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[1];
+      FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[2];
+      FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[3];
+      FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[4];
+      FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[5];
+      FTFE_FCCOBA = commonCommandObject->datacmd.databyte[6];
+      FTFE_FCCOBB = commonCommandObject->datacmd.databyte[7];
 
-  FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
-
-  while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0){}
+      FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
+    }while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0);
 
   /* checks error checks*/
   return (FTFE_FSTAT & FTFE_FSTAT_ACCERR_MASK | (FTFE_FSTAT & FTFE_FSTAT_FPVIOL_MASK) != 0);
 
 
 }
-static bool WritePhrase(const uint32_t* address, const uint64union_t phrase)
+static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 {
   /*create variable but right values into right regs and then execute right command*/
   TFCCOB writephrase;
-  writephrase.addressreg.address_t = address;
+  writephrase.addressreg.address = address;
   writephrase.datacmd.data = phrase.l;
   writephrase.fcmd = FTFE_FCCOB0_CCOBn(FLASH_PROGRAM_PHRASE);
   return (LaunchCommand(&writephrase));
 
 }
-static bool EraseSector(const uint32_t* address)
+static bool EraseSector(const uint32_t address)
 {
   /**/
   TFCCOB erasesector;
-  erasesector.addressreg.address_t = address;
+  erasesector.addressreg.address = address;
   erasesector.fcmd = FTFE_FCCOB0_CCOBn(FLASH_ERASE_SECTOR);
   return (LaunchCommand(&erasesector));
 
 }
-static bool ModifyPhrase(const uint32_t* address, const uint64union_t phrase)
+static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
 {
   //Checks if EraseSector function is successful in the right location
   if ((!EraseSector(FLASH_DATA_START)))
@@ -113,23 +114,62 @@ bool Flash_Init(void)
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 {
-  /*user allocates  memory we create pointer to said variable */
-  /*if variable is a byte any adress
-   * if variable is a 2 byte= half word -> only even address
-   * if variable is a 4 byte=word*/
+  static uint8_t chosenAddress = 0x00;
+  uint8_t checkAddress = 0x00;
 
-
-  /*switch 3 case regarded*/
   switch(size){
     case 1:
-    break;
+      if(chosenAddress != 0x00){				// if no address allocated, take the first one
+	  checkAddress++;					// else take the next one
+	  while(chosenAddress & checkAddress){
+	      checkAddress = (checkAddress << size);
+	      if (checkAddress == 0x00){			// we have check all the memory and no space is available
+		  return false;
+		  break;
+	      }
+	  }
+      }
+      *variable = &_FW(FLASH_DATA_START + checkAddress);	// allocate variable at the right place
+      chosenAddress ^= checkAddress;				// and store the chosen address
+      return true;
+      break;
+
     case 2:
-    break;
-    case 3:
-    break;
+      if(chosenAddress != 0x00){
+	  checkAddress += 0x03;
+	  while(chosenAddress & checkAddress){
+	      checkAddress = (checkAddress << size);
+	      if (checkAddress == 0x00){
+		  return false;
+		  break;
+	      }
+	  }
+	  return true;}
+
+
+      *variable = &_FW(FLASH_DATA_START + checkAddress);
+      chosenAddress ^= checkAddress;
+      return true;
+      break;
+    case 4:
+      if(chosenAddress != 0x00){
+	  checkAddress += 0x0F;
+	  while(chosenAddress & checkAddress){
+	      checkAddress = (checkAddress << size);
+	      if (checkAddress == 0x00){
+		  return false;
+		  break;
+	      }
+	  }
+      }
+
+
+      *variable = &_FW(FLASH_DATA_START + checkAddress);
+      chosenAddress ^= checkAddress;
+      return true;
+      break;
+
   }
-
-
 }
 
 /*! @brief Writes a 32-bit number to Flash.
@@ -142,8 +182,17 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
 {
   uint64union_t phrase;
-  phrase.l=data;
-  return ModifyPhrase(address, phrase);
+  if(((uint32_t)address & 0b100) == 0)
+    {
+      phrase.s.Hi = data;
+      phrase.s.Lo = (*(address+1) << 16) | *(address+2);
+    }
+  else
+    {
+      phrase.s.Lo = data;
+      phrase.s.Hi = (*(address-2) << 16) | (*(address-1) << 8);
+    }
+  return ModifyPhrase(FLASH_DATA_START,phrase);
 }
 
 /*! @brief Writes a 16-bit number to Flash.
@@ -155,10 +204,18 @@ bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
  */
 bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
 {
-  // callFlash_Write32
-  uint32_t word = data;
-  uint32_t* ptrWord = address;
-  return Flash_Write32(ptrWord,word);
+  uint32_t word;
+  uint32_t wAddress = FLASH_DATA_START | (uint32_t)(address) & 0xFFFFFF00;
+  if(((uint32_t)address & 0b10) == 0)
+    {
+      word = (((uint32_t)data) << 16) | *(address+1);
+    }
+  else
+    {
+      word = *(address-1) << 16 | (uint32_t)data;
+    }
+  return Flash_Write32((uint32_t *)wAddress,word);
+
 }
 
 /*! @brief Writes an 8-bit number to Flash.
@@ -170,10 +227,17 @@ bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
  */
 bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
 {
-  // call Flash_Write16
-  uint16_t halfWord = data;
-  uint16_t* ptrHalfWord = address;
-  return Flash_Write16(ptrHalfWord,halfWord);
+  uint16_t halfWord;
+  uint32_t hwAddress = ((uint32_t)(*address & 0xFE));
+  if(((uint32_t)address & 1) == 0)
+    {
+      halfWord = (((uint16_t)data) << 8) | *(address+1);
+    }
+  else
+    {
+      halfWord = (*(address-1) << 8) | data;
+    }
+  return Flash_Write16((uint16_t *)hwAddress,halfWord);
 }
 
 /*! @brief Erases the entire Flash sector.
@@ -183,7 +247,7 @@ bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
  */
 bool Flash_Erase(void)
 {
-
+  return EraseSector(FLASH_DATA_START);
 }
 
 

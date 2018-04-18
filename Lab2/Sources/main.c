@@ -44,17 +44,15 @@
 #include "LEDs.h"
 #include "Flash.h"
 
-
-
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
 {
   /* Write your local variable definition here */
   //Tower Number Initialization
-  towerNb.l = 5605;	//my student nb is 13115605
+  //towerNb.l = 5605;	//my student nb is 13115605
   //Tower Mode Initialization
-  towerMd.l = 0;
+  //towerMd.l = 0;
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
@@ -70,6 +68,10 @@ int main(void)
     {
       LEDs_On(LED_ORANGE);
       SendStartUpValues();
+      Flash_AllocateVar((volatile void**)fAddTowerNb, sizeof(*fAddTowerNb));
+      Flash_Write16(fAddTowerNb,5605);
+      Flash_AllocateVar((volatile void**)fAddTowerMd, sizeof(*fAddTowerMd));
+      Flash_Write16(fAddTowerMd,1);
     }
 
   for (;;)	//Should we put that in the previous if loop ?

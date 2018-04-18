@@ -1,6 +1,6 @@
 /*
  * SCP.c
- *
+ * Seriual Comand Protocol
  *  Created on: 14 avr. 2018
  *      Author: Coralie
  */
@@ -14,6 +14,13 @@
 uint16union_t towerNb;
 /*Tower Mode*/
 uint16union_t towerMd;
+
+//Flash address of Tower Number and Mode
+volatile uint16_t* fAddTowerNb;
+volatile uint16_t* fAddTowerMd;
+
+
+
 
 /*Communication functions : */
 /*Tower Startup
@@ -77,8 +84,18 @@ bool ReadByte(uint8_t address)
 
 bool ProgramByte(uint8_t address, uint8_t data)
 {
-  Flash_Write8(address, data);
-  return ReadByte(address);
+  //Flash_AllocateVar(volatile void** variable, const uint8_t size)
+  if(address == 0x08)
+    {
+      Flash_Erase();
+      return true;
+    }
+  else
+    {
+      Flash_AllocateVar((volatile void **)address,sizeof(data));
+      Flash_Write8(address, data);
+      return ReadByte(address);
+    }
 }
 
 /*Acknowledgement and NonAcknowledgement functions*/
