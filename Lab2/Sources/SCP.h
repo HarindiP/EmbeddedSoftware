@@ -1,8 +1,11 @@
-/*
- * SCP.h
+/*! @file SCP.h
  *
- *  Created on: 14 avr. 2018
- *      Author: Coralie
+ *  @brief Serial Communication Protocol.
+ *
+ *  This contains the functions needed for the serial communication.
+ *
+ *  @author Coralie&Harindi
+ *  @date 2018-04-14
  */
 
 #ifndef SOURCES_SCP_H_
@@ -70,32 +73,36 @@ bool SCP_SendStartUpValues();
 Parameter 1: ‘v’ = version
 Parameter 2: Major Version Number
 Parameter 3: Minor Version Number (out of 100)*/
-bool SCP_SendVersion();
+bool SendVersion();
 /*Tower Number
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
+bool HandleTowerNumber();
 bool SendTowerNumber();
-
 bool SetTowerNumber();
 /*Tower Mode
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
+bool HandleTowerMode();
 bool SendTowerMode();
-
 bool SetTowerMode();
 /*Flash – Read byte
 Parameter 1: address offset (0-7)
 Parameter 2: 0
 Parameter 3: data*/
-bool ReadByte(uint8_t address);
+bool SCP_ReadByte(uint8_t address);
 
-bool ProgramByte(uint8_t address, uint8_t data);
+bool SCP_ProgramByte(uint8_t address, uint8_t data);
 
 /*Acknowledgement and NonAcknowledgement functions*/
-bool Packet_ACK();
-bool Packet_NAK();
+bool ACK();
+bool NAK();
+
+/*Command handling functions*/
+bool SCP_Packet_Handle();
+bool SCP_Packet_Handle_Ack();
 
 
 

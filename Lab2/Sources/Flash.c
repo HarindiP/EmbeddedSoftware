@@ -1,11 +1,11 @@
-/*! @file
+/*! @file Flash.c
  *
  *  @brief Routines for erasing and writing to the Flash.
  *
  *  This contains the functions needed for accessing the internal Flash.
  *
- *  @author YOUR_NAME
- *  @date 2015-08-07
+ *  @author Coralie&Harindi
+ *  @date 2018-04-14
  */
 /*!
  **  @addtogroup flash_module flash module documentation

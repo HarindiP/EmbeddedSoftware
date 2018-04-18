@@ -1,11 +1,11 @@
-/*! @file
+/*! @file Flash.h
  *
  *  @brief Routines for erasing and writing to the Flash.
  *
  *  This contains the functions needed for accessing the internal Flash.
  *
- *  @author PMcL
- *  @date 2015-08-07
+ *  @author Coralie&Harindi
+ *  @date 2018-04-14
  */
 
 #ifndef FLASH_H

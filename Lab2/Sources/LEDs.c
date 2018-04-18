@@ -1,15 +1,17 @@
-/*
- * LEDs.c
+/*! @file LEDs.c
  *
  *  @brief Routines to access the LEDs on the TWR-K70F120M.
  *
  *  This contains the functions for operating the LEDs.
  *
- *  Created on: 6 Apr 2018
- *      Author: 13115605
+ *  @author Coralie&Harindi
+ *  @date 2018-04-06
  */
-
-
+/*!
+ **  @addtogroup LEDs_module LEDs module documentation
+ **  @{
+ */
+/* MODULE LEDs */
 
 
 // new types
@@ -53,6 +55,8 @@ bool LEDs_Init(void)
  *  @param color The color of the LED to turn on.
  *  @note Assumes that LEDs_Init has been called.
  */
+
+
 void LEDs_On(const TLED color)
 {
   switch (color){
@@ -106,7 +110,9 @@ void LEDs_Toggle(const TLED color)
 }
 
 
-
+/*!
+ ** @}
+ */
 
 
 

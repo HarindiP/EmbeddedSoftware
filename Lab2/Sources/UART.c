@@ -4,6 +4,11 @@
  *  Created on: 6 Apr 2018
  *      Author: 13115605
  */
+/*!
+ **  @addtogroup UART_module UART module documentation
+ **  @{
+ */
+/* MODULE UART */
 
 // CPU module - contains low level hardware initialization routines
 #include "Cpu.h"
@@ -147,6 +152,8 @@ void UART_Poll(void)
     }
 }
 
-
+/*!
+ ** @}
+ */
 
 

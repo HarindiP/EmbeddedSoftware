@@ -1,9 +1,17 @@
-/*
- * SCP.c
- * Seriual Comand Protocol
- *  Created on: 14 avr. 2018
- *      Author: Coralie
+/*! @file SCP.c
+ *
+ *  @brief Serial Communication Protocol.
+ *
+ *  This contains the functions needed for the serial communication.
+ *
+ *  @author Coralie&Harindi
+ *  @date 2018-04-14
  */
+/*!
+ **  @addtogroup SCP_module SCP module documentation
+ **  @{
+ */
+/* MODULE SCP */
 
 #include "types.h"
 #include "SCP.h"
@@ -21,7 +29,7 @@ uint16union_t towerMd;
 Parameter 1: 0
 Parameter 2: 0
 Parameter 3: 0*/
-bool SendStartUpValues()
+bool SCP_SendStartUpValues()
 {
   /*return (Packet_Put(0x04,0,0,0)			//Send Tower Start up
       &&Packet_Put(0x09,'v',1,0)			//Send Tower Version V1.0
@@ -41,15 +49,17 @@ bool SendVersion()
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
-
-
-bool HandleTowerNumber(){
-  //if Param1 == ..
-  //	sendTowerNumber
-  //else
-  //	setTowerNumber
+bool HandleTowerNumber()
+{
+  if(Packet_Parameter1 == 1)		// Command is : get Tower Nb
+    {
+      SendTowerNumber();
+    }
+  else if (Packet_Parameter2==2)	//Command is : set Tower Number
+    {
+      SetTowerNumber();
+    }
 }
-
 bool SendTowerNumber()
 {
   return Packet_Put(0x08, 1, NvTowerNb->s.Lo, NvTowerNb->s.Hi);	//Send Tower Number
@@ -66,6 +76,17 @@ bool SetTowerNumber()
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
+bool HandleTowerMode()
+{
+  if(Packet_Parameter1 == 1)		// Command is : get Tower Mode
+    {
+      SendTowerMode();
+    }
+  else if (Packet_Parameter2==2)	//Command is : set Tower Mode
+    {
+      SetTowerMode();
+    }
+}
 bool SendTowerMode()
 {
   return Packet_Put(0x0D, 1, NvTowerMd->s.Lo, NvTowerMd->s.Hi);	//Send Tower Mode
@@ -84,10 +105,9 @@ Parameter 2: 0
 Parameter 3: data*/
 bool ReadByte(uint8_t address)
 {
-  //TODO: validation address offset
-
-
-  return Packet_Put(0x08,address,0,&_FB(address));
+  if(address>0x00 && address<=0x07)
+    return Packet_Put(0x08,address,0,&_FB(address));
+  return false;
 }
 
 bool ProgramByte(uint8_t address, uint8_t data)
@@ -100,20 +120,64 @@ bool ProgramByte(uint8_t address, uint8_t data)
     }
   else
     {
-//      Flash_AllocateVar((volatile void **)address,sizeof(data));
       Flash_Write8(address, data);
       return Flash_Write8(address, data);
     }
 }
 
 /*Acknowledgement and NonAcknowledgement functions*/
-bool Packet_ACK()
+bool ACK()
 {
   return Packet_Put(Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
 }
-bool Packet_NAK()
+bool NAK()
 {
   return Packet_Put(PACKET_ACK_MASK|Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
 }
 
+bool SCP_Packet_Handle()
+{
+  switch (Packet_Command)
+  {
+    case Get_Start_Up_Values :		//Command is : Special - Get Start up Values
+      return SCP_SendStartUpValues();
+      break;
+    case Get_Version :		//Command is : Special – Get version
+      return SendVersion();
+      break;
+    case Tower_Number :		//Command is : Tower number (get & set)
+      return HandleTowerNumber();
+      break;
+    case Tower_Mode :		//Command is : Tower Mode (get & set)
+      return HandleTowerMode();
+      break;
+    case Flash_Read_Byte :
+      return ReadByte(Packet_Parameter1);
+      break;
+    case Flash_Program_Byte :
+      return ProgramByte(Packet_Parameter1,Packet_Parameter3);
+      break;
+    default:	//Unknown command
+      //Do nothing or return command with NAK
+      //Packet_Put(0b1000000 | Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
+      break;
+  }
+}
 
+bool SCP_Packet_Handle_Ack()
+{
+  Packet_Command |= PACKET_ACK_MASK;
+  if(SCP_Packet_Handle())
+    {
+      ACK();
+    }
+  else
+    {
+      NAK();
+    }
+
+}
+
+/*!
+ ** @}
+ */

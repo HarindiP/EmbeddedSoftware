@@ -4,6 +4,11 @@
  *  Created on: 11 Apr 2018
  *      Author: 13115605
  */
+/*!
+ **  @addtogroup FIFO_module FIFO module documentation
+ **  @{
+ */
+/* MODULE FIFO */
 
 
 #include "FIFO.h"
@@ -85,3 +90,7 @@ bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
 
 }
 
+
+/*!
+ ** @}
+ */

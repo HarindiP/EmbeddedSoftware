@@ -67,184 +67,43 @@ int main(void)
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
     {
       bool success = false;
-      //writting tower number and mode in flash
+      //writing tower number and mode in flash
       if(Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb)))
 	if(*NvTowerNb == 0xFFFF)
-	  succes &= Flash_Write16((uint16_t *)NvTowerNb, 5605);
+	  success &= Flash_Write16((uint16_t *)NvTowerNb, 5605);
 
       if(Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd)))
 	if(*NvTowerMd == 0xFFFF)
 	  success &= Flash_Write16((uint16_t *)NvTowerMd, 1);
 
-
-      if(success){
+      if(success)
+	{
 	//light on the orange LED
 	LEDs_On(LED_ORANGE);
 	//sending start up values
-	SendStartUpValues();
+	SCP_SendStartUpValues();
 
-	//TODO: put for(;;) in here....
-      }
-
-
+	for (;;)	//Should we put that in the previous if loop ?
+	  {
+	    /*Checks the status of the serial port*/
+	    UART_Poll();
+	    /*If we have a packet, we can check Serial Protocol Commands */
+	    if(Packet_Get())
+	    {
+		  if(!Packet_Acknowledgement_Required(Packet_Command))		/*Cases without Packet Acknowledgement required*/
+		    {
+		      SCP_Packet_Handle();
+		    }
+		  else
+		    {
+		      SCP_Packet_Handle_Ack();
+		    }
+	    }
+	  }
+	 }
     }
 
-  for (;;)	//Should we put that in the previous if loop ?
-    {
-      /*Checks the status of the serial port*/
-      UART_Poll();
 
-      if(Packet_Get()){
-	  Packet_Handle();
-      }
-
-
-
-      /*If we have a packet, we can check Serial Protocol Commands */
-      if(Packet_Get())
-	{
-	  if(!Packet_Acknowledgement_Required(Packet_Command))		/*Cases without Packet Acknowledgement required*/
-	    {
-	      switch (Packet_Command)
-	      {
-		case Get_Start_Up_Values :		//Command is : Special - Get Start up Values
-		  SendStartUpValues();
-		  break;
-		case Get_Version :		//Command is : Special – Get version
-		  SendVersion();
-		  break;
-		case Tower_Number :		//Command is : Tower number (get & set)
-		  if(Packet_Parameter1 == 1)		// Command is : get Tower Nb
-		    {
-		      SendTowerNumber();
-		    }
-		  else if (Packet_Parameter2==2)	//Command is : set Tower Number
-		    {
-		      SetTowerNumber();
-		    }
-		  break;
-		case Tower_Mode :		//Command is : Tower Mode (get & set)
-		  if(Packet_Parameter1 == 1)		// Command is : get Tower Mode
-		    {
-		      SendTowerMode();
-		    }
-		  else if (Packet_Parameter2==2)	//Command is : set Tower Mode
-		    {
-		      SetTowerMode();
-		    }
-		  break;
-		case Flash_Read_Byte :
-		  ReadByte(Packet_Parameter1);
-		  break;
-		case Flash_Program_Byte :
-		  ProgramByte(Packet_Parameter1,Packet_Parameter3);
-		  break;
-		default:	//Unknown command
-		  //Do nothing or return command with NAK
-		  //Packet_Put(0b1000000 | Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
-		  break;
-	      }
-	    }
-	  else
-	    {
-	      switch(PACKET_ACK_MASK|Packet_Command)	/*Cases with Packet Acknowledgement required*/
-	      {
-		case Get_Start_Up_Values :		//Command is : Special - Get Start up Values
-		  if(SendStartUpValues())	//if Send Tower Number is ok,
-		    {
-		      Packet_ACK();		//ACK is sent
-		    }
-		  else
-		    {
-		      Packet_NAK();		//otherwise, NAK is sent
-		    }
-		  break;
-		case Get_Version :		//Command is : Special – Get version
-		  if(SendVersion())		//Send Tower version
-		    {
-		      Packet_ACK();
-		    }
-		  else
-		    {
-		      Packet_NAK();
-		    }
-		  break;
-		case Tower_Number :		//Command is : Tower number (get & set)
-		  if(Packet_Parameter1 == 1)		// Command is : get Tower Nb
-		    {
-		      if(SendTowerNumber())	//Send Tower Number
-			{
-			  Packet_ACK();
-			}
-		      else
-			{
-			  Packet_NAK();
-			}
-		    }
-		  else if(Packet_Parameter1 == 2)	//Command is : set Tower Number
-		    {
-		      if(SetTowerNumber())	//Send Tower Number
-			{
-			  Packet_ACK();
-			}
-		      else
-			{
-			  Packet_NAK();
-			}
-		    }
-		  break;
-		case Tower_Mode :		//Command is : Tower Mode (get & set)
-		  if(Packet_Parameter1 == 1)		// Command is : get Tower Mode
-		    {
-		      if(SendTowerMode())	//Send Tower Mode
-			{
-			  Packet_ACK();
-			}
-		      else
-			{
-			  Packet_NAK();
-			}
-		    }
-		  else if(Packet_Parameter1 == 2)	//Command is : set Tower Mode
-		  {
-		      if(SetTowerMode())	//Send Tower Mode
-			{
-			  Packet_ACK();
-			}
-		      else
-			{
-			  Packet_NAK();
-			}
-		    }
-		  break;
-		case Flash_Program_Byte :		//Command is : Special - Get Start up Values
-		  if(ProgramByte(Packet_Parameter1,Packet_Parameter3))	//if Send Tower Number is ok,
-		    {
-		      Packet_ACK();		//ACK is sent
-		    }
-		  else
-		    {
-		      Packet_NAK();		//otherwise, NAK is sent
-		    }
-		  break;
-		case Flash_Read_Byte :		//Command is : Special – Get version
-		  if(ReadByte(Packet_Parameter1))		//Send Tower version
-		    {
-		      Packet_ACK();
-		    }
-		  else
-		    {
-		      Packet_NAK();
-		    }
-		  break;
-		default:	//Unknown command
-		  //Do nothing or return command with NAK
-		  //Packet_Put(0b1000000 | Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
-		  break;
-	      }
-	    }
-	}
-    }
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
