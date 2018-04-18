@@ -50,9 +50,9 @@ int main(void)
 {
   /* Write your local variable definition here */
   //Tower Number Initialization
-  //towerNb.l = 5605;	//my student nb is 13115605
+  towerNb.l = 5605;	//my student nb is 13115605
   //Tower Mode Initialization
-  //towerMd.l = 0;
+  towerMd.l = 0;
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;

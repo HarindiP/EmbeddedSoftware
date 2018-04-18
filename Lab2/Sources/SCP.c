@@ -16,8 +16,8 @@ uint16union_t towerNb;
 uint16union_t towerMd;
 
 //Flash address of Tower Number and Mode
-volatile uint16_t* fAddTowerNb;
-volatile uint16_t* fAddTowerMd;
+uint16_t* fAddTowerNb;
+uint16_t* fAddTowerMd;
 
 
 
@@ -55,6 +55,7 @@ bool SetTowerNumber()
 {
   towerNb.s.Lo = Packet_Parameter2;	//LSB
   towerNb.s.Hi = Packet_Parameter3;	//MSB
+  Flash_Write16(fAddTowerNb,towerNb.l);	//writing in the flash memory
   return Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi);	//Send Tower Number
 }
 
@@ -70,6 +71,7 @@ bool SetTowerMode()
 {
   towerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
   towerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
+  Flash_Write16(fAddTowerMd,towerMd.l);	//writing in the flash memory
   return Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi);	//Send Tower Mode
 }
 
@@ -79,7 +81,7 @@ Parameter 2: 0
 Parameter 3: data*/
 bool ReadByte(uint8_t address)
 {
-  return Packet_Put(0x08,address,0,_FB(address));
+  return Packet_Put(0x08,address,0,&_FB(address));
 }
 
 bool ProgramByte(uint8_t address, uint8_t data)

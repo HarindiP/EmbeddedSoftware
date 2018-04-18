@@ -13,6 +13,9 @@ extern uint16union_t towerNb;
 /*Tower Mode*/
 extern uint16union_t towerMd;
 
+extern uint16_t* fAddTowerNb;
+extern uint16_t* fAddTowerMd;
+
 //Communication commands : PC to Tower
 /*Special - Get startup values
 Parameter 1: 0

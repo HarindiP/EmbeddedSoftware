@@ -114,14 +114,14 @@ bool Flash_Init(void)
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 {
-  static uint8_t chosenAddress = 0x00;
+  uint8_t chosenAddress = 0x00;
   uint8_t checkAddress = 0x00;
 
   switch(size){
     case 1:
       if(chosenAddress != 0x00){				// if no address allocated, take the first one
 	  checkAddress++;					// else take the next one
-	  while(chosenAddress & checkAddress){
+	  while(chosenAddress && checkAddress){
 	      checkAddress = (checkAddress << size);
 	      if (checkAddress == 0x00){			// we have check all the memory and no space is available
 		  return false;
@@ -137,7 +137,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
     case 2:
       if(chosenAddress != 0x00){
 	  checkAddress += 0x03;
-	  while(chosenAddress & checkAddress){
+	  while(chosenAddress && checkAddress){
 	      checkAddress = (checkAddress << size);
 	      if (checkAddress == 0x00){
 		  return false;
@@ -154,7 +154,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
     case 4:
       if(chosenAddress != 0x00){
 	  checkAddress += 0x0F;
-	  while(chosenAddress & checkAddress){
+	  while(chosenAddress && checkAddress){
 	      checkAddress = (checkAddress << size);
 	      if (checkAddress == 0x00){
 		  return false;
