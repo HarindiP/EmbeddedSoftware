@@ -41,6 +41,15 @@ bool SendVersion()
 Parameter 1: 1
 Parameter 2: LSB
 Parameter 3: MSB*/
+
+
+bool HandleTowerNumber(){
+  //if Param1 == ..
+  //	sendTowerNumber
+  //else
+  //	setTowerNumber
+}
+
 bool SendTowerNumber()
 {
   return Packet_Put(0x08, 1, NvTowerNb->s.Lo, NvTowerNb->s.Hi);	//Send Tower Number
@@ -75,6 +84,9 @@ Parameter 2: 0
 Parameter 3: data*/
 bool ReadByte(uint8_t address)
 {
+  //TODO: validation address offset
+
+
   return Packet_Put(0x08,address,0,&_FB(address));
 }
 
@@ -88,9 +100,9 @@ bool ProgramByte(uint8_t address, uint8_t data)
     }
   else
     {
-      Flash_AllocateVar((volatile void **)address,sizeof(data));
+//      Flash_AllocateVar((volatile void **)address,sizeof(data));
       Flash_Write8(address, data);
-      return ReadByte(address);
+      return Flash_Write8(address, data);
     }
 }
 

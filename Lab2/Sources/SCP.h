@@ -65,12 +65,12 @@ An address offset of 0x08 will ERASE the entire Flash sector.*/
 Parameter 1: 0
 Parameter 2: 0
 Parameter 3: 0*/
-bool SendStartUpValues();
+bool SCP_SendStartUpValues();
 /*Special – Tower version
 Parameter 1: ‘v’ = version
 Parameter 2: Major Version Number
 Parameter 3: Minor Version Number (out of 100)*/
-bool SendVersion();
+bool SCP_SendVersion();
 /*Tower Number
 Parameter 1: 1
 Parameter 2: LSB

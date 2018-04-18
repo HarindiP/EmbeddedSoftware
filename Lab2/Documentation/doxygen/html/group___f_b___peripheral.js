@@ -3,7 +3,7 @@ var group___f_b___peripheral =
     [ "FB - Register accessor macros", "group___f_b___register___accessor___macros.html", null ],
     [ "FB Register Masks", "group___f_b___register___masks.html", null ],
     [ "FB_MemMap", "struct_f_b___mem_map.html", [
-      [ "CS", "struct_f_b___mem_map.html#a48e567ba92a6155a28621a12be2bdc27", null ],
+      [ "CS", "struct_f_b___mem_map.html#a81d02d007a0a697859b4b34a7f50a7fd", null ],
       [ "CSAR", "struct_f_b___mem_map.html#aa59ea1aff2f195dc7d41ef8611884381", null ],
       [ "CSCR", "struct_f_b___mem_map.html#a7a1e48a5fde6382a076243009f5c0846", null ],
       [ "CSMR", "struct_f_b___mem_map.html#a02c1e1542339e83d168a52e763f60228", null ],

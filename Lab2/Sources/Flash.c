@@ -1,14 +1,17 @@
-/*
- * Flash.c
+/*! @file
  *
- * @brief Routines for erasing and writing to the Flash.
+ *  @brief Routines for erasing and writing to the Flash.
  *
  *  This contains the functions needed for accessing the internal Flash.
  *
- *  Created on: 6 Apr 2018
- *      Author: 13115605
+ *  @author YOUR_NAME
+ *  @date 2015-08-07
  */
-
+/*!
+ **  @addtogroup flash_module flash module documentation
+ **  @{
+ */
+/* MODULE flash */
 
 
 // new types
@@ -39,29 +42,28 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
 
   /*FTFE_FSTAT_CCIF_MASK =1  CLEARS IT
    * FTFE_FSTAT_CCIF_MASK = 0 SETS IT that launches it*/
-  do
-  {
-      FTFE_FCCOB3 = commonCommandObject-> addressreg.address_t.reg0;
-      FTFE_FCCOB2 = commonCommandObject-> addressreg.address_t.reg1;
-      FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
-      FTFE_FCCOB0 = commonCommandObject-> fcmd;
 
-      FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[7];
-      FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[6];
-      FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[5];
-      FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[4];
-      FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[3];
-      FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[2];
-      FTFE_FCCOBA = commonCommandObject->datacmd.databyte[1];
-      FTFE_FCCOBB = commonCommandObject->datacmd.databyte[0];
+  FTFE_FCCOB3 = commonCommandObject-> addressreg.address_t.reg0;
+  FTFE_FCCOB2 = commonCommandObject-> addressreg.address_t.reg1;
+  FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
+  FTFE_FCCOB0 = commonCommandObject-> fcmd;
+  //big endian
+  FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[7];
+  FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[6];
+  FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[5];
+  FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[4];
+  FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[3];
+  FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[2];
+  FTFE_FCCOBA = commonCommandObject->datacmd.databyte[1];
+  FTFE_FCCOBB = commonCommandObject->datacmd.databyte[0];
 
-      FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
-    }while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0);
+  FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
+  while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0) {
+      //ADVANCED: FEED A WATCHDOG
+  };
 
   /* checks error checks*/
   return (FTFE_FSTAT & FTFE_FSTAT_ACCERR_MASK | (FTFE_FSTAT & FTFE_FSTAT_FPVIOL_MASK) != 0);
-
-
 }
 static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 {
@@ -69,7 +71,7 @@ static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
   TFCCOB writephrase;
   writephrase.addressreg.address = address;
   writephrase.datacmd.data = phrase.l;
-  writephrase.fcmd = FTFE_FCCOB0_CCOBn(FLASH_PROGRAM_PHRASE);
+  writephrase.fcmd = FLASH_PROGRAM_PHRASE;
   return (LaunchCommand(&writephrase));
 
 }
@@ -78,7 +80,7 @@ static bool EraseSector(const uint32_t address)
   /**/
   TFCCOB erasesector;
   erasesector.addressreg.address = address;
-  erasesector.fcmd = FTFE_FCCOB0_CCOBn(FLASH_ERASE_SECTOR);
+  erasesector.fcmd = FTFE_FCCOB0_CCOBn(FLASH_ERASE_SECTOR); //TODO
   return (LaunchCommand(&erasesector));
 
 }
@@ -88,6 +90,14 @@ static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
   if ((!EraseSector(FLASH_DATA_START)))
     return false;
   return WritePhrase(address,phrase);
+
+  //============
+  if (EraseSector(FLASH_DATA_START))
+      return WritePhrase(address,phrase);
+
+  return false;
+
+
 }
 
 /*! @brief Enables the Flash module.
@@ -117,6 +127,10 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
   uint8_t chosenAddress = 0x00;
   uint8_t checkAddress = 0x00;
 
+
+
+
+
   switch(size){
     case 1:
       if(chosenAddress != 0x00){				// if no address allocated, take the first one
@@ -129,7 +143,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 	      }
 	  }
       }
-      *variable = &_FW(FLASH_DATA_START + checkAddress);	// allocate variable at the right place
+      *variable = (FLASH_DATA_START + checkAddress);	// allocate variable at the right place //TODO: DONT READ THE DATA
       chosenAddress ^= checkAddress;				// and store the chosen address
       return true;
       break;
@@ -229,8 +243,22 @@ bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
 {
   uint16_t halfWord;
   uint32_t hwAddress = ((uint32_t)(*address & 0xFE));
+
+
+  uint16uinon_t halfWord;
+  //Find the address of the halfWord that contains the byte we want to change
+  // halfWord.l = _FH(address);
+  //modify byte we want to change
+  //...
+  //halfWord.s.Lo = newData;
+  //return Flash_Write16(address, halfWord.l);
+
+
   if(((uint32_t)address & 1) == 0)
     {
+
+
+
       halfWord = (((uint16_t)data) << 8) | *(address+1);
     }
   else
@@ -251,7 +279,9 @@ bool Flash_Erase(void)
 }
 
 
-
+/*!
+ ** @}
+ */
 
 
 

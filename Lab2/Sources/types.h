@@ -82,7 +82,7 @@ typedef struct
       uint8_t reg0;
       uint8_t reg1;
       uint8_t reg2;
-      uint8_t reg3;
+      uint8_t reg3; //TODO: don't need it....
     } address_t;
   }addressreg;
 
@@ -92,8 +92,15 @@ typedef struct
     uint8_t databyte[8];
   } datacmd;
 
-  } TFCCOB;
+} TFCCOB;
 
+
+typedef struct {
+  uint8_t fcmd;
+  uint8_t address_0_8;
+  //...
+  uint8_t data[8];
+};
 
 
 #endif

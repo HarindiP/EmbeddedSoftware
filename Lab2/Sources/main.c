@@ -66,21 +66,39 @@ int main(void)
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
     {
-      //light on the orange LED
-      LEDs_On(LED_ORANGE);
+      bool success = false;
       //writting tower number and mode in flash
-      Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb));
-      Flash_Write16((uint16_t *)NvTowerNb, 5605);
-      Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd));
-      Flash_Write16((uint16_t *)NvTowerMd, 1);
-      //sending start up values
-      SendStartUpValues();
+      if(Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb)))
+	if(*NvTowerNb == 0xFFFF)
+	  succes &= Flash_Write16((uint16_t *)NvTowerNb, 5605);
+
+      if(Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd)))
+	if(*NvTowerMd == 0xFFFF)
+	  success &= Flash_Write16((uint16_t *)NvTowerMd, 1);
+
+
+      if(success){
+	//light on the orange LED
+	LEDs_On(LED_ORANGE);
+	//sending start up values
+	SendStartUpValues();
+
+	//TODO: put for(;;) in here....
+      }
+
+
     }
 
   for (;;)	//Should we put that in the previous if loop ?
     {
       /*Checks the status of the serial port*/
       UART_Poll();
+
+      if(Packet_Get()){
+	  Packet_Handle();
+      }
+
+
 
       /*If we have a packet, we can check Serial Protocol Commands */
       if(Packet_Get())
@@ -188,7 +206,7 @@ int main(void)
 			}
 		    }
 		  else if(Packet_Parameter1 == 2)	//Command is : set Tower Mode
-		    {
+		  {
 		      if(SetTowerMode())	//Send Tower Mode
 			{
 			  Packet_ACK();

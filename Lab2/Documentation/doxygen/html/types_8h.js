@@ -5,8 +5,8 @@ var types_8h =
     [ "uint32union_t", "unionuint32union__t.html", "unionuint32union__t" ],
     [ "uint64union_t", "unionuint64union__t.html", "unionuint64union__t" ],
     [ "TFloat", "union_t_float.html", "union_t_float" ],
-    [ "BOOL", "types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dd", [
-      [ "bFALSE", "types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dda9dc06fb98ef9ab4bb29d6184ab307c49", null ],
-      [ "bTRUE", "types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dda047064b66453336b61b186169baf6b09", null ]
-    ] ]
+    [ "TFCCOB", "struct_t_f_c_c_o_b.html", "struct_t_f_c_c_o_b" ],
+    [ "address_0_8", "types_8h.html#a1a11ad779d4465d42a98f64917ad3fc9", null ],
+    [ "data", "types_8h.html#afb87d045bbf32b236fc425efe02bdc7b", null ],
+    [ "fcmd", "types_8h.html#a8efd626bc170abc209a030373cde1876", null ]
 ];

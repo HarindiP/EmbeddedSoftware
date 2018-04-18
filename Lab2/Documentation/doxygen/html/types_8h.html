@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Lab1: C:/Users/PMcL/Documents/Subjects/48434 Embedded Software/4 Labs/Lab 2/Template/Lab2/sources/types.h File Reference</title>
+<title>Lab1: C:/Users/12443166/Desktop/git/es18aut35/Lab2/sources/types.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(document).ready(function(){initNavTree('types_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">types.h File Reference</div>  </div>
 </div><!--header-->
@@ -76,6 +76,7 @@ $(document).ready(function(){initNavTree('types_8h.html','');});
 <p>Declares new types.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 </div>
 <p><a href="types_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -91,48 +92,37 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_t_float.html">TFloat</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_t_f_c_c_o_b.html">TFCCOB</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a3e5b8192e7d9ffaf3542f1210aec18dd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dd">BOOL</a> { <a class="el" href="types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dda9dc06fb98ef9ab4bb29d6184ab307c49">bFALSE</a> = 0, 
-<a class="el" href="types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dda047064b66453336b61b186169baf6b09">bTRUE</a> = 1
- }<tr class="separator:a3e5b8192e7d9ffaf3542f1210aec18dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ae739c80e7101dbe2b02ebb27632e4701"><td class="memItemLeft" ><a class="anchor" id="ae739c80e7101dbe2b02ebb27632e4701"></a>
+struct {</td></tr>
+<tr class="memitem:ac7da77a2d03e3414d264156d14803795"><td class="memItemLeft" >
+&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>fcmd</b></td></tr>
+<tr class="separator:ac7da77a2d03e3414d264156d14803795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4319a1ec910d0997789c1207eff1a30"><td class="memItemLeft" >
+&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>address_0_8</b></td></tr>
+<tr class="separator:af4319a1ec910d0997789c1207eff1a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4976905eeb7f051763ca3e56dde4d4c"><td class="memItemLeft" >
+&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>data</b> [8]</td></tr>
+<tr class="separator:ae4976905eeb7f051763ca3e56dde4d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae739c80e7101dbe2b02ebb27632e4701"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ae739c80e7101dbe2b02ebb27632e4701"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Declares new types. </p>
 <p>This contains types that are especially useful for the Tower to PC Protocol.</p>
 <dl class="section author"><dt>Author</dt><dd>PMcL </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2015-07-23 </dd></dl>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a class="anchor" id="a3e5b8192e7d9ffaf3542f1210aec18dd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="types_8h.html#a3e5b8192e7d9ffaf3542f1210aec18dd">BOOL</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Boolean definition that includes type and value </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a3e5b8192e7d9ffaf3542f1210aec18dda9dc06fb98ef9ab4bb29d6184ab307c49"></a>bFALSE&#160;</td><td class="fielddoc">
-<p>Boolean false - always 0 </p>
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a3e5b8192e7d9ffaf3542f1210aec18dda047064b66453336b61b186169baf6b09"></a>bTRUE&#160;</td><td class="fielddoc">
-<p>Boolean true - always 1 </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_08d237fc27d4ecd563f71c5d52f2fecc.html">sources</a></li><li class="navelem"><a class="el" href="types_8h.html">types.h</a></li>
-    <li class="footer">Generated on Fri Aug 14 2015 10:46:04 for Lab1 by
+    <li class="footer">Generated on Wed Apr 18 2018 16:39:08 for Lab1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
   </ul>
