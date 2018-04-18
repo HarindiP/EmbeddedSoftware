@@ -46,14 +46,14 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
       FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
       FTFE_FCCOB0 = commonCommandObject-> fcmd;
 
-      FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[0];
-      FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[1];
-      FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[2];
-      FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[3];
-      FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[4];
-      FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[5];
-      FTFE_FCCOBA = commonCommandObject->datacmd.databyte[6];
-      FTFE_FCCOBB = commonCommandObject->datacmd.databyte[7];
+      FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[7];
+      FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[6];
+      FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[5];
+      FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[4];
+      FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[3];
+      FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[2];
+      FTFE_FCCOBA = commonCommandObject->datacmd.databyte[1];
+      FTFE_FCCOBB = commonCommandObject->datacmd.databyte[0];
 
       FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
     }while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0);
