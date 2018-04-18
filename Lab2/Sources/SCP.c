@@ -49,7 +49,7 @@ bool SetTowerNumber()
 {
   towerNb.s.Lo = Packet_Parameter2;	//LSB
   towerNb.s.Hi = Packet_Parameter3;	//MSB
-  Flash_Write16(fAddTowerNb,towerNb.l);	//writing in the flash memory
+  Flash_Write16((uint16_t *)NvTowerNb,towerNb.l);	//writing in the flash memory
   return Packet_Put(0x0B,1,NvTowerNb->s.Lo, NvTowerNb->s.Hi);	//Send Tower Number
 }
 
@@ -65,7 +65,7 @@ bool SetTowerMode()
 {
   towerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
   towerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
-  Flash_Write16(fAddTowerMd,towerMd.l);	//writing in the flash memory
+  Flash_Write16((uint16_t *)NvTowerMd,towerMd.l);	//writing in the flash memory
   return Packet_Put(0x0D,1, NvTowerMd->s.Lo, NvTowerMd->s.Hi);	//Send Tower Mode
 }
 
