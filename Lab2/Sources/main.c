@@ -66,12 +66,14 @@ int main(void)
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
     {
+      //light on the orange LED
       LEDs_On(LED_ORANGE);
+      //writting tower number qnd mode in flash
+      Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb));
+      Flash_Write16((uint16_t *)NvTowerNb, 5605);
+      Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd));
+      Flash_Write16((uint16_t *)NvTowerMd, 1);
       SendStartUpValues();
-      Flash_AllocateVar((volatile void**)fAddTowerNb, sizeof(*fAddTowerNb));
-      Flash_Write16(fAddTowerNb,5605);
-      Flash_AllocateVar((volatile void**)fAddTowerMd, sizeof(*fAddTowerMd));
-      Flash_Write16(fAddTowerMd,1);
     }
 
   for (;;)	//Should we put that in the previous if loop ?

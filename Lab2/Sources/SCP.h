@@ -13,8 +13,9 @@ extern uint16union_t towerNb;
 /*Tower Mode*/
 extern uint16union_t towerMd;
 
-extern uint16_t* fAddTowerNb;
-extern uint16_t* fAddTowerMd;
+//Flash address of Tower Number and Mode
+volatile uint16union_t *NvTowerNb;
+volatile uint16union_t *NvTowerMd;
 
 //Communication commands : PC to Tower
 /*Special - Get startup values
