@@ -78,18 +78,18 @@ int main(void)
 
       if(success)
 	{
-	//light on the orange LED
-	LEDs_On(LED_ORANGE);
-	//sending start up values
-	SCP_SendStartUpValues();
+	  //light on the orange LED
+	  LEDs_On(LED_ORANGE);
+	  //sending start up values
+	  SCP_SendStartUpValues();
 
-	for (;;)	//Should we put that in the previous if loop ?
-	  {
-	    /*Checks the status of the serial port*/
-	    UART_Poll();
-	    /*If we have a packet, we can check Serial Protocol Commands */
-	    if(Packet_Get())
+	  for (;;)	//Should we put that in the previous if loop ?
 	    {
+	      /*Checks the status of the serial port*/
+	      UART_Poll();
+	      /*If we have a packet, we can check Serial Protocol Commands */
+	      if(Packet_Get())
+		{
 		  if(!Packet_Acknowledgement_Required(Packet_Command))		/*Cases without Packet Acknowledgement required*/
 		    {
 		      SCP_Packet_Handle();
@@ -98,9 +98,9 @@ int main(void)
 		    {
 		      SCP_Packet_Handle_Ack();
 		    }
+		}
 	    }
-	  }
-	 }
+	}
     }
 
 

@@ -1,9 +1,17 @@
-/*
- * packet.c
+/*! @file packet.c
  *
- *  Created on: 6 Apr 2018
- *      Author: 13115605
+ *  @brief Routines to implement packet encoding and decoding for the serial port.
+ *
+ *  This contains the functions for implementing the "Tower to PC Protocol" 5-byte packets.
+ *
+ *  @author Coralie&Harindi
+ *  @date 2018-04-14
  */
+/*!
+ **  @addtogroup packet_module packet module documentation
+ **  @{
+ */
+/* MODULE PACKET */
 
 #include "packet.h"
 #include "UART.h"
@@ -122,4 +130,9 @@ bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t p
   return false;
 //  return UART_OutChar(command) & UART_OutChar(parameter1) & UART_OutChar(parameter2)& UART_OutChar(parameter3) & UART_OutChar(CheckSum(command, parameter1,parameter2,parameter3));
 }
+
+
+/*!
+ ** @}
+ */
 

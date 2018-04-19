@@ -7,6 +7,12 @@
  *  @author PMcL
  *  @date 2015-07-23
  */
+/*!
+ **  @addtogroup packet_module packet module documentation
+ **  @{
+ */
+/* MODULE PACKET */
+
 
 #ifndef PACKET_H
 #define PACKET_H
@@ -97,3 +103,8 @@ bool Packet_Get(void);
 bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3);
 
 #endif
+
+/*!
+ ** @}
+ */
+

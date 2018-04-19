@@ -7,6 +7,11 @@
  *  @author PMcL
  *  @date 2015-07-23
  */
+/*!
+ **  @addtogroup FIFO_module FIFO module documentation
+ **  @{
+ */
+/* MODULE FIFO */
 
 #ifndef FIFO_H
 #define FIFO_H
@@ -54,3 +59,7 @@ bool FIFO_Put(TFIFO * const FIFO, const uint8_t data);
 bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr);
 
 #endif
+
+/*!
+ ** @}
+ */

@@ -80,24 +80,17 @@ static bool EraseSector(const uint32_t address)
   /**/
   TFCCOB erasesector;
   erasesector.addressreg.address = address;
-  erasesector.fcmd = FTFE_FCCOB0_CCOBn(FLASH_ERASE_SECTOR); //TODO
+  erasesector.fcmd = FLASH_ERASE_SECTOR;
   return (LaunchCommand(&erasesector));
 
 }
 static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
 {
   //Checks if EraseSector function is successful in the right location
-  if ((!EraseSector(FLASH_DATA_START)))
-    return false;
-  return WritePhrase(address,phrase);
-
-  //============
   if (EraseSector(FLASH_DATA_START))
       return WritePhrase(address,phrase);
 
   return false;
-
-
 }
 
 /*! @brief Enables the Flash module.
@@ -127,63 +120,37 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
   uint8_t chosenAddress = 0x00;
   uint8_t checkAddress = 0x00;
 
-
-
-
-
-  switch(size){
-    case 1:
-      if(chosenAddress != 0x00){				// if no address allocated, take the first one
-	  checkAddress++;					// else take the next one
-	  while(chosenAddress && checkAddress){
-	      checkAddress = (checkAddress << size);
-	      if (checkAddress == 0x00){			// we have check all the memory and no space is available
-		  return false;
-		  break;
-	      }
-	  }
-      }
+  if(spaceAvailbility(checkAddress, chosenAddress, size))				// if no address allocated, take the first one
+    {
       *variable = (FLASH_DATA_START + checkAddress);	// allocate variable at the right place //TODO: DONT READ THE DATA
       chosenAddress ^= checkAddress;				// and store the chosen address
       return true;
-      break;
+    }
+  else
+    return false;
+}
 
-    case 2:
-      if(chosenAddress != 0x00){
-	  checkAddress += 0x03;
-	  while(chosenAddress && checkAddress){
-	      checkAddress = (checkAddress << size);
-	      if (checkAddress == 0x00){
-		  return false;
-		  break;
-	      }
-	  }
-	  return true;}
-
-
-      *variable = &_FW(FLASH_DATA_START + checkAddress);
-      chosenAddress ^= checkAddress;
-      return true;
-      break;
-    case 4:
-      if(chosenAddress != 0x00){
-	  checkAddress += 0x0F;
-	  while(chosenAddress && checkAddress){
-	      checkAddress = (checkAddress << size);
-	      if (checkAddress == 0x00){
-		  return false;
-		  break;
-	      }
-	  }
-      }
-
-
-      *variable = &_FW(FLASH_DATA_START + checkAddress);
-      chosenAddress ^= checkAddress;
-      return true;
-      break;
-
-  }
+/*! @brief determine the next available location in the flash memory
+ *
+ * @param  size is the size of the data we are trying to store
+ *
+ * @return bool - TRUE if a place was found
+ * */
+bool SpaceAvailbility(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size)
+{
+  if(chosenAddress != 0x00)				// if no address allocated, take the first one
+    {
+      checkAddress += 8*size;					// else take the next byte
+      while(chosenAddress && checkAddress)
+	{
+	  checkAddress = (checkAddress << size);
+	  if (checkAddress == 0x00)			// we have check all the memory and no space is available
+	    {
+	      return false;
+	    }
+	}
+    }
+  return true;
 }
 
 /*! @brief Writes a 32-bit number to Flash.
@@ -241,10 +208,7 @@ bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
  */
 bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
 {
-  uint16_t halfWord;
   uint32_t hwAddress = ((uint32_t)(*address & 0xFE));
-
-
   uint16uinon_t halfWord;
   //Find the address of the halfWord that contains the byte we want to change
   // halfWord.l = _FH(address);
@@ -282,7 +246,4 @@ bool Flash_Erase(void)
 /*!
  ** @}
  */
-
-
-
 

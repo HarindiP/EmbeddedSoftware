@@ -7,6 +7,11 @@
  *  @author Coralie&Harindi
  *  @date 2018-04-14
  */
+/*!
+ **  @addtogroup flash_module flash module documentation
+ **  @{
+ */
+/* MODULE flash */
 
 #ifndef FLASH_H
 #define FLASH_H
@@ -52,6 +57,13 @@ bool Flash_Init(void);
  *  @note Assumes Flash has been initialized.
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size);
+/*! @brief determine the next available location in the flash memory
+ *
+ * @param  size is the size of the data we are trying to store
+ *
+ * @return bool - TRUE if a place was found
+ * */
+bool SpaceAvailbility(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size);
 
 /*! @brief Writes a 32-bit number to Flash.
  *
@@ -108,3 +120,6 @@ sector 0 of Flash Block2 : 0x0008_0000 to 0x0008_0007
  *
  * */
 
+/*!
+ ** @}
+ */

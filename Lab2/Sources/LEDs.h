@@ -7,6 +7,11 @@
  *  @author Coralie&Harindi
  *  @date 2018-04-06
  */
+/*!
+ **  @addtogroup LEDs_module LEDs module documentation
+ **  @{
+ */
+/* MODULE LEDs */
 
 
 #ifndef LEDS_H
@@ -54,3 +59,7 @@ void LEDs_Off(const TLED color);
 void LEDs_Toggle(const TLED color);
 
 #endif
+
+/*!
+ ** @}
+ */

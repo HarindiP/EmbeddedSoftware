@@ -7,6 +7,11 @@
  *  @author Coralie&Harindi
  *  @date 2018-04-14
  */
+/*!
+ **  @addtogroup SCP_module SCP module documentation
+ **  @{
+ */
+/* MODULE SCP */
 
 #ifndef SOURCES_SCP_H_
 #define SOURCES_SCP_H_
@@ -107,3 +112,7 @@ bool SCP_Packet_Handle_Ack();
 
 
 #endif /* SOURCES_SCP_H_ */
+
+/*!
+ ** @}
+ */

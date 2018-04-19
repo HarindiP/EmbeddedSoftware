@@ -114,6 +114,3 @@ void LEDs_Toggle(const TLED color)
  ** @}
  */
 
-
-
-
