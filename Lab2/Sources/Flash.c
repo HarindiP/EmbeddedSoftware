@@ -20,10 +20,10 @@
 #include "MK70F12.h"
 
 // FLASH data access
-#define _FB(flashAddress)  *(uint8_t  volatile *)(flashAddress)
-#define _FH(flashAddress)  *(uint16_t volatile *)(flashAddress)
-#define _FW(flashAddress)  *(uint32_t volatile *)(flashAddress)
-#define _FP(flashAddress)  *(uint64_t volatile *)(flashAddress)
+#define _FB(flashAddress)  *(uint8_t  volatile *)(flashAddress)		//access a byte
+#define _FH(flashAddress)  *(uint16_t volatile *)(flashAddress)		//access a half-word (2bytes)
+#define _FW(flashAddress)  *(uint32_t volatile *)(flashAddress)		//access a word (4bytes)
+#define _FP(flashAddress)  *(uint64_t volatile *)(flashAddress)		//access a phrase (8bytes)
 
 // Address of the start of the Flash block we are using for data storage
 #define FLASH_DATA_START 0x00080000LU
@@ -67,7 +67,7 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
 }
 static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 {
-  /*create variable but right values into right regs and then execute right command*/
+  /*create variable, put right values into right regs and then execute right command : program here*/
   TFCCOB writephrase;
   writephrase.addressreg.address = address;
   writephrase.datacmd.data = phrase.l;
@@ -77,7 +77,7 @@ static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 }
 static bool EraseSector(const uint32_t address)
 {
-  /**/
+  /*create variable, put right values into right regs and then execute right command : erase here*/
   TFCCOB erasesector;
   erasesector.addressreg.address = address;
   erasesector.fcmd = FLASH_ERASE_SECTOR;
@@ -89,7 +89,6 @@ static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
   //Checks if EraseSector function is successful in the right location
   if (EraseSector(FLASH_DATA_START))
       return WritePhrase(address,phrase);
-
   return false;
 }
 
@@ -120,9 +119,9 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
   uint8_t chosenAddress = 0x00;
   uint8_t checkAddress = 0x00;
 
-  if(spaceAvailbility(checkAddress, chosenAddress, size))				// if no address allocated, take the first one
+  if(SpaceAvailble(checkAddress, chosenAddress, size))				// if no address allocated, take the first one
     {
-      *variable = (FLASH_DATA_START + checkAddress);	// allocate variable at the right place //TODO: DONT READ THE DATA
+      *variable = (FLASH_DATA_START + checkAddress);	// allocate variable at the right place
       chosenAddress ^= checkAddress;				// and store the chosen address
       return true;
     }
@@ -136,7 +135,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
  *
  * @return bool - TRUE if a place was found
  * */
-bool SpaceAvailbility(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size)
+bool SpaceAvailble(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size)
 {
   if(chosenAddress != 0x00)				// if no address allocated, take the first one
     {
@@ -162,18 +161,27 @@ bool SpaceAvailbility(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t 
  */
 bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
 {
-  uint64union_t phrase;
-  if(((uint32_t)address & 0b100) == 0)
-    {
+  uint32_t wAddress;
+  uint64uinon_t phrase;
+  if(address/4==0)	//if address divisible by 4
+  {
       phrase.s.Hi = data;
-      phrase.s.Lo = (*(address+1) << 16) | *(address+2);
-    }
+      phrase.s.Lo = _FW(address+4);
+      hwAddress = &_FW(address);
+  }
+  else if (address/2==0)
+  {
+      ((uint32union_t)phrase.s.Hi).s.Hi = _FH(address-2);
+      ((uint32union_t)phrase.s.Hi).s.Lo = (uint32union_t)data.s.Hi;
+      ((uint32union_t)phrase.s.Lo).s.Hi = (uint32union_t)data.s.Lo;
+      ((uint32union_t)phrase.s.Lo).s.Lo = _FH(address+4);
+      hwAddress = &_FP(address-2);
+  }
   else
-    {
-      phrase.s.Lo = data;
-      phrase.s.Hi = (*(address-2) << 16) | (*(address-1) << 8);
-    }
-  return ModifyPhrase(FLASH_DATA_START,phrase);
+  {
+      //TODO : if Flash_Write16 and the beginning of this one are correct, I need to finish it...
+  }
+  return ModifyPhrase(wAddress, phrase);
 }
 
 /*! @brief Writes a 16-bit number to Flash.
@@ -185,18 +193,23 @@ bool Flash_Write32(volatile uint32_t* const address, const uint32_t data)
  */
 bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
 {
-  uint32_t word;
-  uint32_t wAddress = FLASH_DATA_START | (uint32_t)(address) & 0xFFFFFF00;
-  if(((uint32_t)address & 0b10) == 0)
-    {
-      word = (((uint32_t)data) << 16) | *(address+1);
-    }
-  else
-    {
-      word = *(address-1) << 16 | (uint32_t)data;
-    }
-  return Flash_Write32((uint32_t *)wAddress,word);
-
+  uint32 wAddress;
+  uint32uinon_t word;
+  if(address/2==0)	//if even address
+  {
+      word.s.Hi = data;
+      word.s.Lo = _FH(address+2);
+      hwAddress = &_FW(address);
+  }
+  else			//address is odd : we make it even taking the byte before and the one after which give us a halfword
+  {
+      ((uint16union_t)halfWord.s.Hi).s.Hi = _FW(address-1);
+      ((uint16union_t)halfWord.s.Hi).s.Lo = ((uint16union_t)data).s.Hi;
+      ((uint16union_t)halfWord.s.Lo).s.Hi = ((uint16union_t)data).s.Lo;
+      ((uint16union_t)halfWord.s.Lo).s.Lo = _FW(address+2);
+      hwAddress = &_FW(address-1);
+  }
+  return Flash_Write32(wAddress, word);
 }
 
 /*! @brief Writes an 8-bit number to Flash.
@@ -208,8 +221,6 @@ bool Flash_Write16(volatile uint16_t* const address, const uint16_t data)
  */
 bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
 {
-  uint32_t hwAddress = ((uint32_t)(*address & 0xFE));
-  uint16uinon_t halfWord;
   //Find the address of the halfWord that contains the byte we want to change
   // halfWord.l = _FH(address);
   //modify byte we want to change
@@ -217,19 +228,21 @@ bool Flash_Write8(volatile uint8_t* const address, const uint8_t data)
   //halfWord.s.Lo = newData;
   //return Flash_Write16(address, halfWord.l);
 
-
-  if(((uint32_t)address & 1) == 0)
-    {
-
-
-
-      halfWord = (((uint16_t)data) << 8) | *(address+1);
-    }
+  uint16_t* hwAddress;
+  uint16uinon_t halfWord;
+  if(address/2==0)	//if even address
+  {
+      halfWord.s.Hi = data;
+      halfWord.s.Lo = _FB(address+1);
+      hwAddress = &_FH(address);
+  }
   else
-    {
-      halfWord = (*(address-1) << 8) | data;
-    }
-  return Flash_Write16((uint16_t *)hwAddress,halfWord);
+  {
+      halfWord.s.Hi = _FB(address-1);
+      halfWord.s.Lo = data;
+      hwAddress = &_FH(address-1);
+  }
+  return Flash_Write16((uint16_t *)hwAddress, halfWord);
 }
 
 /*! @brief Erases the entire Flash sector.

@@ -63,7 +63,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size);
  *
  * @return bool - TRUE if a place was found
  * */
-bool SpaceAvailbility(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size);
+bool SpaceAvailble(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size);
 
 /*! @brief Writes a 32-bit number to Flash.
  *
