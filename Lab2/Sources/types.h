@@ -73,34 +73,20 @@ typedef union
 typedef struct
 {
   uint8_t fcmd; //command bit
-  union
-  {
-    /*nested structs to hold adresses and data seperately becasue 32 needs to be divisable by 4 */
-    uint32_t address;
-    struct
-    {
-      uint8_t reg0;
-      uint8_t reg1;
-      uint8_t reg2;
-      uint8_t reg3; //TODO: don't need it....
-    } address_t;
-  }addressreg;
-
-  union
-  {
-    uint64_t data;
-    uint8_t databyte[8];
-  } datacmd;
+  uint8_t address_0_7;
+  uint8_t address_8_15;
+  uint8_t address_16_23;
+  uint8_t databyte[8];
 
 } TFCCOB;
 
 
-typedef struct {
-  uint8_t fcmd;
-  uint8_t address_0_8;
+//typedef struct {
+ // uint8_t fcmd;
+ // uint8_t address_0_8;
   //...
-  uint8_t data[8];
-};
+ // uint8_t data[8];
+//};
 
 
 #endif

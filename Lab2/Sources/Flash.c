@@ -42,20 +42,21 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
 
   /*FTFE_FSTAT_CCIF_MASK =1  CLEARS IT
    * FTFE_FSTAT_CCIF_MASK = 0 SETS IT that launches it*/
-
-  FTFE_FCCOB3 = commonCommandObject-> addressreg.address_t.reg0;
-  FTFE_FCCOB2 = commonCommandObject-> addressreg.address_t.reg1;
-  FTFE_FCCOB1 = commonCommandObject-> addressreg.address_t.reg2;
   FTFE_FCCOB0 = commonCommandObject-> fcmd;
+  FTFE_FCCOB3 = commonCommandObject-> address_0_7;
+  FTFE_FCCOB2 = commonCommandObject-> address_8_15;
+  FTFE_FCCOB1 = commonCommandObject-> address_16_23;
+
+
   //big endian
-  FTFE_FCCOB4 = commonCommandObject->datacmd.databyte[7];
-  FTFE_FCCOB5 = commonCommandObject->datacmd.databyte[6];
-  FTFE_FCCOB6 = commonCommandObject->datacmd.databyte[5];
-  FTFE_FCCOB7 = commonCommandObject->datacmd.databyte[4];
-  FTFE_FCCOB8 = commonCommandObject->datacmd.databyte[3];
-  FTFE_FCCOB9 = commonCommandObject->datacmd.databyte[2];
-  FTFE_FCCOBA = commonCommandObject->datacmd.databyte[1];
-  FTFE_FCCOBB = commonCommandObject->datacmd.databyte[0];
+  FTFE_FCCOB4 = commonCommandObject->databyte[7];
+  FTFE_FCCOB5 = commonCommandObject->databyte[6];
+  FTFE_FCCOB6 = commonCommandObject->databyte[5];
+  FTFE_FCCOB7 = commonCommandObject->databyte[4];
+  FTFE_FCCOB8 = commonCommandObject->databyte[3];
+  FTFE_FCCOB9 = commonCommandObject->databyte[2];
+  FTFE_FCCOBA = commonCommandObject->databyte[1];
+  FTFE_FCCOBB = commonCommandObject->databyte[0];
 
   FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
   while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0) {
@@ -69,8 +70,10 @@ static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 {
   /*create variable, put right values into right regs and then execute right command : program here*/
   TFCCOB writephrase;
-  writephrase.addressreg.address = address;
-  writephrase.datacmd.data = phrase.l;
+  writephrase.address_0_7= address;
+  writephrase.address_8_15= address << 8;
+  writephrase.address_16_23= address << 16 ;
+  writephrase.databyte.l = phrase;
   writephrase.fcmd = FLASH_PROGRAM_PHRASE;
   return (LaunchCommand(&writephrase));
 
@@ -79,7 +82,9 @@ static bool EraseSector(const uint32_t address)
 {
   /*create variable, put right values into right regs and then execute right command : erase here*/
   TFCCOB erasesector;
-  erasesector.addressreg.address = address;
+  erasesector.address_0_7= address;
+  erasesector.address_8_15= address << 8;
+  erasesector.address_16_23= address << 16 ;
   erasesector.fcmd = FLASH_ERASE_SECTOR;
   return (LaunchCommand(&erasesector));
 
