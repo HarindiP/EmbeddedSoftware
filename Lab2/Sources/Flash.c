@@ -49,14 +49,14 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
 
 
   //big endian
-  FTFE_FCCOB4 = commonCommandObject->databyte[7];
-  FTFE_FCCOB5 = commonCommandObject->databyte[6];
-  FTFE_FCCOB6 = commonCommandObject->databyte[5];
-  FTFE_FCCOB7 = commonCommandObject->databyte[4];
-  FTFE_FCCOB8 = commonCommandObject->databyte[3];
-  FTFE_FCCOB9 = commonCommandObject->databyte[2];
-  FTFE_FCCOBA = commonCommandObject->databyte[1];
-  FTFE_FCCOBB = commonCommandObject->databyte[0];
+  FTFE_FCCOB4 = commonCommandObject->cmd_data.dataByte[3];
+  FTFE_FCCOB5 = commonCommandObject->cmd_data.dataByte[2];
+  FTFE_FCCOB6 = commonCommandObject->cmd_data.dataByte[1];
+  FTFE_FCCOB7 = commonCommandObject->cmd_data.dataByte[0];
+  FTFE_FCCOB8 = commonCommandObject->cmd_data.dataByte[7];
+  FTFE_FCCOB9 = commonCommandObject->cmd_data.dataByte[6];
+  FTFE_FCCOBA = commonCommandObject->cmd_data.dataByte[5];
+  FTFE_FCCOBB = commonCommandObject->cmd_data.dataByte[4];
 
   FTFE_FSTAT = FTFE_FSTAT_CCIF_MASK;
   while (FTFE_FSTAT & FTFE_FSTAT_CCIF_MASK != 0) {
@@ -70,10 +70,13 @@ static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 {
   /*create variable, put right values into right regs and then execute right command : program here*/
   TFCCOB writephrase;
-  writephrase.address_0_7= address;
-  writephrase.address_8_15= address << 8;
-  writephrase.address_16_23= address << 16 ;
-  writephrase.databyte.l = phrase;
+  writephrase.address_0_7 = address;
+  writephrase.address_8_15 = address >> 8;
+  writephrase.address_16_23 = address >> 16 ;
+
+
+  //how to write a unit64union to unint8_t[8] -ask danon :)
+  writephrase.cmd_data.data = phrase.l;
   writephrase.fcmd = FLASH_PROGRAM_PHRASE;
   return (LaunchCommand(&writephrase));
 
@@ -82,9 +85,9 @@ static bool EraseSector(const uint32_t address)
 {
   /*create variable, put right values into right regs and then execute right command : erase here*/
   TFCCOB erasesector;
-  erasesector.address_0_7= address;
-  erasesector.address_8_15= address << 8;
-  erasesector.address_16_23= address << 16 ;
+  erasesector.address_0_7 = address;
+  erasesector.address_8_15 = address >> 8;
+  erasesector.address_16_23 = address >> 16 ;
   erasesector.fcmd = FLASH_ERASE_SECTOR;
   return (LaunchCommand(&erasesector));
 

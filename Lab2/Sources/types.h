@@ -76,8 +76,12 @@ typedef struct
   uint8_t address_0_7;
   uint8_t address_8_15;
   uint8_t address_16_23;
-  uint8_t databyte[8];
 
+  union
+  {
+    uint64_t data;
+    uint8_t dataByte[8];
+  } cmd_data;
 } TFCCOB;
 
 
