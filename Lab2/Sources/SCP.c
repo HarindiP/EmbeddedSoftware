@@ -23,7 +23,6 @@ uint16union_t towerNb;
 /*Tower Mode*/
 uint16union_t towerMd;
 
-
 /*Communication functions : */
 /*Tower Startup
 Parameter 1: 0

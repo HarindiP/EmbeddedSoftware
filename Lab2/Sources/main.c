@@ -66,16 +66,19 @@ int main(void)
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
     {
-      bool success = false;
+     bool success = true;
+     /*
       //writing tower number and mode in flash
-      if(Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb)))
-	if(*NvTowerNb == 0xFFFF)
-	  success &= Flash_Write16((uint16_t *)NvTowerNb, 5605);
+
+
+     if(Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb)))
+	if(NvTowerNb->l == 0xFFFF)
+	  success = success && Flash_Write16((uint16_t *)NvTowerNb, 5605);
 
       if(Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd)))
-	if(*NvTowerMd == 0xFFFF)
-	  success &= Flash_Write16((uint16_t *)NvTowerMd, 1);
-
+	if(NvTowerMd->l == 0xFFFF)
+	  success = success && Flash_Write16((uint16_t *)NvTowerMd, 1);
+*/
       if(success)
 	{
 	  //light on the orange LED
