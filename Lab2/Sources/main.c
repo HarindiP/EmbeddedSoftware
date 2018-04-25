@@ -67,7 +67,7 @@ int main(void)
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
     {
      bool success = true;
-     /*
+
       //writing tower number and mode in flash
 
 
@@ -78,7 +78,7 @@ int main(void)
       if(Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd)))
 	if(NvTowerMd->l == 0xFFFF)
 	  success = success && Flash_Write16((uint16_t *)NvTowerMd, 1);
-*/
+
       if(success)
 	{
 	  //light on the orange LED
