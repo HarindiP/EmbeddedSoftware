@@ -1,18 +1,24 @@
-/*! @file
+/*! @file Flash.h
  *
  *  @brief Routines for erasing and writing to the Flash.
  *
  *  This contains the functions needed for accessing the internal Flash.
  *
- *  @author PMcL
- *  @date 2015-08-07
+ *  @author Coralie&Harindi
+ *  @date 2018-04-14
  */
+/*!
+ **  @addtogroup flash_module flash module documentation
+ **  @{
+ */
+/* MODULE flash */
 
 #ifndef FLASH_H
 #define FLASH_H
 
 // new types
 #include "types.h"
+
 
 // FLASH data access
 #define _FB(flashAddress)  *(uint8_t  volatile *)(flashAddress)
@@ -24,6 +30,16 @@
 #define FLASH_DATA_START 0x00080000LU
 // Address of the end of the Flash block we are using for data storage
 #define FLASH_DATA_END   0x00080007LU
+// The command that programs 8 bytes into flash
+#define FLASH_PROGRAM_PHRASE 0x07
+// the command that erases a flash block
+#define FLASH_ERASE_SECTOR 0x09
+
+// Private Function Dec's`
+static bool LaunchCommand(TFCCOB* commonCommandObject);
+static bool WritePhrase(const uint32_t address, const uint64union_t phrase);
+static bool EraseSector(const uint32_t address);
+static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase);
 
 /*! @brief Enables the Flash module.
  *
@@ -45,6 +61,13 @@ bool Flash_Init(void);
  *  @note Assumes Flash has been initialized.
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size);
+/*! @brief determine the next available location in the flash memory
+ *
+ * @param  size is the size of the data we are trying to store
+ *
+ * @return bool - TRUE if a place was found
+ * */
+bool SpaceAvailble(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size);
 
 /*! @brief Writes a 32-bit number to Flash.
  *
@@ -81,3 +104,26 @@ bool Flash_Write8(volatile uint8_t* const address, const uint8_t data);
 bool Flash_Erase(void);
 
 #endif
+
+/* Notes a moi meme :
+ * we have chosen to use Flash Block2, divided in 4 sectors
+ * adresses go from 0x0008_0000 to 0x000B_FFFF
+ *
+ * must erase before writing : "This means that if we want to change just 1 byte in a 4 KiB sector, the entire
+sector contents must be read into a RAM buffer, and the 1 byte changed in the
+RAM buffer. Then the Flash sector must be erased, turning all 0’s into 1’s.
+Finally, we must write the entire new 4 KiB sector from the RAM buffer to the
+Flash sector."
+ * thesmallest unit of data we can write to the Flash array is 8 bytes, which is called a
+phrase. The phrase must be aligned on an 8-byte address, i.e. 0x0008_0000
+ *
+ * only operating in the first “phrase” of
+sector 0 of Flash Block2 : 0x0008_0000 to 0x0008_0007
+ * we can only program and read bytes with an offset between 0 and 7.
+ *
+ *
+ * */
+
+/*!
+ ** @}
+ */

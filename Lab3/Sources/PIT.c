@@ -66,7 +66,7 @@ void PIT_Enable(const bool enable)
     {
       (PIT_TCTRL0 |= PIT_TCTRL_TEN_MASK);
     }
-  return (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
+  (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
 }
 
 /*! @brief Interrupt service routine for the PIT.

@@ -1,12 +1,18 @@
-/*! @file
+/*! @file LEDs.h
  *
  *  @brief Routines to access the LEDs on the TWR-K70F120M.
  *
  *  This contains the functions for operating the LEDs.
  *
- *  @author PMcL
- *  @date 2015-08-15
+ *  @author Coralie&Harindi
+ *  @date 2018-04-06
  */
+/*!
+ **  @addtogroup LEDs_module LEDs module documentation
+ **  @{
+ */
+/* MODULE LEDs */
+
 
 #ifndef LEDS_H
 #define LEDS_H
@@ -19,7 +25,7 @@
  */
 typedef enum
 {
-  LED_ORANGE = (1 << 11),
+  LED_ORANGE = (1 << 11), //PTA11  59.2.6 59.3.2 -> mask on bit 11 here  59.3.3/4
   LED_YELLOW = (1 << 28),
   LED_GREEN = (1 << 29),
   LED_BLUE = (1 << 10)
@@ -53,3 +59,7 @@ void LEDs_Off(const TLED color);
 void LEDs_Toggle(const TLED color);
 
 #endif
+
+/*!
+ ** @}
+ */

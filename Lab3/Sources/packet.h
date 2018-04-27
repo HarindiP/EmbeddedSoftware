@@ -7,6 +7,12 @@
  *  @author PMcL
  *  @date 2015-07-23
  */
+/*!
+ **  @addtogroup packet_module packet module documentation
+ **  @{
+ */
+/* MODULE PACKET */
+
 
 #ifndef PACKET_H
 #define PACKET_H
@@ -30,19 +36,19 @@ typedef union
     {
       struct
       {
-        uint8_t parameter1;	      /*!< The packet's 1st parameter. */
-        uint8_t parameter2;	      /*!< The packet's 2nd parameter. */
-        uint8_t parameter3;	      /*!< The packet's 3rd parameter. */
+	uint8_t parameter1;	      /*!< The packet's 1st parameter. */
+	uint8_t parameter2;	      /*!< The packet's 2nd parameter. */
+	uint8_t parameter3;	      /*!< The packet's 3rd parameter. */
       } separate;
       struct
       {
-        uint16_t parameter12;         /*!< Parameter 1 and 2 concatenated. */
-        uint8_t parameter3;
+	uint16_t parameter12;         /*!< Parameter 1 and 2 concatenated. */
+	uint8_t parameter3;
       } combined12;
       struct
       {
-        uint8_t paramater1;
-        uint16_t parameter23;         /*!< Parameter 2 and 3 concatenated. */
+	uint8_t paramater1;
+	uint16_t parameter23;         /*!< Parameter 2 and 3 concatenated. */
       } combined23;
     } parameters;
     uint8_t checksum;
@@ -63,6 +69,18 @@ extern TPacket Packet;
 
 // Acknowledgment bit mask
 extern const uint8_t PACKET_ACK_MASK;
+
+/*! @brief Private Generating checksum function.
+ *
+ *  @return uint8_t - Packet CheckSum
+ */
+uint8_t CheckSum(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3);
+
+/*! @brief Private acknowledgement checking function
+ *
+ *  @return bool - TRUE if acknowledgement required
+ */
+bool Packet_Acknowledgement_Required(const uint8_t command);
 
 /*! @brief Initializes the packets by calling the initialization routines of the supporting software modules.
  *
@@ -85,3 +103,8 @@ bool Packet_Get(void);
 bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3);
 
 #endif
+
+/*!
+ ** @}
+ */
+

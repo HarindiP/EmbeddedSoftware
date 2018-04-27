@@ -7,6 +7,11 @@
  *  @author PMcL
  *  @date 2015-07-23
  */
+/*!
+ **  @addtogroup FIFO_module FIFO module documentation
+ **  @{
+ */
+/* MODULE FIFO */
 
 #ifndef FIFO_H
 #define FIFO_H
@@ -33,7 +38,7 @@ typedef struct
  *  @param FIFO A pointer to the FIFO that needs initializing.
  *  @return void
  */
-void FIFO_Init(TFIFO* const FIFO);
+void FIFO_Init(TFIFO * const FIFO);
 
 /*! @brief Put one character into the FIFO.
  *
@@ -42,7 +47,7 @@ void FIFO_Init(TFIFO* const FIFO);
  *  @return bool - TRUE if data is successfully stored in the FIFO.
  *  @note Assumes that FIFO_Init has been called.
  */
-bool FIFO_Put(TFIFO* const FIFO, const uint8_t data);
+bool FIFO_Put(TFIFO * const FIFO, const uint8_t data);
 
 /*! @brief Get one character from the FIFO.
  *
@@ -51,6 +56,10 @@ bool FIFO_Put(TFIFO* const FIFO, const uint8_t data);
  *  @return bool - TRUE if data is successfully retrieved from the FIFO.
  *  @note Assumes that FIFO_Init has been called.
  */
-bool FIFO_Get(TFIFO* const FIFO, uint8_t* const dataPtr);
+bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr);
 
 #endif
+
+/*!
+ ** @}
+ */
