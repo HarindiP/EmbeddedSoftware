@@ -678,12 +678,16 @@ LOAD c:/freescale/kds_v3/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/f
                 0x1fff0494                __END_BSS = .
                 0x1fff0494                PROVIDE (__bss_end__, __END_BSS)
                 0x00000000                __S_romp = 0x0
+                0x20010000                text_end = (ORIGIN (m_text) + 0x10000)
+                0x2000133c                data_init_end = (___ROM_AT + SIZEOF (.data))
+                0x00000001                ASSERT ((data_init_end <= text_end), region m_text overflowed with text and data)
 
 ._user_heap_stack
                 0x1fff0494      0x400
                 0x1fff0494                . = ALIGN (0x4)
                 0x1fff0494                PROVIDE (end, .)
                 0x1fff0494                PROVIDE (_end, .)
+                0x1fff0494                PROVIDE (__end__, .)
                 0x1fff0494                __heap_addr = .
                 0x1fff0494                __HeapBase = .
                 0x1fff0494                . = (. + __heap_size)

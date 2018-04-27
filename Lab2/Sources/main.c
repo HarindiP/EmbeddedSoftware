@@ -71,11 +71,11 @@ int main(void)
       //writing tower number and mode in flash
 
 
-     if(Flash_AllocateVar(&NvTowerNb, sizeof(*NvTowerNb)))
+     if(Flash_AllocateVar((volatile void**)&NvTowerNb, sizeof(*NvTowerNb)))
 	if(NvTowerNb->l == 0xFFFF)
-	  success = success && Flash_Write16((uint16_t *)NvTowerNb, 5605);
+	  success = success && Flash_Write16((volatile uint16_t *)NvTowerNb, 5605);
 
-      if(Flash_AllocateVar(&NvTowerMd, sizeof(*NvTowerMd)))
+      if(Flash_AllocateVar((volatile void**)&NvTowerMd, sizeof(*NvTowerMd)))
 	if(NvTowerMd->l == 0xFFFF)
 	  success = success && Flash_Write16((uint16_t *)NvTowerMd, 1);
 

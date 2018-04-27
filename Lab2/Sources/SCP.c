@@ -119,7 +119,7 @@ bool ProgramByte(uint8_t address, uint8_t data)
     }
   else
     {
-      Flash_Write8(address, data);
+      Flash_Write8((uint8_t *)address, data);
       return Flash_Write8(address, data);
     }
 }

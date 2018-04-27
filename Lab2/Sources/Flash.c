@@ -137,7 +137,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 	{
 	  if(!(flashMemoryMap & chosenAddress))		//if there is a space big enough there, done !
 	    {
-	      *variable = (FLASH_DATA_START + chosenAddress);
+	      *variable = (volatile void**)(FLASH_DATA_START + chosenAddress);
 	      flashMemoryMap |= chosenAddress;	//store the chose address as taken
 	      return true;
 	    }
