@@ -13,6 +13,8 @@
 
 // new types
 #include "types.h"
+#include "RTC.h"
+#include "MK70F12.h"
 
 /*! @brief Initializes the RTC before first use.
  *
@@ -25,6 +27,7 @@
 bool RTC_Init(void (*userFunction)(void*), void* userArguments)
 {
  //chapter 47
+
 }
 
 /*! @brief Sets the value of the real time clock.

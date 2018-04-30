@@ -110,20 +110,19 @@ bool Flash_Init(void)
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 {
-  static uint8_t flashMemoryMap = 0;
+  static uint8_t flashMemoryMap = 0; //0b0000000
   if(size == 1 || size == 2 || size == 4)
-  {
+    {
       uint8_t chosenAddress = 1;	//0b00000001
-      uint8_t checkAddress = chosenAddress;
-      for (int i = 0; i < size ; i++)
+      for (int i = 1; i < size ; i++)
 	{
-	  checkAddress |=checkAddress<<1;
+	  chosenAddress |= chosenAddress<<1;	//0b00000001 -> 0b00000011 ...
 	}
       while(chosenAddress!=0)
 	{
 	  if(!(flashMemoryMap & chosenAddress))		//if there is a space big enough there, done !
 	    {
-	      *variable = (volatile void**)(FLASH_DATA_START + chosenAddress);
+	      variable = (volatile void*)(FLASH_DATA_START + chosenAddress);
 	      flashMemoryMap |= chosenAddress;	//store the chose address as taken
 	      return true;
 	    }
@@ -133,7 +132,7 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 	    }
 
 	}
-  }
+    }
   return false;
 }
 
