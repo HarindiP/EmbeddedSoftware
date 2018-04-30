@@ -7,59 +7,67 @@
  */
 
 // new types
+#include "types.h"
 #include "PIT.h"
 
-/*! @brief Sets up the PIT before first use.
- *
- *  Enables the PIT and freezes the timer when debugging.
- *  @param moduleClk The module clock rate in Hz.
- *  @param userFunction is a pointer to a user callback function.
- *  @param userArguments is a pointer to the user arguments to use with the user callback function.
- *  @return bool - TRUE if the PIT was successfully initialized.
- *  @note Assumes that moduleClk has a period which can be expressed as an integral number of nanoseconds.
- */
+static uint32_t Clkperiod; //ask coralie if it should be static
+const static uint32_t PITPeriod
+
+
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
 
-  //CPU
-  //configure the right regs
-  //moduleClk = CPU_BUS_CLK_HZ;
+  /*Gets the period of the clock from freq*/
+  uint32_t Clkperiod = 1e9 / moduleClk ;
 
-  // ENable PIT
+  /*Enable clock gate to PIT module*/
+  SIMSCGC6 |= SIM_SCGC6_PIT_MASK;
+
+  /* Enable PIT*/
   PIT_MCR &= ~PIT_MCR_MDIS_MASK; //MDIS Because this bit enables or disables pit timers
 
-  //freezes while debugging
+  /*freezes while debugging*/
   PIT_MCR = PIT_MCR_FRZ_MASK; // FRZ because this allows the timers to be stopped
 
-  //Enable interupts
+  /*Enable interupts*/
   PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK; //Are these regs connected and how?
 
-  // NVIC
+  /*Initialise NVIC*/
+  //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=68
 
-  //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=70
-  //NVICISER2[17] = //
+  /*clears any pending requests*/
+  NVICICPR2 = (1 << (68 % 32));
+
+  /*Enable interupts from PIT Module*/
+  NVICISER2 = (1 << (68 % 32));
+
+  /*Enable timer*/
+  PIT_Enable(true);
+
+  /*Sets timer*/
+  PIT_Set(,true);
+
 
   return true;
 }
 
-/*! @brief Sets the value of the desired period of the PIT.
- *
- *  @param period The desired value of the timer period in nanoseconds.
- *  @param restart TRUE if the PIT is disabled, a new value set, and then enabled.
- *                 FALSE if the PIT will use the new value after a trigger event.
- *  @note The function will enable the timer and interrupts for the PIT.
- */
+
 void PIT_Set(const uint32_t period, const bool restart)
 {
+  //  (LDVAL trigger = (period / clock period) -1)
+  // clock period = 1/freq
+  PIT_LDVAL0 = (period / Clkperiod) -1 ;
 
+  if (restart)
+    {
+      PIT_Enable(False);
+    }
+  else PIT_Enable(True);
 
 
 }
 
-/*! @brief Enables or disables the PIT.
- *
- *  @param enable - TRUE if the PIT is to be enabled, FALSE if the PIT is to be disabled.
- */
+
 void PIT_Enable(const bool enable)
 {
   if (enable)
@@ -69,12 +77,8 @@ void PIT_Enable(const bool enable)
   (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
 }
 
-/*! @brief Interrupt service routine for the PIT.
- *
- *  The periodic interrupt timer has timed out.
- *  The user callback function will be called.
- *  @note Assumes the PIT has been initialized.
- */
+
+
 void __attribute__ ((interrupt)) PIT_ISR(void);
 //CALL USER FUCTION PAGE 4/7 LAB3
 
