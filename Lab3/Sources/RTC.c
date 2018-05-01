@@ -26,7 +26,23 @@
  */
 bool RTC_Init(void (*userFunction)(void*), void* userArguments)
 {
- //chapter 47
+ //create variables that take these arguments and make them global to the whole file
+
+  //Enable RTC via SCGC6
+
+  //if TIF flag has successfullt been set into the RTC statusreg.
+  /*Disable the time counter and write the time into RTC_TSR when flag was set */
+
+
+  //RTC has 4 occilator options to configure
+
+  //enable occilator
+
+
+  //Enable interupt every second but disbale the rest
+
+
+  //T
 
 }
 

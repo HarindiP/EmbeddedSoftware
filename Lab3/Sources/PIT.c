@@ -17,7 +17,7 @@
 #include "MK70F12.h"
 
 static uint32_t Clkperiod; //ask coralie if it should be static
-const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/
+
 static void (*UserFunction)(void*);
 static void* UserArguments;
 
@@ -54,9 +54,6 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
 
   /*Enable timer*/
   PIT_Enable(true);
-
-  /*Sets timer*/
-  PIT_Set(PITPeriod,true);
 
 
   return true;
@@ -99,6 +96,6 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
   PIT_TFLG0 |= PIT_TFLG_TIF_MASK;
 
 }
-//CALL USER FUCTION PAGE 4/7 LAB3
+
 
 

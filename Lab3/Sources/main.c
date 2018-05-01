@@ -47,6 +47,12 @@
 #include "RTC.h"
 #include "FTM.h"
 
+
+/*Define a PIT call back function whose arguments will be
+ * the void pointer and return void
+ *
+ * */
+
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
@@ -59,6 +65,8 @@ int main(void)
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
+  //PIT lights up every 500ms->ns and must toggle greenlight
+  const static uint32_t PIT_INTERVAL = 5e+8;
 
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
@@ -66,8 +74,9 @@ int main(void)
 
   /* Write your code here */
 
+
   // Initialization of communication
-  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init())
+  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init()) /*have to initialised pit trc and ftm*/
     {
      bool success = true;
 
@@ -84,8 +93,13 @@ int main(void)
 
       if(success)
 	{
+
+	  /*Disable interupts itinitalise tower enable interupts*/
 	  //light on the orange LED
 	  LEDs_On(LED_ORANGE);
+
+	  /*call pitset and set the timer to 500ms->ns*/
+	  PIT_Set(PIT_INTERVAL,true);
 	  //sending start up values
 	  SCP_SendStartUpValues();
 
