@@ -20,7 +20,7 @@
 #include "PE_Types.h"
 
 static uint32_t Clkperiod; //ask coralie if it should be static
-const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/
+const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/	// MOVE TO MAIN!!!!
 static void (*UserFunction)(void*);
 static void* UserArguments;
 
@@ -28,7 +28,7 @@ static void* UserArguments;
 
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
-  EnterCritical();
+//  EnterCritical(); // No need as interrupts should already be disabled whe this function is called
   /*aSK CORALIE IF ALL SHOULD BE IN IF STATEMENTS USED TEST*/
   /*Gets the period of the clock from freq*/
   uint32_t Clkperiod = 1e9 / moduleClk ;
@@ -43,7 +43,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   PIT_MCR &= ~PIT_MCR_MDIS_MASK; //MDIS Because this bit enables or disables pit timers
 
   /*freezes while debugging*/
-  PIT_MCR = PIT_MCR_FRZ_MASK; // FRZ because this allows the timers to be stopped
+  PIT_MCR |= PIT_MCR_FRZ_MASK; // FRZ because this allows the timers to be stopped
 
   /*Enable interupts*/
   PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK; //Are these regs connected and how?
@@ -62,7 +62,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*Sets timer*/
   PIT_Set(PITPeriod,true);
 
-  ExitCritical();
+//  ExitCritical();
 
   return true;
 }

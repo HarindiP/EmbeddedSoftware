@@ -37,7 +37,7 @@ static TFIFO TxFIFO, RxFIFO;
  */
 bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 {
-    EnterCritical();
+//    EnterCritical();
     /*BaudRate settings*/
     uint16union_t SBR;
     uint8_t brfd;
@@ -73,16 +73,16 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
     UART2_C2 &= ~UART_C2_TE_MASK;
 
     /*High half of the new value goes to BDH*/
-//    UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
-    UART2_BDH = UART_BDH_SBR(0);
+    UART2_BDH = UART_BDH_SBR(SBR.s.Hi);
+//    UART2_BDH = UART_BDH_SBR(0);
 
     /*The remainder writes to BDL*/
-//    UART2_BDL = UART_BDL_SBR(SBR.s.Lo);
-    UART2_BDL = UART_BDL_SBR(34);
+    UART2_BDL = UART_BDL_SBR(SBR.s.Lo);
+//    UART2_BDL = UART_BDL_SBR(34);
 
     /*set UART2_C4 to brfd	*/
-//    UART2_C4 = UART_C4_BRFA(brfd);
-    UART2_C4 = UART_C4_BRFA(4);
+    UART2_C4 = UART_C4_BRFA(brfd);
+//    UART2_C4 = UART_C4_BRFA(4);
 
     /*Initialization of Transmit Watermark and Receive Watermark to the size of a complete packet*/
     /*UART2_TWFIFO |= 40;
@@ -101,8 +101,25 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 
     //Enable interrupt
     UART2_C2 |= UART_C2_RIE_MASK;
+//    UART2_C2 |= UART_C2_TIE_MASK;
 
-    ExitCritical();
+    /*RESETS AND Enable NVIC*/
+    /*NVICPT pending where IQR49 IPR12 */
+    NVICICPR1 = (1 << (17));
+    /*NVIC Enable interupts NVIC ICER*/
+    NVICISER1 = (1 << (17));
+
+
+//    ExitCritical();
+
+    UART2_D = 0x0B;
+
+    UART2_D = 0x0B;
+
+    UART2_D = 0x0B;
+
+    UART2_D = 0x0B;
+    UART2_D = 0x0B;
 
     return true;
 
@@ -134,9 +151,22 @@ bool UART_InChar(uint8_t * const dataPtr)
  */
 bool UART_OutChar(const uint8_t data)
 {
-    return FIFO_Put(&TxFIFO,data);
-    //Enable Interrupt
-    UART2_C2 |= UART_C2_TIE_MASK;
+  EnterCritical();
+    if (FIFO_Put(&TxFIFO,data))
+    {
+	UART2_C2 |= UART_C2_TIE_MASK;
+	ExitCritical();
+	return TRUE;
+    }
+
+    else
+      {
+	ExitCritical();
+	return FALSE;
+      }
+
+    //Enable Interrupt YES
+
 }
 
 /*! @brief Poll the UART status register to try and receive and/or transmit one character.
@@ -165,7 +195,7 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   //Receive throught interrupt
   if(UART2_C2 & UART_C2_RIE_MASK)
   {
-    if ((UART2_S1 & UART_S1_RDRF_MASK) != 0)
+    if (UART2_S1 & UART_S1_RDRF_MASK)
     {
       FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
     }
@@ -173,9 +203,10 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   //Transmit throught interrupt
   if(UART2_C2 & UART_C2_TIE_MASK)
   {
-    if ((UART2_S1 & UART_S1_TDRE_MASK) != 0 )
+    if (UART2_S1 & UART_S1_TDRE_MASK)
     {
       FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
+      UART2_C2 &= ~UART_C2_TIE_MASK;
     }
   }
 }

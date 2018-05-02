@@ -15,7 +15,7 @@
  ** ###################################################################*/
 /*!
  ** @file main.c
- ** @version 2.0
+ ** @version 3.0
  ** @brief
  **         Main module.
  **         This module contains user's application code.
@@ -73,6 +73,10 @@ void FTMCallback(void* arg)
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
 {
+//  LEDs_Init();
+//  LEDs_On(LED_ORANGE);
+
+  __DI();
   /* Write your local variable definition here */
   //Tower Number Initialization
   towerNb.l = 5605;	//my student nb is 13115605
@@ -89,9 +93,36 @@ int main(void)
   /* Write your code here */
 
   // Initialization of communication
-  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
-	 && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL))
-  {
+//  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
+//	 && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL))
+//    {
+
+    UART_Init(baudRate, moduleClk);
+      __EI();
+      LEDs_On(LED_ORANGE);
+
+//      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
+//      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
+//      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
+
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+      UART_OutChar(0x0a);
+
+      UART2_D = 0x0B;
+
+      for (;;)
+	{
+
+	}
+
+//    }
+  /*{
     Timer1Sec.channelNb = 0;	//arbitraire, faire attentiotn quand on les déclare manuellement
     Timer1Sec.delayCount = CPU_MCGFF_CLK_HZ_CONFIG_0;	//1sec
     Timer1Sec.ioType.outputAction = TIMER_OUTPUT_DISCONNECT;
@@ -121,14 +152,14 @@ int main(void)
       for (;;)	//Should we put that in the previous if loop ?
       {
 
-	  /*Checks the status of the serial port*/
+	  // Checks the status of the serial port
 	  //UART_Poll();
-	  /*If we have a packet, we can check Serial Protocol Commands */
+	  // If we have a packet, we can check Serial Protocol Commands
 	  if(Packet_Get())
 	  {
 	    LEDs_On(LED_BLUE);
 	    FTM_StartTimer(&Timer1Sec);
-	    if(!Packet_Acknowledgement_Required(Packet_Command))		/*Cases without Packet Acknowledgement required*/
+	    if(!Packet_Acknowledgement_Required(Packet_Command))		//Cases without Packet Acknowledgement required
 	    {
 	      SCP_Packet_Handle();
 	    }
@@ -139,7 +170,7 @@ int main(void)
 	  }
 	}
       }
-    }
+    }*/
 
 
 

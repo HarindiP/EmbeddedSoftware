@@ -83,6 +83,8 @@ bool FTM_Set(const TFTMChannel* const aFTMChannel)
   • MSnB:MSnA = 0:1
   Do that for all 8 channels p1268*/
   int mode;
+  //TODO check chan nb
+
   //checks if timerFunction is Output Compare
   //aFTMChannel->timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;
   if(aFTMChannel->timerFunction == TIMER_FUNCTION_OUTPUT_COMPARE)

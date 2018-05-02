@@ -68,7 +68,7 @@ bool RTC_Init(void (*userFunction)(void*), void* userArguments)
   /*clear pending interupts from RTC module */
   NVICICPR2 = (1 << 3);
   /*Enable interups*/
-  NVICICPR2 = (1 << 3); /**the value 3 comes from the manual IQR%32 = 67%32/
+  NVICICER2 = (1 << 3); /**the value 3 comes from the manual IQR%32 = 67%32/
 
   /*Enable interupts for every second*/
   RTC_IER |= RTC_IER_TSIE_MASK; /*Time Seconds Interrupt Enable*/

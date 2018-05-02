@@ -111,7 +111,7 @@ Parameter 3: data*/
 bool ReadByte(uint8_t address)
 {
   if(address>=0x00 && address<=0x07)
-    return Packet_Put(0x08,address,0,_FB(address));
+    return Packet_Put(0x08,address,0,_FB(&address));
   return false;
 }
 
@@ -125,7 +125,7 @@ bool ProgramByte(uint8_t address, uint8_t data)
     }
   else
     {
-      return Flash_Write8((uint8_t *)address, data);
+      return Flash_Write8(&address, data);
     }
 }
 

@@ -39,10 +39,10 @@ void FIFO_Init(TFIFO * const FIFO)
  */
 bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 {
+  EnterCritical();
   /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
     if(FIFO->NbBytes<FIFO_SIZE)
     {
-	EnterCritical();
 
 	FIFO->Buffer[FIFO->End]=data;
 	FIFO->End++;
@@ -60,6 +60,7 @@ bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
     }
     else
     {
+	ExitCritical();
 	return false;
     }
 
@@ -74,15 +75,17 @@ bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
  */
 bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
 {
+  EnterCritical();
   /*If buffer is not empty, take oldest data and update Fifo parameters*/
     if(FIFO->NbBytes==0)
     {
+	ExitCritical();
 	return false;
     }
 
     else
     {
-	EnterCritical();
+
 	*dataPtr=FIFO->Buffer[FIFO->Start];
 	FIFO->Start++;
 

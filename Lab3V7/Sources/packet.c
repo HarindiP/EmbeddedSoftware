@@ -50,9 +50,9 @@ bool Packet_Acknowledgement_Required(const uint8_t command)
  */
 bool Packet_Init(const uint32_t baudRate, const uint32_t moduleClk)
 {
-  EnterCritical();
+//  EnterCritical();
   return UART_Init(baudRate,moduleClk);
-  ExitCritical();
+//  ExitCritical();
 }
 
 /*! @brief Attempts to get a packet from the received data.

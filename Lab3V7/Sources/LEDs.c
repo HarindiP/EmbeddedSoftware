@@ -36,7 +36,7 @@ typedef enum
  */
 bool LEDs_Init(void)
 {
-  EnterCritical();
+ // EnterCritical();
   /*Activate PORTA*/
   SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;
 
@@ -47,9 +47,11 @@ bool LEDs_Init(void)
   PORTA_PCR10 |= PORT_PCR_MUX(1);
 
   /*Setting  the right pins as OutPut */
-  GPIOA_PDOR = LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE;
+  GPIOA_PDDR = LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE;
 
-  ExitCritical();
+  GPIOA_PSOR = LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE;
+
+  //ExitCritical();
   return true;
 }
 
@@ -62,20 +64,21 @@ bool LEDs_Init(void)
 
 void LEDs_On(const TLED color)
 {
-  switch (color){
-      case LED_BLUE :
-	GPIOA_PCOR |= GPIO_PCOR_PTCO(10);
-        break;
-      case LED_GREEN :
-	GPIOA_PCOR |= GPIO_PCOR_PTCO(29);
-        break;
-      case LED_YELLOW :
-	GPIOA_PCOR |= GPIO_PCOR_PTCO(28);
-        break;
-      case LED_ORANGE :
-	GPIOA_PCOR |= GPIO_PCOR_PTCO(11);
-        break;
-    }
+  GPIOA_PCOR = color;
+//  switch (color){
+//      case LED_BLUE :
+//	GPIOA_PCOR |= GPIO_PCOR_PTCO(10);
+//        break;
+//      case LED_GREEN :
+//	GPIOA_PCOR |= GPIO_PCOR_PTCO(29);
+//        break;
+//      case LED_YELLOW :
+//	GPIOA_PCOR |= GPIO_PCOR_PTCO(28);
+//        break;
+//      case LED_ORANGE :
+//	GPIOA_PCOR |= GPIO_PCOR_PTCO(11);
+//        break;
+//    }
 
 }
 
@@ -86,20 +89,21 @@ void LEDs_On(const TLED color)
  */
 void LEDs_Off(const TLED color)
 {
-  switch (color){
-      case LED_BLUE :
-        GPIOA_PSOR |= GPIO_PCOR_PTCO(10);
-        break;
-      case LED_GREEN :
-        GPIOA_PSOR |= GPIO_PCOR_PTCO(29);
-        break;
-      case LED_YELLOW :
-        GPIOA_PSOR |= GPIO_PCOR_PTCO(28);
-        break;
-      case LED_ORANGE :
-        GPIOA_PSOR |= GPIO_PCOR_PTCO(11);
-        break;
-    }
+  GPIOA_PSOR = color;
+//  switch (color){
+//      case LED_BLUE :
+//        GPIOA_PSOR |= GPIO_PCOR_PTCO(10);
+//        break;
+//      case LED_GREEN :
+//        GPIOA_PSOR |= GPIO_PCOR_PTCO(29);
+//        break;
+//      case LED_YELLOW :
+//        GPIOA_PSOR |= GPIO_PCOR_PTCO(28);
+//        break;
+//      case LED_ORANGE :
+//        GPIOA_PSOR |= GPIO_PCOR_PTCO(11);
+//        break;
+//    }
 }
 
 /*! @brief Toggles an LED.
