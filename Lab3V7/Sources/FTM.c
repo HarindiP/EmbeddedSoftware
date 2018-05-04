@@ -43,24 +43,36 @@ avoid confusion about when the first counter overflow will occur. (p1218)*/
   /* Disable write protection for FlexTimer 0 using the FTM0_MODE register
    * (Features Mode Selection register for FlexTimer 0) (See 44.3.10 on
    * page 1240 of the K70 Sub-Family Reference Manual, Rev. 2, Dec 2011) */
-  FTM0_MODE = FTM_MODE_WPDIS_MASK;
+//  FTM0_MODE = FTM_MODE_WPDIS_MASK;
 
   //Write the CNTIN value
   FTM0_CNTIN = 0;	//down value
+  //Writing the MOD value
+    FTM0_MOD = 0xFFFF;		//upper value
   //Reset counter
   //FTM0_CNT |= FTM_CNTIN_INIT_MASK;
   FTM0_CNT = 0;
-  //Writing the MOD value
-  FTM0_MOD = 0;		//upper value
+
   //define clock source
   //FTM0_SC |= (1<<5);
-  FTM0_SC |= FTM_SC_CLKS(0);
-  //Define prescaler
-  FTM0_SC |= (1<<0); 	//prescaler on 3 bits : 0b001 //7bit p1260 ??
-  FTM0_SC |= FTM_SC_PS(0); //no needs cause MGCFFCLK is already 1sec
+//  FTM0_SC |= FTM_SC_CLKS(0);
+//  //Define prescaler
+//  FTM0_SC |= (1<<0); 	//prescaler on 3 bits : 0b001 //7bit p1260 ??
+//  FTM0_SC |= FTM_SC_PS(0); //no needs cause MGCFFCLK is already 1sec
+//
+//  //Enable interrupts
+//  FTM0_SC |= FTM_SC_TOIE_MASK;
 
-  //Enable interrupts
-  FTM0_SC |= FTM_SC_TOIE_MASK;
+  FTM0_SC &= ~FTM_SC_TOIE_MASK;
+    // Operate the timer in Up Counting mode
+    FTM0_SC &= ~FTM_SC_CPWMS_MASK;
+    // Use the system fixed frequency clock for the counter (24.414 kHz)
+    FTM0_SC |= FTM_SC_CLKS(2);
+    // Set the prescale value to 1
+    FTM0_SC = (FTM0_SC & ~FTM_SC_PS_MASK) | FTM_SC_PS(0);
+
+
+  FTM0_MODE |= FTM_MODE_FTMEN_MASK;
   //NVICEnableIRQ(FTM0_IRQ_NUMBER, FTM0_INTERRUPT_PRIORITY);
   //NVIC : Vector =78, IRQ = 62, NVIC non-IRP reg = 1, NVIC IRP reg = 15
   //reset pending FTM interrupts
@@ -89,30 +101,30 @@ bool FTM_Set(const TFTMChannel* const aFTMChannel)
   //aFTMChannel->timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;
   if(aFTMChannel->timerFunction == TIMER_FUNCTION_OUTPUT_COMPARE)
   {
-      FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_MSB_MASK;
+      FTM0_CnSC(aFTMChannel->channelNb) = (FTM0_CnSC(aFTMChannel->channelNb) & ~(FTM_CnSC_ELSB_MASK | FTM_CnSC_ELSA_MASK)) | (aFTMChannel->ioType.outputAction << FTM_CnSC_ELSA_SHIFT);
       FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_MSA_MASK;
-      mode = aFTMChannel->ioType.outputAction;
-      //checks which configuration are set in ioType
-      switch(mode)
-      {
-	case TIMER_OUTPUT_TOGGLE:
-	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSB_MASK; //configuration 01
-	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSA_MASK;
-	    break;
-	case TIMER_OUTPUT_LOW:
-	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSB_MASK; //configuration 10
-	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSA_MASK;
-	    break;
-	case TIMER_OUTPUT_HIGH:
-	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSB_MASK; //configuration 11
-	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSA_MASK;
-	    break;
-	default:
-	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSB_MASK; //configuration 00
-	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSA_MASK;
-	    break;
-      }
-      FTM0_MOD = aFTMChannel->delayCount;	//safe ?
+//      mode = aFTMChannel->ioType.outputAction;
+//      //checks which configuration are set in ioType
+//      switch(mode)
+//      {
+//	case TIMER_OUTPUT_TOGGLE:
+//	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSB_MASK; //configuration 01
+//	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSA_MASK;
+//	    break;
+//	case TIMER_OUTPUT_LOW:
+//	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSB_MASK; //configuration 10
+//	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSA_MASK;
+//	    break;
+//	case TIMER_OUTPUT_HIGH:
+//	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSB_MASK; //configuration 11
+//	    FTM0_CnSC(aFTMChannel->channelNb) |= FTM_CnSC_ELSA_MASK;
+//	    break;
+//	default:
+//	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSB_MASK; //configuration 00
+//	    FTM0_CnSC(aFTMChannel->channelNb) &= ~FTM_CnSC_ELSA_MASK;
+//	    break;
+//      }
+//      FTM0_MOD = aFTMChannel->delayCount;	//safe ?
   }
   UserFunctions[aFTMChannel->channelNb] = aFTMChannel->userFunction;
   UserArguments[aFTMChannel->channelNb] = aFTMChannel->userArguments;
@@ -131,9 +143,9 @@ bool FTM_StartTimer(const TFTMChannel* const aFTMChannel)
   NUMTOF = 0*/
   /* Enable FTM overflow interrupts, Up counting mode,
    * Select the Fixed Frequency Clock, Prescaler to divide by 32 --> 6 */
-  FTM0_SC = FTM_SC_TOIE_MASK |
-	    FTM_SC_CLKS(2) |		//25000000U Hz
-	    FTM_SC_PS(0);	//no needs
+//  FTM0_SC = FTM_SC_TOIE_MASK |
+//	    FTM_SC_CLKS(2) |		//25000000U Hz
+//	    FTM_SC_PS(0);	//no needs
   if (aFTMChannel->channelNb < 8)
   {
     if(aFTMChannel->timerFunction == TIMER_FUNCTION_OUTPUT_COMPARE)
@@ -165,8 +177,8 @@ void __attribute__ ((interrupt)) FTM0_ISR(void)
   FTM_CallbackFunction();*/
 
   //Disable timer
-  FTM0_SC &= ~FTM_SC_CLKS_MASK;
-  FTM0_CNT |= FTM_CNT_COUNT_MASK;
+//  FTM0_SC &= ~FTM_SC_CLKS_MASK;
+//  FTM0_CNT |= FTM_CNT_COUNT_MASK;
 
   for(uint8_t channel = 0; channel < 8; channel++)
   {
@@ -174,6 +186,7 @@ void __attribute__ ((interrupt)) FTM0_ISR(void)
     if((FTM0_CnSC(channel) & FTM_CnSC_CHF_MASK) && (FTM0_CnSC(channel) & FTM_CnSC_CHIE_MASK))
     {
       FTM0_CnSC(channel) &= ~FTM_CnSC_CHF_MASK;		//reset flag
+      FTM0_CnSC(channel) &= ~FTM_CnSC_CHIE_MASK;
       if (UserFunctions[channel])
 	(*UserFunctions[channel])(UserArguments[channel]);
     }

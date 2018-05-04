@@ -123,6 +123,7 @@ int main(void)
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
 	 && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL))
   {
+      PIT_Enable(true);
     //Enable interrupts
     __EI();
     //Create 1sec Timer
@@ -161,7 +162,7 @@ int main(void)
 	  if(Packet_Get())
 	  {
 	    LEDs_Toggle(LED_BLUE);
-//	    FTM_StartTimer(&Timer1Sec);
+	    FTM_StartTimer(&Timer1Sec);
 	    if(!Packet_Acknowledgement_Required(Packet_Command))		//Cases without Packet Acknowledgement required
 	    {
 	      SCP_Packet_Handle();

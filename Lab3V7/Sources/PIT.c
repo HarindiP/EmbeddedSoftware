@@ -31,7 +31,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
 //  EnterCritical(); // No need as interrupts should already be disabled whe this function is called
   /*aSK CORALIE IF ALL SHOULD BE IN IF STATEMENTS USED TEST*/
   /*Gets the period of the clock from freq*/
-  uint32_t Clkperiod = 1e9 / moduleClk ;
+  Clkperiod = 1e9 / moduleClk ;
 
   UserFunction = userFunction;
   UserArguments = userArguments;
@@ -72,13 +72,16 @@ void PIT_Set(const uint32_t period, const bool restart)
 {
   //  (LDVAL trigger = (period / clock period) -1)
   // clock period = 1/freq
-  PIT_LDVAL0 = (period / Clkperiod) -1 ;
 
   if (restart)
     {
       PIT_Enable(false);
     }
-  else PIT_Enable(true);
+
+  PIT_LDVAL0 = (period / Clkperiod) -1 ;
+
+  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
+  PIT_Enable(true);
 
 
 }
@@ -90,7 +93,10 @@ void PIT_Enable(const bool enable)
     {
       (PIT_TCTRL0 |= PIT_TCTRL_TEN_MASK);
     }
-  (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
+  else
+    {
+      (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
+    }
 }
 
 
