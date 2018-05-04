@@ -29,7 +29,7 @@ const uint8_t PACKET_ACK_MASK = 0b10000000;
  */
 uint8_t CheckSum(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3)
 {
-  uint8_t checksum = Packet_Command^Packet_Parameter1^Packet_Parameter2^Packet_Parameter3;
+  uint8_t checksum = command^parameter1^parameter2^parameter3;
   return checksum;
 }
 

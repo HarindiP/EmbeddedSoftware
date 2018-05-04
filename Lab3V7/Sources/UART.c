@@ -112,15 +112,6 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 
 //    ExitCritical();
 
-    UART2_D = 0x0B;
-
-    UART2_D = 0x0B;
-
-    UART2_D = 0x0B;
-
-    UART2_D = 0x0B;
-    UART2_D = 0x0B;
-
     return true;
 
     /*// Clear bit 4 which is w1c
@@ -205,8 +196,8 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   {
     if (UART2_S1 & UART_S1_TDRE_MASK)
     {
-      FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
-      UART2_C2 &= ~UART_C2_TIE_MASK;
+      if (!FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D)) //Transmits one bit
+        UART2_C2 &= ~UART_C2_TIE_MASK;
     }
   }
 }

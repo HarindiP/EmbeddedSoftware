@@ -92,37 +92,40 @@ int main(void)
 
   /* Write your code here */
 
+  //    {
+
+  //    UART_Init(baudRate, moduleClk);
+  //      __EI();
+  //      LEDs_On(LED_ORANGE);
+
+  //      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
+  //      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
+  //      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
+  //
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //      UART_OutChar(0x0a);
+  //
+  //      UART2_D = 0x0B;
+  //
+  //      for (;;)
+  //	{
+  //
+  //	}
+  //    }
+
   // Initialization of communication
-//  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
-//	 && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL))
-//    {
-
-    UART_Init(baudRate, moduleClk);
-      __EI();
-      LEDs_On(LED_ORANGE);
-
-//      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
-//      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
-//      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
-
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-      UART_OutChar(0x0a);
-
-      UART2_D = 0x0B;
-
-      for (;;)
-	{
-
-	}
-
-//    }
-  /*{
+  if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
+	 && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL))
+  {
+    //Enable interrupts
+    __EI();
+    //Create 1sec Timer
     Timer1Sec.channelNb = 0;	//arbitraire, faire attentiotn quand on les déclare manuellement
     Timer1Sec.delayCount = CPU_MCGFF_CLK_HZ_CONFIG_0;	//1sec
     Timer1Sec.ioType.outputAction = TIMER_OUTPUT_DISCONNECT;
@@ -157,8 +160,8 @@ int main(void)
 	  // If we have a packet, we can check Serial Protocol Commands
 	  if(Packet_Get())
 	  {
-	    LEDs_On(LED_BLUE);
-	    FTM_StartTimer(&Timer1Sec);
+	    LEDs_Toggle(LED_BLUE);
+//	    FTM_StartTimer(&Timer1Sec);
 	    if(!Packet_Acknowledgement_Required(Packet_Command))		//Cases without Packet Acknowledgement required
 	    {
 	      SCP_Packet_Handle();
@@ -170,7 +173,7 @@ int main(void)
 	  }
 	}
       }
-    }*/
+    }
 
 
 
