@@ -302,7 +302,7 @@ void Accel_SetMode(const TAccelMode mode) //TODO : how do I keep track of the re
   }
   else if (mode == ACCEL_INT)
   {
-    PORTB_PCR4 &= ~PORT_PCR_ISF_MASK; //Clear pending flag
+    PORTB_PCR4 |= PORT_PCR_ISF_MASK; //Clear pending flag
     //Set interrupt mode on 1001 : Flag and Interrupt on rising-edge.
     PORTB_PCR4 |= PORT_PCR_IRQC(9);
   }
@@ -320,13 +320,13 @@ void Accel_SetMode(const TAccelMode mode) //TODO : how do I keep track of the re
 void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
 {
   //Check interrupt enable
-  if(PORTB_PCR4 |= PORT_PCR_IRQC_MASK)
+  if(PORTB_PCR4 & PORT_PCR_IRQC_MASK)
   {
     //Check flag
-    if(PORTB_PCR4 |= PORT_PCR_ISF_MASK)
+    if(PORTB_PCR4 & PORT_PCR_ISF_MASK)
     {
       //Clear flag
-      PORTB_PCR4 &= ~PORT_PCR_ISF_MASK;
+      PORTB_PCR4 |= PORT_PCR_ISF_MASK;
       //Call callback function
       if(*dataReadyCallbackFunction)
       {

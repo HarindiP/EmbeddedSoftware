@@ -864,9 +864,9 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x1fff0000                _sdata = .
  *(.data)
  *(.data*)
- .data.Mult_fact.6924
+ .data.Mult_fact.6948
                 0x1fff0000        0x4 ./Sources/I2C.o
- .data.SCL_Div.6925
+ .data.SCL_Div.6949
                 0x1fff0004       0x80 ./Sources/I2C.o
  .data.freeList.5646
                 0x1fff0084        0x1 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)

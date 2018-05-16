@@ -14,8 +14,6 @@
  */
 /* MODULE I2C */
 
-#ifndef I2C_H
-#define I2C_H
 
 // new types
 #include "types.h"
@@ -30,14 +28,6 @@
 #define MULT_SIZE 3
 #define SCL_DIV_SIZE 64
 #define READORWRITE 0x01
-
-typedef struct
-{
-  uint8_t primarySlaveAddress;
-  uint32_t baudRate;
-  void (*readCompleteCallbackFunction)(void*);  /*!< The user's read complete callback function. */
-  void* readCompleteCallbackArguments;          /*!< The user's read complete callback function arguments. */
-} TI2CModule;
 
 
 /*Private Global Variables*/
@@ -135,6 +125,8 @@ bool I2C_Init(const TI2CModule* const aI2CModule, const uint32_t moduleClk)
   /*Enable NVIC by clearing pending request and enabling interupts*/
   NVICICPR0 = NVIC_ICPR_CLRPEND(1 << 24);
   NVICISER0 = NVIC_ISER_SETENA(1 << 24);
+
+  return true;
 
 }
 
@@ -409,10 +401,6 @@ void __attribute__ ((interrupt)) I2C_ISR(void)
       }
     }
 
-
-
-
-#endif
 
 /*!
  ** @}
