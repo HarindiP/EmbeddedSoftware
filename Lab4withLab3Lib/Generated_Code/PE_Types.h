@@ -123,7 +123,7 @@ typedef unsigned long int       uint32;
   /*lint -restore Enable MISRA rule (1.1) checking. */\
  } while(0)
 
-
+#include "Cpu.h"
 
 /* Save status register and disable interrupts */
 #define EnterCritical() \

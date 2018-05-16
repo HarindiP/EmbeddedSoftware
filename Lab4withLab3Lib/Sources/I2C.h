@@ -22,6 +22,28 @@ typedef struct
   void* readCompleteCallbackArguments;          /*!< The user's read complete callback function arguments. */
 } TI2CModule;
 
+/*! @brief Sends the Start
+ *
+ *  @param moduleClk The module clock in Hz.
+ */
+static void Start(void);
+
+/*! @brief Sets up the I2C before first use.
+ *
+ *  @param aI2CModule is a structure containing the operating conditions for the module.
+ *  @param moduleClk The module clock in Hz.
+ *  @return BOOL - TRUE if the I2C module was successfully initialized.
+ */
+static void WaitforAck(void);
+
+/*! @brief Sets up the I2C before first use.
+ *
+ *  @param aI2CModule is a structure containing the operating conditions for the module.
+ *  @param moduleClk The module clock in Hz.
+ *  @return BOOL - TRUE if the I2C module was successfully initialized.
+ */
+static void Stop(void);
+
 /*! @brief Sets up the I2C before first use.
  *
  *  @param aI2CModule is a structure containing the operating conditions for the module.
