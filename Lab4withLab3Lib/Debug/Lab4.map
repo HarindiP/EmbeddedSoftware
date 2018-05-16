@@ -1207,23 +1207,23 @@ OUTPUT(Lab4.elf elf32-littlearm)
  .debug_macro   0x0003413b       0x34 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
  .debug_macro   0x0003416f       0xa6 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
 
-.debug_line     0x00000000     0x2de0
- .debug_line    0x00000000      0x477 ./Sources/I2C.o
- .debug_line    0x00000477      0x4aa ./Sources/SCP.o
- .debug_line    0x00000921      0x372 ./Sources/accel.o
- .debug_line    0x00000c93      0x3e2 ./Sources/main.o
- .debug_line    0x00001075      0x1f9 ./Sources/median.o
- .debug_line    0x0000126e      0x3f4 ./Project_Settings/Startup_Code/startup.o
- .debug_line    0x00001662      0x28b ./Generated_Code/Cpu.o
- .debug_line    0x000018ed      0x2da ./Generated_Code/Vectors.o
- .debug_line    0x00001bc7      0x222 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
- .debug_line    0x00001de9      0x2c7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
- .debug_line    0x000020b0      0x1e7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
- .debug_line    0x00002297      0x1fd C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
- .debug_line    0x00002494      0x25d C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
- .debug_line    0x000026f1      0x299 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
- .debug_line    0x0000298a      0x1f6 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
- .debug_line    0x00002b80      0x260 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
+.debug_line     0x00000000     0x2dde
+ .debug_line    0x00000000      0x475 ./Sources/I2C.o
+ .debug_line    0x00000475      0x4aa ./Sources/SCP.o
+ .debug_line    0x0000091f      0x372 ./Sources/accel.o
+ .debug_line    0x00000c91      0x3e2 ./Sources/main.o
+ .debug_line    0x00001073      0x1f9 ./Sources/median.o
+ .debug_line    0x0000126c      0x3f4 ./Project_Settings/Startup_Code/startup.o
+ .debug_line    0x00001660      0x28b ./Generated_Code/Cpu.o
+ .debug_line    0x000018eb      0x2da ./Generated_Code/Vectors.o
+ .debug_line    0x00001bc5      0x222 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
+ .debug_line    0x00001de7      0x2c7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
+ .debug_line    0x000020ae      0x1e7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
+ .debug_line    0x00002295      0x1fd C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
+ .debug_line    0x00002492      0x25d C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
+ .debug_line    0x000026ef      0x299 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
+ .debug_line    0x00002988      0x1f6 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
+ .debug_line    0x00002b7e      0x260 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
 
 .debug_str      0x00000000    0x8ed81
  .debug_str     0x00000000    0x8beef ./Sources/I2C.o

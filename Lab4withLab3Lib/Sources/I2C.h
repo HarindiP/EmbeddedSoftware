@@ -23,24 +23,17 @@ typedef struct
 } TI2CModule;
 
 /*! @brief Sends the Start
- *
- *  @param moduleClk The module clock in Hz.
+
  */
 static void Start(void);
 
-/*! @brief Sets up the I2C before first use.
- *
- *  @param aI2CModule is a structure containing the operating conditions for the module.
- *  @param moduleClk The module clock in Hz.
- *  @return BOOL - TRUE if the I2C module was successfully initialized.
+/*! @brief wait for interupts to be set and then clears it
+
  */
 static void WaitforAck(void);
 
-/*! @brief Sets up the I2C before first use.
- *
- *  @param aI2CModule is a structure containing the operating conditions for the module.
- *  @param moduleClk The module clock in Hz.
- *  @return BOOL - TRUE if the I2C module was successfully initialized.
+/*! @brief send the stop signal to end communication
+
  */
 static void Stop(void);
 
