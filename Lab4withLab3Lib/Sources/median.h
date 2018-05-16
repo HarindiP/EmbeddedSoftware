@@ -8,6 +8,11 @@
  *  @date 2015-10-12
  */
 
+/*!
+ *  @addtogroup <35>
+ *  @{
+*/
+
 #ifndef MEDIAN_H
 #define MEDIAN_H
 
@@ -23,3 +28,7 @@
 uint8_t Median_Filter3(const uint8_t n1, const uint8_t n2, const uint8_t n3);
 
 #endif
+
+/*!
+ * @}
+*/

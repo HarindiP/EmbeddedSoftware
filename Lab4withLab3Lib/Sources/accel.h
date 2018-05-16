@@ -8,6 +8,11 @@
  *  @date 2015-10-06
  */
 
+/*!
+ *  @addtogroup <35>
+ *  @{
+*/
+
 #ifndef ACCEL_H
 #define ACCEL_H
 
@@ -70,3 +75,7 @@ void Accel_SetMode(const TAccelMode mode);
 void __attribute__ ((interrupt)) AccelDataReady_ISR(void);
 
 #endif
+
+/*!
+ * @}
+*/

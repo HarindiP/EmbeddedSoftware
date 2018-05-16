@@ -200,11 +200,6 @@ void (*dataReadyCallbackFunction)(void*); /*!< The user's data ready callback fu
 void* dataReadyCallbackArguments;   /*!< The user's data ready callback function arguments. */
 
 
-/*! @brief Initializes the accelerometer by calling the initialization routines of the supporting software modules.
- *
- *  @param accelSetup is a pointer to an accelerometer setup structure.
- *  @return bool - TRUE if the accelerometer module was successfully initialized.
- */
 bool Accel_Init(const TAccelSetup* const accelSetup)
 {
   dataReadyCallbackFunction = accelSetup->dataReadyCallbackFunction;
@@ -231,9 +226,6 @@ bool Accel_Init(const TAccelSetup* const accelSetup)
   return true;
 }
 
-/*! @brief Reads X, Y and Z accelerations.
- *  @param data is a an array of 3 bytes where the X, Y and Z data are stored.
- */
 void Accel_ReadXYZ(uint8_t data[3])
 {
   //array to store the 3 last data registered
@@ -243,23 +235,13 @@ void Accel_ReadXYZ(uint8_t data[3])
   //index to erase the oldest data when full
   static uint8_t index = 0;
 
-  //dependings on the mode, choose the right reading function and read
-  if (protocolMode == ACCEL_POLL)
-  {
-    I2C_PollRead(ADDRESS_OUT_X_MSB, &XData[index],1);
-    I2C_PollRead(ADDRESS_OUT_Y_MSB, &YData[index],1);
-    I2C_PollRead(ADDRESS_OUT_Z_MSB, &ZData[index],1);
-    index++;
-  }
-  else if (protocolMode == ACCEL_INT)
-  {
-    I2C_IntRead(ADDRESS_OUT_X_MSB, &XData[index],1);
-    I2C_IntRead(ADDRESS_OUT_Y_MSB, &YData[index],1);
-    I2C_IntRead(ADDRESS_OUT_Z_MSB, &ZData[index],1);
-    index++;
-  }
-  else
-    return;
+  //read
+//  I2C_IntRead(ADDRESS_OUT_X_MSB, &XData[index],1);
+//  I2C_IntRead(ADDRESS_OUT_Y_MSB, &YData[index],1);
+//  I2C_IntRead(ADDRESS_OUT_Z_MSB, &ZData[index],1);
+  I2C_IntRead(ADDRESS_OUT_X_MSB, &XData[index],3);
+  //increase index
+  index++;
 
   //Taking median data
   data[0] = Median_Filter3(XData[0],XData[1],XData[2]);
@@ -276,9 +258,6 @@ void Accel_ReadXYZ(uint8_t data[3])
   LEDs_Toggle(LED_GREEN);
 }
 
-/*! @brief Set the mode of the accelerometer.
- *  @param mode specifies either polled or interrupt driven operation.
- */
 void Accel_SetMode(const TAccelMode mode) //TODO : how do I keep track of the reg state ?
 {
   EnterCritical();
@@ -311,12 +290,6 @@ void Accel_SetMode(const TAccelMode mode) //TODO : how do I keep track of the re
   ExitCritical();
 }
 
-/*! @brief Interrupt service routine for the accelerometer.
- *
- *  The accelerometer has data ready.
- *  The user callback function will be called.
- *  @note Assumes the accelerometer has been initialized.
- */
 void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
 {
   //Check interrupt enable
@@ -328,7 +301,7 @@ void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
       //Clear flag
       PORTB_PCR4 |= PORT_PCR_ISF_MASK;
       //Call callback function
-      if(*dataReadyCallbackFunction)
+      if(dataReadyCallbackFunction)
       {
         dataReadyCallbackFunction(dataReadyCallbackArguments);
       }

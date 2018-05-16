@@ -116,11 +116,11 @@ int main(void)
   /* Write your local variable definition here */
 
   //Tower Number Initialization
-  towerNb.l = 5605; //my student nb is 13115605
+  SCP_TowerNb.l = 5605; //my student nb is 13115605
   //Tower Mode Initialization
-  towerMd.l = 0;
+  SCP_TowerMd.l = 0;
   //Protocol Mode Initialization
-  protocolMode = ACCEL_POLL;
+  SCP_ProtocolMode = ACCEL_POLL;
   //Initialise accel setup
   TAccelSetup Accelerometer = {CPU_BUS_CLK_HZ, (void*)&dataReadyCallback, NULL, (void*)&readCompleteCallback, NULL};
   //accelValues Initialization

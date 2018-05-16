@@ -17,15 +17,22 @@
 #define SOURCES_SCP_H_
 
 /*Tower Number*/
-extern uint16union_t towerNb;
+extern uint16union_t SCP_TowerNb;
 /*Tower Mode*/
-extern uint16union_t towerMd;
+extern uint16union_t SCP_TowerMd;
 /*Protocol Mode*/
-extern uint8_t protocolMode;
+extern uint8_t SCP_ProtocolMode;
 
 //Flash address of Tower Number and Mode
 volatile uint16union_t *NvTowerNb;
 volatile uint16union_t *NvTowerMd;
+
+//Modele doxygen
+/*! @brief
+ *
+ *  @param
+ *  @return
+ */
 
 //Communication commands : PC to Tower
 /*Special - Get startup values
