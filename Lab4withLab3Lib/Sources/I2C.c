@@ -210,35 +210,52 @@ void I2C_PollRead(const uint8_t registerAddress, uint8_t* const data, const uint
   I2C0_D = (SlaveAdress << 1) | READORWRITE;
   /*wait*/
   WaitforAck();
-
   /*Switch on receieve mode*/
   I2C0_C1 &= ~I2C_C1_TX_MASK;
-  /*Turn on ACk from master*/
-  I2C0_C1 &= ~I2C_C1_TXAK_MASK;
 
+  //if number oif bytes is one
+  if (nbBytes == 1)
+  {
+    /*Turn on nACk from master*/
+    I2C0_C1 &= ~I2C_C1_TXAK_MASK;
+    /*dummy read*/
+    data[0] = I2C0_D;
 
-  /*dummy read*/
-  data[0] = I2C0_D;
-  WaitforAck();
+    WaitforAck();
+    Stop();
 
+    /*Read actual data*/
+    data[0] = I2C0_D;
+  }
 
+  else
+  {
+    /*check of ACK*/
+    I2C0_C1 |= I2C_C1_TXAK_MASK;
+    /*dummy read*/
+    data[0] = I2C0_D;
+    WaitforAck();
+
+  }
+
+  //2 or more bytes
   /*create for loop reads until second as bit*/
-  for (counter = 0; counter < nbBytes -2 ; counter++)
+  for (counter = 0; counter < nbBytes -1 ; counter++)
   {
     data[counter] = I2C0_D;
     WaitforAck();
   }
 
-  /*activate tranmision ack or - NAK from Master*/
+  /*activate transmission ack or - NAK from Master*/
   I2C0_C1 |= I2C_C1_TXAK_MASK;
 
   /*read second last byte and wait*/
-  data[nbBytes - 2] = I2C0_D;
+  data[counter++] = I2C0_D;
   WaitforAck();
 
   /*stop and then read last byte*/
   Stop();
-  data[nbBytes - 1] = I2C0_D;
+  data[counter++] = I2C0_D;
 
 }
 

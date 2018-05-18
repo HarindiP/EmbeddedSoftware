@@ -143,9 +143,9 @@ int main(void)
    && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL)
    && Accel_Init(&Accelerometer))
   {
-    //Start PIT for 0.5sec
+    //Start PIT for 1sec
     PIT_Enable(true);
-    PIT_Set(500000000,true);
+    PIT_Set(1000000000,true);
 
     //Set accel more
     Accel_SetMode(ACCEL_POLL);
