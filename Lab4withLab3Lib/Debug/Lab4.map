@@ -82,7 +82,7 @@ Discarded input sections
  .data          0x00000000        0x0 ./Sources/I2C.o
  .bss           0x00000000        0x0 ./Sources/I2C.o
  .text.I2C_PollRead
-                0x00000000      0x108 ./Sources/I2C.o
+                0x00000000      0x140 ./Sources/I2C.o
  .group         0x00000000        0x8 ./Sources/SCP.o
  .group         0x00000000        0x8 ./Sources/SCP.o
  .group         0x00000000        0x8 ./Sources/SCP.o
@@ -159,7 +159,7 @@ Discarded input sections
  .text          0x00000000        0x0 ./Sources/main.o
  .data          0x00000000        0x0 ./Sources/main.o
  .bss           0x00000000        0x0 ./Sources/main.o
- .bss.lastaccelerometervalues.6763
+ .bss.lastaccelerometervalues.6764
                 0x00000000        0x4 ./Sources/main.o
  .debug_macro   0x00000000      0x850 ./Sources/main.o
  .debug_macro   0x00000000       0x16 ./Sources/main.o
@@ -928,14 +928,14 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x1fff00a0        0x4 ./Sources/accel.o
  .bss.CTRL_REG5_Union
                 0x1fff00a4        0x4 ./Sources/accel.o
- .bss.index.6721
+ .bss.index.6722
                 0x1fff00a8        0x1 ./Sources/accel.o
  *fill*         0x1fff00a9        0x3 
- .bss.XData.6718
+ .bss.XData.6719
                 0x1fff00ac        0x4 ./Sources/accel.o
- .bss.YData.6719
+ .bss.YData.6720
                 0x1fff00b0        0x4 ./Sources/accel.o
- .bss.ZData.6720
+ .bss.ZData.6721
                 0x1fff00b4        0x4 ./Sources/accel.o
  .bss.SR_lock   0x1fff00b8        0x1 ./Generated_Code/Cpu.o
                 0x1fff00b8                SR_lock
@@ -1068,41 +1068,41 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x0000053e       0x22 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
 OUTPUT(Lab4.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x5fd6
- .debug_info    0x00000000      0x88e ./Sources/I2C.o
- .debug_info    0x0000088e      0x4f0 ./Sources/SCP.o
- .debug_info    0x00000d7e      0xb2c ./Sources/accel.o
- .debug_info    0x000018aa      0x5b7 ./Sources/main.o
- .debug_info    0x00001e61       0xd3 ./Sources/median.o
- .debug_info    0x00001f34      0x3b0 ./Project_Settings/Startup_Code/startup.o
- .debug_info    0x000022e4      0xc82 ./Generated_Code/Cpu.o
- .debug_info    0x00002f66      0x10f ./Generated_Code/Vectors.o
- .debug_info    0x00003075      0x761 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
- .debug_info    0x000037d6      0x8d3 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
- .debug_info    0x000040a9      0x4a3 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
- .debug_info    0x0000454c      0x57a C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
- .debug_info    0x00004ac6      0x608 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
- .debug_info    0x000050ce      0x999 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
- .debug_info    0x00005a67      0x333 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
- .debug_info    0x00005d9a      0x23c C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
+.debug_info     0x00000000     0x5fda
+ .debug_info    0x00000000      0x892 ./Sources/I2C.o
+ .debug_info    0x00000892      0x4f0 ./Sources/SCP.o
+ .debug_info    0x00000d82      0xb2c ./Sources/accel.o
+ .debug_info    0x000018ae      0x5b7 ./Sources/main.o
+ .debug_info    0x00001e65       0xd3 ./Sources/median.o
+ .debug_info    0x00001f38      0x3b0 ./Project_Settings/Startup_Code/startup.o
+ .debug_info    0x000022e8      0xc82 ./Generated_Code/Cpu.o
+ .debug_info    0x00002f6a      0x10f ./Generated_Code/Vectors.o
+ .debug_info    0x00003079      0x761 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
+ .debug_info    0x000037da      0x8d3 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
+ .debug_info    0x000040ad      0x4a3 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
+ .debug_info    0x00004550      0x57a C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
+ .debug_info    0x00004aca      0x608 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
+ .debug_info    0x000050d2      0x999 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
+ .debug_info    0x00005a6b      0x333 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
+ .debug_info    0x00005d9e      0x23c C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
 
-.debug_abbrev   0x00000000     0x1669
- .debug_abbrev  0x00000000      0x1ba ./Sources/I2C.o
- .debug_abbrev  0x000001ba      0x180 ./Sources/SCP.o
- .debug_abbrev  0x0000033a      0x24b ./Sources/accel.o
- .debug_abbrev  0x00000585      0x174 ./Sources/main.o
- .debug_abbrev  0x000006f9       0x6c ./Sources/median.o
- .debug_abbrev  0x00000765      0x189 ./Project_Settings/Startup_Code/startup.o
- .debug_abbrev  0x000008ee      0x185 ./Generated_Code/Cpu.o
- .debug_abbrev  0x00000a73       0xa4 ./Generated_Code/Vectors.o
- .debug_abbrev  0x00000b17      0x1b1 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
- .debug_abbrev  0x00000cc8      0x1fb C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
- .debug_abbrev  0x00000ec3      0x155 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
- .debug_abbrev  0x00001018      0x154 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
- .debug_abbrev  0x0000116c      0x15f C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
- .debug_abbrev  0x000012cb      0x1b4 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
- .debug_abbrev  0x0000147f       0xee C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
- .debug_abbrev  0x0000156d       0xfc C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
+.debug_abbrev   0x00000000     0x1692
+ .debug_abbrev  0x00000000      0x1e3 ./Sources/I2C.o
+ .debug_abbrev  0x000001e3      0x180 ./Sources/SCP.o
+ .debug_abbrev  0x00000363      0x24b ./Sources/accel.o
+ .debug_abbrev  0x000005ae      0x174 ./Sources/main.o
+ .debug_abbrev  0x00000722       0x6c ./Sources/median.o
+ .debug_abbrev  0x0000078e      0x189 ./Project_Settings/Startup_Code/startup.o
+ .debug_abbrev  0x00000917      0x185 ./Generated_Code/Cpu.o
+ .debug_abbrev  0x00000a9c       0xa4 ./Generated_Code/Vectors.o
+ .debug_abbrev  0x00000b40      0x1b1 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
+ .debug_abbrev  0x00000cf1      0x1fb C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
+ .debug_abbrev  0x00000eec      0x155 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
+ .debug_abbrev  0x00001041      0x154 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
+ .debug_abbrev  0x00001195      0x15f C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
+ .debug_abbrev  0x000012f4      0x1b4 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
+ .debug_abbrev  0x000014a8       0xee C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
+ .debug_abbrev  0x00001596       0xfc C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
 
 .debug_aranges  0x00000000      0x450
  .debug_aranges
@@ -1213,23 +1213,23 @@ OUTPUT(Lab4.elf elf32-littlearm)
  .debug_macro   0x0003413b       0x34 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
  .debug_macro   0x0003416f       0xa6 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
 
-.debug_line     0x00000000     0x2dd6
- .debug_line    0x00000000      0x476 ./Sources/I2C.o
- .debug_line    0x00000476      0x4aa ./Sources/SCP.o
- .debug_line    0x00000920      0x369 ./Sources/accel.o
- .debug_line    0x00000c89      0x3e2 ./Sources/main.o
- .debug_line    0x0000106b      0x1f9 ./Sources/median.o
- .debug_line    0x00001264      0x3f4 ./Project_Settings/Startup_Code/startup.o
- .debug_line    0x00001658      0x28b ./Generated_Code/Cpu.o
- .debug_line    0x000018e3      0x2da ./Generated_Code/Vectors.o
- .debug_line    0x00001bbd      0x222 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
- .debug_line    0x00001ddf      0x2c7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
- .debug_line    0x000020a6      0x1e7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
- .debug_line    0x0000228d      0x1fd C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
- .debug_line    0x0000248a      0x25d C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
- .debug_line    0x000026e7      0x299 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
- .debug_line    0x00002980      0x1f6 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
- .debug_line    0x00002b76      0x260 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
+.debug_line     0x00000000     0x2ddc
+ .debug_line    0x00000000      0x47c ./Sources/I2C.o
+ .debug_line    0x0000047c      0x4aa ./Sources/SCP.o
+ .debug_line    0x00000926      0x369 ./Sources/accel.o
+ .debug_line    0x00000c8f      0x3e2 ./Sources/main.o
+ .debug_line    0x00001071      0x1f9 ./Sources/median.o
+ .debug_line    0x0000126a      0x3f4 ./Project_Settings/Startup_Code/startup.o
+ .debug_line    0x0000165e      0x28b ./Generated_Code/Cpu.o
+ .debug_line    0x000018e9      0x2da ./Generated_Code/Vectors.o
+ .debug_line    0x00001bc3      0x222 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FTM.o)
+ .debug_line    0x00001de5      0x2c7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(Flash.o)
+ .debug_line    0x000020ac      0x1e7 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(LEDs.o)
+ .debug_line    0x00002293      0x1fd C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(PIT.o)
+ .debug_line    0x00002490      0x25d C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(RTC.o)
+ .debug_line    0x000026ed      0x299 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(UART.o)
+ .debug_line    0x00002986      0x1f6 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(packet.o)
+ .debug_line    0x00002b7c      0x260 C:\Users\12443166\Documents\git\es18aut35\Lab4withLab3Lib\Library\libLab3.a(FIFO.o)
 
 .debug_str      0x00000000    0x8ed8d
  .debug_str     0x00000000    0x8beef ./Sources/I2C.o
