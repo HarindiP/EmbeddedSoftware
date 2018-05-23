@@ -73,9 +73,6 @@ void FTMCallback(void* arg)
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
 {
-//  LEDs_Init();
-//  LEDs_On(LED_ORANGE);
-
   __DI();
   /* Write your local variable definition here */
   //Tower Number Initialization
@@ -92,36 +89,9 @@ int main(void)
 
   /* Write your code here */
 
-  //    {
-
-  //    UART_Init(baudRate, moduleClk);
-  //      __EI();
-  //      LEDs_On(LED_ORANGE);
-
-  //      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
-  //      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
-  //      Packet_Put((uint8_t)"d", (uint8_t)"a", (uint8_t)"n", (uint8_t)"o");
-  //
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //      UART_OutChar(0x0a);
-  //
-  //      UART2_D = 0x0B;
-  //
-  //      for (;;)
-  //	{
-  //
-  //	}
-  //    }
-
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
-	 && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL))
+	 && PIT_Init(moduleClk, &PITCallback, NULL) && RTC_Init(&RTCCallback, NULL))
   {
       PIT_Enable(true);
     //Enable interrupts
@@ -132,7 +102,7 @@ int main(void)
     Timer1Sec.ioType.outputAction = TIMER_OUTPUT_DISCONNECT;
     Timer1Sec.timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;
     Timer1Sec.userArguments = NULL;
-    Timer1Sec.userFunction = FTMCallback;
+    Timer1Sec.userFunction = &FTMCallback;
     FTM_Set(&Timer1Sec);
 
     bool success = true;
@@ -155,26 +125,25 @@ int main(void)
 
       for (;;)	//Should we put that in the previous if loop ?
       {
-
-	  // Checks the status of the serial port
-	  //UART_Poll();
-	  // If we have a packet, we can check Serial Protocol Commands
-	  if(Packet_Get())
+	// Checks the status of the serial port
+	//UART_Poll();
+	// If we have a packet, we can check Serial Protocol Commands
+	if(Packet_Get())
+	{
+	  LEDs_Toggle(LED_BLUE);
+	  FTM_StartTimer(&Timer1Sec);
+	  if(!Packet_Acknowledgement_Required(Packet_Command))		//Cases without Packet Acknowledgement required
 	  {
-	    LEDs_Toggle(LED_BLUE);
-	    FTM_StartTimer(&Timer1Sec);
-	    if(!Packet_Acknowledgement_Required(Packet_Command))		//Cases without Packet Acknowledgement required
-	    {
-	      SCP_Packet_Handle();
-	    }
-	    else
-	    {
-	      SCP_Packet_Handle_Ack();
-	    }
+	    SCP_Packet_Handle();
+	  }
+	  else
+	  {
+	    SCP_Packet_Handle_Ack();
 	  }
 	}
       }
     }
+  }
 
 
 

@@ -48,7 +48,7 @@ avoid confusion about when the first counter overflow will occur. (p1218)*/
   //Write the CNTIN value
   FTM0_CNTIN = 0;	//down value
   //Writing the MOD value
-    FTM0_MOD = 0xFFFF;		//upper value
+  FTM0_MOD = 0xFFFF;		//upper value
   //Reset counter
   //FTM0_CNT |= FTM_CNTIN_INIT_MASK;
   FTM0_CNT = 0;
@@ -64,12 +64,12 @@ avoid confusion about when the first counter overflow will occur. (p1218)*/
 //  FTM0_SC |= FTM_SC_TOIE_MASK;
 
   FTM0_SC &= ~FTM_SC_TOIE_MASK;
-    // Operate the timer in Up Counting mode
-    FTM0_SC &= ~FTM_SC_CPWMS_MASK;
-    // Use the system fixed frequency clock for the counter (24.414 kHz)
-    FTM0_SC |= FTM_SC_CLKS(2);
-    // Set the prescale value to 1
-    FTM0_SC = (FTM0_SC & ~FTM_SC_PS_MASK) | FTM_SC_PS(0);
+  // Operate the timer in Up Counting mode
+  FTM0_SC &= ~FTM_SC_CPWMS_MASK;
+  // Use the system fixed frequency clock for the counter (24.414 kHz)
+  FTM0_SC |= FTM_SC_CLKS(2);
+  // Set the prescale value to 1
+  FTM0_SC = (FTM0_SC & ~FTM_SC_PS_MASK) | FTM_SC_PS(0);
 
 
   FTM0_MODE |= FTM_MODE_FTMEN_MASK;
@@ -95,7 +95,11 @@ bool FTM_Set(const TFTMChannel* const aFTMChannel)
   • MSnB:MSnA = 0:1
   Do that for all 8 channels p1268*/
   int mode;
-  //TODO check chan nb
+
+  if(aFTMChannel->channelNb <0 || aFTMChannel->channelNb > 7)
+  {
+    return false;
+  }
 
   //checks if timerFunction is Output Compare
   //aFTMChannel->timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;

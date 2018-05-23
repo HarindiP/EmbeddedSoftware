@@ -35,7 +35,7 @@ static void* UserArguments;
  */
 bool RTC_Init(void (*userFunction)(void*), void* userArguments)
 {
-  EnterCritical();
+//  EnterCritical();
  //These arguments used for interupts
   UserFunction = userFunction;
   UserArguments = userArguments;
@@ -55,25 +55,18 @@ bool RTC_Init(void (*userFunction)(void*), void* userArguments)
   /*Sets up the control register*/
   /* Oscillator 2pF Load Configuration: 1 enabled*/
   RTC_CR |= RTC_CR_SC2P_MASK;
-  /*Oscillator 4pF Load Configuration: 0 disabled*/
-  RTC_CR &= ~RTC_CR_SC4P_MASK;
-  /*Oscillator 8pF Load Configuration: 0 disabled*/
-  RTC_CR &= ~RTC_CR_SC8P_MASK;
+//  /*Oscillator 4pF Load Configuration: 0 disabled*/
+//  RTC_CR &= ~RTC_CR_SC4P_MASK;
+//  /*Oscillator 8pF Load Configuration: 0 disabled*/
+//  RTC_CR &= ~RTC_CR_SC8P_MASK;
   /*Oscillator 16pF Load Configuration: 1 enabled*/
   RTC_CR |= RTC_CR_SC16P_MASK;
-
   /*Once Oscillator Configuration are set enable the occilater to 32.something value*/
   RTC_CR |= RTC_CR_OSCE_MASK;
-
-  /*clear pending interupts from RTC module */
-  NVICICPR2 = (1 << 3);
-  /*Enable interups*/
-  NVICICER2 = (1 << 3); /**the value 3 comes from the manual IQR%32 = 67%32/
-
   /*Enable interupts for every second*/
   RTC_IER |= RTC_IER_TSIE_MASK; /*Time Seconds Interrupt Enable*/
 
-  /*Disable the othes but no sure if needed maybe good when testing*/
+  /*Disable the others but no sure if needed maybe good when testing*/
   RTC_IER &= ~RTC_IER_TIIE_MASK;
   RTC_IER &= ~RTC_IER_TOIE_MASK;
   RTC_IER &= ~RTC_IER_TAIE_MASK;
@@ -81,10 +74,18 @@ bool RTC_Init(void (*userFunction)(void*), void* userArguments)
   /*Locks the control reg to ignore other writes*/
   RTC_LR &= ~RTC_LR_CRL_MASK;
 
+  /*Wait an arbitrary amount of time*/
+  for(int i = 0 ; i < 100000 ; i++);
+
   /*Enable timer counter*/
   RTC_SR |= RTC_SR_TCE_MASK;
 
-  ExitCritical();
+  /*clear pending interupts from RTC module */
+  NVICICPR2 = (1 << 3);
+  /*Enable interups*/
+  NVICISER2 = (1 << 3); /*the value 3 comes from the manual IQR%32 = 67%32*/
+
+//  ExitCritical();
   return true;
 
 }
@@ -147,7 +148,6 @@ void RTC_Get(uint8_t* const hours, uint8_t* const minutes, uint8_t* const second
  */
 void __attribute__ ((interrupt)) RTC_ISR(void)
 {
-
   if (UserFunction)
   (*UserFunction)(UserArguments);
 }
