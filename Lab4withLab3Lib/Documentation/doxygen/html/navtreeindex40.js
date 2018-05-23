@@ -1,8 +1,5 @@
 var NAVTREEINDEX40 =
 {
-"group___n_v_i_c___register___masks.html#ga980811f031765f21efade537a3c2f37b":[5,0,2,0,0,8896],
-"group___n_v_i_c___register___masks.html#ga986244ba0782c29fb42e3f813ef25fab":[5,0,2,0,0,8832],
-"group___n_v_i_c___register___masks.html#ga9883d806214f231565b18dc4786901a5":[5,0,2,0,0,8938],
 "group___n_v_i_c___register___masks.html#ga98865f2a8529f1610eeb0ed2321f7115":[5,0,2,0,0,8956],
 "group___n_v_i_c___register___masks.html#ga99038e7e0eac2424df606cc22c796dd9":[5,0,2,0,0,8942],
 "group___n_v_i_c___register___masks.html#ga9965b5df5f4c6c8d3a1c8e89d03d9489":[5,0,2,0,0,9148],
@@ -147,8 +144,8 @@ var NAVTREEINDEX40 =
 "group___o_s_c___peripheral.html#ga46f69fcb9d660e18b5cbf51adbbcec78":[5,0,2,0,0,9290],
 "group___o_s_c___peripheral.html#ga5a0e46e15931232a6e0cafb7315041fa":[3,9,38,4],
 "group___o_s_c___peripheral.html#ga5a0e46e15931232a6e0cafb7315041fa":[5,0,2,0,0,9288],
-"group___o_s_c___peripheral.html#gaaa685163f549fdf24c28ec9b400310b5":[3,9,38,6],
 "group___o_s_c___peripheral.html#gaaa685163f549fdf24c28ec9b400310b5":[5,0,2,0,0,13304],
+"group___o_s_c___peripheral.html#gaaa685163f549fdf24c28ec9b400310b5":[3,9,38,6],
 "group___o_s_c___peripheral.html#gaab1618c69a91b2e5d3385139b5b566f0":[3,9,38,3],
 "group___o_s_c___peripheral.html#gaab1618c69a91b2e5d3385139b5b566f0":[5,0,2,0,0,9286],
 "group___o_s_c___register___accessor___macros.html":[3,9,38,0],
@@ -249,5 +246,8 @@ var NAVTREEINDEX40 =
 "group___p_d_b___register___masks.html#ga53e475cc672b4e976c7dccc10fe64d74":[5,0,2,0,0,9416],
 "group___p_d_b___register___masks.html#ga53f46e26b4a7cc5b74fa449687227baf":[5,0,2,0,0,9399],
 "group___p_d_b___register___masks.html#ga544472023dc6de6708b210d54d64c69c":[5,0,2,0,0,9392],
-"group___p_d_b___register___masks.html#ga548246bef07975bd6f1fe0fe5a2c6ef5":[5,0,2,0,0,9378]
+"group___p_d_b___register___masks.html#ga548246bef07975bd6f1fe0fe5a2c6ef5":[5,0,2,0,0,9378],
+"group___p_d_b___register___masks.html#ga5582f0b88e7ae5e9dcf69f3a859c4470":[5,0,2,0,0,9409],
+"group___p_d_b___register___masks.html#ga57cd111abf2b5780daddb6619498ef7a":[5,0,2,0,0,9413],
+"group___p_d_b___register___masks.html#ga5b99cf0c9ae2fa2cf6e4200a7e3bf13b":[5,0,2,0,0,9366]
 };

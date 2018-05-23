@@ -78,6 +78,15 @@ Macros</h2></td></tr>
 <tr class="memitem:gad91813fa396dd7479e1a8cad3402391f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gad91813fa396dd7479e1a8cad3402391f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>READORWRITE</b>&#160;&#160;&#160;0x01</td></tr>
 <tr class="separator:gad91813fa396dd7479e1a8cad3402391f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga80c69114da0e192bde4783934868c636"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga80c69114da0e192bde4783934868c636"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>COMPLETE_READ</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ga80c69114da0e192bde4783934868c636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab1c7edf489d1923afd9345d401eb4131"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gab1c7edf489d1923afd9345d401eb4131"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>LAST_READ</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:gab1c7edf489d1923afd9345d401eb4131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad82d0734ba6567366abac57c1be862ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gad82d0734ba6567366abac57c1be862ce"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>SECOND_LAST_READ</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:gad82d0734ba6567366abac57c1be862ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -97,7 +106,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga3685b2f03da2fa00b0cb671a0cce4f3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data of a specified length starting from a specified register.  <a href="#ga3685b2f03da2fa00b0cb671a0cce4f3f">More...</a><br /></td></tr>
 <tr class="separator:ga3685b2f03da2fa00b0cb671a0cce4f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga445500277ba0e363873b34cffc015745"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___i2_c__module.html#ga445500277ba0e363873b34cffc015745">__attribute__</a> ((interrupt))</td></tr>
-<tr class="memdesc:ga445500277ba0e363873b34cffc015745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt service routine for the I2C.  <a href="#ga445500277ba0e363873b34cffc015745">More...</a><br /></td></tr>
+<tr class="memdesc:ga445500277ba0e363873b34cffc015745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt service routine for the accelerometer.  <a href="#ga445500277ba0e363873b34cffc015745">More...</a><br /></td></tr>
 <tr class="separator:ga445500277ba0e363873b34cffc015745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -116,9 +125,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Interrupt service routine for the I2C. </p>
-<p>Interrupt service routine for the accelerometer.</p>
-<p>Only used for reading data. At the end of reception, the user callback function will be called. </p><dl class="section note"><dt>Note</dt><dd>Assumes the I2C module has been initialized. </dd></dl>
+<p>Interrupt service routine for the accelerometer. </p>
+<p>Interrupt service routine for the I2C.</p>
+<p>The accelerometer has data ready. The user callback function will be called. </p><dl class="section note"><dt>Note</dt><dd>Assumes the accelerometer has been initialized. </dd></dl>
 
 </div>
 </div>
@@ -306,7 +315,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed May 16 2018 16:25:46 for Lab1 by
+    <li class="footer">Generated on Wed May 23 2018 16:36:00 for Lab1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
   </ul>

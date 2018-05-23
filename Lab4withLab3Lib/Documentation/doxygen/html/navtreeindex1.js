@@ -1,7 +1,7 @@
 var NAVTREEINDEX1 =
 {
 "globals_vars.html":[5,1,2],
-"globals_w.html":[5,1,0,19],
+"globals_w.html":[5,1,0,20],
 "group___a_d_c___peripheral.html":[3,9,0],
 "group___a_d_c___peripheral.html#ga13df5f5718b7af0f640ee605db14799e":[5,0,2,0,0,62],
 "group___a_d_c___peripheral.html#ga13df5f5718b7af0f640ee605db14799e":[3,9,0,5],

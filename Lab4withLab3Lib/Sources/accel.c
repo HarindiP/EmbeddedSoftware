@@ -214,6 +214,18 @@ bool Accel_Init(const TAccelSetup* const accelSetup)
   // select slave
   I2C_SelectSlaveDevice(ADDRESS_SLAVE);
 
+//  //Test poll read with 1 data : temp should be 0x1A, 0x0D is Who Am I
+//  uint8_t temp ;
+//  I2C_PollRead(0x0D,&temp,1);
+
+//  //Test poll read with 3 data : temp should be 0,0,great value (like 128) if we dont shake the tower;
+//  uint8_t temp[3] = {0,0,0};
+//  I2C_PollRead(ADDRESS_OUT_X_MSB,temp,3);
+
+    //Test int read with 3 data : temp should be 0,0,great value (like 128) if we dont shake the tower;
+    uint8_t temp[3] = {0,0,0};
+    I2C_IntRead(ADDRESS_OUT_X_MSB,temp,3);
+
   //Init PORTB 4 as Input
   SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;  //clock
   PORTB_PCR4 = PORT_PCR_MUX(1);   //GPIO

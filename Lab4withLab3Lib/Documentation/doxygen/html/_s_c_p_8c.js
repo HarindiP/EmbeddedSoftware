@@ -21,7 +21,7 @@ var _s_c_p_8c =
     [ "SetTime", "group___s_c_p__module.html#ga063fcccd9bdf53ff2ab9466909a29d4b", null ],
     [ "SetTowerMode", "group___s_c_p__module.html#gab486e85eb7b3460ddd55676e0f56abb0", null ],
     [ "SetTowerNumber", "group___s_c_p__module.html#gadb167a851345d70c7f7e1cb238f9bd57", null ],
-    [ "protocolMode", "group___s_c_p__module.html#gabeb0cfd571d0366c1c0d50c585deaede", null ],
-    [ "towerMd", "group___s_c_p__module.html#ga8670de7ad5269b4666d6e26f38f3a8c9", null ],
-    [ "towerNb", "group___s_c_p__module.html#ga7fcbe2b69bae355b926387ca3a8daf3a", null ]
+    [ "SCP_ProtocolMode", "group___s_c_p__module.html#gaeb164700ae3836fed0739751d5003738", null ],
+    [ "SCP_TowerMd", "group___s_c_p__module.html#ga69c2de9e11e5ddfba7205b3f524f1c1f", null ],
+    [ "SCP_TowerNb", "group___s_c_p__module.html#ga727c97dcbd2e19a00d892aca39e0097a", null ]
 ];

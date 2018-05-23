@@ -80,7 +80,6 @@ void PITCallback(void* arg)
       lastaccelerometervalues.axes.z = accelValues.axes.z;
     }
 //  }
-
 //  //Toggle Green LED
 //  LEDs_Toggle(LED_GREEN);
 }
@@ -140,14 +139,16 @@ int main(void)
 
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
-   && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL)
+   && PIT_Init(moduleClk, &PITCallback, NULL) && RTC_Init(&RTCCallback, NULL) //should pitcalback have & ?
    && Accel_Init(&Accelerometer))
   {
-    //Start PIT for 1sec
-    PIT_Enable(true);
-    PIT_Set(1000000000,true);
 
-    //Set accel more
+    //Start PIT for 1sec
+    PIT_Enable(false);
+    PIT_Set(1000000000,true);
+    PIT_Enable(true);
+
+    //Set accel mode
     Accel_SetMode(ACCEL_POLL);
 
     //Enable interrupts

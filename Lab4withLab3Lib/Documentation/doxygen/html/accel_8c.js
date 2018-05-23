@@ -67,7 +67,7 @@ var accel_8c =
       [ "SLEEP_MODE_RATE_6_25_HZ", "accel_8c.html#a0fff739d8d806336d0af6bd1f0ec484da21d3630f543a7636b0abf674f55d8912", null ],
       [ "SLEEP_MODE_RATE_1_56_HZ", "accel_8c.html#a0fff739d8d806336d0af6bd1f0ec484da020fd67ba2f413968c2cd19ccd80c244", null ]
     ] ],
-    [ "__attribute__", "accel_8c.html#a445500277ba0e363873b34cffc015745", null ],
+    [ "__attribute__", "group__main__module.html#ga2ee0e3c2704fda01833f33eca6430dee", null ],
     [ "Accel_Init", "accel_8c.html#ad5a20dbb7475bf6023e591d6a4e7312d", null ],
     [ "Accel_ReadXYZ", "accel_8c.html#a8cc8e053f2474e24cb761f1de0f769d8", null ],
     [ "Accel_SetMode", "accel_8c.html#a4f26113eba1169f1d886f8236626f4a7", null ],

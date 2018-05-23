@@ -1,7 +1,7 @@
 var modules =
 [
     [ "I2C module documentation", "group___i2_c__module.html", "group___i2_c__module" ],
-    [ "main module documentation", "group__main__module.html", null ],
+    [ "main module documentation", "group__main__module.html", "group__main__module" ],
     [ "SCP module documentation", "group___s_c_p__module.html", "group___s_c_p__module" ],
     [ "Cpu module documentation", "group___cpu__module.html", "group___cpu__module" ],
     [ "PE_Const module documentation", "group___p_e___const__module.html", "group___p_e___const__module" ],

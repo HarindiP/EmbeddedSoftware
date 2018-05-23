@@ -10,6 +10,7 @@ var _s_c_p_8h =
     [ "Tower_Mode", "group___s_c_p__module.html#gac653df0f2f6f61d516dc4afd2d911619", null ],
     [ "Tower_Number", "group___s_c_p__module.html#ga1f409a2cb870fcfff3924ad37d126376", null ],
     [ "ACK", "group___s_c_p__module.html#ga7928b6536c5cd2fa5deba5e4a15aabc4", null ],
+    [ "HandleProtocolMode", "group___s_c_p__module.html#gadd07fb50b9598cf73d2e96be15bc7045", null ],
     [ "HandleTowerMode", "group___s_c_p__module.html#ga57b51fbbcf8a00f4cda682a78c5d1674", null ],
     [ "HandleTowerNumber", "group___s_c_p__module.html#gae7a31e8ab754938e945e3c1b64268cbb", null ],
     [ "NAK", "group___s_c_p__module.html#ga84aa9cef78a0bfeec15dce98d521be73", null ],
@@ -31,7 +32,7 @@ var _s_c_p_8h =
     [ "SetTowerNumber", "group___s_c_p__module.html#gadb167a851345d70c7f7e1cb238f9bd57", null ],
     [ "NvTowerMd", "group___s_c_p__module.html#ga34f4a2041161f5c8cda7808c766d53d0", null ],
     [ "NvTowerNb", "group___s_c_p__module.html#ga65fc76be2b0895efd0e3ba05ce041c8b", null ],
-    [ "protocolMode", "group___s_c_p__module.html#gabeb0cfd571d0366c1c0d50c585deaede", null ],
-    [ "towerMd", "group___s_c_p__module.html#ga8670de7ad5269b4666d6e26f38f3a8c9", null ],
-    [ "towerNb", "group___s_c_p__module.html#ga7fcbe2b69bae355b926387ca3a8daf3a", null ]
+    [ "SCP_ProtocolMode", "group___s_c_p__module.html#gaeb164700ae3836fed0739751d5003738", null ],
+    [ "SCP_TowerMd", "group___s_c_p__module.html#ga69c2de9e11e5ddfba7205b3f524f1c1f", null ],
+    [ "SCP_TowerNb", "group___s_c_p__module.html#ga727c97dcbd2e19a00d892aca39e0097a", null ]
 ];
