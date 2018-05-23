@@ -200,6 +200,8 @@ void (*dataReadyCallbackFunction)(void*); /*!< The user's data ready callback fu
 void* dataReadyCallbackArguments;   /*!< The user's data ready callback function arguments. */
 
 
+//We should have a standBy and an other state function, and standBy is critical so thats the only place were we call PollRead()
+
 bool Accel_Init(const TAccelSetup* const accelSetup)
 {
   dataReadyCallbackFunction = accelSetup->dataReadyCallbackFunction;
