@@ -17,13 +17,22 @@
 #define SOURCES_SCP_H_
 
 /*Tower Number*/
-extern uint16union_t towerNb;
+extern uint16union_t SCP_TowerNb;
 /*Tower Mode*/
-extern uint16union_t towerMd;
+extern uint16union_t SCP_TowerMd;
+/*Protocol Mode*/
+extern uint8_t SCP_ProtocolMode;
 
 //Flash address of Tower Number and Mode
 volatile uint16union_t *NvTowerNb;
 volatile uint16union_t *NvTowerMd;
+
+//Modele doxygen
+/*! @brief
+ *
+ *  @param
+ *  @return
+ */
 
 //Communication commands : PC to Tower
 /*Special - Get startup values
@@ -74,49 +83,140 @@ Parameter 2: minutes (0-59)
 Parameter 3: seconds (0-59)*/
 #define Time 0x0C
 
-//Communication functions :
-/*Tower Startup
-Parameter 1: 0
-Parameter 2: 0
-Parameter 3: 0*/
-bool SCP_SendStartUpValues();
-/*Special – Tower version
-Parameter 1: ‘v’ = version
-Parameter 2: Major Version Number
-Parameter 3: Minor Version Number (out of 100)*/
-bool SendVersion();
-/*Tower Number
-Parameter 1: 1
-Parameter 2: LSB
-Parameter 3: MSB*/
-bool HandleTowerNumber();
-bool SendTowerNumber();
-bool SetTowerNumber();
-/*Tower Mode
-Parameter 1: 1
-Parameter 2: LSB
-Parameter 3: MSB*/
-bool HandleTowerMode();
-bool SendTowerMode();
-bool SetTowerMode();
-/*Flash – Read byte
-Parameter 1: address offset (0-7)
-Parameter 2: 0
-Parameter 3: data*/
-bool ReadByte(uint8_t address);
+/*Protocol – Mode
+Parameter 1:  1 = get Protocol mode
+              2 = set Protocol mode
+Parameter 2:  0 = asynchronous for a “set”, 0 for a “get”
+              1 = synchronous for a “set”, 0 for a “get”
+Parameter 3: 0 */
+#define Protocol_Mode 0x0A
 
+/*Accelerometer – Value
+Parameter 1: x-axis MSB
+Parameter 2: y-axis MSB
+Parameter 3: z-axis MSB */
+#define Accel_Value 0x10
+
+//Communication functions :
+
+/*! @brief Send the start up values when tower is initialized
+ *
+ *  @return true if values has been sent, false if not
+ */
+bool SCP_SendStartUpValues();
+
+/*! @brief Send Tower version
+ *
+ *  @return true if value has been sent, false if not
+ */
+bool SendVersion();
+
+/*! @brief Identify the Tower Number command : set or just send it
+ *
+ *  @return true if values has been sent/set, false if not
+ */
+bool HandleTowerNumber();
+/*! @brief Send the Tower Number
+ *
+ *  @return true if number has been sent, false if not
+ */
+bool SendTowerNumber();
+/*! @brief Set the new Tower Number and send it
+ *
+ *  @return true if number has been set and sent, false if not
+ */
+bool SetTowerNumber();
+
+/*! @brief Identify the Tower Mode command : set or just send it
+ *
+ *  @return true if values has been sent/set, false if not
+ */
+bool HandleTowerMode();
+/*! @brief Send the Tower Mode
+ *
+ *  @return true if mode has been sent, false if not
+ */
+bool SendTowerMode();
+/*! @brief Set the new Tower Mode and send it
+ *
+ *  @return true if mode has been set and sent, false if not
+ */
+bool SetTowerMode();
+
+/*! @brief Read the byte in the flash memory at the given address
+ *
+ *  @param   The address were the desired byte is written
+ *  @return   true if the byte has been sent, false if not
+ */
+bool ReadByte(uint8_t address);
+/*! @brief Write a byte in the flash memory at the given address
+ *
+ *  @param   address : The address were the desired byte is written
+ *  @param   date : The byte to write
+ *  @return   true if the byte has been written, false if not
+ */
 bool ProgramByte(uint8_t address, uint8_t data);
 
-/*Send and Set Time*/
+/*! @brief Send the curent time
+ *
+ *  @return true if time has been sent, false if not
+ */
 bool SendTime();
+/*! @brief Set the curent time
+ *
+ *  @return true if time has been set, false if not
+ */
 bool SetTime();
 
-/*Acknowledgement and NonAcknowledgement functions*/
+/*! @brief Identify the Protocol Mode command : set or just send it
+ *
+ *  @return true if protocol mode has been sent/set, false if not
+ */
+bool HandleProtocolMode();
+/*! @brief Send the protocol mode
+ *
+ *  @return true if protocol mode has been sent, false if not
+ */
+bool SendProtocolMode();
+/*! @brief Set the protocol mode
+ *
+ *  @return true if protocol mode has been set, false if not
+ */
+bool SetProtocolMode();
+
+/*! @brief Send the accelerometer values
+ *
+ *  @return true if accel values has been sent, false if not
+ */
+bool SendAccelValues();
+
+
+/*! @brief Private ACK checking function
+ *
+ *  @return bool - TRUE if acknowledgement required
+ */
+bool SCP_Acknowledgement_Required(const uint8_t command);
+/*! @brief Acknowledge that the command has been taken care of
+ *
+ *  @return true if acknowledgement went right
+ */
 bool ACK();
+/*! @brief UnAcknowledge that the command has not been taken care of
+ *
+ *  @return true if unacknowledgement went right
+ */
 bool NAK();
 
-/*Command handling functions*/
+/*! @brief Identify the command received and call the right function to do as told
+ *
+ *  @return true if the action went well
+ */
 bool SCP_Packet_Handle();
+/*! @brief  Identify the command with an acknowledgement requirement received
+ *          and call the right function to do as told and acknowledge
+ *
+ *  @return true if the action went well
+ */
 bool SCP_Packet_Handle_Ack();
 
 

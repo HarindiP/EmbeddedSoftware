@@ -19,47 +19,43 @@
 #include "packet.h"
 #include "RTC.h"
 #include "PE_Types.h"
+#include "accel.h"
 
 /*Tower Number*/
-uint16union_t towerNb;
+uint16union_t SCP_TowerNb;
 /*Tower Mode*/
-uint16union_t towerMd;
+uint16union_t SCP_TowerMd;
+/*Protocol Mode*/
+uint8_t SCP_ProtocolMode;
 
 /*Communication functions : */
-/*Tower Startup
-Parameter 1: 0
-Parameter 2: 0
-Parameter 3: 0*/
+
 bool SCP_SendStartUpValues()
 {
   /*return (Packet_Put(0x04,0,0,0)			//Send Tower Start up
       &&Packet_Put(0x09,'v',1,0)			//Send Tower Version V1.0
       &&Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi)	//Send Tower Number
       &&Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi));	//Send Tower Mode*/
-  return (Packet_Put(0x04,0,0,0) && SendVersion()  && SendTowerNumber(towerNb) && SendTowerMode(towerMd));
+  return (Packet_Put(0x04,0,0,0) && SendVersion()  && SendTowerNumber(SCP_TowerNb) && SendTowerMode(SCP_TowerMd) && SendProtocolMode());
 }
-/*Special – Tower version
-Parameter 1: ‘v’ = version
-Parameter 2: Major Version Number
-Parameter 3: Minor Version Number (out of 100)*/
+
+
 bool SendVersion()
 {
   return Packet_Put(0x09,'v',1,0);			//Send Tower Version V1.0
 }
-/*Tower Number
-Parameter 1: 1
-Parameter 2: LSB
-Parameter 3: MSB*/
+
+
 bool HandleTowerNumber()
 {
   if(Packet_Parameter1 == 1)		// Command is : get Tower Nb
-    {
-      SendTowerNumber();
-    }
+  {
+    SendTowerNumber();
+  }
   else if (Packet_Parameter2==2)	//Command is : set Tower Number
-    {
-      SetTowerNumber();
-    }
+  {
+    SetTowerNumber();
+  }
 }
 bool SendTowerNumber()
 {
@@ -68,27 +64,24 @@ bool SendTowerNumber()
 bool SetTowerNumber()
 {
   EnterCritical();
-  towerNb.s.Lo = Packet_Parameter2;	//LSB
-  towerNb.s.Hi = Packet_Parameter3;	//MSB
-  Flash_Write16((uint16_t *)NvTowerNb,towerNb.l);	//writing in the flash memory
+  SCP_TowerNb.s.Lo = Packet_Parameter2;	//LSB
+  SCP_TowerNb.s.Hi = Packet_Parameter3;	//MSB
+  Flash_Write16((uint16_t *)NvTowerNb,SCP_TowerNb.l);	//writing in the flash memory
   ExitCritical();
   return Packet_Put(0x0B,1,NvTowerNb->s.Lo, NvTowerNb->s.Hi);	//Send Tower Number
 }
 
-/*Tower Mode
-Parameter 1: 1
-Parameter 2: LSB
-Parameter 3: MSB*/
+
 bool HandleTowerMode()
 {
   if(Packet_Parameter1 == 1)		// Command is : get Tower Mode
-    {
-      SendTowerMode();
-    }
+  {
+    SendTowerMode();
+  }
   else if (Packet_Parameter2==2)	//Command is : set Tower Mode
-    {
-      SetTowerMode();
-    }
+  {
+    SetTowerMode();
+  }
 }
 bool SendTowerMode()
 {
@@ -97,17 +90,14 @@ bool SendTowerMode()
 bool SetTowerMode()
 {
   EnterCritical();
-  towerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
-  towerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
-  Flash_Write16((uint16_t *)NvTowerMd,towerMd.l);	//writing in the flash memory
+  SCP_TowerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
+  SCP_TowerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
+  Flash_Write16((uint16_t *)NvTowerMd,SCP_TowerMd.l);	//writing in the flash memory
   ExitCritical();
   return Packet_Put(0x0D,1, NvTowerMd->s.Lo, NvTowerMd->s.Hi);	//Send Tower Mode
 }
 
-/*Flash – Read byte
-Parameter 1: address offset (0-7)
-Parameter 2: 0
-Parameter 3: data*/
+
 bool ReadByte(uint8_t address)
 {
   if(address>=0x00 && address<=0x07)
@@ -115,25 +105,22 @@ bool ReadByte(uint8_t address)
   return false;
 }
 
+
 bool ProgramByte(uint8_t address, uint8_t data)
 {
   //Flash_AllocateVar(volatile void** variable, const uint8_t size)
   if(address == 0x08)
-    {
-      Flash_Erase();
-      return true;
-    }
+  {
+    Flash_Erase();
+    return true;
+  }
   else
-    {
-      return Flash_Write8(&address, data);
-    }
+  {
+    return Flash_Write8(&address, data);
+  }
 }
 
-/*Send and Set Time*/
-/*Time
-Parameter 1: hours (0-23)
-Parameter 2: minutes (0-59)
-Parameter 3: seconds (0-59)*/
+
 bool SendTime()
 {
   RTC_Get(&Packet_Parameter1,&Packet_Parameter2,&Packet_Parameter3);
@@ -145,7 +132,43 @@ bool SetTime()
   return SendTime();
 }
 
+
+bool SendProtocolMode()
+{
+  return Packet_Put(0x0A,1, SCP_ProtocolMode, 0);
+}
+bool SetProtocolMode()
+{
+  SCP_ProtocolMode = Packet_Parameter2;
+  Accel_SetMode(SCP_ProtocolMode);
+  return SendProtocolMode();
+}
+bool HandleProtocolMode()
+{
+  if(Packet_Parameter1 == 1)    // Command is : get Tower Mode
+  {
+    SendProtocolMode();
+  }
+  else if (Packet_Parameter2 == 2)  //Command is : set Tower Mode
+  {
+    SetProtocolMode();
+  }
+}
+
+
+bool SendAccelValues()
+{
+  uint8_t data[3];
+  Accel_ReadXYZ(data);
+  return Packet_Put(0x10, data[0], data[1], data[2]);
+}
+
+
 /*Acknowledgement and NonAcknowledgement functions*/
+bool SCP_Acknowledgement_Required(const uint8_t command)
+{
+  return (command & PACKET_ACK_MASK);
+}
 bool ACK()
 {
   return Packet_Put(Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
@@ -180,6 +203,12 @@ bool SCP_Packet_Handle()
     case Time :
       return SetTime();
       break;
+    case Protocol_Mode :
+      return HandleProtocolMode();
+      break;
+    case Accel_Value :
+      return SendAccelValues();
+      break;
     default:	//Unknown command
       //Do nothing or return command with NAK
       //Packet_Put(0b1000000 | Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
@@ -191,14 +220,13 @@ bool SCP_Packet_Handle_Ack()
 {
   Packet_Command |= PACKET_ACK_MASK;
   if(SCP_Packet_Handle())
-    {
-      ACK();
-    }
+  {
+    ACK();
+  }
   else
-    {
-      NAK();
-    }
-
+  {
+    NAK();
+  }
 }
 
 /*!
