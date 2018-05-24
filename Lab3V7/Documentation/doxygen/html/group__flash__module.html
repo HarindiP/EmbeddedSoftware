@@ -103,7 +103,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga50871aff0f5af1e092aea3ed2545cf72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates space for a non-volatile variable in the Flash memory.  <a href="#ga50871aff0f5af1e092aea3ed2545cf72">More...</a><br /></td></tr>
 <tr class="separator:ga50871aff0f5af1e092aea3ed2545cf72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5da7dcc0c6ef765546c79bbe25b48479"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__flash__module.html#ga5da7dcc0c6ef765546c79bbe25b48479">Flash_Write32</a> (volatile uint32_t *const address, const uint32_t data)</td></tr>
-<tr class="memdesc:ga5da7dcc0c6ef765546c79bbe25b48479"><td class="mdescLeft">&#160;</td><td class="mdescRight">determine the next available location in the flash memory  <a href="#ga5da7dcc0c6ef765546c79bbe25b48479">More...</a><br /></td></tr>
+<tr class="memdesc:ga5da7dcc0c6ef765546c79bbe25b48479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a 32-bit number to Flash.  <a href="#ga5da7dcc0c6ef765546c79bbe25b48479">More...</a><br /></td></tr>
 <tr class="separator:ga5da7dcc0c6ef765546c79bbe25b48479"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1458f5e4ac15e1848ae0bde32fe5b5f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__flash__module.html#ga1458f5e4ac15e1848ae0bde32fe5b5f3">Flash_Write16</a> (volatile uint16_t *const address, const uint16_t data)</td></tr>
 <tr class="memdesc:ga1458f5e4ac15e1848ae0bde32fe5b5f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a 16-bit number to Flash.  <a href="#ga1458f5e4ac15e1848ae0bde32fe5b5f3">More...</a><br /></td></tr>
@@ -114,9 +114,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ga06868787ccef73e69bd236d3b93b68f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__flash__module.html#ga06868787ccef73e69bd236d3b93b68f3">Flash_Erase</a> (void)</td></tr>
 <tr class="memdesc:ga06868787ccef73e69bd236d3b93b68f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the entire Flash sector.  <a href="#ga06868787ccef73e69bd236d3b93b68f3">More...</a><br /></td></tr>
 <tr class="separator:ga06868787ccef73e69bd236d3b93b68f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac5bb5bf48d2654e5d6424850fd46ca21"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__flash__module.html#gac5bb5bf48d2654e5d6424850fd46ca21">SpaceAvailble</a> (uint8_t checkAddress, uint8_t chosenAddress, const uint8_t size)</td></tr>
-<tr class="memdesc:gac5bb5bf48d2654e5d6424850fd46ca21"><td class="mdescLeft">&#160;</td><td class="mdescRight">determine the next available location in the flash memory  <a href="#gac5bb5bf48d2654e5d6424850fd46ca21">More...</a><br /></td></tr>
-<tr class="separator:gac5bb5bf48d2654e5d6424850fd46ca21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -257,16 +254,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>determine the next available location in the flash memory </p>
-<p>Writes a 32-bit number to Flash.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>is the size of the data we are trying to store</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>bool - TRUE if a place was found</dd></dl>
-<p>Writes a 32-bit number to Flash.</p>
+<p>Writes a 32-bit number to Flash. </p>
+<p>brief determine the next available location in the flash memory</p>
+<p>param size is the size of the data we are trying to store</p>
+<p>return bool - TRUE if a place was found</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">address</td><td>The address of the data. </td></tr>
@@ -325,53 +316,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gac5bb5bf48d2654e5d6424850fd46ca21"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool SpaceAvailble </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>checkAddress</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>chosenAddress</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>determine the next available location in the flash memory </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>is the size of the data we are trying to store</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>bool - TRUE if a place was found </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed May 2 2018 16:19:02 for Lab3 by
+    <li class="footer">Generated on Thu May 24 2018 20:49:35 for Lab3 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
   </ul>

@@ -61,13 +61,6 @@ bool Flash_Init(void);
  *  @note Assumes Flash has been initialized.
  */
 bool Flash_AllocateVar(volatile void** variable, const uint8_t size);
-/*! @brief determine the next available location in the flash memory
- *
- * @param  size is the size of the data we are trying to store
- *
- * @return bool - TRUE if a place was found
- * */
-bool SpaceAvailble(uint8_t checkAddress, uint8_t chosenAddress,const uint8_t size);
 
 /*! @brief Writes a 32-bit number to Flash.
  *

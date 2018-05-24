@@ -1,4 +1,4 @@
-/*! @file
+/*! @file I2C.h
  *
  *  @brief I/O routines for the K70 I2C interface.
  *

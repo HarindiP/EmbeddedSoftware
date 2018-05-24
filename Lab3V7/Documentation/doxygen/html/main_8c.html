@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Lab3: C:/Users/12443166/git/es18aut35/Lab3V7/sources/main.c File Reference</title>
+<title>Lab3: C:/Users/13115605/Documents/workspace/es18aut35/Lab3V7/sources/main.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -76,7 +76,6 @@ $(document).ready(function(){initNavTree('main_8c.html','');});
 <p>Main module. This module contains user's application code.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_cpu_8h_source.html">Cpu.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_events_8h_source.html">Events.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_p_e___types_8h_source.html">PE_Types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_p_e___error_8h_source.html">PE_Error.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_p_e___const_8h_source.html">PE_Const.h</a>&quot;</code><br />
@@ -88,9 +87,11 @@ $(document).ready(function(){initNavTree('main_8c.html','');});
 <code>#include &quot;<a class="el" href="_s_c_p_8h_source.html">SCP.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_l_e_ds_8h_source.html">LEDs.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_flash_8h_source.html">Flash.h</a>&quot;</code><br />
-<code>#include &quot;PIT.h&quot;</code><br />
-<code>#include &quot;RTC.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_p_i_t_8h_source.html">PIT.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_r_t_c_8h_source.html">RTC.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_f_t_m_8h_source.html">FTM.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="accel_8h_source.html">accel.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_i2_c_8h_source.html">I2C.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -103,6 +104,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>RTCCallback</b> (void
 <tr class="memitem:gae21c1c1f38c8de226d06fa5b986c57df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gae21c1c1f38c8de226d06fa5b986c57df"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>FTMCallback</b> (void *arg)</td></tr>
 <tr class="separator:gae21c1c1f38c8de226d06fa5b986c57df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga76c2a874d7ef9455b9c6ab0a23ec16d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga76c2a874d7ef9455b9c6ab0a23ec16d0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>dataReadyCallback</b> (void *arg)</td></tr>
+<tr class="separator:ga76c2a874d7ef9455b9c6ab0a23ec16d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b296cfe166404653b4ab117038aa8a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga8b296cfe166404653b4ab117038aa8a7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>readCompleteCallback</b> (void *arg)</td></tr>
+<tr class="separator:ga8b296cfe166404653b4ab117038aa8a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga840291bc02cba5474a4cb46a9b9566fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga840291bc02cba5474a4cb46a9b9566fe"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (void)</td></tr>
 <tr class="separator:ga840291bc02cba5474a4cb46a9b9566fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,6 +119,12 @@ Variables</h2></td></tr>
 <tr class="memitem:ga299a41ec770254e51a51bc1cabf58cf6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga299a41ec770254e51a51bc1cabf58cf6"></a>
 <a class="el" href="struct_t_f_t_m_channel.html">TFTMChannel</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Timer1Sec</b></td></tr>
 <tr class="separator:ga299a41ec770254e51a51bc1cabf58cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga106079c328e4334f9c9ac15a03e47b2f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga106079c328e4334f9c9ac15a03e47b2f"></a>
+<a class="el" href="union_t_accel_data.html">TAccelData</a>&#160;</td><td class="memItemRight" valign="bottom"><b>accelValues</b></td></tr>
+<tr class="separator:ga106079c328e4334f9c9ac15a03e47b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga854c3755769a068f26540ed10738533a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga854c3755769a068f26540ed10738533a"></a>
+<a class="el" href="struct_t_accel_setup.html">TAccelSetup</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Accelerometer</b></td></tr>
+<tr class="separator:ga854c3755769a068f26540ed10738533a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main module. This module contains user's application code. </p>
@@ -122,7 +135,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_08d237fc27d4ecd563f71c5d52f2fecc.html">sources</a></li><li class="navelem"><a class="el" href="main_8c.html">main.c</a></li>
-    <li class="footer">Generated on Wed May 2 2018 16:19:01 for Lab3 by
+    <li class="footer">Generated on Thu May 24 2018 20:49:34 for Lab3 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
   </ul>

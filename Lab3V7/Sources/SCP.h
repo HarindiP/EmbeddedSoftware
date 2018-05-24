@@ -27,13 +27,6 @@ extern uint8_t SCP_ProtocolMode;
 volatile uint16union_t *NvTowerNb;
 volatile uint16union_t *NvTowerMd;
 
-//Modele doxygen
-/*! @brief
- *
- *  @param
- *  @return
- */
-
 //Communication commands : PC to Tower
 /*Special - Get startup values
 Parameter 1: 0
@@ -145,14 +138,14 @@ bool SetTowerMode();
 
 /*! @brief Read the byte in the flash memory at the given address
  *
- *  @param   The address were the desired byte is written
+ *  @param   address : The address were the desired byte
  *  @return   true if the byte has been sent, false if not
  */
 bool ReadByte(uint8_t address);
 /*! @brief Write a byte in the flash memory at the given address
  *
  *  @param   address : The address were the desired byte is written
- *  @param   date : The byte to write
+ *  @param   data : The byte to write
  *  @return   true if the byte has been written, false if not
  */
 bool ProgramByte(uint8_t address, uint8_t data);

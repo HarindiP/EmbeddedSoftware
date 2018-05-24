@@ -185,7 +185,7 @@ bool SCP_Packet_Handle()
     case Get_Start_Up_Values :		//Command is : Special - Get Start up Values
       return SCP_SendStartUpValues();
       break;
-    case Get_Version :		//Command is : Special – Get version
+    case Get_Version :		//Command is : Special  Get version
       return SendVersion();
       break;
     case Tower_Number :		//Command is : Tower number (get & set)

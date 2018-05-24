@@ -29,10 +29,13 @@
 #define SCL_DIV_SIZE 64
 #define READORWRITE 0x01
 
+#define COMPLETE_READ 0
+#define LAST_READ 1
+#define SECOND_LAST_READ 2
 
 /*Private Global Variables*/
 static char SlaveAdress;
-static uint8_t I2CReadOrder[3];
+static uint8_t I2CReadSequence[3];
 static uint8_t SequencePosition;
 static uint8_t NumOfBytes;
 static uint8_t* DataPtr;
@@ -49,7 +52,6 @@ static void* ReadCompleteCallbackArguments;
 static void Start(void);
 static void WaitforAck(void);
 static void Stop(void);
-
 
 
 bool I2C_Init(const TI2CModule* const aI2CModule, const uint32_t moduleClk)
@@ -92,21 +94,16 @@ bool I2C_Init(const TI2CModule* const aI2CModule, const uint32_t moduleClk)
     {
      //Calculates baud rate using multiplier factor and scl divider
       I2Cbaudrate = moduleClk/(Mult_fact[i] * SCL_Div[j]);
-
      //Checks for New error value
       newerror = abs(I2Cbaudrate - aI2CModule->baudRate);
-
-
       if (newerror < olderror)
       {
         //Trys to get the lowest possible error
         olderror = newerror;
-
        // Gets the index at this point of lowest error
         mult = Mult_fact[i];
         scldiv = SCL_Div[j];
       }
-
     }
   }
 
@@ -138,7 +135,6 @@ static void Start(void)
   I2C0_C1 |= I2C_C1_MST_MASK;
   /*enable Transmit mode*/
   I2C0_C1 |= I2C_C1_TX_MASK;
-
 }
 
 static void WaitforAck(void)
@@ -158,28 +154,20 @@ void I2C_Write(const uint8_t registerAddress, const uint8_t data)
   /*check if bus is idle from status reg*/
   while ((I2C0_S & I2C_S_BUSY_MASK) == I2C_S_BUSY_MASK)
   {}
-
   /*Master transmits the Start condition*/
   Start();
-
   /*Master transmits the Slave address with the R/W bit set to 0*/
   I2C0_D = (SlaveAdress << 1) & ~READORWRITE;
-
   /*Waits for ACK()*/
   WaitforAck();
-
   /*Master transmits the reg address */
   I2C0_D = registerAddress;
-
   /*Waits for ACK()*/
   WaitforAck();
-
   /*Master transmits the data*/
   I2C0_D = data;
-
   /*waits for ACK()*/
   WaitforAck();
-
   /*Transmits stop signal*/
   Stop();
 }
@@ -187,9 +175,7 @@ void I2C_Write(const uint8_t registerAddress, const uint8_t data)
 
 void I2C_PollRead(const uint8_t registerAddress, uint8_t* const data, const uint8_t nbBytes)
 {
-  /*counter for counting how many data bytes*/
-  uint8_t counter;
-
+  EnterCritical();
   /*check status reg to see if bus is idle*/
   while ((I2C0_S & I2C_S_BUSY_MASK) == I2C_S_BUSY_MASK)
   {}
@@ -212,163 +198,155 @@ void I2C_PollRead(const uint8_t registerAddress, uint8_t* const data, const uint
   WaitforAck();
   /*Switch on receieve mode*/
   I2C0_C1 &= ~I2C_C1_TX_MASK;
-
-  //if number oif bytes is one
+  //Different cases depending on the nb of bytes
   if (nbBytes == 1)
   {
-    /*Turn on nACk from master*/
-    I2C0_C1 &= ~I2C_C1_TXAK_MASK;
-    /*dummy read*/
-    data[0] = I2C0_D;
-
-    WaitforAck();
-    Stop();
-
-    /*Read actual data*/
-    data[0] = I2C0_D;
-  }
-
-  else
-  {
-    /*check of ACK*/
+    /*nACk from master*/
     I2C0_C1 |= I2C_C1_TXAK_MASK;
     /*dummy read*/
     data[0] = I2C0_D;
     WaitforAck();
-
+    Stop();
+    /*Read actual data*/
+    data[0] = I2C0_D;
   }
-
-  //2 or more bytes
-  /*create for loop reads until second as bit*/
-  for (counter = 0; counter < nbBytes -1 ; counter++)
+  else if (nbBytes == 2)
   {
-    data[counter] = I2C0_D;
+    /* ACK from master*/
+    I2C0_C1 &= ~I2C_C1_TXAK_MASK;
+    /*dummy read*/
+    data[0] = I2C0_D;
     WaitforAck();
+    /*activate transmission ack or - NAK from Master*/
+    I2C0_C1 |= I2C_C1_TXAK_MASK;
+    /*read second last byte and wait*/
+    data[nbBytes-2] = I2C0_D;
+    WaitforAck();
+    /*stop and then read last byte*/
+    Stop();
+    data[nbBytes-1] = I2C0_D;
   }
-
-  /*activate transmission ack or - NAK from Master*/
-  I2C0_C1 |= I2C_C1_TXAK_MASK;
-
-  /*read second last byte and wait*/
-  data[counter++] = I2C0_D;
-  WaitforAck();
-
-  /*stop and then read last byte*/
-  Stop();
-  data[counter++] = I2C0_D;
-
+  else
+  {
+    /*counter for counting how many data bytes more than 3*/
+    uint8_t counter;
+    /*read data from regs*/
+    for (counter = 0; counter < nbBytes - 2 ; counter++)
+    {
+      data[counter] = I2C0_D;
+      WaitforAck();
+    }
+    /*activate transmission ack or - NAK from Master*/
+    I2C0_C1 |= I2C_C1_TXAK_MASK;
+    /*read second last byte and wait*/
+    data[nbBytes-2] = I2C0_D;
+    WaitforAck();
+    /*stop and then read last byte*/
+    Stop();
+    data[nbBytes-1] = I2C0_D;
+  }
+  ExitCritical();
 }
 
+
+//Pete said we can start like poll, and then we are supposed to do something else (and dont send the slave address x))
 void I2C_IntRead(const uint8_t registerAddress, uint8_t* const data, const uint8_t nbBytes)
 {
-  /*check to see if bus is idle*/
+  EnterCritical();
   while ((I2C0_S & I2C_S_BUSY_MASK) == I2C_S_BUSY_MASK) // Wait till bus is idle
   {}
+  I2C0_S |= I2C_S_IICIF_MASK; // Clear interrupt flag
+  I2C0_C1 |= I2C_C1_IICIE_MASK; // I2C interrupt enable
+//  DataPtr = data; // Array to store values into, is made globally accessible
+//  NumOfBytes = nbBytes; // Number of bytes to read
+//  I2CReadSequence[0] = (SlaveAdress << 1) & ~READORWRITE; // Send slave address with write bit
+//  I2CReadSequence[1] = registerAddress; // Register Address
+//  I2CReadSequence[2] = (SlaveAdress << 1) | READORWRITE;// Send slave address with read bit
+//  SequencePosition = 0; // Initialize position
 
-  /*clear interupts flag*/
-  I2C0_S |= I2C_S_IICIF_MASK;
-
-  /*enable interupts*/
-  I2C0_C1 |= I2C_C1_IICIE_MASK;
-
-  /*Global Array/pointers that will store values and number of bytes*/
-  DataPtr = data;
-  NumOfBytes = nbBytes;
-
-  /*the 3 step sequence */
-  I2CReadOrder[0] = (SlaveAdress << 1) & ~READORWRITE;
-  I2CReadOrder[1] = registerAddress;
-  I2CReadOrder[2] = (SlaveAdress << 1) | READORWRITE;
-
-  /*Initialise the position of the order*/
-  SequencePosition = 0;
-
-  /*Send start signal and slave adress with the write bit*/
+  /*start in master transmit mode*/
   Start();
-  I2C0_D = I2CReadOrder[0];
+  /*send slaveaddress with write bit*/
+  I2C0_D = (SlaveAdress << 1) & ~READORWRITE;
+  /*wait*/
+  WaitforAck();
+  /*send slave register adress*/
+  I2C0_D = registerAddress;
+  /*wait*/
+  WaitforAck();
+  /*repeated start condition*/
+  I2C0_C1 |= I2C_C1_RSTA_MASK;
+  /*send slave adress with read bit now*/
+  I2C0_D = (SlaveAdress << 1) | READORWRITE;
+  /*wait*/
+//  WaitforAck();	//if we leave that, the interrupt flag is cleared and we dont enter the ISR which is BAD
+  /*Switch on receieve mode*/
+  I2C0_C1 &= ~I2C_C1_TX_MASK;
+  ExitCritical();
+//  Start(); // Start signal
+//  I2C0_D = I2CReadSequence[0]; // Send slave address with write bit
+
 }
+
 
 void __attribute__ ((interrupt)) I2C_ISR(void)
 {
-  // Clear interrupt flag
-  I2C0_S |= I2C_S_IICIF_MASK;
+  I2C0_S |= I2C_S_IICIF_MASK; // Clear interrupt flag
 
-  // check to see if Bus is busy
-  if (I2C0_S & I2C_S_BUSY_MASK)
+  if (I2C0_S & I2C_S_BUSY_MASK) // Bus is busy
   {
-    //check to see if In transmit mode
-    if (I2C0_C1 & I2C_C1_TX_MASK)
+    if (I2C0_C1 & I2C_C1_TX_MASK) // In transmit mode
     {
-      // Check to see if ACK received
-      if (!(I2C0_S & I2C_S_RXAK_MASK))
-      {
-        //increment the position to go to the next
-        SequencePosition++;
-        if (SequencePosition == 2)
-        {
-          // Restart signal
-          I2C0_C1 |=  I2C_C1_RSTA_MASK;
+	/*No receive interrupt needed according to the requirements*/
 
-          // Send slave address with read bit
-          I2C0_D = I2CReadOrder[SequencePosition];
-        }
-        else if (SequencePosition == 3)
-        {
-          // Receive mode
-          I2C0_C1 &= ~I2C_C1_TX_MASK;
-
-          // Turn on ACK from master
-          I2C0_C1 &= ~I2C_C1_TXAK_MASK;
-
-          //Read data reg through pointer
-          DataPtr[DataCounter] = I2C0_D;
-        }
-        else
-        {
-          // Send slave register address
-          I2C0_D = I2CReadOrder[SequencePosition];
-        }
-        return;
-      }
-      //No ACK was recieved
-      else
-      {
-        Stop();
-        return;
-      }
+//        if (!(I2C0_S & I2C_S_RXAK_MASK)) // Check if ACK received
+//        {
+//          SequencePosition++; // Move to next item in sequence
+//          if (SequencePosition == 2)
+//          {
+//            I2C0_C1 |=  I2C_C1_RSTA_MASK; // Restart signal
+//            I2C0_D = I2CReadSequence[SequencePosition]; // Send slave address with read bit
+//          }
+//          else if (SequencePosition == 3)
+//          {
+//            I2C0_C1 &= ~I2C_C1_TX_MASK; // Receive mode
+//          I2C0_C1 &= ~I2C_C1_TXAK_MASK; // Turn on ACK from master
+//          DataPtr[DataCounter] = I2C0_D;
+//          }
+//          else
+//          {
+//            I2C0_D = I2CReadSequence[SequencePosition]; // Send slave register address
+//          }
+//          return;
+//        }
+//        else // No ACK received
+//        {
+//          Stop(); // Stop signal
+//          return;
+//        }
     }
-    //in recieve mode
-    else if (!(I2C0_C1 & I2C_C1_TX_MASK) && (DataCounter <NumOfBytes))
+    //maybe dpo 3 cases like poll read
+    else if (!(I2C0_C1 & I2C_C1_TX_MASK) && (DataCounter < NumOfBytes)) // In receive mode
     {
-      // Check if last byte to be read
-      if (DataCounter == (NumOfBytes -1))
+      if (DataCounter == (NumOfBytes -1)) // Check if last byte to be read
       {
-        Stop();
-        // Read last byte
-        DataPtr[DataCounter] = I2C0_D;
-        // Reset data counter
-        DataCounter = 0;
-        // Reset position counter
-        SequencePosition = 0;
-        // I2C interrupt disable
-        I2C0_C1 &= ~I2C_C1_IICIE_MASK;
-        // Clear interrupt flag
-        I2C0_S |= I2C_S_IICIF_MASK;
+	Stop();
+	DataPtr[DataCounter] = I2C0_D; // Read last byte
+	DataCounter = 0; // Reset data counter
+	SequencePosition = 0; // Reset position counter
 
-        // Accelerometer read complete callback function
-        (*ReadCompleteCallbackFunction)(ReadCompleteCallbackArguments);
-        return;
+	I2C0_C1 &= ~I2C_C1_IICIE_MASK; // I2C interrupt disable
+	I2C0_S |= I2C_S_IICIF_MASK; // Clear interrupt flag
+
+	(*ReadCompleteCallbackFunction)(ReadCompleteCallbackArguments); // Accelerometer read complete callback function
+	return;
       }
-      // Check if second last byte to be read
-      else if (DataCounter == (NumOfBytes -2))
+      else if (DataCounter == (NumOfBytes -2)) // Check if second last byte to be read
       {
-        // NACK from master
-        I2C0_C1 |= I2C_C1_TXAK_MASK;
+	I2C0_C1 |= I2C_C1_TXAK_MASK; // NACK from master
       }
-      // Read data
-      DataPtr[DataCounter] = I2C0_D;
-      // Increment data counter
-      DataCounter++;
+      DataPtr[DataCounter] = I2C0_D; // Read data
+      DataCounter++; // Increment data counter
     }
   }
 }

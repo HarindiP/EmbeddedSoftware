@@ -1,6 +1,6 @@
 /* ###################################################################
  **     Filename    : main.c
- **     Project     : Lab2
+ **     Project     : Lab5
  **     Processor   : MK70FN1M0VMJ12
  **     Version     : Driver 01.01
  **     Compiler    : GNU C Compiler
@@ -48,6 +48,7 @@
 #include "FTM.h"
 #include "accel.h"
 #include "I2C.h"
+#include "OS.h"
 
 
 //Timer declaration
@@ -80,7 +81,6 @@ void PITCallback(void* arg)
       lastaccelerometervalues.axes.z = accelValues.axes.z;
     }
 //  }
-
 //  //Toggle Green LED
 //  LEDs_Toggle(LED_GREEN);
 }
@@ -111,7 +111,6 @@ void readCompleteCallback(void* arg)
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
 {
-
   __DI();
   /* Write your local variable definition here */
 
@@ -140,21 +139,23 @@ int main(void)
 
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
-   && PIT_Init(moduleClk, PITCallback, NULL) && RTC_Init(RTCCallback, NULL)
+   && PIT_Init(moduleClk, &PITCallback, NULL) && RTC_Init(&RTCCallback, NULL) //should pitcalback have & ?
    && Accel_Init(&Accelerometer))
   {
-    //Start PIT for 1sec
-    PIT_Enable(true);
-    PIT_Set(1000000000,true);
 
-    //Set accel more
+    //Start PIT for 1sec
+    PIT_Enable(false);
+    PIT_Set(1000000000,true);
+    PIT_Enable(true);
+
+    //Set accel mode
     Accel_SetMode(ACCEL_POLL);
 
     //Enable interrupts
     __EI();
 
     //Create 1sec Timer with FTM
-    Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
+    Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les dclare manuellement
     Timer1Sec.delayCount = CPU_MCGFF_CLK_HZ_CONFIG_0; //1sec
     Timer1Sec.ioType.outputAction = TIMER_OUTPUT_DISCONNECT;
     Timer1Sec.timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;

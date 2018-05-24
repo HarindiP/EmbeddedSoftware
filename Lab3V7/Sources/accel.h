@@ -1,4 +1,4 @@
-/*! @file
+/*! @file accel.h
  *
  *  @brief HAL for the accelerometer.
  *
@@ -9,9 +9,10 @@
  */
 
 /*!
- *  @addtogroup <35>
- *  @{
-*/
+ **  @addtogroup accel_module accel module documentation
+ **  @{
+ */
+/* MODULE accel */
 
 #ifndef ACCEL_H
 #define ACCEL_H
@@ -77,5 +78,5 @@ void __attribute__ ((interrupt)) AccelDataReady_ISR(void);
 #endif
 
 /*!
- * @}
-*/
+ ** @}
+ */

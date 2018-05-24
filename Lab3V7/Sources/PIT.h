@@ -1,4 +1,4 @@
-/*! @file PIT
+/*! @file PIT.h
  *
  *  @brief Routines for controlling Periodic Interrupt Timer (PIT) on the TWR-K70F120M.
  *
