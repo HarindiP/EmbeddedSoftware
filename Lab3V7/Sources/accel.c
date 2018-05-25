@@ -225,9 +225,9 @@ bool Accel_Init(const TAccelSetup* const accelSetup)
 //  uint8_t temp[3] = {0,0,0};
 //  I2C_PollRead(ADDRESS_OUT_X_MSB,temp,3);
 
-    //Test int read with 3 data : temp should be 0,0,great value (like 128) if we dont shake the tower;
-    uint8_t temp[3] = {0,0,0};
-    I2C_IntRead(ADDRESS_OUT_X_MSB,temp,3);
+//    //Test int read with 3 data : temp should be 0,0,great value (like 128) if we dont shake the tower;
+//    uint8_t temp[3] = {0,0,0};
+//    I2C_IntRead(ADDRESS_OUT_X_MSB,temp,3);
 
   //Init PORTB 4 as Input
   SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;  //clock
