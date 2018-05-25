@@ -139,7 +139,7 @@ int main(void)
 
   // Initialization of communication
   if (Packet_Init(baudRate, moduleClk) && Flash_Init() && LEDs_Init() && FTM_Init()
-   && PIT_Init(moduleClk, &PITCallback, NULL) && RTC_Init(&RTCCallback, NULL) //should pitcalback have & ?
+   && PIT_Init(moduleClk, &PITCallback, NULL) && RTC_Init(&RTCCallback, NULL)
    && Accel_Init(&Accelerometer))
   {
 

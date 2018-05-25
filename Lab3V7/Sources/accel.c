@@ -273,7 +273,7 @@ void Accel_ReadXYZ(uint8_t data[3])
   LEDs_Toggle(LED_GREEN);
 }
 
-void Accel_SetMode(const TAccelMode mode) //TODO : how do I keep track of the reg state ?
+void Accel_SetMode(const TAccelMode mode)
 {
   EnterCritical();
 

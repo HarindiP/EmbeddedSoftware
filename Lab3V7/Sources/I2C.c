@@ -52,6 +52,7 @@ static void* ReadCompleteCallbackArguments;
 static void Start(void);
 static void WaitforAck(void);
 static void Stop(void);
+static void ResetBusy(void);
 
 
 bool I2C_Init(const TI2CModule* const aI2CModule, const uint32_t moduleClk)
@@ -112,7 +113,9 @@ bool I2C_Init(const TI2CModule* const aI2CModule, const uint32_t moduleClk)
   I2C0_F = I2C_F_MULT(mult) | I2C_F_ICR(scldiv);
 
   /*Enable I2C*/
-  I2C0_C1 = I2C_C1_IICEN_MASK;
+  I2C0_C1 |= I2C_C1_IICEN_MASK;
+
+  ResetBusy();
 
   /*Enable NVIC by clearing pending request and enabling interupts*/
   NVICICPR0 = NVIC_ICPR_CLRPEND(1 << 24);
@@ -127,6 +130,38 @@ void I2C_SelectSlaveDevice(const uint8_t slaveAddress)
   //needs to take this variable and make it a global variable
   SlaveAdress = slaveAddress;
 }
+
+static void ResetBusy(void)
+{
+  // Configure pins as inputs
+  GPIOE_PDDR &= ~(1 << 18);
+  GPIOE_PDDR &= ~(1 << 19);
+
+  // Configure SCL line to output a 0
+  GPIOE_PCOR = (1 << 19);
+
+  // Configure pins to have internal pull-up
+  PORTE_PCR18 = PORT_PCR_MUX(1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK;
+  PORTE_PCR19 = PORT_PCR_MUX(1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK;
+
+  // If the SDA line is low, we clock the SCL line to free it
+  while ((GPIOE_PDIR & (1 << 18)) == 0)
+  {
+    // Clear SCL line to a 0
+    GPIOE_PDDR |= (1 << 19);
+    // Delay
+    for (uint16_t i = 0; i < 1000; i++);
+    // Configure SCL line as an input
+    GPIOE_PDDR &= ~(1 << 19);
+    // Delay
+    for (uint16_t i = 0; i < 1000; i++);
+  }
+
+  // Return pins to I2C functionality
+  PORTE_PCR18 = PORT_PCR_MUX(0x04) | PORT_PCR_ODE_MASK;
+  PORTE_PCR19 = PORT_PCR_MUX(0x04) | PORT_PCR_ODE_MASK;
+}
+
 
 
 static void Start(void)
@@ -282,6 +317,7 @@ void I2C_IntRead(const uint8_t registerAddress, uint8_t* const data, const uint8
 //  WaitforAck();	//if we leave that, the interrupt flag is cleared and we dont enter the ISR which is BAD
   /*Switch on receieve mode*/
   I2C0_C1 &= ~I2C_C1_TX_MASK;
+  uint8_t DataCounter = 0;
   ExitCritical();
 //  Start(); // Start signal
 //  I2C0_D = I2CReadSequence[0]; // Send slave address with write bit
@@ -291,9 +327,10 @@ void I2C_IntRead(const uint8_t registerAddress, uint8_t* const data, const uint8
 
 void __attribute__ ((interrupt)) I2C_ISR(void)
 {
-  I2C0_S |= I2C_S_IICIF_MASK; // Clear interrupt flag
+  I2C0_S = I2C_S_IICIF_MASK; // Clear interrupt flag W1C
 
-  if (I2C0_S & I2C_S_BUSY_MASK) // Bus is busy
+  // Was the interrupt caused by the Transmit Complete Flag?
+  if ((I2C0_S & I2C_S_TCF_MASK) == I2C_S_TCF_MASK)
   {
     if (I2C0_C1 & I2C_C1_TX_MASK) // In transmit mode
     {
@@ -325,18 +362,18 @@ void __attribute__ ((interrupt)) I2C_ISR(void)
 //          return;
 //        }
     }
-    //maybe dpo 3 cases like poll read
-    else if (!(I2C0_C1 & I2C_C1_TX_MASK) && (DataCounter < NumOfBytes)) // In receive mode
+    //maybe do 3 cases like poll read
+    else
     {
       if (DataCounter == (NumOfBytes -1)) // Check if last byte to be read
       {
 	Stop();
 	DataPtr[DataCounter] = I2C0_D; // Read last byte
 	DataCounter = 0; // Reset data counter
-	SequencePosition = 0; // Reset position counter
+//	SequencePosition = 0; // Reset position counter
 
-	I2C0_C1 &= ~I2C_C1_IICIE_MASK; // I2C interrupt disable
-	I2C0_S |= I2C_S_IICIF_MASK; // Clear interrupt flag
+	I2C0_C1 &= ~(I2C_C1_TX_MASK | I2C_C1_MST_MASK); // Generate stop signal
+	I2C0_C1 |= I2C_C1_IICIE_MASK; // Disable interrupt
 
 	(*ReadCompleteCallbackFunction)(ReadCompleteCallbackArguments); // Accelerometer read complete callback function
 	return;
