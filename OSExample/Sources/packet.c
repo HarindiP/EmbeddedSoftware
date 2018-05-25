@@ -15,7 +15,8 @@
 
 #include "packet.h"
 #include "UART.h"
-#include "PE_Types.h"
+//#include "PE_Types.h"
+#include "OS.h"
 
 TPacket Packet;
 

@@ -49,6 +49,9 @@ bool UART_OutChar(const uint8_t data);
  */
 void UART_Poll(void);
 
+void TxThread(void* pData);
+void RxThread(void* pData);
+
 /*! @brief Interrupt service routine for the UART.
  *
  *  @note Assumes the UART has been initialized.

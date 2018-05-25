@@ -24,23 +24,34 @@
 // Simple OS
 #include "OS.h"
 
-/*! @brief LED to pin mapping on the TWR-K70F120M
- *
- */
-typedef enum
-{
-  LED_ORANGE = (1 << 11),
-  LED_YELLOW = (1 << 28),
-  LED_GREEN = (1 << 29),
-  LED_BLUE = (1 << 10)
-} TLED;
+//Sources module
+#include "types.h"
+#include "UART.h"
+#include "packet.h"
+#include "FIFO.h"
+#include "SCP.h"
+#include "LEDs.h"
+
+///*! @brief LED to pin mapping on the TWR-K70F120M
+// *
+// */
+//typedef enum
+//{
+//  LED_ORANGE = (1 << 11),
+//  LED_YELLOW = (1 << 28),
+//  LED_GREEN = (1 << 29),
+//  LED_BLUE = (1 << 10)
+//} TLED;
 
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
-#define THREAD_STACK_SIZE 100
+#define THREAD_STACK_SIZE 1024
 #define NB_LEDS 4
 
 // Thread stacks
 OS_THREAD_STACK(InitModulesThreadStack, THREAD_STACK_SIZE); /*!< The stack for the LED Init thread. */
+OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
+OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
+OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 static uint32_t MyLEDThreadStacks[NB_LEDS][THREAD_STACK_SIZE] __attribute__ ((aligned(0x08)));
 
 // ----------------------------------------
@@ -48,6 +59,8 @@ static uint32_t MyLEDThreadStacks[NB_LEDS][THREAD_STACK_SIZE] __attribute__ ((al
 // 0 = highest priority
 // ----------------------------------------
 const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {1, 2, 3, 4};
+
+OS_ECB* PacketRready;
 
 /*! @brief Data structure used to pass LED configuration to a user thread
  *
@@ -90,6 +103,23 @@ static TLEDThreadData MyLEDThreadData[NB_LEDS] =
     .next = NULL,
   }
 };
+
+//Communication thread
+static void HandlePacketThread(void* pData)
+{
+	for(;;)
+	{
+	    OS_SemaphoreWait(PacketRready);
+		if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
+		{
+		SCP_Packet_Handle();
+		}
+		else
+		{
+		SCP_Packet_Handle_Ack();
+		}
+	}
+}
 
 void LPTMRInit(const uint16_t count)
 {
@@ -158,23 +188,40 @@ void LEDInit()
  *  @param pData is not used but is required by the OS to create a thread.
  *  @note This thread deletes itself after running for the first time.
  */
+//static void InitModulesThread(void* pData)
+//{
+//  // Initialise the low power timer to tick every 0.5s
+//  LPTMRInit(500);
+//
+//  // Initialise the LEDs
+//  LEDInit();
+//
+//  // Generate the three global LED semaphores
+//  for (uint8_t ledNb = 0; ledNb < NB_LEDS; ledNb++)
+//    MyLEDThreadData[ledNb].semaphore = OS_SemaphoreCreate(0);
+//
+//  // Signal the first LED to toggle
+//  (void)OS_SemaphoreSignal(MyLEDThreadData[0].semaphore);
+//
+//  // We only do this once - therefore delete this thread
+//  OS_ThreadDelete(OS_PRIORITY_SELF);
+//}
 static void InitModulesThread(void* pData)
 {
-  // Initialise the low power timer to tick every 0.5s
-  LPTMRInit(500);
+	// Baud Rate and Module Clock
+	uint32_t baudRate = 115200;
+	uint32_t moduleClk = CPU_BUS_CLK_HZ;
 
-  // Initialise the LEDs
-  LEDInit();
+	//Init communication
+	Packet_Init(baudRate, moduleClk);
+	//Init LEDs
+	LEDs_Init();
 
-  // Generate the three global LED semaphores
-  for (uint8_t ledNb = 0; ledNb < NB_LEDS; ledNb++)
-    MyLEDThreadData[ledNb].semaphore = OS_SemaphoreCreate(0);
+	//Generate semaphores
+	PacketRready = OS_SemaphoreCreate(0);
 
-  // Signal the first LED to toggle
-  (void)OS_SemaphoreSignal(MyLEDThreadData[0].semaphore);
-
-  // We only do this once - therefore delete this thread
-  OS_ThreadDelete(OS_PRIORITY_SELF);
+	// We only do this once - therefore delete this thread
+	OS_ThreadDelete(OS_PRIORITY_SELF);
 }
 
 void __attribute__ ((interrupt)) LPTimer_ISR(void)
@@ -213,6 +260,8 @@ static void LEDThread(void* pData)
   }
 }
 
+
+
 /*! @brief Initialises the hardware, sets up threads, and starts the OS.
  *
  */
@@ -221,18 +270,29 @@ int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
 {
   OS_ERROR error;
-
   // Initialise low-level clocks etc using Processor Expert code
   PE_low_level_init();
-
   // Initialize the RTOS - without flashing the orange LED "heartbeat"
   OS_Init(CPU_CORE_CLK_HZ, false);
-
   // Create module initialisation thread
   error = OS_ThreadCreate(InitModulesThread,
                           NULL,
                           &InitModulesThreadStack[THREAD_STACK_SIZE - 1],
-		          0); // Highest priority
+					      0); // Highest priority
+
+  //Create Com Thread
+  error = OS_ThreadCreate(HandlePacketThread,
+                          NULL,
+                          &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
+					      3);
+  error = OS_ThreadCreate(TxThread,
+                            NULL,
+                            &TxThreadStack[THREAD_STACK_SIZE - 1],
+  					      2); // Second Highest priority
+  error = OS_ThreadCreate(RxThread,
+                              NULL,
+                              &RxThreadStack[THREAD_STACK_SIZE - 1],
+    					      1); //Highest priority
 
   // Create threads to toggle the LEDS
   for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)

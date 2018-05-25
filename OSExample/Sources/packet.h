@@ -23,6 +23,8 @@
 // Packet structure
 #define PACKET_NB_BYTES 5
 
+//initialise packetput
+
 #pragma pack(push)
 #pragma pack(1)
 

@@ -12,17 +12,21 @@
 
 // CPU module - contains low level hardware initialization routines
 #include "Cpu.h"
-#include "Events.h"
-#include "PE_Types.h"
-#include "PE_Error.h"
-#include "PE_Const.h"
-#include "IO_Map.h"
+//#include "Events.h"
+//#include "PE_Types.h"
+//#include "PE_Error.h"
+//#include "PE_Const.h"
+//#include "IO_Map.h"
+#include "OS.h"
 
 //Sources module
 #include "types.h"
 #include "UART.h"
 #include "packet.h"
 #include "FIFO.h"
+
+OS_ECB* TxAccess;
+OS_ECB* RxAccess;
 
 
 static TFIFO TxFIFO, RxFIFO;
@@ -109,6 +113,8 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
     /*NVIC Enable interupts NVIC ICER*/
     NVICISER1 = (1 << (17));
 
+    TxAccess = OS_SemaphoreCreate(0);
+    RxAccess = OS_SemaphoreCreate(0);
 
 //    ExitCritical();
 
@@ -131,7 +137,8 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
  */
 bool UART_InChar(uint8_t * const dataPtr)
 {
-    return FIFO_Get(&RxFIFO,dataPtr);
+    FIFO_Get(&RxFIFO,dataPtr);
+    return true;
 }
 
 /*! @brief Put a byte in the transmit FIFO if it is not full.
@@ -142,22 +149,10 @@ bool UART_InChar(uint8_t * const dataPtr)
  */
 bool UART_OutChar(const uint8_t data)
 {
-  EnterCritical();
-    if (FIFO_Put(&TxFIFO,data))
-    {
+    FIFO_Put(&TxFIFO,data);
 	UART2_C2 |= UART_C2_TIE_MASK;
-	ExitCritical();
-	return TRUE;
-    }
-
-    else
-      {
-	ExitCritical();
-	return FALSE;
-      }
-
     //Enable Interrupt YES
-
+	return true;
 }
 
 /*! @brief Poll the UART status register to try and receive and/or transmit one character.
@@ -181,6 +176,28 @@ void UART_Poll(void)
     }
 }
 
+//Transmitting Thread
+void TxThread(void* pData)
+{
+	for(;;)
+	{
+		OS_SemaphoreWait(TxAccess,1);
+		FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
+		UART2_C2 &= ~UART_C2_TIE_MASK;
+	}
+}
+
+//Receiving Thread
+void RxThread(void* pData)
+{
+	for(;;)
+	{
+		OS_SemaphoreWait(RxAccess,1);
+		FIFO_Put(&RxFIFO, UART2_D);
+	}
+}
+
+
 void __attribute__ ((interrupt)) UART_ISR(void)
 {
   //Receive throught interrupt
@@ -188,7 +205,9 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   {
     if (UART2_S1 & UART_S1_RDRF_MASK)
     {
-      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
+    	//Signal for recieve
+    	OS_SemaphoreSignal(RxAccess);
+//      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
     }
   }
   //Transmit throught interrupt
@@ -196,8 +215,7 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   {
     if (UART2_S1 & UART_S1_TDRE_MASK)
     {
-      if (!FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D)) //Transmits one bit
-        UART2_C2 &= ~UART_C2_TIE_MASK;
+    	OS_SemaphoreSignal(TxAccess);
     }
   }
 }
