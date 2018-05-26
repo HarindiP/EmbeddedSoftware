@@ -26,7 +26,7 @@
 
 OS_ECB* TxAccess;
 OS_ECB* RxAccess;
-OS_ECB* PacketRready;
+OS_ECB* PacketReady;
 
 
 static TFIFO TxFIFO, RxFIFO;
@@ -179,39 +179,39 @@ void UART_Poll(void)
 //Transmitting Thread
 void TxThread(void* pData)
 {
-	for(;;)
-	{
-		OS_SemaphoreWait(TxAccess,1);
-		FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
-		UART2_C2 &= ~UART_C2_TIE_MASK;
-	}
+  for(;;)
+  {
+    OS_SemaphoreWait(TxAccess,0);
+    FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
+    UART2_C2 &= ~UART_C2_TIE_MASK;
+  }
 }
 
 //Receiving Thread
 void RxThread(void* pData)
 {
-	for(;;)
-	{
-		OS_SemaphoreWait(RxAccess,1);
-		FIFO_Put(&RxFIFO, UART2_D);
-		if (Packet_Get())
-		{
-		   OS_SemaphoreSignal(PacketRready);
-		}
-	}
+  for(;;)
+  {
+    OS_SemaphoreWait(RxAccess,0);
+    FIFO_Put(&RxFIFO, UART2_D);
+    if (Packet_Get())
+    {
+       OS_SemaphoreSignal(PacketReady);
+    }
+  }
 }
 
 
 void __attribute__ ((interrupt)) UART_ISR(void)
 {
+  OS_ISREnter();
   //Receive throught interrupt
   if(UART2_C2 & UART_C2_RIE_MASK)
   {
     if (UART2_S1 & UART_S1_RDRF_MASK)
     {
-    	//Signal for recieve
-    	OS_SemaphoreSignal(RxAccess);
-//      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
+      //Signal for recieve
+      OS_SemaphoreSignal(RxAccess);
     }
   }
   //Transmit throught interrupt
@@ -222,6 +222,7 @@ void __attribute__ ((interrupt)) UART_ISR(void)
     	OS_SemaphoreSignal(TxAccess);
     }
   }
+  OS_ISRExit();
 }
 
 /*!

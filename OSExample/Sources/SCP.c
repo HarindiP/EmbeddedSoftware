@@ -36,7 +36,7 @@ bool SCP_SendStartUpValues()
       &&Packet_Put(0x09,'v',1,0)			//Send Tower Version V1.0
       &&Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi)	//Send Tower Number
       &&Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi));	//Send Tower Mode*/
-  return (Packet_Put(0x04,0,0,0) && SendVersion()  && SendTowerNumber(SCP_TowerNb) && SendTowerMode(SCP_TowerMd) && SendProtocolMode());
+  return (Packet_Put(0x04,0,0,0) && SendVersion()  && SendTowerNumber(SCP_TowerNb) /*&& SendTowerMode(SCP_TowerMd) && SendProtocolMode()*/);
 }
 
 

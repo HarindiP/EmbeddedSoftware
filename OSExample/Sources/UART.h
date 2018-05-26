@@ -20,7 +20,7 @@
 #include "OS.h"
 
 //Extern varioable
-extern OS_ECB* PacketRready;
+extern OS_ECB* PacketReady;
 extern OS_ECB* TxAccess;
 extern OS_ECB* RxAccess;
 

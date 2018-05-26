@@ -58,7 +58,7 @@ static uint32_t MyLEDThreadStacks[NB_LEDS][THREAD_STACK_SIZE] __attribute__ ((al
 // Thread priorities
 // 0 = highest priority
 // ----------------------------------------
-const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {1, 2, 3, 4};
+const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {5, 6, 7, 8};
 
 
 
@@ -109,14 +109,14 @@ static void HandlePacketThread(void* pData)
 {
   for(;;)
   {
-    OS_SemaphoreWait(PacketRready,1);
+    OS_SemaphoreWait(PacketReady,1);
     if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
     {
-    SCP_Packet_Handle();
+	SCP_Packet_Handle();
     }
     else
     {
-    SCP_Packet_Handle_Ack();
+	SCP_Packet_Handle_Ack();
     }
   }
 }
@@ -216,13 +216,19 @@ static void InitModulesThread(void* pData)
     Packet_Init(baudRate, moduleClk);
     //Init LEDs
     LEDs_Init();
-    //Turn on orange LED when initialized
-    LEDs_On(LED_ORANGE);
-
     //Generate semaphores
-    PacketRready = OS_SemaphoreCreate(0);
+    PacketReady = OS_SemaphoreCreate(0);
     TxAccess = OS_SemaphoreCreate(0);
     RxAccess = OS_SemaphoreCreate(0);
+
+    //Initialize variables
+    SCP_TowerNb.l = 5605;
+
+
+    //Turn on orange LED when initialized
+    LEDs_On(LED_ORANGE);
+    //Send Start up values
+    SCP_SendStartUpValues();
 
     // We only do this once - therefore delete this thread
     OS_ThreadDelete(OS_PRIORITY_SELF);
@@ -300,13 +306,13 @@ int main(void)
 			  1); //Highest priority
 
   // Create threads to toggle the LEDS
-  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)
-  {
-    error = OS_ThreadCreate(LEDThread,
-	                    &MyLEDThreadData[threadNb],
-		            &MyLEDThreadStacks[threadNb][THREAD_STACK_SIZE - 1],
-			    LED_THREAD_PRIORITIES[threadNb]);
-  }
+//  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)
+//  {
+//    error = OS_ThreadCreate(LEDThread,
+//	                    &MyLEDThreadData[threadNb],
+//		            &MyLEDThreadStacks[threadNb][THREAD_STACK_SIZE - 1],
+//			    LED_THREAD_PRIORITIES[threadNb]);
+//  }
 
   // Start multithreading - never returns!
   OS_Start();

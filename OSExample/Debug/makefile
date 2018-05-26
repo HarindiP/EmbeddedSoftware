@@ -46,19 +46,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Lab5V2.elf secondary-outputs
+all: OSExample.elf secondary-outputs
 
 # Tool invocations
-Lab5V2.elf: $(OBJS) $(USER_OBJS)
+OSExample.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -T "C:/Users/13115605/Documents/workspace/es18aut35/OSExample/Project_Settings/Linker_Files/ProcessorExpert.ld" -Xlinker --gc-sections -L"C:\Users\13115605\Documents\workspace\es18aut35\OSExample\Library" -Wl,-Map,"Lab5V2.map" -specs=nano.specs -specs=nosys.specs -o "Lab5V2.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -T "C:/Users/13115605/Documents/workspace/es18aut35/OSExample/Project_Settings/Linker_Files/ProcessorExpert.ld" -Xlinker --gc-sections -L"C:\Users\13115605\Documents\workspace\es18aut35\OSExample\Library" -Wl,-Map,"OSExample.map" -specs=nano.specs -specs=nosys.specs -o "OSExample.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C++_DEPS)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(CC_DEPS)$(CPP_DEPS)$(CXX_DEPS)$(C_UPPER_DEPS)$(S_UPPER_DEPS) Lab5V2.elf
+	-$(RM) $(C++_DEPS)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(CC_DEPS)$(CPP_DEPS)$(CXX_DEPS)$(C_UPPER_DEPS)$(S_UPPER_DEPS) OSExample.elf
 	-@echo ' '
 
 secondary-outputs:
