@@ -17,7 +17,6 @@
 //#include "PE_Error.h"
 //#include "PE_Const.h"
 //#include "IO_Map.h"
-#include "OS.h"
 
 //Sources module
 #include "types.h"
@@ -27,6 +26,7 @@
 
 OS_ECB* TxAccess;
 OS_ECB* RxAccess;
+OS_ECB* PacketRready;
 
 
 static TFIFO TxFIFO, RxFIFO;
@@ -150,9 +150,9 @@ bool UART_InChar(uint8_t * const dataPtr)
 bool UART_OutChar(const uint8_t data)
 {
     FIFO_Put(&TxFIFO,data);
-	UART2_C2 |= UART_C2_TIE_MASK;
+    UART2_C2 |= UART_C2_TIE_MASK;
     //Enable Interrupt YES
-	return true;
+    return true;
 }
 
 /*! @brief Poll the UART status register to try and receive and/or transmit one character.
@@ -162,18 +162,18 @@ bool UART_OutChar(const uint8_t data)
  */
 void UART_Poll(void)
 {
-    uint8_t statusReg = UART2_S1;
+  uint8_t statusReg = UART2_S1;
 
   /*56.3.5*/
   if ((statusReg & UART_S1_RDRF_MASK) != 0)
-    {
-      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
-    }
+  {
+    FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
+  }
   /**/
   if ((statusReg & UART_S1_TDRE_MASK) != 0 )
-    {
-      FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
-    }
+  {
+    FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
+  }
 }
 
 //Transmitting Thread
@@ -194,6 +194,10 @@ void RxThread(void* pData)
 	{
 		OS_SemaphoreWait(RxAccess,1);
 		FIFO_Put(&RxFIFO, UART2_D);
+		if (Packet_Get())
+		{
+		   OS_SemaphoreSignal(PacketRready);
+		}
 	}
 }
 

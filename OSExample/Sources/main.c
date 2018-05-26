@@ -60,7 +60,7 @@ static uint32_t MyLEDThreadStacks[NB_LEDS][THREAD_STACK_SIZE] __attribute__ ((al
 // ----------------------------------------
 const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {1, 2, 3, 4};
 
-OS_ECB* PacketRready;
+
 
 /*! @brief Data structure used to pass LED configuration to a user thread
  *
@@ -107,18 +107,18 @@ static TLEDThreadData MyLEDThreadData[NB_LEDS] =
 //Communication thread
 static void HandlePacketThread(void* pData)
 {
-	for(;;)
-	{
-	    OS_SemaphoreWait(PacketRready);
-		if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
-		{
-		SCP_Packet_Handle();
-		}
-		else
-		{
-		SCP_Packet_Handle_Ack();
-		}
-	}
+  for(;;)
+  {
+    OS_SemaphoreWait(PacketRready,1);
+    if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
+    {
+    SCP_Packet_Handle();
+    }
+    else
+    {
+    SCP_Packet_Handle_Ack();
+    }
+  }
 }
 
 void LPTMRInit(const uint16_t count)
@@ -208,20 +208,24 @@ void LEDInit()
 //}
 static void InitModulesThread(void* pData)
 {
-	// Baud Rate and Module Clock
-	uint32_t baudRate = 115200;
-	uint32_t moduleClk = CPU_BUS_CLK_HZ;
+    // Baud Rate and Module Clock
+    uint32_t baudRate = 115200;
+    uint32_t moduleClk = CPU_BUS_CLK_HZ;
 
-	//Init communication
-	Packet_Init(baudRate, moduleClk);
-	//Init LEDs
-	LEDs_Init();
+    //Init communication
+    Packet_Init(baudRate, moduleClk);
+    //Init LEDs
+    LEDs_Init();
+    //Turn on orange LED when initialized
+    LEDs_On(LED_ORANGE);
 
-	//Generate semaphores
-	PacketRready = OS_SemaphoreCreate(0);
+    //Generate semaphores
+    PacketRready = OS_SemaphoreCreate(0);
+    TxAccess = OS_SemaphoreCreate(0);
+    RxAccess = OS_SemaphoreCreate(0);
 
-	// We only do this once - therefore delete this thread
-	OS_ThreadDelete(OS_PRIORITY_SELF);
+    // We only do this once - therefore delete this thread
+    OS_ThreadDelete(OS_PRIORITY_SELF);
 }
 
 void __attribute__ ((interrupt)) LPTimer_ISR(void)
@@ -274,25 +278,26 @@ int main(void)
   PE_low_level_init();
   // Initialize the RTOS - without flashing the orange LED "heartbeat"
   OS_Init(CPU_CORE_CLK_HZ, false);
+
   // Create module initialisation thread
   error = OS_ThreadCreate(InitModulesThread,
                           NULL,
                           &InitModulesThreadStack[THREAD_STACK_SIZE - 1],
-					      0); // Highest priority
+			  0); // Highest priority
 
   //Create Com Thread
   error = OS_ThreadCreate(HandlePacketThread,
                           NULL,
                           &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
-					      3);
+			  3);
   error = OS_ThreadCreate(TxThread,
-                            NULL,
-                            &TxThreadStack[THREAD_STACK_SIZE - 1],
-  					      2); // Second Highest priority
+                          NULL,
+                          &TxThreadStack[THREAD_STACK_SIZE - 1],
+			  2); // Second Highest priority
   error = OS_ThreadCreate(RxThread,
-                              NULL,
-                              &RxThreadStack[THREAD_STACK_SIZE - 1],
-    					      1); //Highest priority
+                          NULL,
+                          &RxThreadStack[THREAD_STACK_SIZE - 1],
+			  1); //Highest priority
 
   // Create threads to toggle the LEDS
   for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)
