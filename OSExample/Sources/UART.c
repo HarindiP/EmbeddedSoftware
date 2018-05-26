@@ -183,7 +183,10 @@ void TxThread(void* pData)
   {
     OS_SemaphoreWait(TxAccess,0);
     FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
-    UART2_C2 &= ~UART_C2_TIE_MASK;
+//    if (!(UART2_C2 & UART_C2_TIE_MASK))
+//    {
+	UART2_C2 |= UART_C2_TIE_MASK;
+//    }
   }
 }
 
@@ -194,10 +197,7 @@ void RxThread(void* pData)
   {
     OS_SemaphoreWait(RxAccess,0);
     FIFO_Put(&RxFIFO, UART2_D);
-    if (Packet_Get())
-    {
-       OS_SemaphoreSignal(PacketReady);
-    }
+    UART2_C2 |= UART_C2_RIE_MASK;	//TODO
   }
 }
 
@@ -211,6 +211,7 @@ void __attribute__ ((interrupt)) UART_ISR(void)
     if (UART2_S1 & UART_S1_RDRF_MASK)
     {
       //Signal for recieve
+      UART2_C2 &= ~UART_C2_RIE_MASK;	//TODO
       OS_SemaphoreSignal(RxAccess);
     }
   }
@@ -219,6 +220,7 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   {
     if (UART2_S1 & UART_S1_TDRE_MASK)
     {
+	UART2_C2 &= ~UART_C2_TIE_MASK;	//TODO
     	OS_SemaphoreSignal(TxAccess);
     }
   }

@@ -109,14 +109,16 @@ static void HandlePacketThread(void* pData)
 {
   for(;;)
   {
-    OS_SemaphoreWait(PacketReady,1);
-    if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
+    if (Packet_Get())
     {
+      if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
+      {
 	SCP_Packet_Handle();
-    }
-    else
-    {
+      }
+      else
+      {
 	SCP_Packet_Handle_Ack();
+      }
     }
   }
 }
