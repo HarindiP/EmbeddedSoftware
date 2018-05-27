@@ -31,67 +31,35 @@
 #include "FIFO.h"
 #include "SCP.h"
 #include "LEDs.h"
+#include "PIT.h"
+#include "RTC.h"
+#include "FTM.h"
 
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
 #define THREAD_STACK_SIZE 1024
-#define NB_LEDS 4
 
 // Thread stacks
 OS_THREAD_STACK(InitModulesThreadStack, THREAD_STACK_SIZE); /*!< The stack for the LED Init thread. */
 OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
-static uint32_t MyLEDThreadStacks[NB_LEDS][THREAD_STACK_SIZE] __attribute__ ((aligned(0x08)));
-
-// ----------------------------------------
-// Thread priorities
-// 0 = highest priority
-// ----------------------------------------
-const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {9, 10, 11, 12};
 
 
 
-/*! @brief Data structure used to pass LED configuration to a user thread
- *
- */
-typedef struct LEDThreadData
-{
-  OS_ECB* semaphore;
-  TLED color;
-  uint8_t delay;
-  struct LEDThreadData* next;
-} TLEDThreadData;
+///*! @brief Data structure used to pass LED configuration to a user thread
+// *
+// */
+//typedef struct LEDThreadData
+//{
+//  OS_ECB* semaphore;
+//  TLED color;
+//  uint8_t delay;
+//  struct LEDThreadData* next;
+//} TLEDThreadData;
 
-/*! @brief LED thread configuration data
- *
- */
-static TLEDThreadData MyLEDThreadData[NB_LEDS] =
-{
-  {
-    .semaphore = NULL,
-    .color = LED_BLUE,
-    .delay = 8,
-    .next = &MyLEDThreadData[1],
-  },
-  {
-    .semaphore = NULL,
-    .color = LED_GREEN,
-    .delay = 15,
-    .next = &MyLEDThreadData[2],
-  },
-  {
-    .semaphore = NULL,
-    .color = LED_YELLOW,
-    .delay = 29,
-    .next = &MyLEDThreadData[0],
-  },
-  {
-    .semaphore = NULL,
-    .color = LED_ORANGE,
-    .delay = 0,
-    .next = NULL,
-  }
-};
+
+//Timer declaration
+TFTMChannel Timer1Sec;
 
 //Communication thread
 static void HandlePacketThread(void* pData)
@@ -100,6 +68,8 @@ static void HandlePacketThread(void* pData)
   {
     if (Packet_Get())
     {
+      LEDs_Toggle(LED_BLUE);
+      FTM_StartTimer(&Timer1Sec);
       if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
       {
 	SCP_Packet_Handle();
@@ -149,80 +119,58 @@ void LPTMRInit(const uint16_t count)
   LPTMR0_CSR |= LPTMR_CSR_TEN_MASK;
 }
 
-/*! @brief Initialises the LEDs.
- *
- */
-void LEDInit()
-{
-  uint32_t gpwd;
-
-  // Enable clock gate for Port A to enable pin routing
-  SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;
-
-  // Set up each port pin so that initially the LED is off
-  GPIOA_PSOR = LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE;
-
-  // Set up each port pin to be an output
-  GPIOA_PDDR |= (LED_ORANGE | LED_YELLOW | LED_GREEN | LED_BLUE);
-
-  // *** for PIN multiplexing, see p. 282 of K70P256M150SF3RM.pdf ***
-  // PORTA_PCRx: ISF=0, MUX=1 (see p. 316 of K70P256M150SF3RM.pdf)
-  // Use the global pin control registers since the pins are the same
-
-  gpwd = PORT_PCR_MUX(1) | PORT_PCR_DSE_MASK;
-  PORTA_GPCLR = ((LED_ORANGE | LED_BLUE) << 16) | gpwd;
-  PORTA_GPCHR = (LED_YELLOW | LED_GREEN) | gpwd;
-}
 
 /*! @brief Initialises the modules to support the LEDs and low power timer.
  *
  *  @param pData is not used but is required by the OS to create a thread.
  *  @note This thread deletes itself after running for the first time.
  */
-//static void InitModulesThread(void* pData)
-//{
-//  // Initialise the low power timer to tick every 0.5s
-//  LPTMRInit(500);
-//
-//  // Initialise the LEDs
-//  LEDInit();
-//
-//  // Generate the three global LED semaphores
-//  for (uint8_t ledNb = 0; ledNb < NB_LEDS; ledNb++)
-//    MyLEDThreadData[ledNb].semaphore = OS_SemaphoreCreate(0);
-//
-//  // Signal the first LED to toggle
-//  (void)OS_SemaphoreSignal(MyLEDThreadData[0].semaphore);
-//
-//  // We only do this once - therefore delete this thread
-//  OS_ThreadDelete(OS_PRIORITY_SELF);
-//}
 static void InitModulesThread(void* pData)
 {
-    // Baud Rate and Module Clock
-    uint32_t baudRate = 115200;
-    uint32_t moduleClk = CPU_BUS_CLK_HZ;
+  OS_DisableInterrupts();
 
-    //Init communication
-    Packet_Init(baudRate, moduleClk);
-    //Init LEDs
-    LEDs_Init();
-    //Generate semaphores
-//    PacketReady = OS_SemaphoreCreate(0);
+  // Baud Rate and Module Clock
+  uint32_t baudRate = 115200;
+  uint32_t moduleClk = CPU_BUS_CLK_HZ;
 
+  //Init communication
+  Packet_Init(baudRate, moduleClk);
+  //Init LEDs
+  LEDs_Init();
+  //Init Timer
+  FTM_Init();
+  PIT_Init(moduleClk, NULL, NULL);
+  RTC_Init(NULL, NULL);
 
-    //Initialize variables
-    SCP_TowerNb.l = 5605;
-    SCP_TowerMd.l = 0;
+  //Generate semaphores
+//PacketReady = OS_SemaphoreCreate(0);
 
+  OS_EnableInterrupts();
 
-    //Turn on orange LED when initialized
-    LEDs_On(LED_ORANGE);
-    //Send Start up values
-    SCP_SendStartUpValues();
+  //Initialize variables
+  SCP_TowerNb.l = 5605;
+  SCP_TowerMd.l = 0;
 
-    // We only do this once - therefore delete this thread
-    OS_ThreadDelete(OS_PRIORITY_SELF);
+  //Start PIT for 1sec
+  PIT_Enable(false);
+  PIT_Set(1000000000,true);
+  PIT_Enable(true);
+  //Create 1sec Timer with FTM
+  Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
+  Timer1Sec.delayCount = CPU_MCGFF_CLK_HZ_CONFIG_0; //1sec
+  Timer1Sec.ioType.outputAction = TIMER_OUTPUT_DISCONNECT;
+  Timer1Sec.timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;
+  Timer1Sec.userArguments = NULL;
+  Timer1Sec.userFunction = NULL;
+  FTM_Set(&Timer1Sec);
+
+  //Turn on orange LED
+  LEDs_On(LED_ORANGE);
+  //Send Start up values
+  SCP_SendStartUpValues();
+
+  // We only do this once - therefore delete this thread
+  OS_ThreadDelete(OS_PRIORITY_SELF);
 }
 
 void __attribute__ ((interrupt)) LPTimer_ISR(void)
@@ -230,7 +178,7 @@ void __attribute__ ((interrupt)) LPTimer_ISR(void)
   // Clear interrupt flag
   LPTMR0_CSR |= LPTMR_CSR_TCF_MASK;
   // Signal the orange LED to toggle
-  (void)OS_SemaphoreSignal(MyLEDThreadData[3].semaphore);
+//  (void)OS_SemaphoreSignal(MyLEDThreadData[3].semaphore);
 }
 
 /*! @brief Waits for a signal to toggle the LED, then waits for a specified delay, then signals for the next LED to toggle.
@@ -238,28 +186,28 @@ void __attribute__ ((interrupt)) LPTimer_ISR(void)
  *  @param pData holds the configuration data for each LED thread.
  *  @note Assumes that LEDInit has been called successfully.
  */
-static void LEDThread(void* pData)
-{
-  // Make the code easier to read by giving a name to the typecast'ed pointer
-  #define ledData ((TLEDThreadData*)pData)
-
-  for (;;)
-  {
-    // Wait here until signaled that we can turn the LED on
-    (void)OS_SemaphoreWait(ledData->semaphore, 0);
-
-    // Toggle LED
-    GPIOA_PTOR = ledData->color;
-
-    // Wait for the required toggle time if the delay > 0
-    if (ledData->delay)
-      OS_TimeDelay(ledData->delay);
-
-    // Signal for the next LED to toggle
-    if (ledData->next->semaphore)
-      (void)OS_SemaphoreSignal(ledData->next->semaphore);
-  }
-}
+//static void LEDThread(void* pData)
+//{
+//  // Make the code easier to read by giving a name to the typecast'ed pointer
+////  #define ledData ((TLEDThreadData*)pData)
+//
+//  for (;;)
+//  {
+//    // Wait here until signaled that we can turn the LED on
+//    (void)OS_SemaphoreWait(ledData->semaphore, 0);
+//
+//    // Toggle LED
+//    GPIOA_PTOR = ledData->color;
+//
+//    // Wait for the required toggle time if the delay > 0
+//    if (ledData->delay)
+//      OS_TimeDelay(ledData->delay);
+//
+//    // Signal for the next LED to toggle
+//    if (ledData->next->semaphore)
+//      (void)OS_SemaphoreSignal(ledData->next->semaphore);
+//  }
+//}
 
 
 

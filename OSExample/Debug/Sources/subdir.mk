@@ -5,7 +5,10 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Sources/FIFO.c \
+../Sources/FTM.c \
 ../Sources/LEDs.c \
+../Sources/PIT.c \
+../Sources/RTC.c \
 ../Sources/SCP.c \
 ../Sources/UART.c \
 ../Sources/main.c \
@@ -13,7 +16,10 @@ C_SRCS += \
 
 OBJS += \
 ./Sources/FIFO.o \
+./Sources/FTM.o \
 ./Sources/LEDs.o \
+./Sources/PIT.o \
+./Sources/RTC.o \
 ./Sources/SCP.o \
 ./Sources/UART.o \
 ./Sources/main.o \
@@ -21,7 +27,10 @@ OBJS += \
 
 C_DEPS += \
 ./Sources/FIFO.d \
+./Sources/FTM.d \
 ./Sources/LEDs.d \
+./Sources/PIT.d \
+./Sources/RTC.d \
 ./Sources/SCP.d \
 ./Sources/UART.d \
 ./Sources/main.d \

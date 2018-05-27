@@ -121,7 +121,6 @@ bool Packet_Get(void)
 bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3)
 {
   OS_SemaphoreWait(PacketAccess,0);
-//  OS_DisableInterrupts();
   if (UART_OutChar(command))
   {
     if (UART_OutChar(parameter1))
@@ -132,7 +131,6 @@ bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t p
 	{
 	  if(UART_OutChar(CheckSum(command, parameter1,parameter2,parameter3)))
 	  {
-//	    OS_EnableInterrupts();
 	    OS_SemaphoreSignal(PacketAccess);
 	    return true;
 	  }
@@ -140,7 +138,6 @@ bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t p
       }
     }
   }
-//  OS_EnableInterrupts();
   OS_SemaphoreSignal(PacketAccess);
   return false;
 //  return UART_OutChar(command) & UART_OutChar(parameter1) & UART_OutChar(parameter2)& UART_OutChar(parameter3) & UART_OutChar(CheckSum(command, parameter1,parameter2,parameter3));
