@@ -21,9 +21,14 @@
 #include "RTC.h"
 #include "MK70F12.h"
 #include "PE_Types.h"
+#include "LEDs.h"
+#include "OS.h"
+#include "SCP.h"
 
 static void (*UserFunction)(void*);
 static void* UserArguments;
+
+OS_ECB* RTCAccess;
 
 /*! @brief Initializes the RTC before first use.
  *
@@ -86,6 +91,7 @@ bool RTC_Init(void (*userFunction)(void*), void* userArguments)
   NVICISER2 = (1 << 3); /*the value 3 comes from the manual IQR%32 = 67%32*/
 
 //  ExitCritical();
+  RTCAccess = OS_SemaphoreCreate(0);
   return true;
 
 }
@@ -140,6 +146,16 @@ void RTC_Get(uint8_t* const hours, uint8_t* const minutes, uint8_t* const second
 
 }
 
+void RTCThread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(RTCAccess,0);
+    //Send Time
+    SendTime();
+  }
+}
+
 /*! @brief Interrupt service routine for the RTC.
  *
  *  The RTC has incremented one second.
@@ -148,8 +164,11 @@ void RTC_Get(uint8_t* const hours, uint8_t* const minutes, uint8_t* const second
  */
 void __attribute__ ((interrupt)) RTC_ISR(void)
 {
-  if (UserFunction)
-  (*UserFunction)(UserArguments);
+//  if (UserFunction)
+//  (*UserFunction)(UserArguments);
+  //Toggle Yellow LED
+  LEDs_Toggle(LED_YELLOW);
+  OS_SemaphoreSignal(RTCAccess);
 }
 
 #endif

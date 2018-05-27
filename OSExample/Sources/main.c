@@ -43,6 +43,7 @@ OS_THREAD_STACK(InitModulesThreadStack, THREAD_STACK_SIZE); /*!< The stack for t
 OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
+OS_THREAD_STACK(RTCThreadStack, THREAD_STACK_SIZE);
 
 
 
@@ -68,7 +69,7 @@ static void HandlePacketThread(void* pData)
   {
     if (Packet_Get())
     {
-      LEDs_Toggle(LED_BLUE);
+      LEDs_On(LED_BLUE);
       FTM_StartTimer(&Timer1Sec);
       if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
       {
@@ -151,9 +152,9 @@ static void InitModulesThread(void* pData)
   SCP_TowerNb.l = 5605;
   SCP_TowerMd.l = 0;
 
-  //Start PIT for 1sec
+  //Start PIT for 0.5sec
   PIT_Enable(false);
-  PIT_Set(1000000000,true);
+  PIT_Set(500000000,true);
   PIT_Enable(true);
   //Create 1sec Timer with FTM
   Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
@@ -230,7 +231,7 @@ int main(void)
                           &InitModulesThreadStack[THREAD_STACK_SIZE - 1],
 			  0); // Highest priority
 
-  //Create Com Thread
+  //Create Thread
   error = OS_ThreadCreate(RxThread,
                           NULL,
                           &RxThreadStack[THREAD_STACK_SIZE - 1],
@@ -243,6 +244,10 @@ int main(void)
                           NULL,
                           &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
 			  3);
+  error = OS_ThreadCreate(RTCThread,
+                           NULL,
+                           &RTCThreadStack[THREAD_STACK_SIZE - 1],
+ 			  4);
 
   // Create threads to toggle the LEDS
 //  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)

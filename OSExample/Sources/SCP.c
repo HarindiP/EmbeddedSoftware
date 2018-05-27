@@ -17,7 +17,7 @@
 #include "SCP.h"
 //#include "Flash.h"
 #include "packet.h"
-//#include "RTC.h"
+#include "RTC.h"
 #include "PE_Types.h"
 //#include "accel.h"
 
@@ -123,7 +123,7 @@ bool ProgramByte(uint8_t address, uint8_t data)
 
 bool SendTime()
 {
-//  RTC_Get(&Packet_Parameter1,&Packet_Parameter2,&Packet_Parameter3);
+  RTC_Get(&Packet_Parameter1,&Packet_Parameter2,&Packet_Parameter3);
   return Packet_Put(0x0C,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
 }
 bool SetTime()

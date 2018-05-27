@@ -17,6 +17,7 @@
 #include "FTM.h"
 #include "Cpu.h"
 #include "PE_Types.h"
+#include "LEDs.h"
 
 static void (*UserFunctions[8])(void*);
 static void (*UserArguments[8]);
@@ -191,8 +192,9 @@ void __attribute__ ((interrupt)) FTM0_ISR(void)
     {
       FTM0_CnSC(channel) &= ~FTM_CnSC_CHF_MASK;		//reset flag
       FTM0_CnSC(channel) &= ~FTM_CnSC_CHIE_MASK;
-      if (UserFunctions[channel])
-	(*UserFunctions[channel])(UserArguments[channel]);
+//      if (UserFunctions[channel])
+//	(*UserFunctions[channel])(UserArguments[channel]);
+      LEDs_Off(LED_BLUE);
     }
   }
 }
