@@ -32,17 +32,6 @@
 #include "SCP.h"
 #include "LEDs.h"
 
-///*! @brief LED to pin mapping on the TWR-K70F120M
-// *
-// */
-//typedef enum
-//{
-//  LED_ORANGE = (1 << 11),
-//  LED_YELLOW = (1 << 28),
-//  LED_GREEN = (1 << 29),
-//  LED_BLUE = (1 << 10)
-//} TLED;
-
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
 #define THREAD_STACK_SIZE 1024
 #define NB_LEDS 4
@@ -58,7 +47,7 @@ static uint32_t MyLEDThreadStacks[NB_LEDS][THREAD_STACK_SIZE] __attribute__ ((al
 // Thread priorities
 // 0 = highest priority
 // ----------------------------------------
-const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {5, 6, 7, 8};
+const uint8_t LED_THREAD_PRIORITIES[NB_LEDS] = {9, 10, 11, 12};
 
 
 
@@ -219,11 +208,12 @@ static void InitModulesThread(void* pData)
     //Init LEDs
     LEDs_Init();
     //Generate semaphores
-    PacketReady = OS_SemaphoreCreate(0);
+//    PacketReady = OS_SemaphoreCreate(0);
 
 
     //Initialize variables
     SCP_TowerNb.l = 5605;
+    SCP_TowerMd.l = 0;
 
 
     //Turn on orange LED when initialized
@@ -293,18 +283,18 @@ int main(void)
 			  0); // Highest priority
 
   //Create Com Thread
-  error = OS_ThreadCreate(HandlePacketThread,
-                          NULL,
-                          &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
-			  3);
-  error = OS_ThreadCreate(TxThread,
-                          NULL,
-                          &TxThreadStack[THREAD_STACK_SIZE - 1],
-			  2); // Second Highest priority
   error = OS_ThreadCreate(RxThread,
                           NULL,
                           &RxThreadStack[THREAD_STACK_SIZE - 1],
 			  1); //Highest priority
+  error = OS_ThreadCreate(TxThread,
+                          NULL,
+                          &TxThreadStack[THREAD_STACK_SIZE - 1],
+			  2); // Second Highest priority
+  error = OS_ThreadCreate(HandlePacketThread,
+                          NULL,
+                          &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
+			  3);
 
   // Create threads to toggle the LEDS
 //  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)
