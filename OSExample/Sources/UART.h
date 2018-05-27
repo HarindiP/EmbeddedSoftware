@@ -21,8 +21,7 @@
 
 //Extern varioable
 extern OS_ECB* PacketReady;
-extern OS_ECB* TxAccess;
-extern OS_ECB* RxAccess;
+
 
 /*! @brief Sets up the UART interface before first use.
  *

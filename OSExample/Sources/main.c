@@ -220,8 +220,7 @@ static void InitModulesThread(void* pData)
     LEDs_Init();
     //Generate semaphores
     PacketReady = OS_SemaphoreCreate(0);
-    TxAccess = OS_SemaphoreCreate(0);
-    RxAccess = OS_SemaphoreCreate(0);
+
 
     //Initialize variables
     SCP_TowerNb.l = 5605;

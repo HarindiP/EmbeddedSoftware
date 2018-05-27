@@ -182,11 +182,11 @@ void TxThread(void* pData)
   for(;;)
   {
     OS_SemaphoreWait(TxAccess,0);
-    FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
-//    if (!(UART2_C2 & UART_C2_TIE_MASK))
-//    {
-	UART2_C2 |= UART_C2_TIE_MASK;
-//    }
+    if (UART2_S1 & UART_S1_TDRE_MASK)
+    {
+      FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
+    }
+    UART2_C2 |= UART_C2_TIE_MASK;
   }
 }
 
