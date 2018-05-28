@@ -6,34 +6,46 @@
 C_SRCS += \
 ../Sources/FIFO.c \
 ../Sources/FTM.c \
+../Sources/Flash.c \
+../Sources/I2C.c \
 ../Sources/LEDs.c \
 ../Sources/PIT.c \
 ../Sources/RTC.c \
 ../Sources/SCP.c \
 ../Sources/UART.c \
+../Sources/accel.c \
 ../Sources/main.c \
+../Sources/median.c \
 ../Sources/packet.c 
 
 OBJS += \
 ./Sources/FIFO.o \
 ./Sources/FTM.o \
+./Sources/Flash.o \
+./Sources/I2C.o \
 ./Sources/LEDs.o \
 ./Sources/PIT.o \
 ./Sources/RTC.o \
 ./Sources/SCP.o \
 ./Sources/UART.o \
+./Sources/accel.o \
 ./Sources/main.o \
+./Sources/median.o \
 ./Sources/packet.o 
 
 C_DEPS += \
 ./Sources/FIFO.d \
 ./Sources/FTM.d \
+./Sources/Flash.d \
+./Sources/I2C.d \
 ./Sources/LEDs.d \
 ./Sources/PIT.d \
 ./Sources/RTC.d \
 ./Sources/SCP.d \
 ./Sources/UART.d \
+./Sources/accel.d \
 ./Sources/main.d \
+./Sources/median.d \
 ./Sources/packet.d 
 
 

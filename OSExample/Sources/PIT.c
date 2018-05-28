@@ -19,6 +19,7 @@
 #include "MK70F12.h"
 #include "PE_Types.h"
 #include "LEDs.h"
+#include "OS.h"
 
 static uint32_t Clkperiod; //ask coralie if it should be static
 const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/	// MOVE TO MAIN!!!!
@@ -104,6 +105,7 @@ void PIT_Enable(const bool enable)
 
 void __attribute__ ((interrupt)) PIT_ISR(void)
 {
+  OS_ISREnter();
   /*Clear interupt flag*/
   PIT_TFLG0 |= PIT_TFLG_TIF_MASK;
 
@@ -111,6 +113,7 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
 //  (*UserFunction)(UserArguments);
   //Toggle Green LED
   LEDs_Toggle(LED_GREEN);
+  OS_ISRExit();
 }
 //CALL USER FUCTION PAGE 4/7 LAB3
 

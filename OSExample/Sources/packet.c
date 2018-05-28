@@ -21,6 +21,7 @@
 TPacket Packet;
 
 OS_ECB* PacketAccess;
+OS_ECB* Packet_Ready;
 
 // Acknowledgment bit mask
 const uint8_t PACKET_ACK_MASK = 0b10000000;

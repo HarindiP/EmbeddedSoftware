@@ -19,9 +19,6 @@
 #include "types.h"
 #include "OS.h"
 
-//Extern varioable
-extern OS_ECB* PacketReady;
-
 
 /*! @brief Sets up the UART interface before first use.
  *

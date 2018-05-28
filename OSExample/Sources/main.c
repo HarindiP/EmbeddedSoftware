@@ -34,6 +34,10 @@
 #include "PIT.h"
 #include "RTC.h"
 #include "FTM.h"
+#include "Flash.h"
+#include "median.h"
+#include "accel.h"
+#include "I2C.h"
 
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
 #define THREAD_STACK_SIZE 1024
@@ -44,7 +48,7 @@ OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RTCThreadStack, THREAD_STACK_SIZE);
-
+OS_THREAD_STACK(I2CThreadStack, THREAD_STACK_SIZE);
 
 
 ///*! @brief Data structure used to pass LED configuration to a user thread
@@ -61,12 +65,17 @@ OS_THREAD_STACK(RTCThreadStack, THREAD_STACK_SIZE);
 
 //Timer declaration
 TFTMChannel Timer1Sec;
+//Accel values
+TAccelData accelValues;
+//Accel
+TAccelSetup Accelerometer;
 
 //Communication thread
 static void HandlePacketThread(void* pData)
 {
   for(;;)
   {
+//      OS_SemaphoreWait(Packet_Ready,0);
     if (Packet_Get())
     {
       LEDs_On(LED_BLUE);
@@ -80,6 +89,15 @@ static void HandlePacketThread(void* pData)
 	SCP_Packet_Handle_Ack();
       }
     }
+  }
+}
+
+//I2C Thread
+static void I2CThread(void* pData)
+{
+  for(;;)
+  {
+
   }
 }
 
@@ -130,6 +148,15 @@ static void InitModulesThread(void* pData)
 {
   OS_DisableInterrupts();
 
+  //Initialize variables
+  SCP_TowerNb.l = 5605;
+  SCP_TowerMd.l = 0;
+  //Protocol Mode Initialization
+  SCP_ProtocolMode = ACCEL_POLL;
+
+  //Initialise accel setup
+  TAccelSetup Accelerometer = {CPU_BUS_CLK_HZ, NULL, NULL, NULL, NULL};
+
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
@@ -138,24 +165,34 @@ static void InitModulesThread(void* pData)
   Packet_Init(baudRate, moduleClk);
   //Init LEDs
   LEDs_Init();
-  //Init Timer
+  //Init Timers
   FTM_Init();
   PIT_Init(moduleClk, NULL, NULL);
   RTC_Init(NULL, NULL);
 
+  Flash_Init();
+
+  Accel_Init(&Accelerometer);
+
   //Generate semaphores
-//PacketReady = OS_SemaphoreCreate(0);
+//  Packet_Ready = OS_SemaphoreCreate(0);
 
   OS_EnableInterrupts();
-
-  //Initialize variables
-  SCP_TowerNb.l = 5605;
-  SCP_TowerMd.l = 0;
 
   //Start PIT for 0.5sec
   PIT_Enable(false);
   PIT_Set(500000000,true);
   PIT_Enable(true);
+
+  //writing tower number and mode in flash
+  if(Flash_AllocateVar((volatile void**)&NvTowerNb, sizeof(*NvTowerNb)))
+    if(NvTowerNb->l == 0xFFFF)
+      Flash_Write16((volatile uint16_t *)NvTowerNb, SCP_TowerNb.l);
+
+  if(Flash_AllocateVar((volatile void**)&NvTowerMd, sizeof(*NvTowerMd)))
+    if(NvTowerMd->l == 0xFFFF)
+      Flash_Write16((uint16_t *)NvTowerMd, SCP_TowerMd.l);
+
   //Create 1sec Timer with FTM
   Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
   Timer1Sec.delayCount = CPU_MCGFF_CLK_HZ_CONFIG_0; //1sec
@@ -245,9 +282,13 @@ int main(void)
                           &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
 			  3);
   error = OS_ThreadCreate(RTCThread,
-                           NULL,
-                           &RTCThreadStack[THREAD_STACK_SIZE - 1],
- 			  4);
+                          NULL,
+                          &RTCThreadStack[THREAD_STACK_SIZE - 1],
+ 			  5);
+//  error = OS_ThreadCreate(I2CThread,
+//                          NULL,
+//                          &I2CThreadStack[THREAD_STACK_SIZE - 1],
+// 			  4);
 
   // Create threads to toggle the LEDS
 //  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)

@@ -152,7 +152,7 @@ void RTCThread(void* pData)
   {
     OS_SemaphoreWait(RTCAccess,0);
     //Send Time
-    SendTime();
+//    SendTime();
   }
 }
 
@@ -166,9 +166,11 @@ void __attribute__ ((interrupt)) RTC_ISR(void)
 {
 //  if (UserFunction)
 //  (*UserFunction)(UserArguments);
+  OS_ISREnter();
   //Toggle Yellow LED
   LEDs_Toggle(LED_YELLOW);
   OS_SemaphoreSignal(RTCAccess);
+  OS_ISRExit();
 }
 
 #endif

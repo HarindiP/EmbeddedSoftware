@@ -18,6 +18,7 @@
 #include "Cpu.h"
 #include "PE_Types.h"
 #include "LEDs.h"
+#include "OS.h"
 
 static void (*UserFunctions[8])(void*);
 static void (*UserArguments[8]);
@@ -185,6 +186,7 @@ void __attribute__ ((interrupt)) FTM0_ISR(void)
 //  FTM0_SC &= ~FTM_SC_CLKS_MASK;
 //  FTM0_CNT |= FTM_CNT_COUNT_MASK;
 
+  OS_ISREnter();
   for(uint8_t channel = 0; channel < 8; channel++)
   {
     //check each channel to see if its flag and interrupt is set
@@ -194,9 +196,13 @@ void __attribute__ ((interrupt)) FTM0_ISR(void)
       FTM0_CnSC(channel) &= ~FTM_CnSC_CHIE_MASK;
 //      if (UserFunctions[channel])
 //	(*UserFunctions[channel])(UserArguments[channel]);
-      LEDs_Off(LED_BLUE);
+      if(channel == 0)		//manually decided
+	{
+	  LEDs_Off(LED_BLUE);
+	}
     }
   }
+  OS_ISRExit();
 }
 
 /*!

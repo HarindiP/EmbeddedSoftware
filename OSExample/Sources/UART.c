@@ -26,7 +26,6 @@
 
 OS_ECB* TxAccess;
 OS_ECB* RxAccess;
-OS_ECB* PacketReady;
 
 
 static TFIFO TxFIFO, RxFIFO;
@@ -192,7 +191,11 @@ void RxThread(void* pData)
   {
     OS_SemaphoreWait(RxAccess,0);
     FIFO_Put(&RxFIFO, UART2_D);
-    UART2_C2 |= UART_C2_RIE_MASK;	//TODO
+    UART2_C2 |= UART_C2_RIE_MASK;
+//    if(Packet_Get())
+//    {
+//      OS_SemaphoreSignal(Packet_Ready);
+//    }
   }
 }
 

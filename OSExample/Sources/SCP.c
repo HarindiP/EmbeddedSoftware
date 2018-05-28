@@ -15,11 +15,12 @@
 
 #include "types.h"
 #include "SCP.h"
-//#include "Flash.h"
+#include "Flash.h"
 #include "packet.h"
 #include "RTC.h"
 #include "PE_Types.h"
-//#include "accel.h"
+#include "accel.h"
+#include "OS.h"
 
 /*Tower Number*/
 uint16union_t SCP_TowerNb;
@@ -32,10 +33,6 @@ uint8_t SCP_ProtocolMode;
 
 bool SCP_SendStartUpValues()
 {
-  /*return (Packet_Put(0x04,0,0,0)			//Send Tower Start up
-      &&Packet_Put(0x09,'v',1,0)			//Send Tower Version V1.0
-      &&Packet_Put(0x0B,1,towerNb.s.Lo,towerNb.s.Hi)	//Send Tower Number
-      &&Packet_Put(0x0D,1,towerMd.s.Lo,towerMd.s.Hi));	//Send Tower Mode*/
   return (Packet_Put(0x04,0,0,0) && SendVersion()  && SendTowerNumber() && SendTowerMode() /*&& SendProtocolMode()*/);
 }
 
@@ -63,12 +60,13 @@ bool SendTowerNumber()
 }
 bool SetTowerNumber()
 {
-//  EnterCritical();
-//  SCP_TowerNb.s.Lo = Packet_Parameter2;	//LSB
-//  SCP_TowerNb.s.Hi = Packet_Parameter3;	//MSB
-//  Flash_Write16((uint16_t *)NvTowerNb,SCP_TowerNb.l);	//writing in the flash memory
-//  ExitCritical();
+  OS_DisableInterrupts();
+  SCP_TowerNb.s.Lo = Packet_Parameter2;	//LSB
+  SCP_TowerNb.s.Hi = Packet_Parameter3;	//MSB
+  Flash_Write16((uint16_t *)NvTowerNb,SCP_TowerNb.l);	//writing in the flash memory
+  OS_EnableInterrupts();
 //  return Packet_Put(0x0B,1,NvTowerNb->s.Lo, NvTowerNb->s.Hi);	//Send Tower Number
+  return SendTowerNumber();
 }
 
 
@@ -89,35 +87,35 @@ bool SendTowerMode()
 }
 bool SetTowerMode()
 {
-//  EnterCritical();
-//  SCP_TowerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
-//  SCP_TowerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
-//  Flash_Write16((uint16_t *)NvTowerMd,SCP_TowerMd.l);	//writing in the flash memory
-//  ExitCritical();
+  OS_DisableInterrupts();
+  SCP_TowerMd.s.Lo = Packet_Parameter2;	//LSB : 1 if synchronous, 0 if asynchronous
+  SCP_TowerMd.s.Hi = Packet_Parameter3;	//MSB : supposed to be 0
+  Flash_Write16((uint16_t *)NvTowerMd,SCP_TowerMd.l);	//writing in the flash memory
+  OS_EnableInterrupts();
 //  return Packet_Put(0x0D,1, NvTowerMd->s.Lo, NvTowerMd->s.Hi);	//Send Tower Mode
+  return SendTowerMode();
 }
 
 
 bool ReadByte(uint8_t address)
 {
   if(address>=0x00 && address<=0x07)
-//    return Packet_Put(0x08,address,0,_FB(&address));
+    return Packet_Put(0x08,address,0,_FB(&address));
   return false;
 }
 
 
 bool ProgramByte(uint8_t address, uint8_t data)
 {
-  //Flash_AllocateVar(volatile void** variable, const uint8_t size)
-//  if(address == 0x08)
-//  {
-//    Flash_Erase();
-//    return true;
-//  }
-//  else
-//  {
-////    return Flash_Write8(&address, data);
-//  }
+  if(address == 0x08)
+  {
+    Flash_Erase();
+    return true;
+  }
+  else
+  {
+      return Flash_Write8(&address, data);	//TODO : makes sense ?
+  }
 }
 
 
@@ -128,7 +126,7 @@ bool SendTime()
 }
 bool SetTime()
 {
-//  RTC_Set(Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
+  RTC_Set(Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);
   return SendTime();
 }
 
@@ -218,7 +216,7 @@ bool SCP_Packet_Handle()
 
 bool SCP_Packet_Handle_Ack()
 {
-  Packet_Command |= PACKET_ACK_MASK;
+  Packet_Command &= ~PACKET_ACK_MASK;
   if(SCP_Packet_Handle())
   {
     ACK();
