@@ -53,10 +53,10 @@ bool Packet_Acknowledgement_Required(const uint8_t command)
  */
 bool Packet_Init(const uint32_t baudRate, const uint32_t moduleClk)
 {
-//  EnterCritical();
   PacketAccess = OS_SemaphoreCreate(1);
   return UART_Init(baudRate,moduleClk);
-//  ExitCritical();
+  //Generate semaphores
+//  Packet_Ready = OS_SemaphoreCreate(0);
 }
 
 /*! @brief Attempts to get a packet from the received data.

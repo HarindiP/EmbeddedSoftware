@@ -36,6 +36,8 @@
 #include "CPU.h"
 #include "PE_types.h"
 
+
+
 // Accelerometer registers
 #define ADDRESS_OUT_X_MSB 0x01
 #define ADDRESS_OUT_X_LSB 0x02
@@ -200,6 +202,9 @@ static union
 void (*dataReadyCallbackFunction)(void*); /*!< The user's data ready callback function. */
 void* dataReadyCallbackArguments;   /*!< The user's data ready callback function arguments. */
 
+//Semaphore
+OS_ECB* accelAccess;
+
 
 //We should have a standBy and an other state function, and standBy is critical so thats the only place were we call PollRead()
 
@@ -233,6 +238,13 @@ bool Accel_Init(const TAccelSetup* const accelSetup)
   SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;  //clock
   PORTB_PCR4 = PORT_PCR_MUX(1);   //GPIO
   GPIOA_PDDR &= ~0x10;    //PORTB4 Input
+
+  //Init in POLL mode
+  Accel_SetMode(ACCEL_POLL);
+
+  //Create Semaphore
+  accelAccess = OS_SemaphoreCreate(0);
+
   // Clear any pending interrupts on PORTB4
   NVICICPR2 = NVIC_ICPR_CLRPEND(1 << 24);
   // Enable interrupts from PORTB4
@@ -277,11 +289,13 @@ void Accel_SetMode(const TAccelMode mode)
 {
   EnterCritical();
 
+  Standby(true);
   CTRL_REG4_INT_EN_DRDY = mode;
   CTRL_REG5_INT_CFG_DRDY = 1; // use INT1 pin
 
   CTRL_REG1_ACTIVE = 0; //desactivate accel before selecting mode
   CTRL_REG1_F_READ = 1; //only use 8 bit precision
+  CTRL_REG1_LNOISE = 0; //set noise to zero to achieve high resolution
   CTRL_REG1_DR = DATE_RATE_1_56_HZ; //select data sending rate 1.56Hz
   I2C_Write(ADDRESS_CTRL_REG1, CTRL_REG1);
   I2C_Write(ADDRESS_CTRL_REG4, CTRL_REG4);
@@ -301,12 +315,28 @@ void Accel_SetMode(const TAccelMode mode)
     PORTB_PCR4 |= PORT_PCR_IRQC(9);
   }
   else;
-
+  Standby(false);
   ExitCritical();
 }
 
+static void Standby(bool SB)
+{
+  if (SB)
+  {
+    CTRL_REG1_ACTIVE = 0; //set standby
+    I2C_Write(ADDRESS_CTRL_REG1, CTRL_REG1);
+  }
+  else
+  {
+    CTRL_REG1_ACTIVE = 1; //set active
+    I2C_Write(ADDRESS_CTRL_REG1, CTRL_REG1);
+  }
+}
+
+
 void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
 {
+  OS_ISREnter();
   //Check interrupt enable
   if(PORTB_PCR4 & PORT_PCR_IRQC_MASK)
   {
@@ -316,12 +346,14 @@ void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
       //Clear flag
       PORTB_PCR4 |= PORT_PCR_ISF_MASK;
       //Call callback function
-      if(dataReadyCallbackFunction)
-      {
-        dataReadyCallbackFunction(dataReadyCallbackArguments);
-      }
+//      if(dataReadyCallbackFunction)
+//      {
+//        dataReadyCallbackFunction(dataReadyCallbackArguments);
+//      }
+      OS_SemaphoreSignal(accelAccess);
     }
   }
+  OS_ISRExit();
 }
 
 /*!

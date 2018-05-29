@@ -138,7 +138,7 @@ bool SendProtocolMode()
 bool SetProtocolMode()
 {
   SCP_ProtocolMode = Packet_Parameter2;
-//  Accel_SetMode(SCP_ProtocolMode);
+  Accel_SetMode(SCP_ProtocolMode);
   return SendProtocolMode();
 }
 bool HandleProtocolMode()
@@ -147,7 +147,7 @@ bool HandleProtocolMode()
   {
     SendProtocolMode();
   }
-  else if (Packet_Parameter2 == 2)  //Command is : set Tower Mode
+  else if (Packet_Parameter1 == 2)  //Command is : set Tower Mode
   {
     SetProtocolMode();
   }
@@ -157,7 +157,7 @@ bool HandleProtocolMode()
 bool SendAccelValues()
 {
   uint8_t data[3];
-//  Accel_ReadXYZ(data);
+  Accel_ReadXYZ(data);
   return Packet_Put(0x10, data[0], data[1], data[2]);
 }
 

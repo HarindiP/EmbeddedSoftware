@@ -19,6 +19,10 @@
 // new types
 #include "types.h"
 #include "MK70F12.h"
+#include "OS.h"
+
+//Semaphore to acces the Thread
+extern OS_ECB* PITAccess;
 
 /*! @brief Sets up the PIT before first use.
  *
@@ -45,6 +49,7 @@ void PIT_Set(const uint32_t period, const bool restart);
  *  @param enable - TRUE if the PIT is to be enabled, FALSE if the PIT is to be disabled.
  */
 void PIT_Enable(const bool enable);
+
 
 /*! @brief Interrupt service routine for the PIT.
  *

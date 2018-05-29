@@ -26,10 +26,10 @@
 // Packet structure
 #define PACKET_NB_BYTES 5
 
-//Extern varioable
+//Extern variable
 extern OS_ECB* Packet_Ready;
 
-//initialise packetput
+//initialize packetput
 
 #pragma pack(push)
 #pragma pack(1)

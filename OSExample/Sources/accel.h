@@ -20,6 +20,11 @@
 // New types
 #include "types.h"
 
+#include "OS.h"
+
+//Semaphore
+extern OS_ECB* accelAccess;
+
 typedef enum
 {
   ACCEL_POLL,
@@ -66,6 +71,15 @@ void Accel_ReadXYZ(uint8_t data[3]);
  *  @param mode specifies either polled or interrupt driven operation.
  */
 void Accel_SetMode(const TAccelMode mode);
+
+/*! @brief alternates between standby and active
+ *
+ *  @param SB
+ */
+static void Standby(bool SB);
+
+//Thread
+void accelThread(void* pData);
 
 /*! @brief Interrupt service routine for the accelerometer.
  *

@@ -49,6 +49,8 @@ OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RTCThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(I2CThreadStack, THREAD_STACK_SIZE);
+OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
+OS_THREAD_STACK(accelThreadStack, THREAD_STACK_SIZE);
 
 
 ///*! @brief Data structure used to pass LED configuration to a user thread
@@ -92,13 +94,50 @@ static void HandlePacketThread(void* pData)
   }
 }
 
+static void PITThread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(PITAccess,0);
+    static TAccelData lastaccelerometervalues;
+    if(SCP_ProtocolMode == ACCEL_POLL)
+    {
+      Accel_ReadXYZ(accelValues.bytes);
+      if(lastaccelerometervalues.axes.x != accelValues.axes.x || lastaccelerometervalues.axes.y != accelValues.axes.y ||
+      lastaccelerometervalues.axes.z != accelValues.axes.z )
+      {
+	  Packet_Put(Accel_Value,accelValues.axes.x,accelValues.axes.y,accelValues.axes.z);
+	  //overwrite the last sent data
+	  lastaccelerometervalues.axes.x = accelValues.axes.x;
+	  lastaccelerometervalues.axes.y = accelValues.axes.y;
+	  lastaccelerometervalues.axes.z = accelValues.axes.z;
+      }
+    }
+    //Toggle Green LED
+//    LEDs_Toggle(LED_GREEN);
+  }
+
+}
+
+
 //I2C Thread
 static void I2CThread(void* pData)
 {
   for(;;)
   {
-
+    OS_SemaphoreWait(I2CAccess,0);
+    Packet_Put(Accel_Value,accelValues.axes.x,accelValues.axes.y,accelValues.axes.z);
   }
+}
+
+//accel Thread
+void accelThread(void* pData)
+{
+  for(;;)
+    {
+      OS_SemaphoreWait(accelAccess,0);
+      Accel_ReadXYZ(accelValues.bytes);
+    }
 }
 
 void LPTMRInit(const uint16_t count)
@@ -154,9 +193,6 @@ static void InitModulesThread(void* pData)
   //Protocol Mode Initialization
   SCP_ProtocolMode = ACCEL_POLL;
 
-  //Initialise accel setup
-  TAccelSetup Accelerometer = {CPU_BUS_CLK_HZ, NULL, NULL, NULL, NULL};
-
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
@@ -169,22 +205,21 @@ static void InitModulesThread(void* pData)
   FTM_Init();
   PIT_Init(moduleClk, NULL, NULL);
   RTC_Init(NULL, NULL);
-
+  //Init Flash
   Flash_Init();
-
+  //Init Accel features abd set it in POLL mode
   Accel_Init(&Accelerometer);
 
-  //Generate semaphores
-//  Packet_Ready = OS_SemaphoreCreate(0);
+  //Initialise accel setup
+  TAccelSetup Accelerometer = {CPU_BUS_CLK_HZ, NULL, NULL, NULL, NULL};
 
-  OS_EnableInterrupts();
+  //accelValues Initialization
+  accelValues.axes.x = 0;
+  accelValues.axes.y = 0;
+  accelValues.axes.z = 0;
 
-  //Start PIT for 0.5sec
-  PIT_Enable(false);
-  PIT_Set(500000000,true);
-  PIT_Enable(true);
 
-  //writing tower number and mode in flash
+  //writing Tower number and mode in flash
   if(Flash_AllocateVar((volatile void**)&NvTowerNb, sizeof(*NvTowerNb)))
     if(NvTowerNb->l == 0xFFFF)
       Flash_Write16((volatile uint16_t *)NvTowerNb, SCP_TowerNb.l);
@@ -192,6 +227,11 @@ static void InitModulesThread(void* pData)
   if(Flash_AllocateVar((volatile void**)&NvTowerMd, sizeof(*NvTowerMd)))
     if(NvTowerMd->l == 0xFFFF)
       Flash_Write16((uint16_t *)NvTowerMd, SCP_TowerMd.l);
+
+  //Start PIT for 1sec
+    PIT_Enable(false);
+    PIT_Set(1000000000,true);
+    PIT_Enable(true);
 
   //Create 1sec Timer with FTM
   Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
@@ -201,6 +241,8 @@ static void InitModulesThread(void* pData)
   Timer1Sec.userArguments = NULL;
   Timer1Sec.userFunction = NULL;
   FTM_Set(&Timer1Sec);
+
+  OS_EnableInterrupts();
 
   //Turn on orange LED
   LEDs_On(LED_ORANGE);
@@ -281,14 +323,22 @@ int main(void)
                           NULL,
                           &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
 			  3);
+  error = OS_ThreadCreate(I2CThread,
+                          NULL,
+                          &I2CThreadStack[THREAD_STACK_SIZE - 1],
+ 			  4);
+  error = OS_ThreadCreate(accelThread,
+                          NULL,
+                          &accelThreadStack[THREAD_STACK_SIZE - 1],
+ 			  5);
+  error = OS_ThreadCreate(PITThread,
+                          NULL,
+                          &PITThreadStack[THREAD_STACK_SIZE - 1],
+ 			  6);
   error = OS_ThreadCreate(RTCThread,
                           NULL,
                           &RTCThreadStack[THREAD_STACK_SIZE - 1],
- 			  5);
-//  error = OS_ThreadCreate(I2CThread,
-//                          NULL,
-//                          &I2CThreadStack[THREAD_STACK_SIZE - 1],
-// 			  4);
+ 			  7);
 
   // Create threads to toggle the LEDS
 //  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)

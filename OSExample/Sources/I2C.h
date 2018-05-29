@@ -19,6 +19,14 @@
 // new types
 #include "types.h"
 
+#include "accel.h"
+
+#include "OS.h"
+
+//Semaphore to signal the Thread
+extern OS_ECB* I2CAccess;
+
+
 typedef struct
 {
   uint8_t primarySlaveAddress;
@@ -80,6 +88,7 @@ void I2C_PollRead(const uint8_t registerAddress, uint8_t* const data, const uint
  * @param nbBytes The number of bytes to read.
  */
 void I2C_IntRead(const uint8_t registerAddress, uint8_t* const data, const uint8_t nbBytes);
+
 
 /*! @brief Interrupt service routine for the I2C.
  *
