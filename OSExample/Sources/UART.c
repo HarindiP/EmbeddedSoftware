@@ -170,7 +170,7 @@ void UART_Poll(void)
 }
 
 //Transmitting Thread
-void TxThread(void* pData)
+void UART_TxThread(void* pData)
 {
   for(;;)
   {
@@ -185,7 +185,7 @@ void TxThread(void* pData)
 }
 
 //Receiving Thread
-void RxThread(void* pData)
+void UART_RxThread(void* pData)
 {
   for(;;)
   {
@@ -194,7 +194,7 @@ void RxThread(void* pData)
     UART2_C2 |= UART_C2_RIE_MASK;
 //    if(Packet_Get())
 //    {
-//      OS_SemaphoreSignal(Packet_Ready);
+//      OS_SemaphoreSignal(Packet_Ready);	//TODO : why this doesnt work ???
 //    }
   }
 }

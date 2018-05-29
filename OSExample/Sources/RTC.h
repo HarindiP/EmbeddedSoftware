@@ -47,6 +47,10 @@ void RTC_Set(const uint8_t hours, const uint8_t minutes, const uint8_t seconds);
  */
 void RTC_Get(uint8_t* const hours, uint8_t* const minutes, uint8_t* const seconds);
 
+/*! @brief Toggle the yellow LED and send time every second
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
 void RTCThread(void* pData);
 
 /*! @brief Interrupt service routine for the RTC.

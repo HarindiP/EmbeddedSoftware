@@ -79,11 +79,17 @@ bool RTC_Init(void (*userFunction)(void*), void* userArguments)
   /*Locks the control reg to ignore other writes*/
   RTC_LR &= ~RTC_LR_CRL_MASK;
 
-  /*Wait an arbitrary amount of time*/
+  /*Wait an arbitrary amount of time for oscilations to stabilise*/
   for(int i = 0 ; i < 100000 ; i++);
 
   /*Enable timer counter*/
   RTC_SR |= RTC_SR_TCE_MASK;
+
+  //reset time if unpowered
+  if(RTC_SR & RTC_SR_TIF_MASK)
+  {
+    RTC_Set(0,0,0);
+  }
 
   /*clear pending interupts from RTC module */
   NVICICPR2 = (1 << 3);
@@ -146,11 +152,13 @@ void RTC_Get(uint8_t* const hours, uint8_t* const minutes, uint8_t* const second
 
 }
 
-void RTCThread(void* pData)
+void RTC_Thread(void* pData)
 {
   for(;;)
   {
     OS_SemaphoreWait(RTCAccess,0);
+    //Toggle Yellow LED
+    LEDs_Toggle(LED_YELLOW);
     //Send Time
 //    SendTime();
   }
@@ -167,8 +175,6 @@ void __attribute__ ((interrupt)) RTC_ISR(void)
 //  if (UserFunction)
 //  (*UserFunction)(UserArguments);
   OS_ISREnter();
-  //Toggle Yellow LED
-  LEDs_Toggle(LED_YELLOW);
   OS_SemaphoreSignal(RTCAccess);
   OS_ISRExit();
 }

@@ -287,7 +287,7 @@ void Accel_ReadXYZ(uint8_t data[3])
 
 void Accel_SetMode(const TAccelMode mode)
 {
-  EnterCritical();
+  OS_DisableInterrupts();
 
   Standby(true);
   CTRL_REG4_INT_EN_DRDY = mode;
@@ -316,7 +316,7 @@ void Accel_SetMode(const TAccelMode mode)
   }
   else;
   Standby(false);
-  ExitCritical();
+  OS_EnableInterrupts();
 }
 
 static void Standby(bool SB)

@@ -51,8 +51,17 @@ bool UART_OutChar(const uint8_t data);
  */
 void UART_Poll(void);
 
-void TxThread(void* pData);
-void RxThread(void* pData);
+/*! @brief Put the byte to transmit from TxFIFO to UART_D reg
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+void UART_TxThread(void* pData);
+
+/*! @brief Put the received byte in the RxFIFO
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+void UART_RxThread(void* pData);
 
 /*! @brief Interrupt service routine for the UART.
  *

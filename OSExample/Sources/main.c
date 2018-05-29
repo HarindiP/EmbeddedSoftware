@@ -72,7 +72,10 @@ TAccelData accelValues;
 //Accel
 TAccelSetup Accelerometer;
 
-//Communication thread
+/*! @brief Check if a command has been received and send the adequate answer
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
 static void HandlePacketThread(void* pData)
 {
   for(;;)
@@ -94,6 +97,10 @@ static void HandlePacketThread(void* pData)
   }
 }
 
+/*! @brief Read data from the accel and send them if they changed from the last read
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
 static void PITThread(void* pData)
 {
   for(;;)
@@ -112,15 +119,18 @@ static void PITThread(void* pData)
 	  lastaccelerometervalues.axes.y = accelValues.axes.y;
 	  lastaccelerometervalues.axes.z = accelValues.axes.z;
       }
-    }
-    //Toggle Green LED
+      //Toggle Green LED
 //    LEDs_Toggle(LED_GREEN);
+    }
   }
 
 }
 
 
-//I2C Thread
+/*! @brief Sent accelerometer data when red complete
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
 static void I2CThread(void* pData)
 {
   for(;;)
@@ -130,7 +140,10 @@ static void I2CThread(void* pData)
   }
 }
 
-//accel Thread
+/*! @brief Read accelerometer data when ready
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
 void accelThread(void* pData)
 {
   for(;;)
@@ -229,9 +242,9 @@ static void InitModulesThread(void* pData)
       Flash_Write16((uint16_t *)NvTowerMd, SCP_TowerMd.l);
 
   //Start PIT for 1sec
-    PIT_Enable(false);
-    PIT_Set(1000000000,true);
-    PIT_Enable(true);
+  PIT_Enable(false);
+  PIT_Set(1000000000,true);
+  PIT_Enable(true);
 
   //Create 1sec Timer with FTM
   Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
@@ -310,12 +323,12 @@ int main(void)
                           &InitModulesThreadStack[THREAD_STACK_SIZE - 1],
 			  0); // Highest priority
 
-  //Create Thread
-  error = OS_ThreadCreate(RxThread,
+  //Create Threads
+  error = OS_ThreadCreate(UART_RxThread,
                           NULL,
                           &RxThreadStack[THREAD_STACK_SIZE - 1],
 			  1); //Highest priority
-  error = OS_ThreadCreate(TxThread,
+  error = OS_ThreadCreate(UART_TxThread,
                           NULL,
                           &TxThreadStack[THREAD_STACK_SIZE - 1],
 			  2); // Second Highest priority
@@ -323,19 +336,19 @@ int main(void)
                           NULL,
                           &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
 			  3);
-  error = OS_ThreadCreate(I2CThread,
-                          NULL,
-                          &I2CThreadStack[THREAD_STACK_SIZE - 1],
- 			  4);
   error = OS_ThreadCreate(accelThread,
                           NULL,
                           &accelThreadStack[THREAD_STACK_SIZE - 1],
+ 			  4);
+  error = OS_ThreadCreate(I2CThread,
+                          NULL,
+                          &I2CThreadStack[THREAD_STACK_SIZE - 1],
  			  5);
   error = OS_ThreadCreate(PITThread,
                           NULL,
                           &PITThreadStack[THREAD_STACK_SIZE - 1],
  			  6);
-  error = OS_ThreadCreate(RTCThread,
+  error = OS_ThreadCreate(RTC_Thread,
                           NULL,
                           &RTCThreadStack[THREAD_STACK_SIZE - 1],
  			  7);
