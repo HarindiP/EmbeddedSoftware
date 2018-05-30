@@ -41,10 +41,11 @@ void FIFO_Init(TFIFO * const FIFO)
  */
 void FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 {
-    OS_DisableInterrupts();
+
     /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
     OS_SemaphoreWait(FIFO->SpaceAvailable, 0);
-    OS_SemaphoreWait(FIFO->BufferAccess, 0);
+
+    OS_DisableInterrupts();
     FIFO->Buffer[FIFO->End]=data;
     FIFO->End++;
     /*Makes sure Fifo Buffer circular*/
@@ -53,9 +54,11 @@ void FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 	FIFO->End=0;
     }
 
-    OS_SemaphoreSignal(FIFO->ItemAvailable);
-    OS_SemaphoreSignal(FIFO->BufferAccess);
     OS_EnableInterrupts();
+
+    OS_SemaphoreSignal(FIFO->ItemAvailable);
+
+
 }
 
 /*! @brief Get one character from the FIFO.
@@ -68,7 +71,7 @@ void FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 void FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
 {
     OS_SemaphoreWait(FIFO->ItemAvailable, 0);
-    OS_SemaphoreWait(FIFO->BufferAccess, 0);
+//    OS_SemaphoreWait(FIFO->BufferAccess, 0);
     OS_DisableInterrupts();
     *dataPtr=FIFO->Buffer[FIFO->Start];
     FIFO->Start++;
@@ -79,7 +82,7 @@ void FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
     }
     OS_EnableInterrupts();
     OS_SemaphoreSignal(FIFO->SpaceAvailable); //Signal that FIFO has space
-    OS_SemaphoreSignal(FIFO->BufferAccess);
+//    OS_SemaphoreSignal(FIFO->BufferAccess);
 }
 
 

@@ -169,7 +169,7 @@ bool FTM_StartTimer(const TFTMChannel* const aFTMChannel)
 
 }
 
-//No Thread required because we just toggle an LED, if we do more we should create an array of threads for each channel
+//No Thread required because we just toggle an LED, if we do more we should create an array of semaphores for each channel
 
 void __attribute__ ((interrupt)) FTM0_ISR(void)
 {

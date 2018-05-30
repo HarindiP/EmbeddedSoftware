@@ -150,6 +150,10 @@ void accelThread(void* pData)
     {
       OS_SemaphoreWait(accelAccess,0);
       Accel_ReadXYZ(accelValues.bytes);
+
+
+      OS_SemaphoreWait(ReadComplete,0);
+
     }
 }
 
@@ -335,19 +339,19 @@ int main(void)
   error = OS_ThreadCreate(HandlePacketThread,
                           NULL,
                           &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
-			  3);
+			  6);
   error = OS_ThreadCreate(accelThread,
                           NULL,
                           &accelThreadStack[THREAD_STACK_SIZE - 1],
- 			  4);
+ 			  3);
   error = OS_ThreadCreate(I2CThread,
                           NULL,
                           &I2CThreadStack[THREAD_STACK_SIZE - 1],
- 			  5);
+ 			  4);
   error = OS_ThreadCreate(PITThread,
                           NULL,
                           &PITThreadStack[THREAD_STACK_SIZE - 1],
- 			  6);
+ 			  5);
   error = OS_ThreadCreate(RTC_Thread,
                           NULL,
                           &RTCThreadStack[THREAD_STACK_SIZE - 1],

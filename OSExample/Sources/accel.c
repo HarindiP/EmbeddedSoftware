@@ -266,7 +266,7 @@ void Accel_ReadXYZ(uint8_t data[3])
 //  I2C_IntRead(ADDRESS_OUT_X_MSB, &XData[index],1);
 //  I2C_IntRead(ADDRESS_OUT_Y_MSB, &YData[index],1);
 //  I2C_IntRead(ADDRESS_OUT_Z_MSB, &ZData[index],1);
-  I2C_IntRead(ADDRESS_OUT_X_MSB, &XData[index],3);
+  I2C_PollRead(ADDRESS_OUT_X_MSB, &XData[index],3);
   //increase index
   index++;
 
@@ -333,6 +333,7 @@ static void Standby(bool SB)
   }
 }
 
+//
 
 void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
 {
@@ -343,6 +344,7 @@ void __attribute__ ((interrupt)) AccelDataReady_ISR(void)
     //Check flag
     if(PORTB_PCR4 & PORT_PCR_ISF_MASK)
     {
+	I2C_PollRead(ADDRESS_INT_SOURCE) //INT_SOURCE_SRC_DRDY
       //Clear flag
       PORTB_PCR4 |= PORT_PCR_ISF_MASK;
       //Call callback function
