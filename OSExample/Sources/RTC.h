@@ -51,7 +51,7 @@ void RTC_Get(uint8_t* const hours, uint8_t* const minutes, uint8_t* const second
  *
  *  @param pData is not used but is required by the OS to create a thread.
  */
-void RTCThread(void* pData);
+void RTC_Thread(void* pData);
 
 /*! @brief Interrupt service routine for the RTC.
  *

@@ -85,11 +85,11 @@ bool RTC_Init(void (*userFunction)(void*), void* userArguments)
   /*Enable timer counter*/
   RTC_SR |= RTC_SR_TCE_MASK;
 
-  //reset time if unpowered
-  if(RTC_SR & RTC_SR_TIF_MASK)
-  {
-    RTC_Set(0,0,0);
-  }
+//  //reset time if unpowered
+//  if(RTC_SR & RTC_SR_TIF_MASK)
+//  {
+//    RTC_Set(0,0,0);
+//  }
 
   /*clear pending interupts from RTC module */
   NVICICPR2 = (1 << 3);

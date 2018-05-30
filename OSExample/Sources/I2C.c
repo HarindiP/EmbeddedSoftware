@@ -29,14 +29,14 @@
 #define SCL_DIV_SIZE 64
 #define READORWRITE 0x01
 
-#define COMPLETE_READ 0
-#define LAST_READ 1
-#define SECOND_LAST_READ 2
+//#define COMPLETE_READ 0
+//#define LAST_READ 1
+//#define SECOND_LAST_READ 2
 
 /*Private Global Variables*/
 static char SlaveAdress;
-static uint8_t I2CReadSequence[3];
-static uint8_t SequencePosition;
+//static uint8_t I2CReadSequence[3];
+//static uint8_t SequencePosition;
 static uint8_t NumOfBytes;  //number of bytes in
 static uint8_t* DataPtr;
 
@@ -354,7 +354,7 @@ void __attribute__ ((interrupt)) I2C_ISR(void)
 
   I2C0_S = I2C_S_IICIF_MASK; // Clear interrupt flag W1C
 
-    //maybe do 3 cases like poll read
+    //Check to see if in receive mode
       if(!(I2C0_C1 & I2C_C1_TX_MASK) && DataCounter < NumOfBytes)
       {
 	if (DataCounter == (NumOfBytes - 1)) // Check if last byte to be read
@@ -377,7 +377,7 @@ void __attribute__ ((interrupt)) I2C_ISR(void)
 	  I2C0_C1 |= I2C_C1_TXAK_MASK; // NACK from master
 	}
 	DataPtr[DataCounter] = I2C0_D; // Read data
-	DataCounter++; // decrement data counter
+	DataCounter++; // increment data counter
 	NumOfBytes--;
       }
 

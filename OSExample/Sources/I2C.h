@@ -36,19 +36,24 @@ typedef struct
 } TI2CModule;
 
 /*! @brief Sends the Start
-
+ *
  */
 static void Start(void);
 
 /*! @brief wait for interupts to be set and then clears it
-
+ *
  */
 static void WaitforAck(void);
 
 /*! @brief send the stop signal to end communication
-
+ *
  */
 static void Stop(void);
+
+/*! @brief resets the busy bus
+ *
+ */
+static void ResetBusy(void);
 
 /*! @brief Sets up the I2C before first use.
  *
