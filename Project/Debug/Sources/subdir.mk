@@ -4,20 +4,47 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Sources/main.c 
+../Sources/FIFO.c \
+../Sources/Flash.c \
+../Sources/PIT.c \
+../Sources/SCP.c \
+../Sources/UART.c \
+../Sources/UsefulFunctions.c \
+../Sources/analogmeasure.c \
+../Sources/main.c \
+../Sources/packet.c \
+../Sources/voltageRegulator.c 
 
 OBJS += \
-./Sources/main.o 
+./Sources/FIFO.o \
+./Sources/Flash.o \
+./Sources/PIT.o \
+./Sources/SCP.o \
+./Sources/UART.o \
+./Sources/UsefulFunctions.o \
+./Sources/analogmeasure.o \
+./Sources/main.o \
+./Sources/packet.o \
+./Sources/voltageRegulator.o 
 
 C_DEPS += \
-./Sources/main.d 
+./Sources/FIFO.d \
+./Sources/Flash.d \
+./Sources/PIT.d \
+./Sources/SCP.d \
+./Sources/UART.d \
+./Sources/UsefulFunctions.d \
+./Sources/analogmeasure.d \
+./Sources/main.d \
+./Sources/packet.d \
+./Sources/voltageRegulator.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 Sources/%.o: ../Sources/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross ARM C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:\Users\PMcL\Documents\Subjects\48434 Embedded Software\5 Projects\Odd Spring\Template\Project\Library" -I"C:/Users/PMcL/Documents/Subjects/48434 Embedded Software/5 Projects/Odd Spring/Template/Project/Static_Code/IO_Map" -I"C:/Users/PMcL/Documents/Subjects/48434 Embedded Software/5 Projects/Odd Spring/Template/Project/Sources" -I"C:/Users/PMcL/Documents/Subjects/48434 Embedded Software/5 Projects/Odd Spring/Template/Project/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:\Users\12443166\git\es18aut35\Project\Library" -I"C:/Users/12443166/git/es18aut35/Project/Static_Code/IO_Map" -I"C:/Users/12443166/git/es18aut35/Project/Sources" -I"C:/Users/12443166/git/es18aut35/Project/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

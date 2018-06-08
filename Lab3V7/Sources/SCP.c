@@ -15,11 +15,11 @@
 
 #include "types.h"
 #include "SCP.h"
-//#include "Flash.h"
-//#include "packet.h"
-//#include "RTC.h"
-//#include "PE_Types.h"
-//#include "accel.h"
+#include "Flash.h"
+#include "packet.h"
+#include "RTC.h"
+#include "PE_Types.h"
+#include "accel.h"
 
 #include "OS.h"
 
