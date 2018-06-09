@@ -184,7 +184,7 @@ void UART_TxThread(void* pData)
   }
 }
 
-uint8_t RxData; //maybe not here
+//uint8_t RxData; //maybe not here
 
 //Receiving Thread
 void UART_RxThread(void* pData)
@@ -192,7 +192,8 @@ void UART_RxThread(void* pData)
   for(;;)
   {
     OS_SemaphoreWait(RxAccess,0);
-    FIFO_Put(&RxFIFO, RxData);
+    FIFO_Put(&RxFIFO, UART2_D);
+//    FIFO_Put(&RxFIFO, RxData);
 //    UART2_C2 |= UART_C2_RIE_MASK;
 //    if(Packet_Get())
 //    {
@@ -211,8 +212,8 @@ void __attribute__ ((interrupt)) UART_ISR(void)
     if (UART2_S1 & UART_S1_RDRF_MASK)
     {
       //Disbale interrupt until byte red
-//      UART2_C2 &= ~UART_C2_RIE_MASK;
-      RxData = UART_D;
+      UART2_C2 &= ~UART_C2_RIE_MASK;
+      //RxData = UART2_D;
       //Enter thread
       OS_SemaphoreSignal(RxAccess);
     }

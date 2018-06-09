@@ -35,6 +35,20 @@
 // Analog functions
 #include "analog.h"
 
+//Sources module
+#include "types.h"
+#include "UART.h"
+#include "packet.h"
+#include "FIFO.h"
+#include "SCP.h"
+#include "LEDs.h"
+#include "Flash.h"
+#include "PIT.h"
+#include "RTC.h"
+#include "FTM.h"
+#include "Frequencie.h"
+#include "Requirements.h"
+
 // ----------------------------------------
 // Thread set up
 // ----------------------------------------
@@ -51,6 +65,11 @@ static uint32_t AnalogThreadStacks[NB_ANALOG_CHANNELS][THREAD_STACK_SIZE] __attr
 // 0 = highest priority
 // ----------------------------------------
 const uint8_t ANALOG_THREAD_PRIORITIES[NB_ANALOG_CHANNELS] = {1, 2};
+
+//Signal period
+uint16_t* const SignalPeriod;
+//Array of 16 samples
+int16_t Sample[NB_OF_SAMPLE];
 
 /*! @brief Data structure used to pass Analog configuration to a user thread
  *
@@ -139,8 +158,24 @@ static void InitModulesThread(void* pData)
   for (uint8_t analogNb = 0; analogNb < NB_ANALOG_CHANNELS; analogNb++)
     AnalogThreadData[analogNb].semaphore = OS_SemaphoreCreate(0);
 
-  // Initialise the low power timer to tick every 10 ms
-  LPTMRInit(10);
+  // Initialise the low power timer to tick every 5 ms
+  LPTMRInit(5);
+
+//  //Test PutSample
+//  for(int i = 0; i < NB_OF_SAMPLE; i++)
+//  {
+//    int16_t data;
+//    Analog_Get(0,&data);
+//    PutSample(Sample, data);
+//    OS_TimeDelay(4);
+//  }
+
+  Analog_Put(0,5*3277);
+//  PIT_Init(CPU_BUS_CLK_HZ, &PITCallback, NULL);
+//  //Start PIT for 1sec
+//  PIT_Enable(false);
+//  PIT_Set(1000000000,true);
+//  PIT_Enable(true);
 
   // We only do this once - therefore delete this thread
   OS_ThreadDelete(OS_PRIORITY_SELF);

@@ -76,19 +76,7 @@ Parameter 2: minutes (0-59)
 Parameter 3: seconds (0-59)*/
 #define Time 0x0C
 
-/*Protocol – Mode
-Parameter 1:  1 = get Protocol mode
-              2 = set Protocol mode
-Parameter 2:  0 = asynchronous for a “set”, 0 for a “get”
-              1 = synchronous for a “set”, 0 for a “get”
-Parameter 3: 0 */
-#define Protocol_Mode 0x0A
 
-/*Accelerometer – Value
-Parameter 1: x-axis MSB
-Parameter 2: y-axis MSB
-Parameter 3: z-axis MSB */
-#define Accel_Value 0x10
 
 //Communication functions :
 
@@ -161,27 +149,6 @@ bool SendTime();
  */
 bool SetTime();
 
-/*! @brief Identify the Protocol Mode command : set or just send it
- *
- *  @return true if protocol mode has been sent/set, false if not
- */
-bool HandleProtocolMode();
-/*! @brief Send the protocol mode
- *
- *  @return true if protocol mode has been sent, false if not
- */
-bool SendProtocolMode();
-/*! @brief Set the protocol mode
- *
- *  @return true if protocol mode has been set, false if not
- */
-bool SetProtocolMode();
-
-/*! @brief Send the accelerometer values
- *
- *  @return true if accel values has been sent, false if not
- */
-bool SendAccelValues();
 
 
 /*! @brief Private ACK checking function

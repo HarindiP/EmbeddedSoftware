@@ -19,7 +19,6 @@
 #include "packet.h"
 #include "RTC.h"
 #include "PE_Types.h"
-#include "accel.h"
 #include "OS.h"
 
 /*Tower Number*/
@@ -131,37 +130,6 @@ bool SetTime()
 }
 
 
-bool SendProtocolMode()
-{
-  return Packet_Put(0x0A,1, SCP_ProtocolMode, 0);
-}
-bool SetProtocolMode()
-{
-  SCP_ProtocolMode = Packet_Parameter2;
-  Accel_SetMode(SCP_ProtocolMode);
-  return SendProtocolMode();
-}
-bool HandleProtocolMode()
-{
-  if(Packet_Parameter1 == 1)    // Command is : get Tower Mode
-  {
-    SendProtocolMode();
-  }
-  else if (Packet_Parameter1 == 2)  //Command is : set Tower Mode
-  {
-    SetProtocolMode();
-  }
-}
-
-
-bool SendAccelValues()
-{
-  uint8_t data[3];
-  Accel_ReadXYZ(data);
-  return Packet_Put(0x10, data[0], data[1], data[2]);
-}
-
-
 /*Acknowledgement and NonAcknowledgement functions*/
 bool SCP_Acknowledgement_Required(const uint8_t command)
 {
@@ -200,12 +168,6 @@ bool SCP_Packet_Handle()
       break;
     case Time :
       return SetTime();
-      break;
-    case Protocol_Mode :
-      return HandleProtocolMode();
-      break;
-    case Accel_Value :
-      return SendAccelValues();
       break;
     default:	//Unknown command
       //Do nothing or return command with NAK
