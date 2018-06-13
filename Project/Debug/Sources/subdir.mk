@@ -12,6 +12,7 @@ C_SRCS += \
 ../Sources/UsefulFunctions.c \
 ../Sources/analogmeasure.c \
 ../Sources/main.c \
+../Sources/output.c \
 ../Sources/packet.c \
 ../Sources/voltageRegulator.c 
 
@@ -24,6 +25,7 @@ OBJS += \
 ./Sources/UsefulFunctions.o \
 ./Sources/analogmeasure.o \
 ./Sources/main.o \
+./Sources/output.o \
 ./Sources/packet.o \
 ./Sources/voltageRegulator.o 
 
@@ -36,6 +38,7 @@ C_DEPS += \
 ./Sources/UsefulFunctions.d \
 ./Sources/analogmeasure.d \
 ./Sources/main.d \
+./Sources/output.d \
 ./Sources/packet.d \
 ./Sources/voltageRegulator.d 
 

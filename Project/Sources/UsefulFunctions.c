@@ -1,23 +1,65 @@
-//#include <math.h>
-//#include <types.h>
+#include <math.h>
+#include <types.h>
 //
 //
-//#define NB_OF_SAMPLE 16
-//
-//int16_t Ts;
-//int16_t[16] Sample;
-//
-//uint16_t VRMS(int16* const Sample)
-//{
-//	uint32_t v_rms;
-//	for (int i = 0; i<16; i++)
-//	{
-//		v_rms += (*(Sample+i)) * (*(Sample+i));
-//	}
-//	v_rms /= 16;
-//	v_rms = (uint16_t)sqrt((double)v_rms);
-//	retunr v_rms;
-//}
+#define NB_OF_SAMPLE 16
+
+int16_t Ts;
+int16_t Sample[NB_OF_SAMPLE];
+
+int16_t VRMS(int16_t* const Sample[a])
+{
+	int32_t v_rms;
+	for (int i = 1; i<NB_OF_SAMPLE; i++)
+	{
+    v_rms += (Sample[a-i]) * (Sample[a-i]);
+	}
+	v_rms = v_rms/16;
+	v_rms = (int16_t)sqrt((double)v_rms);
+	return v_rms;
+}
+
+/*! @brief Converts analog values to voltage by find bits to volts
+ *
+ *  @param
+ *  @note
+ */
+void AnalogtoVoltage(x)
+{
+  return x *
+}
+
+
+/*! @brief Converts analog values to voltage by find bits to volts
+ *
+ *  @param
+ *  @note
+ */
+void VoltagetoAnalog(void)
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //int16_t Interpolation(int16_t x1, int16_t x2, int16_t y1, int16_t y2)
 //{
@@ -55,13 +97,17 @@
 //		*Ts = 2 * (zero[1] - zero[0]) / 16;
 //	}
 //}
+////
 //
-//uint8_t InverseTimer(int16_t deviation, int16_t* Ts)
+//
+//
+//uint8_t InverseTimer(int16_t dev, int16_t* Ts)
 //{
 //	static uint8_t told;
 //	uint8_t invTime;
-//	invTime = (5 / (2 * deviation)) * (1 - (*Ts / told));
+//	invTime = (5 / (2 * dev)) * (1 - (*Ts / told));
 //	return invTime;
 //}
-//
-//
+////
+////
+

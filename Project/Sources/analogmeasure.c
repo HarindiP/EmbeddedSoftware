@@ -41,17 +41,8 @@ void compareMinimum(int16_t value, int position)
 {
   if(value < firstMin)
   {
-    secondMin = firstMin;
     firstMin = value;
-
-    secondMinPosition = firstMinPosition;
     firstMinPosition = position;
-  }
-  else if(value > firstMin && value < secondMin)
-  {
-    secondMin = value;
-
-    secondMinPosition = position;
   }
 }
 
@@ -61,35 +52,13 @@ void compareMinimum(int16_t value, int position)
  */
 void calculateMinimum(void)
 {
-  for(int i = 0; i < (sizeof(myArray)/sizeof(int16_t)); i++)
+  for(int i = 1; i < (sizeof(myArray)/ sizeof(int16_t)) - 1; i++)
   {
-//    (void) Analog_Get(channelNb, valuePtr);
-//    myArray[i] = *valuePtr;]
 
-    if (i==0) // We initialize firstMin to the first position of the array
+    if (i==1) // We initialize firstMin to the first position of the array
     {
       firstMin = abs(myArray[i]);
       firstMinPosition = i;
-    }
-    else if (i==1) // We initialize secondMin to the second position of the array
-    {
-      secondMin = abs(myArray[i]);
-      secondMinPosition = i;
-      if(secondMin < firstMin) // We check if secondMin is smaller than firstMin
-      {
-        int16_t updatevar; //update the new variable that helps save
-        int updatevarpos;
-
-        //Values update
-        updatevar = firstMin;
-        firstMin = secondMin;
-        secondMin = updatevar;
-
-        //Position update
-        updatevarpos = firstMinPosition;
-        firstMinPosition = secondMinPosition;
-        secondMinPosition = updatevarpos;
-      }
     }
     else
     {
@@ -97,27 +66,52 @@ void calculateMinimum(void)
     }
   }
 
-  // End of for loop --> Two minimum values already calculated, as well as their positions
+  // End of for loop -->  minimum value already calculated, as well as its positions
 
-  sampleSize = firstMinPosition - secondMinPosition;
-  sampleSize = abs(sampleSize); // Number of values of the array which define the half-window
+  if (myArray[firstMinPosition] > 0) //value at index value is positive
+  {
+    firstMin = myArray[firstMinPosition];
+    secondMin =  myArray[firstMinPosition - 1];
 
+  }
+
+  else if(myArray[firstMinPosition] < 0) //value at index value is positive
+  {
+    firstMin = myArray[firstMinPosition];
+    secondMin =  myArray[firstMinPosition + 1];
+  }
+  else
+  {
+    firstMin = myArray[firstMinPosition];
+  }
 
 }
 
-/*! @brief Writes into my array
+
+/*! @brief Writes into my array from ADC
  *
  *  @param
  *  @note It is supposed that the ADC has been initialized
  */
 
-void InputWrite (void)
+void WriteInput (void)
 {
   (void) Analog_Get(channelNb, valuePtr);
-  myArray[globalPos] = *valuePtr;
+  myArray[globalPos] = AnalogtoVoltage(*valuePtr);
+
   globalPos++; //want to make sure called 16 times
 
+
+  //intialises the position
+  if (globalPos == 16)
+  {
+    globalPos = 0;
+  }
 }
+
+
+
+
 /*!
  * @}
 */
