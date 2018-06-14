@@ -11,7 +11,6 @@ C_SRCS += \
 ../Sources/UART.c \
 ../Sources/UsefulFunctions.c \
 ../Sources/analogmeasure.c \
-../Sources/main.c \
 ../Sources/packet.c \
 ../Sources/signals.c \
 ../Sources/voltageRegulator.c 
@@ -24,7 +23,6 @@ OBJS += \
 ./Sources/UART.o \
 ./Sources/UsefulFunctions.o \
 ./Sources/analogmeasure.o \
-./Sources/main.o \
 ./Sources/packet.o \
 ./Sources/signals.o \
 ./Sources/voltageRegulator.o 
@@ -37,7 +35,6 @@ C_DEPS += \
 ./Sources/UART.d \
 ./Sources/UsefulFunctions.d \
 ./Sources/analogmeasure.d \
-./Sources/main.d \
 ./Sources/packet.d \
 ./Sources/signals.d \
 ./Sources/voltageRegulator.d 

@@ -26,8 +26,6 @@ int secondMinPosition; // Position in myArray of the secondMin
 float period; // deviation
 int sampleSize; // Number of values to take into account from the array for measuring
 int globalPos; // Position to store new data in the global array
-//float temp[16] =   // 5 and 14
-
 
 const uint8_t channelNb = 1;
 //int16_t* const valuePtr;  //dont need yet???
@@ -62,7 +60,6 @@ float calculateMinimum(void)
     {
       firstMin = abs(myArray[i]);
       firstMinPosition = i;
-      //bibish
     }
     else
     {
@@ -141,15 +138,17 @@ void WriteInput (void)
 
 // creat function that will ease the calculate minumum value
 
-int main (void)
-{
-  calculateMinimum();
-  printf("%d" , calculateMinimum());
 
-}
 /*!
  * @}
 */
+
+int main (void){
+  calculateMinimum();
+  printf("%f", firstMin);
+  printf("%d", firstMinPosition);
+  return 0;
+}
 
 
 

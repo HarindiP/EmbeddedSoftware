@@ -27,7 +27,7 @@ int16_t VRMS(int16_t* const Sample)
  *  @param
  *  @note
  */
-float AnalogtoVoltage(void)
+float AnalogtoVoltage(float x)
 {
   return x / BITS_PER_VOLT;
 }
@@ -38,7 +38,8 @@ float AnalogtoVoltage(void)
  *  @param
  *  @note
  */
-float VoltagetoAnalog(void)
+
+float VoltagetoAnalog(float x)
 {
   return x * BITS_PER_VOLT;
 }
