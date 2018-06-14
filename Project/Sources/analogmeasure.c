@@ -62,6 +62,7 @@ float calculateMinimum(void)
     {
       firstMin = abs(myArray[i]);
       firstMinPosition = i;
+      //bibish
     }
     else
     {
