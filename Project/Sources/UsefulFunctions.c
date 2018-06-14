@@ -3,16 +3,19 @@
 //
 //
 #define NB_OF_SAMPLE 16
+#define BITS_PER_VOLT 3276.7
 
 int16_t Ts;
 int16_t Sample[NB_OF_SAMPLE];
+float x;
 
-int16_t VRMS(int16_t* const Sample[a])
+
+int16_t VRMS(int16_t* const Sample)
 {
 	int32_t v_rms;
 	for (int i = 1; i<NB_OF_SAMPLE; i++)
 	{
-    v_rms += (Sample[a-i]) * (Sample[a-i]);
+    v_rms += (Sample[i]) * (Sample[i]);
 	}
 	v_rms = v_rms/16;
 	v_rms = (int16_t)sqrt((double)v_rms);
@@ -24,9 +27,9 @@ int16_t VRMS(int16_t* const Sample[a])
  *  @param
  *  @note
  */
-void AnalogtoVoltage(x)
+float AnalogtoVoltage(void)
 {
-  return x *
+  return x / BITS_PER_VOLT;
 }
 
 
@@ -35,9 +38,9 @@ void AnalogtoVoltage(x)
  *  @param
  *  @note
  */
-void VoltagetoAnalog(void)
+float VoltagetoAnalog(void)
 {
-
+  return x * BITS_PER_VOLT;
 }
 
 

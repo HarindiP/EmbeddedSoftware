@@ -12,8 +12,8 @@ C_SRCS += \
 ../Sources/UsefulFunctions.c \
 ../Sources/analogmeasure.c \
 ../Sources/main.c \
-../Sources/output.c \
 ../Sources/packet.c \
+../Sources/signals.c \
 ../Sources/voltageRegulator.c 
 
 OBJS += \
@@ -25,8 +25,8 @@ OBJS += \
 ./Sources/UsefulFunctions.o \
 ./Sources/analogmeasure.o \
 ./Sources/main.o \
-./Sources/output.o \
 ./Sources/packet.o \
+./Sources/signals.o \
 ./Sources/voltageRegulator.o 
 
 C_DEPS += \
@@ -38,8 +38,8 @@ C_DEPS += \
 ./Sources/UsefulFunctions.d \
 ./Sources/analogmeasure.d \
 ./Sources/main.d \
-./Sources/output.d \
 ./Sources/packet.d \
+./Sources/signals.d \
 ./Sources/voltageRegulator.d 
 
 
@@ -47,7 +47,7 @@ C_DEPS += \
 Sources/%.o: ../Sources/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross ARM C Compiler'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:\Users\12443166\git\es18aut35\Project\Library" -I"C:/Users/12443166/git/es18aut35/Project/Static_Code/IO_Map" -I"C:/Users/12443166/git/es18aut35/Project/Sources" -I"C:/Users/12443166/git/es18aut35/Project/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -I"C:\Users\12443166\Documents\git\es18aut35\Project\Library" -I"C:/Users/12443166/Documents/git/es18aut35/Project/Static_Code/IO_Map" -I"C:/Users/12443166/Documents/git/es18aut35/Project/Sources" -I"C:/Users/12443166/Documents/git/es18aut35/Project/Generated_Code" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
