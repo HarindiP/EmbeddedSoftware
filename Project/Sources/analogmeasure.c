@@ -17,26 +17,14 @@
 #include "types.h"
 #include "stdio.h"
 #include "stdlib.h"
-
-float myArray[16] = {1,2,3.5,4,6,0.4,7,8,5,4,2,1,-0.7,-0.44,-0.8,-4}; // Array of the total of elements measured
-float firstMin; // This is going to be the minimum one (absolute value)
-float secondMin; // This is going to be the second minimum one (absolute value)
-int firstMinPosition; // Position in myArray of firstMin
-int secondMinPosition; // Position in myArray of the secondMin
-float period; // deviation
-int sampleSize; // Number of values to take into account from the array for measuring
-int globalPos; // Position to store new data in the global array
-
-const uint8_t channelNb = 1;
-//int16_t* const valuePtr;  //dont need yet???
-float * const WritePtr;  //pointer to begining of my array
-
+#include "analogmeasure.h"
 
 
 /*! @brief Compares the new measured value with the ones already stored
  *
  *  @param value It is the new minimum value
  *  @note It is supposed that the ADC has been initialized
+ *  @note make bool to confirm that it is successfull
  */
 void compareMinimum(int16_t value, int position)
 {
@@ -121,7 +109,7 @@ float calculateMinimum(void)
  *  @note It is supposed that the ADC has been initialized
  */
 
-void WriteInput (void)
+void UpdateInput (float * const WritePtr)
 {
   (void) Analog_Get(channelNb, WritePtr);
   myArray[globalPos] = AnalogtoVoltage(*WritePtr);
@@ -136,7 +124,18 @@ void WriteInput (void)
   }
 }
 
-// creat function that will ease the calculate minumum value
+///*! @brief Writes into my array from ADC
+// *
+// *  @param
+// *  @note It is supposed that the ADC has been initialized
+// */
+//void Updates(const int8_t channelNb, int16_t *value)
+//{
+//
+//
+//
+//
+//}
 
 
 /*!

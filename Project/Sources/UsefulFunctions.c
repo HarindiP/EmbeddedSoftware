@@ -3,53 +3,116 @@
 //
 //
 #define NB_OF_SAMPLE 16
-#define BITS_PER_VOLT 3276.7
+#define BITS_PER_VOLT 3276.7  /* ie. each increment is an increase of 1V*/
 
 int16_t Ts;
-int16_t Sample[NB_OF_SAMPLE];
-float x;
+float Sample[NB_OF_SAMPLE];
+float value;
 
 
-int16_t VRMS(int16_t* const Sample)
+float VRMS(float Sample[])
 {
-	int32_t v_rms;
+	float v_rms;
+	// what if there are less than 16 samples
 	for (int i = 1; i<NB_OF_SAMPLE; i++)
 	{
     v_rms += (Sample[i]) * (Sample[i]);
 	}
-	v_rms = v_rms/16;
-	v_rms = (int16_t)sqrt((double)v_rms);
+	v_rms = (float)v_rms/16;
+	v_rms = (float)sqrt((float)v_rms);
+
+	//what if vrms is 0
+
 	return v_rms;
 }
 
-/*! @brief Converts analog values to voltage by find bits to volts
+/*! @brief Converts analog values to voltage by  bits to volts
  *
  *  @param
- *  @note
+ *  @note maybe static??
  */
-float AnalogtoVoltage(float x)
+float AnalogtoVoltage(float value)
 {
-  return x / BITS_PER_VOLT;
+//  if (value < 0)
+//  {
+//    value *= -1;
+//  }
+  return value / BITS_PER_VOLT;
 }
 
 
-/*! @brief Converts analog values to voltage by find bits to volts
+/*! @brief Converts analog values to voltage by  bits to volts
  *
  *  @param
- *  @note
+ *  @note maybe static??
  */
 
-float VoltagetoAnalog(float x)
+float VoltagetoAnalog(float value)
 {
-  return x * BITS_PER_VOLT;
+//  if valuex < 0)
+//  {
+//    value *= -1;
+//  }
+
+  return value * BITS_PER_VOLT;
 }
 
 
+/*! @brief uses to calulate new pit period by using zero crossing and time between
+ *
+ *  @param
+ *  @note maybe static??
+ */
+
+//void frequencytracking ( ThreaddataStructtype channeldata, uint8_t count)
+//{
+//  if (channeldata->channelNb == 0)
+//  {
+//    if (sample[count]>0 && samples[count-1] < 0)
+//    {
+//      case for first zero crossing
+//         calculate the timeoffset between the one before and the one after
+//        reset the sampleoffsett
+//        look for second zero crossing
+//        break
+//
+//      case for 2nd zerocrossing
+//        calculate the the off set from the the two samples
+//
+//      newperiod = (sampleoffset-(sum of offsets)) * (periodinns/ 1000000000)
+//      newfreq = 1/newperiod
+//
+//
+//      if (newfreq>=47.5 and newfreq<=52.5)
+//      {
+//        //set in tp global freq
+//
+//        periodinns = ((1/ newfreq)/16) * 1000000000; //peirod in nanesecs
+//
+//        PIT_Set(periodinns, true);
+//      }
+//
+//      //initialise the crossing variable
+//      break;
+//
+//      //defaultcase: break;
+//
+//
+//
+//    }
+//    //increment sample offset
+//  }
+//}
 
 
 
-
-
+//float timeoffset(float value1 , float value2)
+//{
+//  float m = (value2 - value1 ) / (value2 + value1)
+//  float offset = (-value1) / m ;
+//  return offset;
+//
+//}
 
 
 
