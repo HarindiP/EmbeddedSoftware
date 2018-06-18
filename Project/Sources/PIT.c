@@ -18,13 +18,15 @@
 #include "PIT.h"
 #include "MK70F12.h"
 #include "PE_Types.h"
+#include "LEDs.h"
+
 
 static uint32_t Clkperiod; //ask coralie if it should be static
 const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/	// MOVE TO MAIN!!!!
 static void (*UserFunction)(void*);
 static void* UserArguments;
 
-
+OS_ECB* PITAccess;
 
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
@@ -56,10 +58,13 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*Enable interupts from PIT Module*/
   NVICISER2 = (1 << (68 % 32));
 
+  //Create Semaphore
+  PITAccess = OS_SemaphoreCreate(0);
+
   /*Enable timer*/
   PIT_Enable(true);
 
-  /*Sets timer*/
+//  /*Sets timer*/
   PIT_Set(PITPeriod,true);
 
 //  ExitCritical();
@@ -100,14 +105,17 @@ void PIT_Enable(const bool enable)
 }
 
 
-
 void __attribute__ ((interrupt)) PIT_ISR(void)
 {
+  OS_ISREnter();
   /*Clear interupt flag*/
   PIT_TFLG0 |= PIT_TFLG_TIF_MASK;
 
-  if (UserFunction)
-  (*UserFunction)(UserArguments);
+//  if (UserFunction)
+//  (*UserFunction)(UserArguments);
+
+  OS_SemaphoreSignal(PITAccess);
+  OS_ISRExit();
 }
 //CALL USER FUCTION PAGE 4/7 LAB3
 

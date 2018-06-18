@@ -12,16 +12,20 @@
 
 // CPU module - contains low level hardware initialization routines
 #include "Cpu.h"
-#include "PE_Types.h"
-#include "PE_Error.h"
-#include "PE_Const.h"
-#include "IO_Map.h"
+//#include "Events.h"
+//#include "PE_Types.h"
+//#include "PE_Error.h"
+//#include "PE_Const.h"
+//#include "IO_Map.h"
 
 //Sources module
 #include "types.h"
 #include "UART.h"
 #include "packet.h"
 #include "FIFO.h"
+
+OS_ECB* TxAccess;
+OS_ECB* RxAccess;
 
 
 static TFIFO TxFIFO, RxFIFO;
@@ -36,7 +40,6 @@ static TFIFO TxFIFO, RxFIFO;
  */
 bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
 {
-//    EnterCritical();
     /*BaudRate settings*/
     uint16union_t SBR;
     uint8_t brfd;
@@ -87,12 +90,9 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
     /*UART2_TWFIFO |= 40;
     UART2_RWFIFO |= 40;*/
 
-
-
     /*Enable Transmitter and Receiver*/
     UART2_C2 |= UART_C2_RE_MASK;
     UART2_C2 |= UART_C2_TE_MASK;
-
 
     /*Initialising Transmiter and Reciever Fifo*/
     FIFO_Init(&TxFIFO);
@@ -108,8 +108,8 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
     /*NVIC Enable interupts NVIC ICER*/
     NVICISER1 = (1 << (17));
 
-
-//    ExitCritical();
+    TxAccess = OS_SemaphoreCreate(0);
+    RxAccess = OS_SemaphoreCreate(0);
 
     return true;
 
@@ -130,7 +130,8 @@ bool UART_Init(const uint32_t baudRate, const uint32_t moduleClk)
  */
 bool UART_InChar(uint8_t * const dataPtr)
 {
-    return FIFO_Get(&RxFIFO,dataPtr);
+    FIFO_Get(&RxFIFO,dataPtr);
+    return true;
 }
 
 /*! @brief Put a byte in the transmit FIFO if it is not full.
@@ -141,22 +142,10 @@ bool UART_InChar(uint8_t * const dataPtr)
  */
 bool UART_OutChar(const uint8_t data)
 {
-  EnterCritical();
-    if (FIFO_Put(&TxFIFO,data))
-    {
-	UART2_C2 |= UART_C2_TIE_MASK;
-	ExitCritical();
-	return TRUE;
-    }
-
-    else
-      {
-	ExitCritical();
-	return FALSE;
-      }
-
+    FIFO_Put(&TxFIFO,data);
     //Enable Interrupt YES
-
+    UART2_C2 |= UART_C2_TIE_MASK;
+    return true;
 }
 
 /*! @brief Poll the UART status register to try and receive and/or transmit one character.
@@ -166,28 +155,66 @@ bool UART_OutChar(const uint8_t data)
  */
 void UART_Poll(void)
 {
-    uint8_t statusReg = UART2_S1;
+  uint8_t statusReg = UART2_S1;
 
   /*56.3.5*/
   if ((statusReg & UART_S1_RDRF_MASK) != 0)
-    {
-      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
-    }
-  /**/
+  {
+    FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
+  }
+  /*Clear flag by reading register*/
   if ((statusReg & UART_S1_TDRE_MASK) != 0 )
-    {
-      FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
-    }
+  {
+    FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D); //Transmits one bit
+  }
 }
+
+//Transmitting Thread
+void UART_TxThread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(TxAccess,0);
+    //Why do we have to do that ?
+    if (UART2_S1 & UART_S1_TDRE_MASK)
+    {
+      FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D);//Transmits one byte
+    }
+    UART2_C2 |= UART_C2_TIE_MASK;
+  }
+}
+
+uint8_t RxData; //maybe not here
+
+//Receiving Thread
+void UART_RxThread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(RxAccess,0);
+    FIFO_Put(&RxFIFO, RxData);
+//    UART2_C2 |= UART_C2_RIE_MASK;
+//    if(Packet_Get())
+//    {
+//      OS_SemaphoreSignal(Packet_Ready);	//TODO : why this doesnt work ???
+//    }
+  }
+}
+
 
 void __attribute__ ((interrupt)) UART_ISR(void)
 {
+  OS_ISREnter();
   //Receive throught interrupt
   if(UART2_C2 & UART_C2_RIE_MASK)
   {
     if (UART2_S1 & UART_S1_RDRF_MASK)
     {
-      FIFO_Put(&RxFIFO, UART2_D); //Receives one bit
+      //Disbale interrupt until byte red
+//      UART2_C2 &= ~UART_C2_RIE_MASK;
+      RxData = UART2_D;
+      //Enter thread
+      OS_SemaphoreSignal(RxAccess);
     }
   }
   //Transmit throught interrupt
@@ -195,14 +222,15 @@ void __attribute__ ((interrupt)) UART_ISR(void)
   {
     if (UART2_S1 & UART_S1_TDRE_MASK)
     {
-      if (!FIFO_Get(&TxFIFO, (uint8_t *)&UART2_D)) //Transmits one bit
-        UART2_C2 &= ~UART_C2_TIE_MASK;
+	//Desable interrupt until byte has been sent
+	UART2_C2 &= ~UART_C2_TIE_MASK;
+	//Enter thread
+    	OS_SemaphoreSignal(TxAccess);
     }
   }
+  OS_ISRExit();
 }
 
 /*!
  ** @}
  */
-
-

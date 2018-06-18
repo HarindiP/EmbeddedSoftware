@@ -17,6 +17,8 @@
 
 // new types
 #include "types.h"
+#include "OS.h"
+
 
 /*! @brief Sets up the UART interface before first use.
  *
@@ -48,6 +50,18 @@ bool UART_OutChar(const uint8_t data);
  *  @note Assumes that UART_Init has been called.
  */
 void UART_Poll(void);
+
+/*! @brief Put the byte to transmit from TxFIFO to UART_D reg
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+void UART_TxThread(void* pData);
+
+/*! @brief Put the received byte in the RxFIFO
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+void UART_RxThread(void* pData);
 
 /*! @brief Interrupt service routine for the UART.
  *

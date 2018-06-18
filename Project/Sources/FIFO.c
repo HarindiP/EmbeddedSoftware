@@ -12,8 +12,7 @@
 
 
 #include "FIFO.h"
-#include "PE_Types.h"
-#include "Cpu.h"
+//#include "PE_Types.h"
 
 /*! @brief Initialize the FIFO before first use.
  *
@@ -28,7 +27,9 @@ void FIFO_Init(TFIFO * const FIFO)
   /*No data in the buffer*/
     FIFO->Start=0;
     FIFO->End=0;
-    FIFO->NbBytes=0;
+    FIFO->BufferAccess = OS_SemaphoreCreate(1);
+    FIFO->ItemAvailable = OS_SemaphoreCreate(0);
+    FIFO->SpaceAvailable = OS_SemaphoreCreate(FIFO_SIZE);
 }
 
 /*! @brief Put one character into the FIFO.
@@ -38,32 +39,25 @@ void FIFO_Init(TFIFO * const FIFO)
  *  @return bool - TRUE if data is successfully stored in the FIFO.
  *  @note Assumes that FIFO_Init has been called.
  */
-bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
+void FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 {
-  EnterCritical();
-  /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
-    if(FIFO->NbBytes<FIFO_SIZE)
+
+    /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
+    OS_SemaphoreWait(FIFO->SpaceAvailable, 0);
+
+    OS_DisableInterrupts();
+    FIFO->Buffer[FIFO->End]=data;
+    FIFO->End++;
+    /*Makes sure Fifo Buffer circular*/
+    if (FIFO->End==FIFO_SIZE)
     {
-
-	FIFO->Buffer[FIFO->End]=data;
-	FIFO->End++;
-
-	/*Makes sure Fifo Buffer circular*/
-	if (FIFO->End==FIFO_SIZE)
-	  {
-	    FIFO->End=0;
-	  }
-	FIFO->NbBytes++;
-
-	ExitCritical();
-
-	return true;
+	FIFO->End=0;
     }
-    else
-    {
-	ExitCritical();
-	return false;
-    }
+
+    OS_EnableInterrupts();
+
+    OS_SemaphoreSignal(FIFO->ItemAvailable);
+
 
 }
 
@@ -74,32 +68,21 @@ bool FIFO_Put(TFIFO * const FIFO, const uint8_t data)
  *  @return bool - TRUE if data is successfully retrieved from the FIFO.
  *  @note Assumes that FIFO_Init has been called.
  */
-bool FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
+void FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr)
 {
-  EnterCritical();
-  /*If buffer is not empty, take oldest data and update Fifo parameters*/
-    if(FIFO->NbBytes==0)
+    OS_SemaphoreWait(FIFO->ItemAvailable, 0);
+//    OS_SemaphoreWait(FIFO->BufferAccess, 0);
+    OS_DisableInterrupts();
+    *dataPtr=FIFO->Buffer[FIFO->Start];
+    FIFO->Start++;
+    /*Makes sure Fifo Buffer circular*/
+    if (FIFO->Start==FIFO_SIZE)
     {
-	ExitCritical();
-	return false;
+      FIFO->Start=0;
     }
-
-    else
-    {
-
-	*dataPtr=FIFO->Buffer[FIFO->Start];
-	FIFO->Start++;
-
-	/*Makes sure Fifo Buffer circular*/
-	if (FIFO->Start==FIFO_SIZE)
-	  {
-	    FIFO->Start=0;
-	  }
-	FIFO->NbBytes--;
-	ExitCritical();
-	return true;
-    }
-
+    OS_EnableInterrupts();
+    OS_SemaphoreSignal(FIFO->SpaceAvailable); //Signal that FIFO has space
+//    OS_SemaphoreSignal(FIFO->BufferAccess);
 }
 
 

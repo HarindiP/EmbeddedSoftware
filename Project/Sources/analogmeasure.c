@@ -17,37 +17,210 @@
 #include "types.h"
 #include "stdio.h"
 #include "stdlib.h"
-#include "analogmeasure.h"
+#include "UsefulFunctions.h"
+#include "PIT.h"
+
+int16_t myArray[16]; // Array of the total of elements measured
+int16_t firstMin; // This is going to be the minimum one
+int16_t firstMinAux;
+int16_t secondMin; // This is going to be the next or previous value to the minimum one
+int16_t secondMinAux;
+int firstMinPosition; // Position in myArray of minimum positive value
+int secondMinPosition; // Position in myArray of second minimum positive value
+int16_t period; // The period value aux in int
+float finalPeriod; // Period value in float
+int arrayPosition;
+int32_t measurementsFreq = 1250000;
 
 
 /*! @brief Compares the new measured value with the ones already stored
  *
- *  @param value It is the new minimum value
+ *  @param value It is the new measured value
+ *  @param position It is the position of the read value
  *  @note It is supposed that the ADC has been initialized
- *  @note make bool to confirm that it is successfull
  */
-void compareMinimum(int16_t value, int position)
+void compareMinimum(float value, int position)
 {
   if(value < firstMin)
   {
+    secondMin = firstMin;
     firstMin = value;
+
+    secondMinPosition = firstMinPosition;
     firstMinPosition = position;
+  }
+  else if(value > firstMin && value < secondMin)
+  {
+    secondMin = value;
+
+    secondMinPosition = position;
   }
 }
 
-/*! @brief Calculates the two lowest values (absolute value) of the array and their position
- *
- *  @note interpoling function
- */
-float calculateMinimum(void)
+void calculation (int minimumPosition, int16_t minimum, int16_t minimumAux)
 {
-  for(int i = 0; i < (sizeof(myArray)/ sizeof(int16_t)); i++)
+
+  // Special case for position zero
+
+  if(minimumPosition == 0)
+  {
+    if(myArray[minimumPosition] < 0)
+    {
+      if(myArray[minimumPosition + 1] > 0)
+      {
+        minimum = myArray[minimumPosition]; // Closest value to 0 --> negative
+        minimumAux = myArray[minimumPosition + 1]; // Consecutive value --> positive
+
+        period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+        period += minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+    }
+    if(myArray[minimumPosition] > 0)
+    {
+      if(myArray[minimumPosition + 1] < 0)
+      {
+        minimum = myArray[minimumPosition]; // Closest value to 0 --> positive
+        minimumAux = myArray[minimumPosition + 1]; // Next value --> negative
+
+        period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+        period += minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+    }
+    if(myArray[minimumPosition] == 0)
+    {
+      period = minimumPosition * measurementsFreq;
+      finalPeriod = (float)period;
+    }
+  }
+
+  // Special case for position 15
+
+  else if(minimumPosition == 15)
+    {
+      if(myArray[minimumPosition] < 0)
+      {
+        if(myArray[minimumPosition - 1] > 0)
+        {
+          minimum = myArray[minimumPosition]; // Closest value to 0 --> negative
+          minimumAux = myArray[minimumPosition - 1]; // Previous value --> positive
+
+          period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+          period -= minimumPosition * measurementsFreq;
+          finalPeriod = (float)period;
+        }
+      }
+      if(myArray[minimumPosition] > 0)
+      {
+        if(myArray[minimumPosition - 1] < 0)
+        {
+          minimum = myArray[minimumPosition]; // Closest value to 0 --> positive
+          minimumAux = myArray[minimumPosition - 1]; // Previous value --> negative
+
+          period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+          period -= minimumPosition * measurementsFreq;
+          finalPeriod = (float)period;
+        }
+      }
+      if(myArray[minimumPosition] == 0)
+      {
+        period = minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+    }
+
+  // Remaining cases
+
+  else
   {
 
-    if (i==1) // We initialize firstMin to the first position of the array
+    if(myArray[minimumPosition] < 0)
+    {
+      if(myArray[minimumPosition + 1] > 0)
+      {
+        minimum = myArray[minimumPosition]; // Closest value to 0 --> negative
+        minimumAux = myArray[minimumPosition + 1]; // Consecutive value --> positive
+
+        period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+        period += minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+
+      if(myArray[minimumPosition + 1] < 0)
+      {
+        minimum = myArray[minimumPosition]; // Closest value to 0 --> negative
+        minimumAux = myArray[minimumPosition - 1]; // Previous value --> positive
+
+        period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+        period -= minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+    }
+
+    if(myArray[minimumPosition] > 0)
+    {
+      if(myArray[minimumPosition + 1] > 0)
+      {
+        minimum = myArray[minimumPosition]; // Closest value to 0 --> positive
+        minimumAux = myArray[minimumPosition - 1]; // Previous value --> negative
+
+        period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+        period -= minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+
+      if(myArray[minimumPosition + 1] < 0)
+      {
+        minimum = myArray[minimumPosition]; // Closest value to 0 --> positive
+        minimumAux = myArray[minimumPosition + 1]; // Next value --> negative
+
+        period = measurementsFreq * (minimum / (abs(minimum) + minimumAux));
+        period += minimumPosition * measurementsFreq;
+        finalPeriod = (float)period;
+      }
+    }
+
+    if(myArray[minimumPosition] == 0) // The value measured is exactly zero
+    {
+      period = minimumPosition * measurementsFreq;
+      finalPeriod = (float)period;
+    }
+  }
+}
+
+/*! @brief Calculates the lowest value (absolute value) of the array and its position
+ *
+ *  @note It is supposed that the ADC has been initialized
+ */
+void calculateMinimum(void)
+{
+  for(int i = 0; i < (sizeof(myArray)/sizeof(int16_t)); i++) // We check from second position to the previous of the last one
+  {
+    if (i==1) // We initialize firstMin to the second position of the array --> Enable to check minimum values
     {
       firstMin = abs(myArray[i]);
       firstMinPosition = i;
+    }
+    else if (i==1) // We initialize secondMin to the second position of the array
+    {
+      secondMin = abs(myArray[i]);
+      secondMinPosition = i;
+      if(secondMin < firstMin) // We check if secondMin is smaller than firstMin
+      {
+        int16_t aux;
+        int auxpos;
+
+        //Values update
+        aux = firstMin;
+        firstMin = secondMin;
+        secondMin = aux;
+
+        //Position update
+        auxpos = firstMinPosition;
+        firstMinPosition = secondMinPosition;
+        secondMinPosition = auxpos;
+      }
     }
     else
     {
@@ -55,101 +228,42 @@ float calculateMinimum(void)
     }
   }
 
-  // Assuming the for loop have as already found the minimum value and its position
+  // End of for loop --> The two minimums are already calculated, as well as their position
 
-  if (myArray[firstMinPosition] > 0) //value at index value is positive
-  {
-    // if the positon after is postive
+  int minimumPosition = firstMinPosition;
+  int16_t minimum = firstMin;
+  int16_t minimumAux = firstMinAux;
 
-    firstMin = myArray[firstMinPosition];
-    secondMin =  myArray[firstMinPosition - 1];
+  calculation(minimumPosition, minimum, minimumAux); // Calculation for the first minimum
 
-    period = 1250000 * (firstMin  /abs(firstMin) + secondMin);
-    period -= 1250000 * firstMinPosition;
+  minimumPosition = secondMinPosition;
+  minimum = secondMin;
+  minimumAux = secondMinAux;
 
+  calculation(minimumPosition, minimum, minimumAux); // Calculation for the second minimum
 
-    //if the second positon after is negative
-    firstMin = myArray[firstMinPosition];
-    secondMin =  myArray[firstMinPosition + 1];
-
-    period = 1250000 * (firstMin  /abs(firstMin) + secondMin);
-    period += 1250000 * firstMinPosition;
-
-  }
-
-  else if(myArray[firstMinPosition] < 0) //value at index value is positive
-  {
-    // if the positon after is postive
-    firstMin = myArray[firstMinPosition];
-    secondMin =  myArray[firstMinPosition + 1];
-
-    period = 1250000 * (firstMin  /abs(firstMin) + secondMin);
-    period += 1250000 * firstMinPosition;
-
-    // if the positon after is negative
-    firstMin = myArray[firstMinPosition];
-    secondMin =  myArray[firstMinPosition - 1];
-
-    period = 1250000 * (firstMin  /abs(firstMin) + secondMin);
-    period -= 1250000 * firstMinPosition;
-
-  }
-  else
-  {
-    period = 1250000* firstMinPosition;  //deviation from x axis
-  }
-
-  return firstMin;
 }
 
-
-/*! @brief Writes into my array from ADC
+/*! @brief It reads a value from the ADC and put it in myArray
  *
- *  @param
  *  @note It is supposed that the ADC has been initialized
+ *  @note Needs to be called sixteen times to fill the array
  */
-
-void UpdateInput (float * const WritePtr)
+void UpdateInput(void)
 {
-  (void) Analog_Get(channelNb, WritePtr);
-  myArray[globalPos] = AnalogtoVoltage(*WritePtr);
-
-  globalPos++; //want to make sure called 16 times
-
-
-  //intialises the position
-  if (globalPos == 16)
+  int16_t tempval;
+  Analog_Get(0, &(myArray[arrayPosition]));
+  arrayPosition++;
+  if(arrayPosition == 16) // Reset position at the end of the array
   {
-    globalPos = 0;
+    arrayPosition = 0;
+    tempval = VRMS(myArray);
+
+    Analog_Put(0, tempval);
+    calculateMinimum();
   }
 }
-
-///*! @brief Writes into my array from ADC
-// *
-// *  @param
-// *  @note It is supposed that the ADC has been initialized
-// */
-//void Updates(const int8_t channelNb, int16_t *value)
-//{
-//
-//
-//
-//
-//}
-
 
 /*!
  * @}
 */
-
-int main (void){
-  calculateMinimum();
-  printf("%f", firstMin);
-  printf("%d", firstMinPosition);
-  return 0;
-}
-
-
-
-
-

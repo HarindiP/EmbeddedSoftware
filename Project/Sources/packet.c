@@ -15,10 +15,13 @@
 
 #include "packet.h"
 #include "UART.h"
-#include "PE_Types.h"
+//#include "PE_Types.h"
+#include "OS.h"
 
 TPacket Packet;
 
+OS_ECB* PacketAccess;
+OS_ECB* Packet_Ready;
 
 // Acknowledgment bit mask
 const uint8_t PACKET_ACK_MASK = 0b10000000;
@@ -50,9 +53,10 @@ bool Packet_Acknowledgement_Required(const uint8_t command)
  */
 bool Packet_Init(const uint32_t baudRate, const uint32_t moduleClk)
 {
-//  EnterCritical();
+  PacketAccess = OS_SemaphoreCreate(1);
   return UART_Init(baudRate,moduleClk);
-//  ExitCritical();
+  //Generate semaphores
+//  Packet_Ready = OS_SemaphoreCreate(0);
 }
 
 /*! @brief Attempts to get a packet from the received data.
@@ -117,19 +121,25 @@ bool Packet_Get(void)
  */
 bool Packet_Put(const uint8_t command, const uint8_t parameter1, const uint8_t parameter2, const uint8_t parameter3)
 {
+  OS_SemaphoreWait(PacketAccess,0);
   if (UART_OutChar(command))
+  {
+    if (UART_OutChar(parameter1))
     {
-      if (UART_OutChar(parameter1))
+      if (UART_OutChar(parameter2))
+      {
+	if (UART_OutChar(parameter3))
 	{
-	  if (UART_OutChar(parameter2))
-	    {
-	      if (UART_OutChar(parameter3))
-		{
-		  return (UART_OutChar(CheckSum(command, parameter1,parameter2,parameter3)));
-		}
-	    }
+	  if(UART_OutChar(CheckSum(command, parameter1,parameter2,parameter3)))
+	  {
+	    OS_SemaphoreSignal(PacketAccess);
+	    return true;
+	  }
 	}
+      }
     }
+  }
+  OS_SemaphoreSignal(PacketAccess);
   return false;
 //  return UART_OutChar(command) & UART_OutChar(parameter1) & UART_OutChar(parameter2)& UART_OutChar(parameter3) & UART_OutChar(CheckSum(command, parameter1,parameter2,parameter3));
 }

@@ -20,8 +20,7 @@
 extern uint16union_t SCP_TowerNb;
 /*Tower Mode*/
 extern uint16union_t SCP_TowerMd;
-/*Protocol Mode*/
-extern uint8_t SCP_ProtocolMode;
+
 
 //Flash address of Tower Number and Mode
 volatile uint16union_t *NvTowerNb;
@@ -154,34 +153,6 @@ bool ProgramByte(uint8_t address, uint8_t data);
  *
  *  @return true if time has been sent, false if not
  */
-bool SendTime();
-/*! @brief Set the curent time
- *
- *  @return true if time has been set, false if not
- */
-bool SetTime();
-
-/*! @brief Identify the Protocol Mode command : set or just send it
- *
- *  @return true if protocol mode has been sent/set, false if not
- */
-bool HandleProtocolMode();
-/*! @brief Send the protocol mode
- *
- *  @return true if protocol mode has been sent, false if not
- */
-bool SendProtocolMode();
-/*! @brief Set the protocol mode
- *
- *  @return true if protocol mode has been set, false if not
- */
-bool SetProtocolMode();
-
-/*! @brief Send the accelerometer values
- *
- *  @return true if accel values has been sent, false if not
- */
-bool SendAccelValues();
 
 
 /*! @brief Private ACK checking function

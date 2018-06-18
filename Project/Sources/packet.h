@@ -20,8 +20,16 @@
 // New types
 #include "types.h"
 
+//OS
+#include "OS.H"
+
 // Packet structure
 #define PACKET_NB_BYTES 5
+
+//Extern variable
+extern OS_ECB* Packet_Ready;
+
+//initialize packetput
 
 #pragma pack(push)
 #pragma pack(1)

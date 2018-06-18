@@ -1,12 +1,20 @@
 Sources/analogmeasure.o: ../Sources/analogmeasure.c \
- C:\Users\Harindi\ Perera\Documents\gitrepo\es18aut35\Project\Library/analog.h \
- C:/Users/Harindi\ Perera/Documents/gitrepo/es18aut35/Project/Sources/types.h \
- ../Sources/types.h ../Sources/analogmeasure.h
+ C:\Users\12443166\Documents\git\es18aut35\Project\Library/analog.h \
+ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/types.h \
+ ../Sources/types.h ../Sources/UsefulFunctions.h ../Sources/PIT.h \
+ C:/Users/12443166/Documents/git/es18aut35/Project/Static_Code/IO_Map/MK70F12.h \
+ C:\Users\12443166\Documents\git\es18aut35\Project\Library/OS.h
 
-C:\Users\Harindi\ Perera\Documents\gitrepo\es18aut35\Project\Library/analog.h:
+C:\Users\12443166\Documents\git\es18aut35\Project\Library/analog.h:
 
-C:/Users/Harindi\ Perera/Documents/gitrepo/es18aut35/Project/Sources/types.h:
+C:/Users/12443166/Documents/git/es18aut35/Project/Sources/types.h:
 
 ../Sources/types.h:
 
-../Sources/analogmeasure.h:
+../Sources/UsefulFunctions.h:
+
+../Sources/PIT.h:
+
+C:/Users/12443166/Documents/git/es18aut35/Project/Static_Code/IO_Map/MK70F12.h:
+
+C:\Users\12443166\Documents\git\es18aut35\Project\Library/OS.h:
