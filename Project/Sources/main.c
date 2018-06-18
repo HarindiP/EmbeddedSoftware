@@ -37,6 +37,7 @@
 #include "Flash.h"
 #include "analogmeasure.h"
 #include "UsefulFunctions.h"
+#include "voltageRegulator.h"
 
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
 #define THREAD_STACK_SIZE 1024
@@ -47,7 +48,7 @@ OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
-
+OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 
 
 ///*! @brief Data structure used to pass LED configuration to a user thread
@@ -100,6 +101,18 @@ static void PITThread(void* pData)
   {
     OS_SemaphoreWait(PITAccess,0);
     UpdateInput();
+
+      //Toggle Green LED
+    LEDs_Toggle(LED_GREEN);
+    }
+}
+
+static void PIT1Thread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(PIT1Access,0);
+    DefiniteCheck();
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);
@@ -187,9 +200,7 @@ static void InitModulesThread(void* pData)
       Flash_Write16((uint16_t *)NvTowerMd, SCP_TowerMd.l);
 
   //Start PIT for 1sec
-  PIT_Enable(false);
   PIT_Set(1250000,true);
-  PIT_Enable(true);
 
   //Create 1sec Timer with FTM
   Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
@@ -286,6 +297,11 @@ int main(void)
                           NULL,
                           &PITThreadStack[THREAD_STACK_SIZE - 1],
  			  4);
+  error = OS_ThreadCreate(PIT1Thread,
+                          NULL,
+                          &PIT1ThreadStack[THREAD_STACK_SIZE - 1],
+        5);
+
 
   // Create threads to toggle the LEDS
 //  for (uint8_t threadNb = 0; threadNb < NB_LEDS; threadNb++)

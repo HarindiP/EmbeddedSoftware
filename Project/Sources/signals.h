@@ -17,7 +17,7 @@
  *  @param
  *  @note
  */
-void SignalsSetRaise(void);
+void SignalsSetHigher(void);
 
 
 /*! @brief clear the raise signal when voltage back into limitation
@@ -25,7 +25,7 @@ void SignalsSetRaise(void);
  *  @param
  *  @note
  */
-void SignalsClearRaise(void);
+void SignalsClearHigher(void);
 
 
 /*! @brief Sets the lower signal when voltage above limit

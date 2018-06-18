@@ -19,6 +19,7 @@
 #include "stdlib.h"
 #include "UsefulFunctions.h"
 #include "PIT.h"
+#include "voltageRegulator.h"
 
 int16_t myArray[16]; // Array of the total of elements measured
 int16_t firstMin; // This is going to be the minimum one
@@ -260,7 +261,7 @@ void UpdateInput(void)
     tempval = VRMS(myArray);
 
     Analog_Put(0, tempval);
-    calculateMinimum();
+    readLoop(tempval);
   }
 }
 

@@ -22,11 +22,10 @@
 
 
 static uint32_t Clkperiod; //ask coralie if it should be static
-const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/	// MOVE TO MAIN!!!!
-static void (*UserFunction)(void*);
-static void* UserArguments;
 
-OS_ECB* PITAccess;
+
+OS_ECB* PITAccess;  //used for vrms every 1.25ms
+OS_ECB* PIT1Access;  // used to signals 5 seconds
 
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
@@ -34,9 +33,6 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*aSK CORALIE IF ALL SHOULD BE IN IF STATEMENTS USED TEST*/
   /*Gets the period of the clock from freq*/
   Clkperiod = 1e9 / moduleClk ;
-
-  UserFunction = userFunction;
-  UserArguments = userArguments;
 
   /*Enable clock gate to PIT module*/
   SIM_SCGC6 |= SIM_SCGC6_PIT_MASK;
@@ -64,9 +60,6 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*Enable timer*/
   PIT_Enable(true);
 
-//  /*Sets timer*/
-  PIT_Set(PITPeriod,true);
-
 //  ExitCritical();
 
   return true;
@@ -81,12 +74,30 @@ void PIT_Set(const uint32_t period, const bool restart)
   if (restart)
     {
       PIT_Enable(false);
+      PIT_LDVAL0 = (period / Clkperiod) -1 ;
     }
 
-  PIT_LDVAL0 = (period / Clkperiod) -1 ;
-
-  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
   PIT_Enable(true);
+  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
+
+
+
+}
+
+void PIT1_Set(const uint32_t period, const bool restart)
+{
+  //  (LDVAL trigger = (period / clock period) -1)
+  // clock period = 1/freq
+
+  if (restart)
+    {
+      PIT1_Enable(false);
+      PIT_LDVAL1 = (period / Clkperiod) -1 ;
+    }
+
+  PIT1_Enable(true);
+  PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
+
 
 
 }
@@ -104,20 +115,47 @@ void PIT_Enable(const bool enable)
     }
 }
 
+void PIT1_Enable(const bool enable)
+{
+  if (enable)
+    {
+      (PIT_TCTRL1 |= PIT_TCTRL_TEN_MASK);
+    }
+  else
+    {
+      (PIT_TCTRL1 &= ~PIT_TCTRL_TEN_MASK); //disable
+    }
+}
+
 
 void __attribute__ ((interrupt)) PIT_ISR(void)
 {
   OS_ISREnter();
-  /*Clear interupt flag*/
-  PIT_TFLG0 |= PIT_TFLG_TIF_MASK;
 
-//  if (UserFunction)
-//  (*UserFunction)(UserArguments);
+  if (PIT_TFLG0 & PIT_TFLG_TIF_MASK) // Check if timeout has occurred
+  {
+    PIT_TFLG0 |= PIT_TFLG_TIF_MASK; // Clear timer interrupt flag
+    OS_SemaphoreSignal(PITAccess); // Signal PIT thread to tell it can run
+  }
 
-  OS_SemaphoreSignal(PITAccess);
-  OS_ISRExit();
+  OS_ISRExit(); // End of servicing interrupt
 }
-//CALL USER FUCTION PAGE 4/7 LAB3
+
+
+void __attribute__ ((interrupt)) PIT1_ISR(void)
+{
+  OS_ISREnter();
+
+  if (PIT_TFLG1 & PIT_TFLG_TIF_MASK) // Check if timeout has occurred
+  {
+    PIT_TFLG1 |= PIT_TFLG_TIF_MASK; // Clear timer interrupt flag
+    OS_SemaphoreSignal(PIT1Access); // Signal PIT thread to tell it can run
+  }
+
+  OS_ISRExit(); // End of servicing interrupt
+}
+
+
 
 /*!
  ** @}

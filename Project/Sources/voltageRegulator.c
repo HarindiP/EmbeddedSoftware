@@ -12,50 +12,38 @@
 #include "types.h"
 #include "analog.h"
 #include <types.h>
+#include "PIT.h"
+#include "OS.h"
+#include "UsefulFunctions.h"
+#include "analogmeasure.h"
+#include "voltageRegulator.h"
+#include "signals.h"
 
 #define UPPERBOUND 3
 #define LOWERBOUND 2
 
 int16_t *dataPtr;
+int16_t checkVRMS;
 
-void readLoop(void)
+void readLoop(int16_t VRMS)
 {
-  int16_t readvalue = 2.5;
-  while(readvalue > LOWERBOUND && readvalue < UPPERBOUND)
-  {
-    (void) Analog_Get(1, dataPtr);
-    readvalue = AnalogtoVoltage(*dataPtr);
-  }
+  if (VRMS > UPPERBOUND || VRMS < LOWERBOUND)
 
-  if(readvalue < LOWERBOUND || readvalue > UPPERBOUND ) // Smaller than LOWERBOUND --> Assume PIT was initialized in main
-  {
-    definitemode();
-  }
-
-  else // Higher than the UPPERBOUND
-  {
-      //nothing for now
-  }
-
+  SignalsSetALarm();
+  checkVRMS = VRMS;
+  definitemode();
 }
+
 
 
 void definitemode(void)
 {
   int16_t temp;
 
-  OS_TimeDelay(500);
-  (void) Analog_Get(1, dataPtr);
-  temp = AnalogtoVoltage(*dataPtr);
-
-  if (temp > UPPERBOUND || temp < LOWERBOUND )
-  {
-    PIT_Set(1, true); //once one nanosecond passes to the pitISR
-  }
-
+  OS_TimeDelay(400);
+  PIT1_Set(1000000000, true); //once one second passes to the pitISR
 
   //interupt produced that calls ISR that mkae changes to voltages depending on the boundary limits
-
 
 }
 
@@ -101,6 +89,25 @@ void inversetimemode(float value)
 
 }
 
+
+void DefiniteCheck(void)
+{
+  int16_t checker = checkVRMS;
+  if (checker > UPPERBOUND)
+  {
+    SignalsSetLower();
+  }
+  else if (checker < LOWERBOUND)
+   {
+      SignalsSetHigher();
+   }
+  else
+  {
+    SignalsClearAlarm();
+  }
+
+
+}
 
 
 
