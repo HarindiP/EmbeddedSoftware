@@ -260,7 +260,7 @@ void UpdateInput(void)
     arrayPosition = 0;
     tempval = VRMS(myArray);
 
-    Analog_Put(0, tempval);
+//    Analog_Put(0, tempval);
     readLoop(tempval);
   }
 }

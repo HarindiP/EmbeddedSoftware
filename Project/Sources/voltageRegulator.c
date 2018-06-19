@@ -19,8 +19,8 @@
 #include "voltageRegulator.h"
 #include "signals.h"
 
-#define UPPERBOUND 3
-#define LOWERBOUND 2
+#define UPPERBOUND 6553.4 //3v 3276.7
+#define LOWERBOUND 3276.7//2v 6553.4
 
 int16_t *dataPtr;
 int16_t checkVRMS;
@@ -28,22 +28,19 @@ int16_t checkVRMS;
 void readLoop(int16_t VRMS)
 {
   if (VRMS > UPPERBOUND || VRMS < LOWERBOUND)
-
-  SignalsSetALarm();
-  checkVRMS = VRMS;
-  definitemode();
+  {
+    SignalsSetALarm();
+    checkVRMS = VRMS;
+    definitemode();
+  }
 }
 
 
 
 void definitemode(void)
 {
-  int16_t temp;
 
-  OS_TimeDelay(400);
-  PIT1_Set(1000000000, true); //once one second passes to the pitISR
-
-  //interupt produced that calls ISR that mkae changes to voltages depending on the boundary limits
+  PIT1_Set(5000000000, false); //once one second passes to the pitISR
 
 }
 

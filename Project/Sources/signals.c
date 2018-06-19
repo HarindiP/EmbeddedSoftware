@@ -63,7 +63,7 @@ void SignalsClearLower(void)
  */
 void SignalsSetALarm(void)
 {
-  Analog_Put(2, VoltageToAnalog(5));
+  Analog_Put(0, VoltageToAnalog(5));
 }
 
 
@@ -74,7 +74,7 @@ void SignalsSetALarm(void)
  */
 void SignalsClearAlarm(void)
 {
-  Analog_Put(2, VoltageToAnalog(0));
+  Analog_Put(0, VoltageToAnalog(0));
 }
 
 

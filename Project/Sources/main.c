@@ -48,7 +48,8 @@ OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
-OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
+
+static void PITCallback(void* arg);
 
 
 ///*! @brief Data structure used to pass LED configuration to a user thread
@@ -63,8 +64,6 @@ OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 //} TLEDThreadData;
 
 
-//Timer declaration
-TFTMChannel Timer1Sec;
 
 /*! @brief Check if a command has been received and send the adequate answer
  *
@@ -78,7 +77,6 @@ static void HandlePacketThread(void* pData)
     if (Packet_Get())
     {
       LEDs_On(LED_BLUE);
-      FTM_StartTimer(&Timer1Sec);
       if(!SCP_Acknowledgement_Required(Packet_Command))   //Cases without Packet Acknowledgement required
       {
 	SCP_Packet_Handle();
@@ -107,16 +105,11 @@ static void PITThread(void* pData)
     }
 }
 
-static void PIT1Thread(void* pData)
+static void PITCallback(void* arg)
 {
-  for(;;)
-  {
-    OS_SemaphoreWait(PIT1Access,0);
-    DefiniteCheck();
-
-      //Toggle Green LED
-    LEDs_Toggle(LED_GREEN);
-    }
+  DefiniteCheck();
+  //Toggle Green LED
+  LEDs_Toggle(LED_BLUE);
 }
 
 
@@ -201,15 +194,6 @@ static void InitModulesThread(void* pData)
 
   //Start PIT for 1sec
   PIT_Set(1250000,true);
-
-  //Create 1sec Timer with FTM
-  Timer1Sec.channelNb = 0;  //arbitraire, faire attentiotn quand on les déclare manuellement
-  Timer1Sec.delayCount = CPU_MCGFF_CLK_HZ_CONFIG_0; //1sec
-  Timer1Sec.ioType.outputAction = TIMER_OUTPUT_DISCONNECT;
-  Timer1Sec.timerFunction = TIMER_FUNCTION_OUTPUT_COMPARE;
-  Timer1Sec.userArguments = NULL;
-  Timer1Sec.userFunction = NULL;
-  FTM_Set(&Timer1Sec);
 
   OS_EnableInterrupts();
 
@@ -297,10 +281,6 @@ int main(void)
                           NULL,
                           &PITThreadStack[THREAD_STACK_SIZE - 1],
  			  4);
-  error = OS_ThreadCreate(PIT1Thread,
-                          NULL,
-                          &PIT1ThreadStack[THREAD_STACK_SIZE - 1],
-        5);
 
 
   // Create threads to toggle the LEDS
