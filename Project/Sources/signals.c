@@ -19,7 +19,7 @@
  */
 void SignalsSetHigher(void)
 {
-  Analog_Put(0, VoltageToAnalog(5));
+  Analog_Put(0, 16335);
 }
 
 
@@ -30,7 +30,7 @@ void SignalsSetHigher(void)
  */
 void SignalsClearHigher(void)
 {
-  Analog_Put(0, VoltageToAnalog(0));
+  Analog_Put(0, 0);
 }
 
 
@@ -41,7 +41,7 @@ void SignalsClearHigher(void)
  */
 void SignalsSetLower(void)
 {
-  Analog_Put(1, VoltageToAnalog(5));
+  Analog_Put(1, 16335);
 }
 
 
@@ -52,7 +52,7 @@ void SignalsSetLower(void)
  */
 void SignalsClearLower(void)
 {
-  Analog_Put(1, VoltageToAnalog(0));
+  Analog_Put(1, 0);
 }
 
 
@@ -63,7 +63,7 @@ void SignalsClearLower(void)
  */
 void SignalsSetALarm(void)
 {
-  Analog_Put(0, VoltageToAnalog(5));
+  Analog_Put(2, 16335);
 }
 
 
@@ -74,7 +74,7 @@ void SignalsSetALarm(void)
  */
 void SignalsClearAlarm(void)
 {
-  Analog_Put(0, VoltageToAnalog(0));
+  Analog_Put(2, 0);
 }
 
 

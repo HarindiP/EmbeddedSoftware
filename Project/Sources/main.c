@@ -48,6 +48,8 @@ OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
+OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
+
 
 static void PITCallback(void* arg);
 
@@ -105,11 +107,21 @@ static void PITThread(void* pData)
     }
 }
 
-static void PITCallback(void* arg)
+
+/*! @brief Read data from the accel and send them if they changed from the last read
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+static void PIT1Thread(void* pData)
 {
-  DefiniteCheck();
-  //Toggle Green LED
-  LEDs_Toggle(LED_BLUE);
+  for(;;)
+  {
+    OS_SemaphoreWait(PIT1Access,0);
+    DefiniteCheck();
+
+      //Toggle Green LED
+    LEDs_Toggle(LED_GREEN);
+    }
 }
 
 
@@ -206,13 +218,13 @@ static void InitModulesThread(void* pData)
   OS_ThreadDelete(OS_PRIORITY_SELF);
 }
 
-void __attribute__ ((interrupt)) LPTimer_ISR(void)
-{
-  // Clear interrupt flag
-  LPTMR0_CSR |= LPTMR_CSR_TCF_MASK;
-  // Signal the orange LED to toggle
-//  (void)OS_SemaphoreSignal(MyLEDThreadData[3].semaphore);
-}
+//void __attribute__ ((interrupt)) LPTimer_ISR(void)
+//{
+//  // Clear interrupt flag
+//  LPTMR0_CSR |= LPTMR_CSR_TCF_MASK;
+//  // Signal the orange LED to toggle
+////  (void)OS_SemaphoreSignal(MyLEDThreadData[3].semaphore);
+//}
 
 /*! @brief Waits for a signal to toggle the LED, then waits for a specified delay, then signals for the next LED to toggle.
  *
@@ -281,6 +293,10 @@ int main(void)
                           NULL,
                           &PITThreadStack[THREAD_STACK_SIZE - 1],
  			  4);
+  error = OS_ThreadCreate(PIT1Thread,
+                            NULL,
+                            &PIT1ThreadStack[THREAD_STACK_SIZE - 1],
+          5);
 
 
   // Create threads to toggle the LEDS

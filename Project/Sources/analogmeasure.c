@@ -20,6 +20,8 @@
 #include "UsefulFunctions.h"
 #include "PIT.h"
 #include "voltageRegulator.h"
+#include "analogmeasure.h"
+#include "signals.h"
 
 int16_t myArray[16]; // Array of the total of elements measured
 int16_t firstMin; // This is going to be the minimum one
@@ -31,6 +33,7 @@ int secondMinPosition; // Position in myArray of second minimum positive value
 int16_t period; // The period value aux in int
 float finalPeriod; // Period value in float
 int arrayPosition;
+int16_t vrmsValue;
 int32_t measurementsFreq = 1250000;
 
 
@@ -252,15 +255,14 @@ void calculateMinimum(void)
  */
 void UpdateInput(void)
 {
-  int16_t tempval;
+  static int16_t tempval;
   Analog_Get(0, &(myArray[arrayPosition]));
   arrayPosition++;
   if(arrayPosition == 16) // Reset position at the end of the array
   {
     arrayPosition = 0;
     tempval = VRMS(myArray);
-
-//    Analog_Put(0, tempval);
+    vrmsValue = tempval;
     readLoop(tempval);
   }
 }

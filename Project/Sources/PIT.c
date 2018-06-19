@@ -25,10 +25,7 @@ static uint32_t Clkperiod; //ask coralie if it should be static
 
 
 OS_ECB* PITAccess;  //used for vrms every 1.25ms
-
-
-void* UserArgumentsGlobal;           /*!< Private global pointer to the user arguments to use with the user callback function */
-void (*PITCallbackGlobal)(void *);  /*!< Private global pointer to PIT user callback function */
+OS_ECB* PIT1Access; //used for vrms every 5s
 
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
@@ -36,9 +33,6 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
 
   /*Gets the period of the clock from Freq*/
   Clkperiod = 1e9 / moduleClk ;
-  UserArgumentsGlobal = userArguments; // userArguments made globally(private) accessible
-  PITCallbackGlobal = userFunction; // userFunction made globally(private) accessible
-
 
   /*Enable clock gate to PIT module*/
   SIM_SCGC6 |= SIM_SCGC6_PIT_MASK;
@@ -73,9 +67,12 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*Enable interupts from PIT Module*/
   NVICISER2 = (1 << (69 % 32));
 
-  //Create Semaphore for PIT1
+  //Create Semaphore for PIT0
   PITAccess = OS_SemaphoreCreate(0);
 
+
+  //Create Semaphore for PIT1
+  PIT1Access = OS_SemaphoreCreate(0);
 
   /*Enable timer*/
 //  PIT_Enable(true);
@@ -116,11 +113,17 @@ void PIT1_Set(const uint64_t period, const bool restart)
   if (restart)
     {
       PIT1_Enable(false);
-      PIT_LDVAL1 = (period / Clkperiod) -1 ;
+      PIT_LDVAL1 = ((period * 1000000) / Clkperiod) -1 ;
+      PIT1_Enable(true);
+      PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
     }
 
-  PIT1_Enable(true);
-  PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
+  else
+  {
+    PIT_LDVAL1 = ((period * 1000000) / Clkperiod) -1 ;
+    PIT1_Enable(true);
+    PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
+  }
 
 
 
@@ -168,16 +171,15 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
 
 void __attribute__ ((interrupt)) PIT1_ISR(void)
 {
+  OS_ISREnter();
 
   if (PIT_TFLG1 & PIT_TFLG_TIF_MASK) // Check if timeout has occurred
   {
     PIT_TFLG1 |= PIT_TFLG_TIF_MASK; // Clear timer interrupt flag
-
-    if(PITCallbackGlobal)
-    {
-      (*PITCallbackGlobal)(UserArgumentsGlobal); // PIT ISR callback function
-    }
+    OS_SemaphoreSignal(PIT1Access); // Signal PIT thread to tell it can run
   }
+
+  OS_ISRExit(); // End of servicing interrupt
 }
 
 

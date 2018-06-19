@@ -8,6 +8,8 @@
 #ifndef SOURCES_ANALOGMEASURE_H_
 #define SOURCES_ANALOGMEASURE_H_
 
+extern int16_t vrmsValue;
+
 
 
 void compareMinimum(float value, int position);

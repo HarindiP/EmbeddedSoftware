@@ -1,13 +1,18 @@
 #include <math.h>
 #include <types.h>
+#include "OS.h"
+#include "MK70F12.h"
 //
 //
 #define NB_OF_SAMPLE 16
 #define BITS_PER_VOLT 3276.7  /* ie. each increment is an increase of 1V*/
 
 
+
+
 int16_t VRMS(int16_t Sample[NB_OF_SAMPLE])
 {
+
   float v_rms;
 
   // what if there are less than 16 samples
@@ -45,14 +50,11 @@ float AnalogToVoltage(int16_t value)
  *  @note maybe static??
  */
 
-float VoltageToAnalog(int16_t value)
+int16_t VoltageToAnalog(int16_t value)
 {
-//  if value < 0)
-//  {
-//    value *= -1;
-//  }
-
-  return value * BITS_PER_VOLT;
+  int16_t out;
+  out = (value * 3267);
+  return out;
 }
 
 

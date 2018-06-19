@@ -19,11 +19,13 @@
 #include "voltageRegulator.h"
 #include "signals.h"
 
-#define UPPERBOUND 6553.4 //3v 3276.7
-#define LOWERBOUND 3276.7//2v 6553.4
+#define UPPERBOUND 9803.1 //3v 3276.7
+#define LOWERBOUND 6535.4//2v 6553.4
 
 int16_t *dataPtr;
 int16_t checkVRMS;
+int16_t newVRMS;
+
 
 void readLoop(int16_t VRMS)
 {
@@ -33,6 +35,12 @@ void readLoop(int16_t VRMS)
     checkVRMS = VRMS;
     definitemode();
   }
+  else
+  {
+    SignalsClearAlarm();
+    SignalsClearHigher();
+    SignalsClearLower();
+  }
 }
 
 
@@ -40,7 +48,7 @@ void readLoop(int16_t VRMS)
 void definitemode(void)
 {
 
-  PIT1_Set(5000000000, false); //once one second passes to the pitISR
+  PIT1_Set(5000, false); //once one second passes to the pitISR
 
 }
 
@@ -89,18 +97,20 @@ void inversetimemode(float value)
 
 void DefiniteCheck(void)
 {
-  int16_t checker = checkVRMS;
-  if (checker > UPPERBOUND)
+  newVRMS = vrmsValue;
+  if (newVRMS > UPPERBOUND)
   {
     SignalsSetLower();
   }
-  else if (checker < LOWERBOUND)
+  else if (newVRMS < LOWERBOUND)
    {
       SignalsSetHigher();
    }
   else
   {
     SignalsClearAlarm();
+    SignalsClearHigher();
+    SignalsClearLower();
   }
 
 
