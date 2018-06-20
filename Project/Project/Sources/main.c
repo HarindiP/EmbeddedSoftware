@@ -164,6 +164,8 @@ static void InitModulesThread(void* pData)
 
   //Init Signal period assuming a 50Hz signal
   *Regulation_Ts = 1250;
+  //Init timing mode
+  SCP_RegMode = DEFINITE_TIMER;
 
 //  //Test PutSample
 //  for(int i = 0; i < NB_OF_SAMPLE; i++)

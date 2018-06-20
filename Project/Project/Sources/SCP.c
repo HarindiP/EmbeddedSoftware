@@ -27,6 +27,11 @@ uint16union_t SCP_TowerNb;
 uint16union_t SCP_TowerMd;
 /*Protocol Mode*/
 uint8_t SCP_ProtocolMode;
+/*Timing Mode*/
+TRegulationMode SCP_RegMode;
+/*Nb of lowers and raises*/
+uint8_t SCP_Lowers;
+uint8_t SCP_Raises;
 
 /*Communication functions : */
 
@@ -129,6 +134,75 @@ bool SetTime()
   return SendTime();
 }
 
+bool SendTimingMode()
+{
+  return Packet_Put(0x10,(uint8_t)SCP_RegMode,0,0);
+}
+
+bool SetTimingMode()
+{
+  SCP_RegMode = Packet_Parameter1 - 1;
+  return SendTimingMode();
+}
+bool HandleTimingMode()
+{
+  if (Packet_Parameter1 == 0)
+  {
+    return SendTimingMode();
+  }
+  else if (Packet_Parameter1 == 1 || Packet_Parameter1 == 2)
+  {
+    return SetTimingMode();
+  }
+}
+
+bool SendNbLowers()
+{
+  return Packet_Put(0x11,SCP_Lowers,0,0);
+}
+bool ResetLowers()
+{
+  SCP_Lowers = 0;
+  return SendNbLowers();
+}
+bool HandleLowers()
+{
+  if (Packet_Parameter1 == 0)
+  {
+    return SendNbLowers();
+  }
+  else if (Packet_Parameter1 == 1)
+  {
+    return ResetLowers();
+  }
+}
+
+bool SendNbRaises()
+{
+  return Packet_Put(0x12,SCP_Raises,0,0);
+}
+bool ResetRaises()
+{
+  SCP_Raises = 0;
+  return SendNbRaises();
+}
+bool HandleRaises()
+{
+  if (Packet_Parameter1 == 0)
+  {
+    return SendNbRaises();
+  }
+  else if (Packet_Parameter1 == 1)
+  {
+    return ResetRaises();
+  }
+}
+
+bool GetVrms()
+{
+  return Packet_Put(0x18,Packet_Parameter1,(uint8_t)Vrms[Packet_Parameter1],0);  //TODO not sur, why uint16_t ???
+}
+
 
 /*Acknowledgement and NonAcknowledgement functions*/
 bool SCP_Acknowledgement_Required(const uint8_t command)
@@ -168,6 +242,18 @@ bool SCP_Packet_Handle()
       break;
     case Time :
       return SetTime();
+      break;
+    case Timing_Mode :
+      return HandleTimingMode();
+      break;
+    case Number_Of_Lowers :
+      return HandleLowers();
+      break;
+    case Number_Of_Raises :
+      return HandleRaises();
+      break;
+    case Voltage :
+      return GetVrms();
       break;
     default:	//Unknown command
       //Do nothing or return command with NAK

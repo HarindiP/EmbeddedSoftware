@@ -14,16 +14,12 @@
 #include "Output.h"
 #include "Analog.h"
 
-typedef enum
-{
-  DEFINITE_TIMER,
-  INVERSE_TIMER
-} TRegulationMode;
-
 //Signal period
-extern uint16_t* Regulation_Ts; //in nanosec
+extern uint64_t* Regulation_Ts; //in nanosec
 //Array of 16 samples
 extern int16_t FullSample[NB_OF_SAMPLE];
+//Vrms array
+extern float Vrms[3];
 //Semaphores
 OS_ECB* SampleTaken;
 //Semaphores
@@ -31,11 +27,11 @@ OS_ECB* SampleProcessed;
 
 float VRMS(int16_t* const sample);
 
-uint8_t InverseTimer(int16_t deviation, int16_t* ts);
+uint8_t InverseTimer(int16_t deviation, int64_t* ts);
 
 void DefiniteTimingRegulation(int16_t* sample);
 
-void InverseTimingRegulation(int16_t* ts);
+void InverseTimingRegulation(int64_t* ts);
 
 /*! @brief Put an analog sample of the signal in Volt in the sample array
  *

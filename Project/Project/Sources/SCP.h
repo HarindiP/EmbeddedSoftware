@@ -22,6 +22,11 @@ extern uint16union_t SCP_TowerNb;
 extern uint16union_t SCP_TowerMd;
 /*Protocol Mode*/
 extern uint8_t SCP_ProtocolMode;
+/*Timing Mode*/
+extern TRegulationMode SCP_RegMode;
+/*Nb of lowers and raises*/
+extern uint8_t SCP_Lowers;
+extern uint8_t SCP_Raises;
 
 //Flash address of Tower Number and Mode
 volatile uint16union_t *NvTowerNb;
@@ -76,6 +81,12 @@ Parameter 2: minutes (0-59)
 Parameter 3: seconds (0-59)*/
 #define Time 0x0C
 
+#define Timing_Mode 0x10
+#define Number_Of_Raises 0x11
+#define Number_Of_Lowers 0x12
+#define Frequency 0x17
+#define Voltage 0x18
+#define Spectrum 0x19
 
 
 //Communication functions :

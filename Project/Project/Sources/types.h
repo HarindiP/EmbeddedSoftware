@@ -82,4 +82,10 @@ typedef struct
   } cmd_data;
 } TFCCOB;
 
+typedef enum
+{
+  DEFINITE_TIMER,
+  INVERSE_TIMER
+} TRegulationMode;
+
 #endif

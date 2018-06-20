@@ -13,14 +13,15 @@
 
 
 //Signal period
-uint16_t* Regulation_Ts; //in nanosec
+uint64_t* Regulation_Ts; //in nanosec
 //Array of 16 samples
 int16_t FullSample[NB_OF_SAMPLE];
-
-
-TRegulationMode RegMode = DEFINITE_TIMER;
+//Vrms array
+float Vrms[3] = {0,0,0};
 
 //!!!! DEFINIR LES TEMPS EN NANOSECONDES PARCE QUE CE SONT DES INT !!!!
+
+//STORE VRMS IN AN ARRAY FOR THE 3 CHENNELS FOR SCP TO WORK
 
 //Write a function to take 16 samples
 
@@ -38,14 +39,13 @@ float VRMS(int16_t* const sample)
   return v_rms;
 }
 
-uint8_t InverseTimer(int16_t deviation, int16_t* ts)
+uint64_t InverseTimer(int16_t deviation, int64_t* ts)
 {
-//  uint16_t told = *ts / 16;
+//  uint64_t told = *ts / 16;
 //  uint64_t invTime;
 //  invTime = (DEFINITE_TIME / (2 * deviation)) * (1 - ((*ts / 16) / told));
 //  told = invTime;
 //  return invTime;
-  return 0;
 }
 
 void DefiniteTimingRegulation(int16_t* sample)
@@ -184,7 +184,7 @@ static void TreatingSampleThread(void* pData)
   {
     OS_SemaphoreWait(SampleTaken,0);
     float vrms = VRMS(FullSample);
-    switch (RegMode)
+    switch (SCP_RegMode)
     {
       case DEFINITE_TIMER :
         return DefiniteTimingRegulation(FullSample);
