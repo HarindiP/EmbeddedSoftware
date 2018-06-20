@@ -67,12 +67,6 @@ static uint32_t AnalogThreadStacks[NB_ANALOG_CHANNELS][THREAD_STACK_SIZE] __attr
 // ----------------------------------------
 const uint8_t ANALOG_THREAD_PRIORITIES[NB_ANALOG_CHANNELS] = {1, 2,3};
 
-//Signal period
-uint16_t* const SignalPeriod; //in nanosec
-//Array of 16 samples
-int16_t FullSample[NB_OF_SAMPLE];
-//Semaphores
-OS_ECB* SampleTaken = 0;
 
 /*! @brief Data structure used to pass Analog configuration to a user thread
  *
@@ -100,26 +94,7 @@ static TAnalogThreadData AnalogThreadData[NB_ANALOG_CHANNELS] =
 
 
 
-/*! @brief Thread to take a full sample
- *
- * */
-static void TakingSampleThread(void* pData)
-{
-  for(;;)
-  {
-//    for(int j = 0; j < NB_ANALOG_CHANNELS; j++)
-//    {
-      for(int i = 0; i < NB_OF_SAMPLE; i++)
-      {
-        int16_t sample;
-//        Analog_Get(j,sample);
-        Analog_Get(0,sample);
-        TakeSample(FullSample,sample);
-      }
-      OS_SemaphoreSignal(SampleTaken);
-//    }
-  }
-}
+
 
 void LPTMRInit(const uint16_t count)
 {
@@ -188,7 +163,7 @@ static void InitModulesThread(void* pData)
   LPTMRInit(5);
 
   //Init Signal period assuming a 50Hz signal
-  SignalPeriod = 1250;
+  *Regulation_Ts = 1250;
 
 //  //Test PutSample
 //  for(int i = 0; i < NB_OF_SAMPLE; i++)

@@ -7,24 +7,10 @@
 
 
 #include "Frequencie.h"
-#include <math.h>
-#include "types.h"
 #include "Requirements.h"
 
 
-float VRMS(int16_t* const sample)
-{
-  float v_rms = 0;
-  for (int i = 0; i < NB_OF_SAMPLE; i++)
-  {
-    v_rms += (*(sample+i)) * (*(sample+i));
-  }
-  v_rms /= 16;
-  //Disable interrupts
-  v_rms = (float)sqrt((double)v_rms);
-  //Inabe interrupts
-  return v_rms;
-}
+
 
 ////find the zero between two values
 //int16_t Interpolation(int16_t x1, int16_t x2, uint16_t y1, uint16_t y2)
@@ -84,25 +70,4 @@ void FrequencyTracking(int16_t* const sampleArray, uint16_t* Ts)
   }
 }
 
-uint8_t InverseTimer(int16_t deviation, uint16_t* Ts)
-{
-  uint16_t told = *Ts;
-  uint8_t invTime;
-  invTime = (DEFINITE_TIME / (2 * deviation)) * (1 - ((*Ts / 16) / told));
-  told = invTime;
-  return invTime;
-}
 
-/*Should be were Sample is declared*/
-bool TakeSample(int16_t* const sampleArray, int16_t sample)
-{
-  static uint8_t index = 0;
-  *(sampleArray+index) = ANALOG_TO_VOLT(sample);
-  index++;
-  //wrap index
-  if(index == NB_OF_SAMPLE)
-  {
-    index = 0;
-  }
-  return true;
-}

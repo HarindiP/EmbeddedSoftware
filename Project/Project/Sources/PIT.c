@@ -73,7 +73,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
 }
 
 
-void PIT_Set(const uint32_t period, const bool restart)
+void PIT_Set(const uint64_t period, const bool restart)
 {
   //  (LDVAL trigger = (period / clock period) -1)
   // clock period = 1/freq
@@ -87,8 +87,6 @@ void PIT_Set(const uint32_t period, const bool restart)
 
   PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
   PIT_Enable(true);
-
-
 }
 
 

@@ -29,7 +29,7 @@ void Output_ClearRaise()
   Analog_Put(0,VOLT_TO_ANALOG(0));
 }
 
-void Output_SetALower()
+void Output_SetLower()
 {
   Analog_Put(1,VOLT_TO_ANALOG(5));
 }

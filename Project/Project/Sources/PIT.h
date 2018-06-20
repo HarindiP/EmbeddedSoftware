@@ -42,7 +42,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
  *                 FALSE if the PIT will use the new value after a trigger event.
  *  @note The function will enable the timer and interrupts for the PIT.
  */
-void PIT_Set(const uint32_t period, const bool restart);
+void PIT_Set(const uint64_t period, const bool restart);
 
 /*! @brief Enables or disables the PIT.
  *

@@ -10,7 +10,7 @@
 
 
 #define NB_OF_SAMPLE 16
-#define DEFINITE_TIME 5
+#define DEFINITE_TIME 5000000000
 #define NB_OF_PHASES 3
 #define VOLT_OUT_MIN 0
 #define VOLT_OUT_MAX 5

@@ -17,7 +17,7 @@ void Output_SetRaise();
 
 void Output_ClearRaise();
 
-void Output_SetALower();
+void Output_SetLower();
 
 void Output_ClearLower();
 
