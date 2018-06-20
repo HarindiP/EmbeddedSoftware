@@ -8,11 +8,8 @@
 #define BITS_PER_VOLT 3276.7  /* ie. each increment is an increase of 1V*/
 
 
-
-
 int16_t VRMS(int16_t Sample[NB_OF_SAMPLE])
 {
-
   float v_rms;
 
   // what if there are less than 16 samples
@@ -28,6 +25,7 @@ int16_t VRMS(int16_t Sample[NB_OF_SAMPLE])
 
   return (int16_t) v_rms;
 }
+
 
 /*! @brief Converts analog values to voltage by  bits to volts
  *
@@ -113,18 +111,6 @@ int16_t VoltageToAnalog(int16_t value)
 //  return offset;
 //
 //}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //

@@ -19,7 +19,7 @@
  */
 void SignalsSetHigher(void)
 {
-  Analog_Put(0, 16335);
+  Analog_Put(0, 16383);
 }
 
 
@@ -41,7 +41,7 @@ void SignalsClearHigher(void)
  */
 void SignalsSetLower(void)
 {
-  Analog_Put(1, 16335);
+  Analog_Put(1, 16383);
 }
 
 
@@ -63,7 +63,7 @@ void SignalsClearLower(void)
  */
 void SignalsSetALarm(void)
 {
-  Analog_Put(2, 16335);
+  Analog_Put(2, 16383);
 }
 
 

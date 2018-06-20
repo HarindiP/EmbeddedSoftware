@@ -115,7 +115,7 @@ static void PITThread(void* pData)
 static void PIT1Thread(void* pData)
 {
   for(;;)
-  {
+  { //after 5 seconds have passed
     OS_SemaphoreWait(PIT1Access,0);
     DefiniteCheck();
 

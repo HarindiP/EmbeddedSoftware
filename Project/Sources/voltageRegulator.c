@@ -19,8 +19,8 @@
 #include "voltageRegulator.h"
 #include "signals.h"
 
-#define UPPERBOUND 9803.1 //3v 3276.7
-#define LOWERBOUND 6535.4//2v 6553.4
+#define UPPERBOUND 9830.1 //3v 3276.7
+#define LOWERBOUND 6553.4//2v 6553.4
 
 int16_t *dataPtr;
 int16_t checkVRMS;

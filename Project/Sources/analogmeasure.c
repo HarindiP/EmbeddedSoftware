@@ -262,8 +262,9 @@ void UpdateInput(void)
   {
     arrayPosition = 0;
     tempval = VRMS(myArray);
-    vrmsValue = tempval;
     readLoop(tempval);
+    vrmsValue = tempval;
+
   }
 }
 
