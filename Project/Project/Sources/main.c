@@ -48,13 +48,14 @@
 #include "FTM.h"
 #include "Frequencie.h"
 #include "Requirements.h"
+#include "Regulation.h"
 
 // ----------------------------------------
 // Thread set up
 // ----------------------------------------
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
 #define THREAD_STACK_SIZE 100
-#define NB_ANALOG_CHANNELS 2
+#define NB_ANALOG_CHANNELS 3
 
 // Thread stacks
 OS_THREAD_STACK(InitModulesThreadStack, THREAD_STACK_SIZE); /*!< The stack for the LED Init thread. */
@@ -64,12 +65,14 @@ static uint32_t AnalogThreadStacks[NB_ANALOG_CHANNELS][THREAD_STACK_SIZE] __attr
 // Thread priorities
 // 0 = highest priority
 // ----------------------------------------
-const uint8_t ANALOG_THREAD_PRIORITIES[NB_ANALOG_CHANNELS] = {1, 2};
+const uint8_t ANALOG_THREAD_PRIORITIES[NB_ANALOG_CHANNELS] = {1, 2,3};
 
 //Signal period
-uint16_t* const SignalPeriod;
+uint16_t* const SignalPeriod; //in nanosec
 //Array of 16 samples
-int16_t Sample[NB_OF_SAMPLE];
+int16_t FullSample[NB_OF_SAMPLE];
+//Semaphores
+OS_ECB* SampleTaken = 0;
 
 /*! @brief Data structure used to pass Analog configuration to a user thread
  *
@@ -94,6 +97,29 @@ static TAnalogThreadData AnalogThreadData[NB_ANALOG_CHANNELS] =
     .channelNb = 1
   }
 };
+
+
+
+/*! @brief Thread to take a full sample
+ *
+ * */
+static void TakingSampleThread(void* pData)
+{
+  for(;;)
+  {
+//    for(int j = 0; j < NB_ANALOG_CHANNELS; j++)
+//    {
+      for(int i = 0; i < NB_OF_SAMPLE; i++)
+      {
+        int16_t sample;
+//        Analog_Get(j,sample);
+        Analog_Get(0,sample);
+        TakeSample(FullSample,sample);
+      }
+      OS_SemaphoreSignal(SampleTaken);
+//    }
+  }
+}
 
 void LPTMRInit(const uint16_t count)
 {
@@ -161,12 +187,15 @@ static void InitModulesThread(void* pData)
   // Initialise the low power timer to tick every 5 ms
   LPTMRInit(5);
 
+  //Init Signal period assuming a 50Hz signal
+  SignalPeriod = 1250;
+
 //  //Test PutSample
 //  for(int i = 0; i < NB_OF_SAMPLE; i++)
 //  {
 //    int16_t data;
 //    Analog_Get(0,&data);
-//    PutSample(Sample, data);
+//    TakeSample(FullSample, data);
 //    OS_TimeDelay(4);
 //  }
 

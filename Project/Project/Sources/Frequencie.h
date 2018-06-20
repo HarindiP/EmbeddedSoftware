@@ -29,7 +29,7 @@ uint8_t InverseTimer(int16_t deviation, uint16_t* Ts);
  *
  * @param channelNb the number of the channel to take the sample from
  */
-bool PutSample(int16_t* const sampleArray, int16_t sample);
+bool TakeSample(int16_t* const sampleArray, int16_t sample);
 
 
 #endif /* SOURCES_FREQUENCIE_H_ */

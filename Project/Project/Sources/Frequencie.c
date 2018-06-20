@@ -12,16 +12,16 @@
 #include "Requirements.h"
 
 
-uint16_t VRMS(int16_t* const sample)
+float VRMS(int16_t* const sample)
 {
-  uint32_t v_rms = 0;
+  float v_rms = 0;
   for (int i = 0; i < NB_OF_SAMPLE; i++)
   {
     v_rms += (*(sample+i)) * (*(sample+i));
   }
   v_rms /= 16;
   //Disable interrupts
-  v_rms = (uint16_t)sqrt((double)v_rms);
+  v_rms = (float)sqrt((double)v_rms);
   //Inabe interrupts
   return v_rms;
 }
@@ -94,7 +94,7 @@ uint8_t InverseTimer(int16_t deviation, uint16_t* Ts)
 }
 
 /*Should be were Sample is declared*/
-bool PutSample(int16_t* const sampleArray, int16_t sample)
+bool TakeSample(int16_t* const sampleArray, int16_t sample)
 {
   static uint8_t index = 0;
   *(sampleArray+index) = ANALOG_TO_VOLT(sample);
