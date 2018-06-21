@@ -27,6 +27,8 @@ extern TRegulationMode SCP_RegMode;
 /*Nb of lowers and raises*/
 extern uint8_t SCP_Lowers;
 extern uint8_t SCP_Raises;
+//Vrms array
+extern float Vrms[3];
 
 //Flash address of Tower Number and Mode
 volatile uint16union_t *NvTowerNb;

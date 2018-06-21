@@ -22,7 +22,8 @@
 #include "OS.h"
 
 //Semaphore to acces the Thread
-extern OS_ECB* PITAccess;
+extern OS_ECB* PIT0Access;
+extern OS_ECB* PIT1Access;
 
 /*! @brief Sets up the PIT before first use.
  *
@@ -42,14 +43,37 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
  *                 FALSE if the PIT will use the new value after a trigger event.
  *  @note The function will enable the timer and interrupts for the PIT.
  */
-void PIT_Set(const uint64_t period, const bool restart);
+void PIT0_Set(const uint32_t period, const bool restart);
+
+/*! @brief Sets the value of the desired period of the PIT.
+ *
+ *  @param period The desired value of the timer period in milliseconds.
+ *  @param restart TRUE if the PIT is disabled, a new value set, and then enabled.
+ *                 FALSE if the PIT will use the new value after a trigger event.
+ *  @note The function will enable the timer and interrupts for the PIT.
+ */
+void PIT1_Set(const uint32_t period, const bool restart);
 
 /*! @brief Enables or disables the PIT.
  *
  *  @param enable - TRUE if the PIT is to be enabled, FALSE if the PIT is to be disabled.
  */
-void PIT_Enable(const bool enable);
+void PIT0_Enable(const bool enable);
 
+/*! @brief Enables or disables the PIT.
+ *
+ *  @param enable - TRUE if the PIT is to be enabled, FALSE if the PIT is to be disabled.
+ */
+void PIT1_Enable(const bool enable);
+
+
+/*! @brief Interrupt service routine for the PIT. Takes a sample on channel A of the VRR.
+ *
+ *  The periodic interrupt timer has timed out.
+ *  The user callback function will be called.
+ *  @note Assumes the PIT has been initialized.
+ */
+void __attribute__ ((interrupt)) PIT0_ISR(void);
 
 /*! @brief Interrupt service routine for the PIT.
  *
@@ -57,7 +81,7 @@ void PIT_Enable(const bool enable);
  *  The user callback function will be called.
  *  @note Assumes the PIT has been initialized.
  */
-void __attribute__ ((interrupt)) PIT_ISR(void);
+void __attribute__ ((interrupt)) PIT1_ISR(void);
 
 #endif
 

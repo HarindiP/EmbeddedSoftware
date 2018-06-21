@@ -18,16 +18,20 @@
 #include "Cpu.h"
 #include "PE_Types.h"
 #include "LEDs.h"
-#include "OS.h"
+
 
 static void (*UserFunctions[8])(void*);
 static void (*UserArguments[8]);
+
+////Semaphore to Access FTM
+//OS_ECB* FTMAccess1Raise;
+//OS_ECB* FTMAccess2Low;
 
 //The clock source for the FTM should be the fixed frequency clock (MCGFFCLK).
 
 bool FTM_Init()
 {
-  EnterCritical();
+//  EnterCritical();
   /*Write to CNTIN.
   Write to MOD.
   Write to CNT.
@@ -82,7 +86,12 @@ avoid confusion about when the first counter overflow will occur. (p1218)*/
   //enable FTM interrupts
   NVICISER1 = (1 << (62 % 32));
 
-  ExitCritical();
+  //Create Semaphore
+//  FTMAccess1Raise = OS_SemaphoreCreate(0);
+//  FTMAccess2Low = OS_SemaphoreCreate(0);
+
+
+//  ExitCritical();
   return true;
 
 }
@@ -197,9 +206,19 @@ void __attribute__ ((interrupt)) FTM0_ISR(void)
       FTM0_CnSC(channel) &= ~FTM_CnSC_CHIE_MASK;
 //      if (UserFunctions[channel])
 //	(*UserFunctions[channel])(UserArguments[channel]);
-      if(channel == 0)		//manually decided
+      switch(channel)		//manually decided
       {
-	LEDs_Off(LED_BLUE);
+        case 0 :
+          LEDs_Off(LED_BLUE);
+          break;
+//        case 1 :
+//          OS_SemaphoreSignal(FTMAccess1Raise);
+//          break;
+//        case 2 :
+//          OS_SemaphoreSignal(FTMAccess2Low);
+//          break;
+        default :
+          break;
       }
     }
   }

@@ -21,10 +21,10 @@
 //}
 
 //Linear interpolation : find the x of a specific image y between two given points
-int16_t Interpolation( uint16_t y, int16_t x1, int16_t x2, uint16_t y1, uint16_t y2)
+float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2)
 {
-  int16_t p = (y2 - y1) / (x2 - x1);
-  int16_t x = ((y - y1) / p) + x1;
+  float p = (y2 - y1) / (x2 - x1);
+  float x = ((y - y1) / p) + x1;
   return x;
 }
 
@@ -40,33 +40,33 @@ int16_t Average(int16_t* const sample)
 }
 
 //To improve : compare to the average value of the samples, not to 0 (*(Sample+i) - avg)
-void FrequencyTracking(int16_t* const sampleArray, uint16_t* Ts)
+void FrequencyTracking(int16_t* const sampleArray, float* ts)
 {
-  uint16_t k = 0;
-  uint16_t zeros[2];
+  uint8_t k = 0;
+  float zeros[2];
   while(k < 2)
   {
     for(uint16_t i = 0; i < NB_OF_SAMPLE - 1; i++)
     {
       if(*(sampleArray+i) == 0 )
       {
-        zeros[k] = *Ts * i / NB_OF_SAMPLE;
+        zeros[k] = *ts * i / NB_OF_SAMPLE;
         k++;
       }
       if(*(sampleArray+i+1) == 0 )
       {
-        zeros[k] = *Ts * (i + 1) / NB_OF_SAMPLE;
+        zeros[k] = *ts * (i + 1) / NB_OF_SAMPLE;
         k++;
       }
-      if ((*(sampleArray+i)) * (*(sampleArray+i+1)) < 0)
+      if (((*(sampleArray+i) - 0)) * ((*(sampleArray+i+1)) - 0) < 0)
       {
-        zeros[k] =  Interpolation(0,*(sampleArray+i),*(sampleArray+i+1),*Ts * i / NB_OF_SAMPLE,*Ts * (i + 1) / NB_OF_SAMPLE);
+        zeros[k] =  Interpolation(0,*ts * i / NB_OF_SAMPLE,*ts * (i + 1) / NB_OF_SAMPLE,*(sampleArray+i),*(sampleArray+i+1));
       }
     }
   }
-  if ((zeros[1] - zeros[0]) != (*Ts / 2))
+  if ((zeros[1] - zeros[0]) != (*ts / 2))
   {
-    *Ts = 2 * (zeros[1] - zeros[0]) / 16;
+    *ts = 2 * (zeros[1] - zeros[0]);
   }
 }
 

@@ -16,6 +16,12 @@
 #ifndef FTM_H
 #define FTM_H
 
+#include "OS.h"
+
+////Semaphore to acces the Thread
+//extern OS_ECB* FTMAccess1Raise;
+//extern OS_ECB* FTMAccess2Low;
+
 // new types
 #include "types.h"
 

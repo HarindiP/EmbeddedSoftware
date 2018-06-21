@@ -19,6 +19,7 @@
 #include "MK70F12.h"
 #include "PE_Types.h"
 #include "LEDs.h"
+#include "Regulation.h"
 
 
 static uint32_t Clkperiod; //ask coralie if it should be static
@@ -26,7 +27,8 @@ const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/	// MOVE TO MAIN
 static void (*UserFunction)(void*);
 static void* UserArguments;
 
-OS_ECB* PITAccess;
+OS_ECB* PIT0Access;
+OS_ECB* PIT1Access;
 
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
@@ -47,25 +49,36 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*freezes while debugging*/
   PIT_MCR |= PIT_MCR_FRZ_MASK; // FRZ because this allows the timers to be stopped
 
+  //PIT0
   /*Enable interupts*/
-  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK; //Are these regs connected and how?
-
+  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
   /*Initialise NVIC*/
   //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=68
   /*clears any pending requests*/
   NVICICPR2 = (1 << (68 % 32));
-
   /*Enable interupts from PIT Module*/
   NVICISER2 = (1 << (68 % 32));
 
+  //PIT1
+  /*Enable interupts*/
+  PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
+  /*Initialise NVIC*/
+  //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=69
+  /*clears any pending requests*/
+  NVICICPR2 = (1 << (69 % 32));
+  /*Enable interupts from PIT Module*/
+  NVICISER2 = (1 << (69 % 32));
+
   //Create Semaphore
-  PITAccess = OS_SemaphoreCreate(0);
+  PIT0Access = OS_SemaphoreCreate(0);
+  PIT1Access = OS_SemaphoreCreate(0);
 
-  /*Enable timer*/
-  PIT_Enable(true);
-
-  /*Sets timer*/
-  PIT_Set(PITPeriod,true);
+//  /*Enable timer*/
+//  PIT0_Enable(true);
+//  PIT1_Enable(true);
+//  /*Sets timer*/
+//  PIT0_Set(PITPeriod,true);
+//  PIT1_Set(PITPeriod,true);
 
 //  ExitCritical();
 
@@ -73,24 +86,40 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
 }
 
 
-void PIT_Set(const uint64_t period, const bool restart)
+void PIT0_Set(const uint32_t period, const bool restart)
+{
+  //  (LDVAL trigger = (period / clock period) -1)
+  // clock period = 1/freq
+
+  if (restart)
+  {
+    PIT0_Enable(false);
+  }
+
+  PIT_LDVAL0 = (period / Clkperiod) -1 ;
+
+  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
+  PIT0_Enable(true);
+}
+
+void PIT1_Set(const uint32_t period, const bool restart)
 {
   //  (LDVAL trigger = (period / clock period) -1)
   // clock period = 1/freq
 
   if (restart)
     {
-      PIT_Enable(false);
+      PIT1_Enable(false);
     }
 
-  PIT_LDVAL0 = (period / Clkperiod) -1 ;
+  PIT_LDVAL1 = (period * 1000000 / Clkperiod) -1 ;
 
-  PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
-  PIT_Enable(true);
+  PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
+  PIT1_Enable(true);
 }
 
 
-void PIT_Enable(const bool enable)
+void PIT0_Enable(const bool enable)
 {
   if (enable)
     {
@@ -102,8 +131,20 @@ void PIT_Enable(const bool enable)
     }
 }
 
+void PIT1_Enable(const bool enable)
+{
+  if (enable)
+    {
+      (PIT_TCTRL1 |= PIT_TCTRL_TEN_MASK);
+    }
+  else
+    {
+      (PIT_TCTRL1 &= ~PIT_TCTRL_TEN_MASK); //disable
+    }
+}
 
-void __attribute__ ((interrupt)) PIT_ISR(void)
+
+void __attribute__ ((interrupt)) PIT0_ISR(void)
 {
   OS_ISREnter();
   /*Clear interupt flag*/
@@ -112,10 +153,27 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
 //  if (UserFunction)
 //  (*UserFunction)(UserArguments);
 
-  OS_SemaphoreSignal(PITAccess);
+  //Take a sample on chan A
+  int16_t sample;
+  Analog_Get(0,&sample);    //TODO : for loop pour mettre un sample dans chaque array de chaque channel
+  TakeSample(FullSample,sample);
+//  OS_SemaphoreSignal(PIT0Access);
+  OS_SemaphoreSignal(SampleTaken);
   OS_ISRExit();
 }
-//CALL USER FUCTION PAGE 4/7 LAB3
+
+void __attribute__ ((interrupt)) PIT1_ISR(void)
+{
+  OS_ISREnter();
+  /*Clear interupt flag*/
+  PIT_TFLG1 |= PIT_TFLG_TIF_MASK;
+
+//  if (UserFunction)
+//  (*UserFunction)(UserArguments);
+
+  OS_SemaphoreSignal(PIT1Access);
+  OS_ISRExit();
+}
 
 /*!
  ** @}

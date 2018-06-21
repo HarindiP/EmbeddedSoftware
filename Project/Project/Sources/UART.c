@@ -194,7 +194,7 @@ void UART_RxThread(void* pData)
     OS_SemaphoreWait(RxAccess,0);
     FIFO_Put(&RxFIFO, UART2_D);
 //    FIFO_Put(&RxFIFO, RxData);
-//    UART2_C2 |= UART_C2_RIE_MASK;
+    UART2_C2 |= UART_C2_RIE_MASK;
 //    if(Packet_Get())
 //    {
 //      OS_SemaphoreSignal(Packet_Ready);	//TODO : why this doesnt work ???

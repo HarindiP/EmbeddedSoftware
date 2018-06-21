@@ -32,6 +32,8 @@ TRegulationMode SCP_RegMode;
 /*Nb of lowers and raises*/
 uint8_t SCP_Lowers;
 uint8_t SCP_Raises;
+//Vrms array
+float Vrms[3] = {0,0,0};
 
 /*Communication functions : */
 

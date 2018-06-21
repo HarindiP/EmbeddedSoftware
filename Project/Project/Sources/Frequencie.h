@@ -16,11 +16,11 @@
 
 
 
-int16_t Interpolation( uint16_t y, int16_t x1, int16_t x2, uint16_t y1, uint16_t y2);
+float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2);
 
 int16_t Average(int16_t* const sample);
 
-void FrequencyTracking(int16_t* const sampleArray, uint16_t* Ts);
+void FrequencyTracking(int16_t* const sampleArray, float* Ts);
 
 
 #endif /* SOURCES_FREQUENCIE_H_ */

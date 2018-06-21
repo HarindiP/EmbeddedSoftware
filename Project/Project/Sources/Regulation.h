@@ -13,25 +13,31 @@
 #include "OS.h"
 #include "Output.h"
 #include "Analog.h"
+#include "SCP.h"
 
 //Signal period
-extern uint64_t* Regulation_Ts; //in nanosec
+extern float* Regulation_Ts; //in nanosec
 //Array of 16 samples
 extern int16_t FullSample[NB_OF_SAMPLE];
 //Vrms array
 extern float Vrms[3];
 //Semaphores
 OS_ECB* SampleTaken;
-//Semaphores
-OS_ECB* SampleProcessed;
+OS_ECB* FullSampleTaken;
+//OS_ECB* SampleProcessed;
+
+//Bool signaled if the alarm has been set for more than 5sec
+extern bool Regulation_AlarmSet;
 
 float VRMS(int16_t* const sample);
 
-uint8_t InverseTimer(int16_t deviation, int64_t* ts);
+void RAS();
 
 void DefiniteTimingRegulation(int16_t* sample);
 
-void InverseTimingRegulation(int64_t* ts);
+float InverseTimer(int16_t deviation, float* ts);
+
+void InverseTimingRegulation(float* ts);
 
 /*! @brief Put an analog sample of the signal in Volt in the sample array
  *
@@ -42,12 +48,12 @@ bool TakeSample(int16_t* const sampleArray, int16_t sample);
 /*! @brief Thread to take a full sample
  *
  * */
-static void TakingSampleThread(void* pData);
+void Regulation_TakeSampleThread(void* pData);
 
 /*! @brief Treatment Thread
  *
  * */
-static void TreatingSampleThread(void* pData);
+void Regulation_ProcessSampleThread(void* pData);
 
 
 #endif /* SOURCES_REGULATION_H_ */
