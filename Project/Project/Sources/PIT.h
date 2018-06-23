@@ -22,8 +22,8 @@
 #include "OS.h"
 
 //Semaphore to acces the Thread
-extern OS_ECB* PIT0Access;
-extern OS_ECB* PIT1Access;
+OS_ECB* PIT0Access;
+OS_ECB* PIT1Access;
 
 /*! @brief Sets up the PIT before first use.
  *
@@ -75,6 +75,12 @@ void PIT1_Enable(const bool enable);
  */
 void __attribute__ ((interrupt)) PIT0_ISR(void);
 
+/*! @brief
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+void PIT0Thread(void* pData);
+
 /*! @brief Interrupt service routine for the PIT.
  *
  *  The periodic interrupt timer has timed out.
@@ -82,6 +88,12 @@ void __attribute__ ((interrupt)) PIT0_ISR(void);
  *  @note Assumes the PIT has been initialized.
  */
 void __attribute__ ((interrupt)) PIT1_ISR(void);
+
+/*! @brief toggle green LED
+ *
+ *  @param pData is not used but is required by the OS to create a thread.
+ */
+void PIT1Thread(void* pData);
 
 #endif
 

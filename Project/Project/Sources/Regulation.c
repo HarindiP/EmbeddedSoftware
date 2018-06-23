@@ -13,12 +13,15 @@
 #include "PIT.h"
 #include "SCP.h"
 #include "MK70F12.h"
+#include "LEDs.h"
 
 
 //Signal period
 float* Regulation_Ts; //in ms
 //Array of 16 samples
-int16_t FullSample[NB_OF_SAMPLE];
+int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
+int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
+int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
 
 //Alarm signal
 bool Regulation_AlarmSet = false;
@@ -50,6 +53,7 @@ void RAS()
   Output_ClearRaise();
   Output_ClearAlarm();
   PIT1_Enable(false);
+  LEDs_Off(LED_GREEN);
   Regulation_AlarmSet = false;
 }
 
@@ -69,6 +73,7 @@ void DefiniteTimingRegulation(int16_t* sample)
 //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
 //      PIT1_Enable(false);
       PIT1_Set(DEFINITE_TIME,true);
+      LEDs_On(LED_GREEN);
 //      PIT1_Enable(true);
     }
   }
@@ -85,6 +90,7 @@ void DefiniteTimingRegulation(int16_t* sample)
 //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
 //      PIT1_Enable(false);
       PIT1_Set(DEFINITE_TIME,true);
+      LEDs_On(LED_GREEN);
 //      PIT1_Enable(true);
     }
   }
@@ -105,9 +111,9 @@ float InverseTimer(int16_t deviation, float* ts)
 //  return 0;
 }
 
-void InverseTimingRegulation(float* ts)
+void InverseTimingRegulation(int16_t* sample,float* ts)
 {
-  float Vrms = VRMS(FullSample);
+  float Vrms = VRMS(sample);
   static uint16_t deviation = 0;
   if(Vrms > VRMS_MAX)
   {
@@ -165,7 +171,7 @@ void InverseTimingRegulation(float* ts)
   }
 }
 
-/*Should be were Sample is declared*/
+
 bool TakeSample(int16_t* const sampleArray, int16_t sample)
 {
   static uint8_t index = 0;
@@ -203,17 +209,17 @@ void Regulation_ProcessSampleThread(void* pData)
   for(;;)
   {
     OS_SemaphoreWait(FullSampleTaken,0);
-    float vrms = VRMS(FullSample);
+    float vrms = VRMS(Regulation_FullSampleA);
     switch (SCP_RegMode)
     {
       case DEFINITE_TIMER :
-        DefiniteTimingRegulation(FullSample);
+        DefiniteTimingRegulation(Regulation_FullSampleA);
         //restart PIT to take a new set of sample
         PIT0_Set((uint32_t)(*Regulation_Ts * 1000 / 16),true);
         PIT0_Enable(true);
         break;
       case INVERSE_TIMER :
-        return InverseTimingRegulation(Regulation_Ts);
+        return InverseTimingRegulation(Regulation_FullSampleA, Regulation_Ts);
         break;
       default :
         break;

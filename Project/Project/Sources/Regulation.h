@@ -18,7 +18,9 @@
 //Signal period
 extern float* Regulation_Ts; //in nanosec
 //Array of 16 samples
-extern int16_t FullSample[NB_OF_SAMPLE];
+extern int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
+extern int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
+extern int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
 //Vrms array
 extern float Vrms[3];
 //Semaphores
@@ -37,7 +39,7 @@ void DefiniteTimingRegulation(int16_t* sample);
 
 float InverseTimer(int16_t deviation, float* ts);
 
-void InverseTimingRegulation(float* ts);
+void InverseTimingRegulation(int16_t* sample, float* ts);
 
 /*! @brief Put an analog sample of the signal in Volt in the sample array
  *

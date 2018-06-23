@@ -20,6 +20,7 @@
 #include "PE_Types.h"
 #include "LEDs.h"
 #include "Regulation.h"
+#include "Requirements.h"
 
 
 static uint32_t Clkperiod; //ask coralie if it should be static
@@ -153,13 +154,42 @@ void __attribute__ ((interrupt)) PIT0_ISR(void)
 //  if (UserFunction)
 //  (*UserFunction)(UserArguments);
 
+  static int nbSampleTaken = 0;
+
   //Take a sample on chan A
   int16_t sample;
-  Analog_Get(0,&sample);    //TODO : for loop pour mettre un sample dans chaque array de chaque channel
-  TakeSample(FullSample,sample);
+
+  Analog_Get(0,&sample);    //TODO : take 3 chan
+  TakeSample(Regulation_FullSampleA,sample);
+//  Analog_Get(1,&sample);
+//  TakeSample(Regulation_FullSampleB,sample);
+//  Analog_Get(2,&sample);
+//  TakeSample(Regulation_FullSampleB,sample);
+
+  nbSampleTaken++;
+
+  if(nbSampleTaken == NB_OF_SAMPLE)
+  {
+    nbSampleTaken = 0;
+    //Stop taking samples
+    PIT0_Enable(false);
+    //Signal the treatment thread
+    OS_SemaphoreSignal(FullSampleTaken);
+  }
 //  OS_SemaphoreSignal(PIT0Access);
-  OS_SemaphoreSignal(SampleTaken);
   OS_ISRExit();
+}
+
+void PIT0Thread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(PIT0Access,0);
+//    //Toggle Green LED
+//    LEDs_Toggle(LED_GREEN);
+
+    //    OS_SemaphoreSignal(SampleTaken);  //PIT is too quick, cant do that here
+  }
 }
 
 void __attribute__ ((interrupt)) PIT1_ISR(void)
@@ -174,6 +204,19 @@ void __attribute__ ((interrupt)) PIT1_ISR(void)
   OS_SemaphoreSignal(PIT1Access);
   OS_ISRExit();
 }
+
+void PIT1Thread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(PIT1Access,0);
+    //Toggle Green LED
+    LEDs_Off(LED_GREEN);
+    //Signal a variable
+    Regulation_AlarmSet = true;
+  }
+}
+
 
 /*!
  ** @}
