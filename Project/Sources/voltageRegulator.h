@@ -10,7 +10,7 @@
 
 
 
-void readLoop(int16_t VRMS);
+void BoundsCheck(int16_t VRMS);
 
 void definitemode(void);
 

@@ -27,7 +27,12 @@ int16_t checkVRMS;
 int16_t newVRMS;
 
 
-void readLoop(int16_t VRMS)
+//pointers to save the number of raises and lowers
+
+
+
+
+void BoundsCheck(int16_t VRMS)
 {
   if (VRMS > UPPERBOUND || VRMS < LOWERBOUND)
   {

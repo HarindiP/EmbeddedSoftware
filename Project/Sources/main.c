@@ -51,6 +51,8 @@ OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 
 
+
+
 static void PITCallback(void* arg);
 
 
@@ -100,7 +102,12 @@ static void PITThread(void* pData)
   for(;;)
   {
     OS_SemaphoreWait(PITAccess,0);
-    UpdateInput();
+
+    //This function updates the inputs to the Array
+//    UpdateInput(void);
+
+    //after array has been called 16 times check for bounds
+
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);

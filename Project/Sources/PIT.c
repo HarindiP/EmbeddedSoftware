@@ -51,7 +51,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
    PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
 
 
-   /*************Initialise NVIC******************/
+   /*********************Initialise NVIC**************************/
   //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=68
   /*clears any pending requests*/
   NVICICPR2 = (1 << (68 % 32));
@@ -59,7 +59,7 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*Enable interupts from PIT Module*/
   NVICISER2 = (1 << (68 % 32));
 
-  /*************Initialise NVIC******************/
+  /***********************Initialise NVIC**************************/
   //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=68
   /*clears any pending requests*/
   NVICICPR2 = (1 << (69 % 32));
@@ -176,7 +176,7 @@ void __attribute__ ((interrupt)) PIT1_ISR(void)
   if (PIT_TFLG1 & PIT_TFLG_TIF_MASK) // Check if timeout has occurred
   {
     PIT_TFLG1 |= PIT_TFLG_TIF_MASK; // Clear timer interrupt flag
-    OS_SemaphoreSignal(PIT1Access); // Signal PIT thread to tell it can run
+    OS_SemaphoreSignal(PIT1Access); // Signals PIT thread
   }
 
   OS_ISRExit(); // End of servicing interrupt

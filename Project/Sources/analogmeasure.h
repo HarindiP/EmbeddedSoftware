@@ -10,6 +10,17 @@
 
 extern int16_t vrmsValue;
 
+//define a struct used to navigate all channels on through out the code
+
+typedef struct
+{
+  int16_t myArray[16];    //Initalises an array of 16 samples
+  int16_t myVrms;         //Vrms value of regarding channel
+  int myposition; //Current position in the array
+
+}
+channeldata;
+
 
 
 void compareMinimum(float value, int position);
