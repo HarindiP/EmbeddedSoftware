@@ -9,27 +9,23 @@
 //Sample processing
 
 #include "Regulation.h"
-#include <math.h>
-#include "PIT.h"
-#include "SCP.h"
-#include "MK70F12.h"
-#include "LEDs.h"
 
 
-//Signal period
-float* Regulation_Ts; //in ms
-//Array of 16 samples
+
+//Array of 16 samples for each chan
 int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
 int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
 int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
 
 //Alarm signal
 bool Regulation_AlarmSet = false;
+bool Regulation_AlarmReached = false;
+
 
 
 //!!!! DEFINIR LES TEMPS EN NANOSECONDES PARCE QUE CE SONT DES INT !!!!
 
-//STORE VRMS IN AN ARRAY FOR THE 3 CHENNELS FOR SCP TO WORK
+//STORE VRMS IN AN ARRAY FOR THE 3 CHANNELS FOR SCP TO WORK
 
 //Write a function to take 16 samples
 
@@ -55,43 +51,43 @@ void RAS()
   PIT1_Enable(false);
   LEDs_Off(LED_GREEN);
   Regulation_AlarmSet = false;
+  Regulation_AlarmReached = false;
 }
 
-void DefiniteTimingRegulation(int16_t* sample)
+void DefiniteTimingRegulation(float* vrms)
 {
-  float Vrms = VRMS(sample);
-  if(Vrms > VRMS_MAX)
+  if(vrms[0] > VRMS_MAX || vrms[1] > VRMS_MAX  || vrms[2] > VRMS_MAX)
   {
-    if(Regulation_AlarmSet)
+    if(Regulation_AlarmReached)
     {
       Output_SetLower();
-      Regulation_AlarmSet = false;
+      SCP_Lowers++;
     }
-    else
+    else if(!Regulation_AlarmSet)
     {
       Output_SetAlarm();
+      Regulation_AlarmSet = true;
 //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
-//      PIT1_Enable(false);
       PIT1_Set(DEFINITE_TIME,true);
+      //Turn on Green LED
       LEDs_On(LED_GREEN);
-//      PIT1_Enable(true);
     }
   }
-  else if(Vrms < VRMS_MIN)
+  else if(vrms[0] < VRMS_MIN || vrms[1] < VRMS_MIN || vrms[2] < VRMS_MIN)
   {
-    if(Regulation_AlarmSet)
+    if(Regulation_AlarmReached)
     {
       Output_SetRaise();
-      Regulation_AlarmSet = false;
+      SCP_Raises++;
     }
-    else
+    else if(!Regulation_AlarmSet)
     {
       Output_SetAlarm();
+      Regulation_AlarmSet = true;
 //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
-//      PIT1_Enable(false);
       PIT1_Set(DEFINITE_TIME,true);
+      //Turn on Green LED
       LEDs_On(LED_GREEN);
-//      PIT1_Enable(true);
     }
   }
   else
@@ -100,69 +96,63 @@ void DefiniteTimingRegulation(int16_t* sample)
   }
 }
 
-float InverseTimer(int16_t deviation, float* ts)
+uint32_t InverseTimer(float deviation)
 {
-//  uint64_t told = *ts / 16;
-//  t_elapsed = (PIT_LDVAL1 - PIT_CVAL1) / 1000;
-//  uint64_t invTime;
-//  invTime = (DEFINITE_TIME / (2 * deviation)) * (1 - ((*ts / 16) / told));
-//  told = invTime;
-//  return invTime;
-//  return 0;
-}
-
-void InverseTimingRegulation(int16_t* sample,float* ts)
-{
-  float Vrms = VRMS(sample);
-  static uint16_t deviation = 0;
-  if(Vrms > VRMS_MAX)
+  static bool call = false;
+  static uint32_t invTime;
+  if(!call)
   {
-    if (Regulation_AlarmSet)
+    invTime = (uint32_t) (DEFINITE_TIME / (2 * deviation));
+    call = true;
+  }
+  else
+  {
+    uint32_t t_elapsed = (PIT_LDVAL1 - PIT_CVAL1) / 1000;
+    invTime = (uint32_t)((1 / (2 * deviation)) * (1 - (t_elapsed / invTime)));
+    if(invTime <= 0)
     {
-      Output_SetLower();
-      Regulation_AlarmSet = false;
-    }
-    else
-    {
-      Output_SetAlarm();
-      if((Vrms - VRMS_MAX) != deviation)
-      {
-        deviation = Vrms - VRMS_MAX;
-        uint32_t timeLeft = DEFINITE_TIME;
-        PIT1_Set(InverseTimer(deviation,ts),true);
-      }
-
-//      while (timeLeft > 0)
-//      {
-//        timeLeft = InverseTimer(deviation,ts);
-//        OS_TimeDelay(timeLeft);
-        //take 16 new samples
-        //recalculate Vrms and deviation
-//        PIT1_Enable(false);
-//        PIT1_Set(InverseTimer(deviation,ts),true);
-//        PIT1_Enable(true);
-//      }
+      call = false;
+      return 0;
     }
   }
-  else if (Vrms < VRMS_MIN)
+  return invTime;
+}
+
+void InverseTimingRegulation(float* vrms)
+{
+  static float deviation = 0;
+  if(*vrms > VRMS_MAX)
   {
-    if (Regulation_AlarmSet)
+    if(Regulation_AlarmReached)
+    {
+      Output_SetLower();
+      SCP_Lowers++;
+    }
+    else if((*vrms - VRMS_MAX) != deviation)
+    {
+      deviation = *vrms - VRMS_MAX;
+      Output_SetAlarm();
+      Regulation_AlarmSet = true;
+      PIT1_Set(InverseTimer(deviation),true);
+      //Turn on Green LED
+      LEDs_On(LED_GREEN);
+    }
+  }
+  else if (*vrms < VRMS_MIN)
+  {
+    if(Regulation_AlarmReached)
     {
       Output_SetRaise();
-      Regulation_AlarmSet = false;
+      SCP_Raises++;
     }
-    else
+    else if((VRMS_MIN - *vrms) != deviation)
     {
-      deviation = VRMS_MIN - Vrms;
+      deviation = VRMS_MIN - *vrms;
       Output_SetAlarm();
-      uint32_t timeLeft = DEFINITE_TIME;
-      while (timeLeft > 0)
-      {
-        timeLeft = InverseTimer(deviation,ts);
-        OS_TimeDelay(timeLeft);
-        //take 16 new samples
-        //recalculate Vrms and deviation
-      }
+      Regulation_AlarmSet = true;
+      PIT1_Set(InverseTimer(deviation),true);
+      //Turn on Green LED
+      LEDs_On(LED_GREEN);
     }
   }
   else
@@ -186,43 +176,22 @@ bool TakeSample(int16_t* const sampleArray, int16_t sample)
 }
 
 
-void Regulation_TakeSampleThread(void* pData)
-{
-  for(;;)
-  {
-    OS_SemaphoreWait(SampleTaken,0);
+//void Regulation_TakeSampleThread(void* pData)
+//{
+//  for(;;)
+//  {
+//    OS_SemaphoreWait(SampleTaken,0);
+//
+//    static int nbSampleTaken = 0;
+//    nbSampleTaken++;
+//    if(nbSampleTaken == NB_OF_SAMPLE)
+//    {
+//      nbSampleTaken = 0;
+//      PIT0_Enable(false);
+//      OS_SemaphoreSignal(FullSampleTaken);
+//    }
+//  }
+//}
 
-    static int nbSampleTaken = 0;
-    nbSampleTaken++;
-    if(nbSampleTaken == NB_OF_SAMPLE)
-    {
-      nbSampleTaken = 0;
-      PIT0_Enable(false);
-      OS_SemaphoreSignal(FullSampleTaken);
-    }
-  }
-}
 
 
-void Regulation_ProcessSampleThread(void* pData)
-{
-  for(;;)
-  {
-    OS_SemaphoreWait(FullSampleTaken,0);
-    float vrms = VRMS(Regulation_FullSampleA);
-    switch (SCP_RegMode)
-    {
-      case DEFINITE_TIMER :
-        DefiniteTimingRegulation(Regulation_FullSampleA);
-        //restart PIT to take a new set of sample
-        PIT0_Set((uint32_t)(*Regulation_Ts * 1000 / 16),true);
-        PIT0_Enable(true);
-        break;
-      case INVERSE_TIMER :
-        return InverseTimingRegulation(Regulation_FullSampleA, Regulation_Ts);
-        break;
-      default :
-        break;
-    }
-  }
-}

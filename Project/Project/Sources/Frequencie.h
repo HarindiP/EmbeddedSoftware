@@ -14,6 +14,8 @@
 //#define VOLT_TO_ANALOG(x) (x*3277)
 //#define ANALOG_TO_VOLT(x) (int16_t)(x/3277)
 
+//Signal period
+extern float Frequencie_Ts; //in nanosec
 
 
 float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2);

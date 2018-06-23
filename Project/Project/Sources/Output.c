@@ -7,9 +7,8 @@
 
 #include "analog.h"
 #include "Requirements.h"
+#include "Output.h"
 
-#define OUTPUT_HIGH 5
-#define OUTPUT_LOW 0
 
 
 void Output_SetAlarm()

@@ -9,6 +9,9 @@
 #define SOURCES_OUTPUT_H_
 
 
+#define OUTPUT_HIGH 5
+#define OUTPUT_LOW 0
+
 void Output_SetAlarm();
 
 void Output_ClearAlarm();

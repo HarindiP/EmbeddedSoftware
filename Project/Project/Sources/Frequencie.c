@@ -10,7 +10,8 @@
 #include "Requirements.h"
 
 
-
+//Signal period
+float Frequencie_Ts; //in ms
 
 ////find the zero between two values
 //int16_t Interpolation(int16_t x1, int16_t x2, uint16_t y1, uint16_t y2)
@@ -43,26 +44,27 @@ int16_t Average(int16_t* const sample)
 void FrequencyTracking(int16_t* const sampleArray, float* ts)
 {
   uint8_t k = 0;
+  uint16_t i = 0;
   float zeros[2];
-  while(k < 2)
+
+  while(k < 2 && i < NB_OF_SAMPLE - 1)
   {
-    for(uint16_t i = 0; i < NB_OF_SAMPLE - 1; i++)
+    if(sampleArray[i] == 0 )
     {
-      if(*(sampleArray+i) == 0 )
-      {
-        zeros[k] = *ts * i / NB_OF_SAMPLE;
-        k++;
-      }
-      if(*(sampleArray+i+1) == 0 )
-      {
-        zeros[k] = *ts * (i + 1) / NB_OF_SAMPLE;
-        k++;
-      }
-      if (((*(sampleArray+i) - 0)) * ((*(sampleArray+i+1)) - 0) < 0)
-      {
-        zeros[k] =  Interpolation(0,*ts * i / NB_OF_SAMPLE,*ts * (i + 1) / NB_OF_SAMPLE,*(sampleArray+i),*(sampleArray+i+1));
-      }
+      zeros[k] = *ts * i / NB_OF_SAMPLE;
+      k++;
     }
+    if(sampleArray[i+1] == 0 )
+    {
+      zeros[k] = *ts * (i + 1) / NB_OF_SAMPLE;
+      k++;
+    }
+    if (((sampleArray[i] - 0) * (sampleArray[i+1] - 0)) < 0)
+    {
+      zeros[k] =  Interpolation(0,*ts * i / NB_OF_SAMPLE,*ts * (i + 1) / NB_OF_SAMPLE,sampleArray[i],sampleArray[i+1]);
+      k++;
+    }
+    i++;
   }
   if ((zeros[1] - zeros[0]) != (*ts / 2))
   {

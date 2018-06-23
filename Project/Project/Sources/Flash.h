@@ -35,6 +35,14 @@
 // the command that erases a flash block
 #define FLASH_ERASE_SECTOR 0x09
 
+//Flash address of Tower Number and Mode
+volatile uint16union_t *NvTowerNb;
+volatile uint16union_t *NvTowerMd;
+volatile uint8_t *NvRegMode;
+volatile uint8_t *NvNbRaises;
+volatile uint8_t *NvNbLowers;
+
+
 // Private Function Dec's`
 static bool LaunchCommand(TFCCOB* commonCommandObject);
 static bool WritePhrase(const uint32_t address, const uint64union_t phrase);

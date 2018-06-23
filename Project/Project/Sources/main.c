@@ -63,23 +63,26 @@ OS_THREAD_STACK(HandlePacketThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(TxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RxThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(RTCThreadStack, THREAD_STACK_SIZE);
-OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
+//OS_THREAD_STACK(PIT0ThreadStack, THREAD_STACK_SIZE);
+//OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 //OS_THREAD_STACK(TakeSampleThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(ProcessSampleThreadStack, THREAD_STACK_SIZE);
 
-// Thread stacks
-OS_THREAD_STACK(InitModulesThreadStack, THREAD_STACK_SIZE); /*!< The stack for the LED Init thread. */
-static uint32_t AnalogThreadStacks[NB_ANALOG_CHANNELS][THREAD_STACK_SIZE] __attribute__ ((aligned(0x08)));
-
-// ----------------------------------------
-// Thread priorities
-// 0 = highest priority
-// ----------------------------------------
-const uint8_t ANALOG_THREAD_PRIORITIES[NB_ANALOG_CHANNELS] = {1, 2, 3};
+//// Thread stacks
+//OS_THREAD_STACK(InitModulesThreadStack, THREAD_STACK_SIZE); /*!< The stack for the LED Init thread. */
+//static uint32_t AnalogThreadStacks[NB_ANALOG_CHANNELS][THREAD_STACK_SIZE] __attribute__ ((aligned(0x08)));
+//
+//// ----------------------------------------
+//// Thread priorities
+//// 0 = highest priority
+//// ----------------------------------------
+//const uint8_t ANALOG_THREAD_PRIORITIES[NB_ANALOG_CHANNELS] = {1, 2, 3};
 
 
 //Timer declaration
 TFTMChannel Timer1Sec;
+
+OS_ECB* FullSampleTaken;
 
 /*! @brief Data structure used to pass Analog configuration to a user thread
  *
@@ -183,6 +186,36 @@ void __attribute__ ((interrupt)) LPTimer_ISR(void)
   OS_ISRExit();
 }
 
+/*! @brief Sample Treatment Thread
+ *
+ * */
+void Regulation_ProcessSampleThread(void* pData)
+{
+  for(;;)
+  {
+    OS_SemaphoreWait(FullSampleTaken,0);
+    SCP_Vrms[0] = VRMS(Regulation_FullSampleA);
+    SCP_Vrms[1] = VRMS(Regulation_FullSampleB);
+    SCP_Vrms[2] = VRMS(Regulation_FullSampleC);
+    switch (SCP_RegMode)
+    {
+      case DEFINITE_TIMER :
+        DefiniteTimingRegulation(SCP_Vrms);
+        FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
+        //restart PIT to take a new set of sample
+        uint32_t sampling_period = (uint32_t)(Frequencie_Ts * 1000000 / 16);
+        PIT0_Set(sampling_period,true);  //SAMPLING_PERIODE in ns
+        break;
+      case INVERSE_TIMER :
+        InverseTimingRegulation(SCP_Vrms);
+        break;
+      default :
+        break;
+    }
+  }
+}
+
+
 /*! @brief Initialises modules.
  *
  */
@@ -196,8 +229,7 @@ static void InitModulesThread(void* pData)
   //Init timing mode
   SCP_RegMode = DEFINITE_TIMER;
   //Init Signal period in ms assuming a 50Hz signal
-  *Regulation_Ts = 20;
-
+  Frequencie_Ts = 20;
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
@@ -235,18 +267,30 @@ static void InitModulesThread(void* pData)
     if(NvTowerMd->l == 0xFFFF)
       Flash_Write16((uint16_t *)NvTowerMd, SCP_TowerMd.l);
 
+  if(Flash_AllocateVar((volatile void**)&NvRegMode, sizeof(*NvRegMode)))
+    if(*NvRegMode == 0xFFFF)
+      Flash_Write8((uint8_t *)NvRegMode, SCP_RegMode);
 
-  //Test PutSample
-  for(int i = 0; i < NB_OF_SAMPLE; i++)
-  {
-    int16_t data;
-    Analog_Get(0,&data);
-    TakeSample(Regulation_FullSampleA, data);
-    OS_TimeDelay(2);
-  }
-  //Test calcul VRMS
-  float  Vrms = VRMS(Regulation_FullSampleA);
-  Analog_Put(0,VOLT_TO_ANALOG(Vrms));
+  if(Flash_AllocateVar((volatile void**)&NvNbRaises, sizeof(*NvNbRaises)))
+    if(*NvNbRaises == 0xFFFF)
+      Flash_Write8((uint8_t *)NvNbRaises, SCP_Raises);
+
+  if(Flash_AllocateVar((volatile void**)&NvNbLowers, sizeof(*NvNbLowers)))
+    if(*NvNbLowers == 0xFFFF)
+      Flash_Write8((uint8_t *)NvNbLowers, SCP_Lowers);
+
+
+//  //Test PutSample
+//  for(int i = 0; i < NB_OF_SAMPLE; i++)
+//  {
+//    int16_t data;
+//    Analog_Get(0,&data);
+//    TakeSample(Regulation_FullSampleA, data);
+//    OS_TimeDelay(1);
+//  }
+//  //Test calcul VRMS
+//  float  Vrms = VRMS(Regulation_FullSampleA);
+//  Analog_Put(0,VOLT_TO_ANALOG(Vrms));
 
 
   //Create 1sec Timer with FTM
@@ -265,8 +309,13 @@ static void InitModulesThread(void* pData)
   //Send Start up values
   SCP_SendStartUpValues();
 
+//  //Test PIT1
+//  PIT1_Set(DEFINITE_TIME,true);
+//  PIT0_Enable(false);
+
   //Start PIT for default sampling periode
   PIT0_Set(SAMPLING_PERIODE,true);
+  PIT1_Enable(false);
 
   // We only do this once - therefore delete this thread
   OS_ThreadDelete(OS_PRIORITY_SELF);
@@ -323,7 +372,7 @@ int main(void)
    error = OS_ThreadCreate(Regulation_ProcessSampleThread,
                            NULL,
                            &ProcessSampleThreadStack[THREAD_STACK_SIZE - 1],
-                           3);
+                           4);
 
 //   error = OS_ThreadCreate(Regulation_TakeSampleThread,
 //                           NULL,
@@ -333,15 +382,15 @@ int main(void)
    error = OS_ThreadCreate(HandlePacketThread,
                            NULL,
                            &HandlePacketThreadStack[THREAD_STACK_SIZE - 1],
-                           6);
+                           3);
 //   error = OS_ThreadCreate(PIT0Thread,
 //                           NULL,
-//                           &PITThreadStack[THREAD_STACK_SIZE - 1],
+//                           &PIT0ThreadStack[THREAD_STACK_SIZE - 1],
 //                           7);
-   error = OS_ThreadCreate(PIT1Thread,
-                           NULL,
-                           &PITThreadStack[THREAD_STACK_SIZE - 1],
-                           5);
+//   error = OS_ThreadCreate(PIT1Thread,
+//                           NULL,
+//                           &PIT1ThreadStack[THREAD_STACK_SIZE - 1],
+//                           5);
    error = OS_ThreadCreate(RTC_Thread,
                            NULL,
                            &RTCThreadStack[THREAD_STACK_SIZE - 1],

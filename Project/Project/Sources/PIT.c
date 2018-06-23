@@ -91,30 +91,24 @@ void PIT0_Set(const uint32_t period, const bool restart)
 {
   //  (LDVAL trigger = (period / clock period) -1)
   // clock period = 1/freq
-
   if (restart)
   {
     PIT0_Enable(false);
   }
-
   PIT_LDVAL0 = (period / Clkperiod) -1 ;
-
   PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
   PIT0_Enable(true);
 }
 
 void PIT1_Set(const uint32_t period, const bool restart)
 {
-  //  (LDVAL trigger = (period / clock period) -1)
-  // clock period = 1/freq
-
   if (restart)
-    {
-      PIT1_Enable(false);
-    }
+  {
+    PIT1_Enable(false);
+  }
 
-  PIT_LDVAL1 = (period * 1000000 / Clkperiod) -1 ;
-
+  PIT_LDVAL1 = (period / Clkperiod) * 1000000 -1 ;
+//  PIT_LDVAL1 = (period / Clkperiod) -1 ;
   PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
   PIT1_Enable(true);
 }
@@ -123,25 +117,25 @@ void PIT1_Set(const uint32_t period, const bool restart)
 void PIT0_Enable(const bool enable)
 {
   if (enable)
-    {
-      (PIT_TCTRL0 |= PIT_TCTRL_TEN_MASK);
-    }
+  {
+    (PIT_TCTRL0 |= PIT_TCTRL_TEN_MASK);
+  }
   else
-    {
-      (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
-    }
+  {
+    (PIT_TCTRL0 &= ~PIT_TCTRL_TEN_MASK); //disable
+  }
 }
 
 void PIT1_Enable(const bool enable)
 {
   if (enable)
-    {
-      (PIT_TCTRL1 |= PIT_TCTRL_TEN_MASK);
-    }
+  {
+    (PIT_TCTRL1 |= PIT_TCTRL_TEN_MASK);
+  }
   else
-    {
-      (PIT_TCTRL1 &= ~PIT_TCTRL_TEN_MASK); //disable
-    }
+  {
+    (PIT_TCTRL1 &= ~PIT_TCTRL_TEN_MASK); //disable
+  }
 }
 
 
@@ -159,12 +153,12 @@ void __attribute__ ((interrupt)) PIT0_ISR(void)
   //Take a sample on chan A
   int16_t sample;
 
-  Analog_Get(0,&sample);    //TODO : take 3 chan
+  Analog_Get(0,&sample);
   TakeSample(Regulation_FullSampleA,sample);
-//  Analog_Get(1,&sample);
-//  TakeSample(Regulation_FullSampleB,sample);
-//  Analog_Get(2,&sample);
-//  TakeSample(Regulation_FullSampleB,sample);
+  Analog_Get(1,&sample);
+  TakeSample(Regulation_FullSampleB,sample);
+  Analog_Get(2,&sample);
+  TakeSample(Regulation_FullSampleC,sample);
 
   nbSampleTaken++;
 
@@ -180,17 +174,17 @@ void __attribute__ ((interrupt)) PIT0_ISR(void)
   OS_ISRExit();
 }
 
-void PIT0Thread(void* pData)
-{
-  for(;;)
-  {
-    OS_SemaphoreWait(PIT0Access,0);
-//    //Toggle Green LED
-//    LEDs_Toggle(LED_GREEN);
-
-    //    OS_SemaphoreSignal(SampleTaken);  //PIT is too quick, cant do that here
-  }
-}
+//void PIT0Thread(void* pData)
+//{
+//  for(;;)
+//  {
+//    OS_SemaphoreWait(PIT0Access,0);
+////    //Toggle Green LED
+////    LEDs_Toggle(LED_GREEN);
+//
+//    //    OS_SemaphoreSignal(SampleTaken);  //PIT is too quick, cant do that here
+//  }
+//}
 
 void __attribute__ ((interrupt)) PIT1_ISR(void)
 {
@@ -201,21 +195,25 @@ void __attribute__ ((interrupt)) PIT1_ISR(void)
 //  if (UserFunction)
 //  (*UserFunction)(UserArguments);
 
-  OS_SemaphoreSignal(PIT1Access);
+  //Turn off Green LED
+  LEDs_Off(LED_GREEN);
+  Regulation_AlarmReached = true;
+  PIT1_Enable(false);
+//  LEDs_Toggle(LED_GREEN);
+
+//  OS_SemaphoreSignal(PIT1Access);
   OS_ISRExit();
 }
 
-void PIT1Thread(void* pData)
-{
-  for(;;)
-  {
-    OS_SemaphoreWait(PIT1Access,0);
-    //Toggle Green LED
-    LEDs_Off(LED_GREEN);
-    //Signal a variable
-    Regulation_AlarmSet = true;
-  }
-}
+//void PIT1Thread(void* pData)
+//{
+//  for(;;)
+//  {
+//    OS_SemaphoreWait(PIT1Access,0);
+//    //Signal a variable
+//    Regulation_AlarmSet = true;
+//  }
+//}
 
 
 /*!

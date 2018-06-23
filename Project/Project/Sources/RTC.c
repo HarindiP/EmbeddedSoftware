@@ -160,7 +160,7 @@ void RTC_Thread(void* pData)
     //Toggle Yellow LED
     LEDs_Toggle(LED_YELLOW);
     //Send Time
-//    SendTime();
+    SendTime();
   }
 }
 

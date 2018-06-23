@@ -33,7 +33,7 @@ TRegulationMode SCP_RegMode;
 uint8_t SCP_Lowers;
 uint8_t SCP_Raises;
 //Vrms array
-float Vrms[3] = {0,0,0};
+float SCP_Vrms[3] = {0,0,0};
 
 /*Communication functions : */
 
@@ -144,6 +144,7 @@ bool SendTimingMode()
 bool SetTimingMode()
 {
   SCP_RegMode = Packet_Parameter1 - 1;
+  Flash_Write8((uint8_t *)NvRegMode, SCP_RegMode);
   return SendTimingMode();
 }
 bool HandleTimingMode()
@@ -160,11 +161,13 @@ bool HandleTimingMode()
 
 bool SendNbLowers()
 {
+  Flash_Write8((uint8_t *)NvNbLowers, SCP_Lowers);
   return Packet_Put(0x11,SCP_Lowers,0,0);
 }
 bool ResetLowers()
 {
   SCP_Lowers = 0;
+  Flash_Write8((uint8_t *)NvNbLowers, SCP_Lowers);
   return SendNbLowers();
 }
 bool HandleLowers()
@@ -181,11 +184,13 @@ bool HandleLowers()
 
 bool SendNbRaises()
 {
+  Flash_Write8((uint8_t *)NvNbRaises, SCP_Raises);
   return Packet_Put(0x12,SCP_Raises,0,0);
 }
 bool ResetRaises()
 {
   SCP_Raises = 0;
+  Flash_Write8((uint8_t *)NvNbRaises, SCP_Raises);
   return SendNbRaises();
 }
 bool HandleRaises()
@@ -202,7 +207,7 @@ bool HandleRaises()
 
 bool GetVrms()
 {
-  return Packet_Put(0x18,Packet_Parameter1,(uint8_t)Vrms[Packet_Parameter1],0);  //TODO not sur, why uint16_t ???
+  return Packet_Put(0x18,Packet_Parameter1,(uint8_t)SCP_Vrms[Packet_Parameter1],0);  //TODO not sur, why uint16_t ???
 }
 
 

@@ -8,38 +8,41 @@
 #ifndef SOURCES_REGULATION_H_
 #define SOURCES_REGULATION_H_
 
+#include <math.h>
+#include "PIT.h"
+#include "SCP.h"
+#include "MK70F12.h"
+#include "LEDs.h"
 #include "Requirements.h"
 #include "types.h"
 #include "OS.h"
 #include "Output.h"
 #include "Analog.h"
-#include "SCP.h"
+#include "Flash.h"
 
-//Signal period
-extern float* Regulation_Ts; //in nanosec
+
 //Array of 16 samples
 extern int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
 extern int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
 extern int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
-//Vrms array
-extern float Vrms[3];
 //Semaphores
-OS_ECB* SampleTaken;
-OS_ECB* FullSampleTaken;
+//OS_ECB* SampleTaken;
+extern OS_ECB* FullSampleTaken;
 //OS_ECB* SampleProcessed;
 
 //Bool signaled if the alarm has been set for more than 5sec
-extern bool Regulation_AlarmSet;
+bool Regulation_AlarmSet;
+bool Regulation_AlarmReached;
 
 float VRMS(int16_t* const sample);
 
 void RAS();
 
-void DefiniteTimingRegulation(int16_t* sample);
+void DefiniteTimingRegulation(float* vrms);
 
-float InverseTimer(int16_t deviation, float* ts);
+uint32_t InverseTimer(float deviation);
 
-void InverseTimingRegulation(int16_t* sample, float* ts);
+void InverseTimingRegulation(float* vrms);
 
 /*! @brief Put an analog sample of the signal in Volt in the sample array
  *
@@ -47,15 +50,10 @@ void InverseTimingRegulation(int16_t* sample, float* ts);
  */
 bool TakeSample(int16_t* const sampleArray, int16_t sample);
 
-/*! @brief Thread to take a full sample
- *
- * */
-void Regulation_TakeSampleThread(void* pData);
-
-/*! @brief Treatment Thread
- *
- * */
-void Regulation_ProcessSampleThread(void* pData);
+///*! @brief Thread to take a full sample
+// *
+// * */
+//void Regulation_TakeSampleThread(void* pData);
 
 
 #endif /* SOURCES_REGULATION_H_ */

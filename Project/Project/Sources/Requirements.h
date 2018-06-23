@@ -10,6 +10,7 @@
 
 
 #define NB_OF_SAMPLE 16
+//#define DEFINITE_TIME 5000000000
 #define DEFINITE_TIME 5000 //in ms
 #define NB_OF_PHASES 3
 #define VOLT_OUT_MIN 0
@@ -21,8 +22,8 @@
 
 
 //ATTENTION negative values a bit wrong : 2^15/10 values, not (2^15 - 1)/10
-#define VOLT_TO_ANALOG(x) (int16_t)(x*3277)
-#define ANALOG_TO_VOLT(x) ((float)x/3277)
+#define VOLT_TO_ANALOG(x) (int16_t)(x*3276.8)
+#define ANALOG_TO_VOLT(x) ((float)x/3276.8)
 
 
 #endif /* SOURCES_REQUIREMENTS_H_ */

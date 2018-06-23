@@ -28,11 +28,7 @@ extern TRegulationMode SCP_RegMode;
 extern uint8_t SCP_Lowers;
 extern uint8_t SCP_Raises;
 //Vrms array
-extern float Vrms[3];
-
-//Flash address of Tower Number and Mode
-volatile uint16union_t *NvTowerNb;
-volatile uint16union_t *NvTowerMd;
+extern float SCP_Vrms[3];
 
 //Communication commands : PC to Tower
 /*Special - Get startup values
