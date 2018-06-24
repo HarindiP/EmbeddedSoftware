@@ -4,7 +4,7 @@
  *
  *  This contains the functions for implementing the "Tower to PC Protocol" 5-byte packets.
  *
- *  @author Coralie&Harindi
+ *  @author 12443166
  *  @date 2018-04-14
  */
 /*!

@@ -4,7 +4,7 @@
  *
  *  This contains the functions for operating the UART (serial port).
  *
- *  @author PMcL
+ *  @author 12443166
  *  @date 2015-07-23
  */
 /*!

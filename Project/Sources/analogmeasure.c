@@ -4,7 +4,7 @@
  *
  *  analogMeasure.c
  *
- *  @author 13181680
+ *  @author 12443166
  *  @date 6 Jun 2018
  */
 
@@ -37,8 +37,6 @@ int16_t vrmsValue;
 int32_t measurementsFreq = 1250000;
 
 
-//Initilising channel data
-channeldata Samples[3];
 
 
 /*! @brief Compares the new measured value with the ones already stored
@@ -257,26 +255,21 @@ channeldata Samples[3];
  *  @note It is supposed that the ADC has been initialized
  *  @note Needs to be called sixteen times to fill the array
  */
-void UpdateInput(void)
-{
-  static int16_t tempval;
-  static int16_t tempval1;
-  static int16_t tempval2;
-
-  Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
-
-
-
-  arrayPosition++;
-  if(arrayPosition == 16) // Reset position at the end of the array
-  {
-    arrayPosition = 0;
-    tempval = VRMS(Samples[0].myArray);
-    BoundsCheck(tempval);
-    vrmsValue = tempval;
-
-  }
-}
+//void UpdateInput(void)
+//{
+//  static int16_t tempval;
+//  Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
+//  Samples[0].myposition++;
+//
+//  if(Samples[0].myposition == 16) // Reset position at the end of the array
+//  {
+//    Samples[0].myposition = 0;
+//    tempval = VRMS(Samples[0].myArray);
+//    BoundsCheck(tempval);
+//    vrmsValue = tempval;
+//
+//  }
+//}
 
 /*!
  * @}

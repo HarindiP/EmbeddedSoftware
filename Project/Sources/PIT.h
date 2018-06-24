@@ -4,7 +4,7 @@
  *
  *  This contains the functions for operating the periodic interrupt timer (PIT).
  *
- *  @author Harindi&Coralie
+ *  @author 12443166
  *  @date 2015-08-22
  */
 /*!

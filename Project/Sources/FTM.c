@@ -4,7 +4,7 @@
  *
  *  This contains the functions for operating the FlexTimer module (FTM).
  *
- *  @author Coraie&Harindi
+ *  @author 12443166
  *  @date 2018-05-27
  */
 /*!

@@ -51,10 +51,11 @@ OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 
 
+//variable
+channeldata Samples [3];
 
 
-static void PITCallback(void* arg);
-
+//
 
 ///*! @brief Data structure used to pass LED configuration to a user thread
 // *
@@ -103,15 +104,21 @@ static void PITThread(void* pData)
   {
     OS_SemaphoreWait(PITAccess,0);
 
-    //This function updates the inputs to the Array
-//    UpdateInput(void);
+    //Runs 16 times to update values into array
+    static int16_t tempval;
+    Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
+    Samples[0].myposition++;
 
-    //after array has been called 16 times check for bounds
+    if(Samples[0].myposition == 16) // Reset position at the end of the array
+    {
+      Samples[0].myposition = 0;
+      tempval = VRMS(Samples[0].myArray);
 
-
-      //Toggle Green LED
-    LEDs_Toggle(LED_GREEN);
+      BoundsCheck(tempval, 0);  //The vrms value and the chanel number
+//      vrmsValue = tempval;
     }
+
+  }
 }
 
 
@@ -125,6 +132,7 @@ static void PIT1Thread(void* pData)
   { //after 5 seconds have passed
     OS_SemaphoreWait(PIT1Access,0);
     DefiniteCheck();
+//    InverseCheck();
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);

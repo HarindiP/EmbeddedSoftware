@@ -2,7 +2,7 @@
  *
  *  @brief Flash memory functions implementation
  *
- *  @author 13181680  & 12099115
+ *  @author 12443166
  *  @date 11 Apr 2018
  */
 

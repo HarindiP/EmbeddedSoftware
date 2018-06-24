@@ -4,7 +4,7 @@
  *
  *  This contains the structure and "methods" for accessing a byte-wide FIFO.
  *
- *  @author PMcL
+ *  @author 12443166
  *  @date 2015-07-23
  */
 /*!

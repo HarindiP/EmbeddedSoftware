@@ -8,15 +8,36 @@
 #ifndef SOURCES_VOLTAGEREGULATOR_H_
 #define SOURCES_VOLTAGEREGULATOR_H_
 
+//define a struct used to navigate all channels on through out the code
+typedef struct
+{
+  int16_t myArray[16];    //Initalises an array of 16 samples
+  int16_t myVrms;         //Vrms value of regarding channel
+  int myposition; //Current position in the array
+
+}
+channeldata;
+
+//Initilising channel data
+extern channeldata Samples[3];
+
+extern int16_t vrmsValue;  //variable used by definite check that measures the voltage after 5 seconds
 
 
-void BoundsCheck(int16_t VRMS);
+
+
+void BoundsCheck(int16_t VRMS, int channelNb);
 
 void definitemode(void);
 
-void inversetimemode(float value);
+void inversetimemode(void);
 
 void DefiniteCheck (void);
+
+void InitialiseValues(void);
+
+void InverseCheck(void);
+
 
 
 #endif /* SOURCES_VOLTAGEREGULATOR_H_ */

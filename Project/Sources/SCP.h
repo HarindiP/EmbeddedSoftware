@@ -4,7 +4,7 @@
  *
  *  This contains the functions needed for the serial communication.
  *
- *  @author Coralie&Harindi
+ *  @author 12443166
  *  @date 2018-04-14
  */
 /*!

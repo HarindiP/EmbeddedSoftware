@@ -4,7 +4,7 @@
  *
  *  This contains the functions needed for accessing the internal Flash.
  *
- *  @author PMcL
+ *  @author 12443166
  *  @date 2015-08-07
  */
 

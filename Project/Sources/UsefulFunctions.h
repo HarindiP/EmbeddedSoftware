@@ -2,7 +2,7 @@
  * UsefulFunctions.h
  *
  *  Created on: 9 Jun 2018
- *      Author: 13181680
+ *      Author: 12443166
  */
 
 #ifndef SOURCES_USEFULFUNCTIONS_H_

@@ -2,7 +2,7 @@
  * voltageRegulator.c
  *
  *  Created on: 6 Jun 2018
- *      Author: 13181680
+ *      Author: 12443166
  */
 
 // 1. Three channels which regulate the actual voltage
@@ -22,26 +22,29 @@
 #define UPPERBOUND 9830.1 //3v 3276.7
 #define LOWERBOUND 6553.4//2v 6553.4
 
-int16_t *dataPtr;
-int16_t checkVRMS;
-int16_t newVRMS;
+//Checks to see which channel Number is being worked
+int ChannelNumber;
 
+//
+channeldata Samples[3];
 
 //pointers to save the number of raises and lowers
+int NumofHighers;
+int NumofLowers;
 
 
-
-
-void BoundsCheck(int16_t VRMS)
+void BoundsCheck(int16_t VRMS, int channelNb)
 {
   if (VRMS > UPPERBOUND || VRMS < LOWERBOUND)
   {
     SignalsSetALarm();
-    checkVRMS = VRMS;
+    ChannelNumber = channelNb; //globally defines which channel number Im currently using
     definitemode();
+//    inversetimemode();
   }
   else
   {
+    PIT1_Enable(false);
     SignalsClearAlarm();
     SignalsClearHigher();
     SignalsClearLower();
@@ -53,64 +56,30 @@ void BoundsCheck(int16_t VRMS)
 void definitemode(void)
 {
 
-  PIT1_Set(5000, false); //once one second passes to the pitISR
+  PIT1_Set(5000, false); //5000ms which is 5 seconds
 
 }
 
-void inversetimemode(float value)
+void inversetimemode(void)
 {
- float dev;
- float delay;
- float timeelpased;
- float progress;
- float remainingprogress;
-
- if(value > UPPERBOUND)
- {
-   dev = value - UPPERBOUND;
-
-   while(progress < 100)
-   {
-     delay = (5 / (2 * dev));
-
-     progress = (100 * timeelpased / delay);
-     remainingprogress = 100 - progress;
-
-   }
- }
-
- if(value < LOWERBOUND)
- {
-   dev = LOWERBOUND - value;
-
-   while(progress < 100)
-   {
-     delay = (5 / (2 * dev));
-
-     progress = (100 * timeelpased / delay);
-     remainingprogress = 100 - progress;
-
-   }
- }
-
- //check delay every cycle
-
-
+  PIT1_Set(10, false);
 
 }
 
 
 void DefiniteCheck(void)
 {
-  newVRMS = vrmsValue;
+  int16_t newVRMS = Samples[ChannelNumber].myVrms;
   if (newVRMS > UPPERBOUND)
   {
     SignalsSetLower();
+    NumofLowers++;
   }
   else if (newVRMS < LOWERBOUND)
-   {
-      SignalsSetHigher();
-   }
+  {
+    SignalsSetHigher();
+    NumofHighers++;
+  }
   else
   {
     SignalsClearAlarm();
@@ -120,6 +89,65 @@ void DefiniteCheck(void)
 
 
 }
+
+
+void InverseCheck(void)
+{
+  float dev = 0;
+  float previousdev = 0;
+
+  float travelledtime = 0;
+  float remainingtime = 100;
+
+  float remainingpercentage = 100;
+  float travelledpercentage = 0;
+
+  float timeoutperiod = 0;
+  float newtime = 0;
+
+
+  //check to see if dev is over upperbound
+  if ((Samples[0].myVrms > UPPERBOUND))
+  {
+    if (remainingpercentage < 100)  // AND make sure dev is never zero dev != 0
+    {
+      dev = (Samples[0].myVrms - UPPERBOUND) / 3276.7;
+      timeoutperiod  = (5 / (2 *dev)) / 1000;  //in ms
+
+      travelledtime += 10;
+      travelledpercentage = 100 * (travelledtime / timeoutperiod);
+      remainingpercentage = 100 - travelledpercentage;
+
+      newtime = remainingpercentage * dev;
+      timeoutperiod += newtime;
+    }
+
+  }
+  if ((Samples[0].myVrms < LOWERBOUND))
+  {
+    if (remainingpercentage < 100)  // AND make sure dev is never zero dev != 0
+    {
+      dev = (LOWERBOUND - Samples[0].myVrms) / 3276.7;
+      previousdev = dev;
+      timeoutperiod  = (5 / (2 *dev)) / 1000;  //in ms
+
+      travelledtime += 10;
+      travelledpercentage = 100 * (travelledtime / timeoutperiod);
+      remainingpercentage = 100 - travelledpercentage;
+
+      newtime = remainingpercentage * dev;
+      timeoutperiod += newtime;
+    }
+
+  }
+
+  //check to see if remaining
+
+
+
+
+}
+
 
 
 

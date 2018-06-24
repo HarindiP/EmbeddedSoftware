@@ -4,7 +4,7 @@
  *
  *  This contains types that are especially useful for the Tower to PC Protocol.
  *
- *  @author PMcL
+ *  @author 12443166
  *  @date 2015-07-23
  */
 

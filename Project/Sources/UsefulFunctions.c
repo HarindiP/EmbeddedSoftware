@@ -1,8 +1,24 @@
+/*! @file
+ *
+ *  @brief Functions for comparing and selecting minimum values read from ADC
+ *
+ *  UsefulFunctions.c
+ *
+ *  @author 12443166
+ *  @date 6 Jun 2018
+ */
+
+ /*!
+  *  @addtogroup UsefulFunctions_module UsefulFunctions module documentation
+  *  @{
+  */
+
+
 #include <math.h>
 #include <types.h>
 #include "OS.h"
 #include "MK70F12.h"
-//
+
 //
 #define NB_OF_SAMPLE 16
 #define BITS_PER_VOLT 3276.7  /* ie. each increment is an increase of 1V*/
@@ -13,7 +29,7 @@ int16_t VRMS(int16_t Sample[NB_OF_SAMPLE])
   float v_rms;
 
   // what if there are less than 16 samples
-  for (int i = 1; i<NB_OF_SAMPLE; i++)
+  for (int i = 0; i<NB_OF_SAMPLE; i++)
   {
     v_rms += (Sample[i]) * (Sample[i]);
   }
