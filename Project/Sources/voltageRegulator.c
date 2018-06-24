@@ -33,14 +33,22 @@ int NumofHighers;
 int NumofLowers;
 
 
+//value reset
+float dev = 0;
+float travelledtime = 0;
+float travelledpercentage = 0;
+float timeoutperiod = 0;
+
+
+
 void BoundsCheck(int16_t VRMS, int channelNb)
 {
   if (VRMS > UPPERBOUND || VRMS < LOWERBOUND)
   {
     SignalsSetALarm();
     ChannelNumber = channelNb; //globally defines which channel number Im currently using
-    definitemode();
-//    inversetimemode();
+//    definitemode();
+    inversetimemode();
   }
   else
   {
@@ -91,62 +99,73 @@ void DefiniteCheck(void)
 }
 
 
+
 void InverseCheck(void)
 {
-  float dev = 0;
-  float previousdev = 0;
-
-  float travelledtime = 0;
-  float remainingtime = 100;
-
-  float remainingpercentage = 100;
-  float travelledpercentage = 0;
-
-  float timeoutperiod = 0;
-  float newtime = 0;
-
-
   //check to see if dev is over upperbound
   if ((Samples[0].myVrms > UPPERBOUND))
   {
-    if (remainingpercentage < 100)  // AND make sure dev is never zero dev != 0
+    if (travelledpercentage < 100)  // AND make sure dev is never zero dev != 0
     {
-      dev = (Samples[0].myVrms - UPPERBOUND) / 3276.7;
-      timeoutperiod  = (5 / (2 *dev)) / 1000;  //in ms
+      dev = ((Samples[0].myVrms - UPPERBOUND) /  3276.7);
+      timeoutperiod  = (5 / (2 * dev)) * 1000;  //in ms
 
       travelledtime += 10;
       travelledpercentage = 100 * (travelledtime / timeoutperiod);
-      remainingpercentage = 100 - travelledpercentage;
 
-      newtime = remainingpercentage * dev;
-      timeoutperiod += newtime;
+    }
+
+    else
+    {
+      SignalsSetLower();
+      NumofLowers++;
+
+      //values reset
+      dev = 0;
+      travelledtime = 0;
+      travelledpercentage = 0;
+      timeoutperiod = 0;
+
+
     }
 
   }
-  if ((Samples[0].myVrms < LOWERBOUND))
+  else if ((Samples[0].myVrms < LOWERBOUND))
   {
-    if (remainingpercentage < 100)  // AND make sure dev is never zero dev != 0
+    if (travelledpercentage < 100)  // AND make sure dev is never zero dev != 0
     {
-      dev = (LOWERBOUND - Samples[0].myVrms) / 3276.7;
-      previousdev = dev;
-      timeoutperiod  = (5 / (2 *dev)) / 1000;  //in ms
+      dev = ((LOWERBOUND - Samples[0].myVrms) / 3276.7);
+      timeoutperiod  = (5 / (2 * dev)) * 1000;  //in ms
 
       travelledtime += 10;
       travelledpercentage = 100 * (travelledtime / timeoutperiod);
-      remainingpercentage = 100 - travelledpercentage;
 
-      newtime = remainingpercentage * dev;
-      timeoutperiod += newtime;
+    }
+
+    else
+    {
+      SignalsSetHigher();
+      NumofHighers++;
+
+      //values reset
+      dev = 0;
+      travelledtime = 0;
+      travelledpercentage = 0;
+      timeoutperiod = 0;
+
     }
 
   }
 
-  //check to see if remaining
-
-
-
-
+  else
+  {
+    SignalsClearAlarm();
+    SignalsClearHigher();
+    SignalsClearLower();
+  }
 }
+
+
 
 
 

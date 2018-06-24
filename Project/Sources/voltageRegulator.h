@@ -34,8 +34,6 @@ void inversetimemode(void);
 
 void DefiniteCheck (void);
 
-void InitialiseValues(void);
-
 void InverseCheck(void);
 
 

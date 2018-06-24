@@ -113,6 +113,7 @@ static void PITThread(void* pData)
     {
       Samples[0].myposition = 0;
       tempval = VRMS(Samples[0].myArray);
+      Samples[0].myVrms = VRMS(Samples[0].myArray);
 
       BoundsCheck(tempval, 0);  //The vrms value and the chanel number
 //      vrmsValue = tempval;
@@ -131,8 +132,8 @@ static void PIT1Thread(void* pData)
   for(;;)
   { //after 5 seconds have passed
     OS_SemaphoreWait(PIT1Access,0);
-    DefiniteCheck();
-//    InverseCheck();
+//    DefiniteCheck();
+    InverseCheck();
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);
