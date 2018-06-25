@@ -50,7 +50,7 @@ void ValuesReset(void)
 
 
 //create variable to check if it already havent been checked
-//bool alreadychecked = false
+bool alreadychecked = false;
 //if alreadychecked != false
 
 //if variable
@@ -59,25 +59,46 @@ void BoundsCheck(int16_t VRMS[], int channelNb)
 {
   if (VRMS[ChannelNumber] > UPPERBOUND || VRMS[ChannelNumber] < LOWERBOUND)
   {
-    SignalsSetALarm();
-    ChannelNumber = channelNb; //globally defines which channel number Im currently using
-    //create a switch case that takes a certain variable number and choose between the 2 modes
+    //if channel hasnt been checked
+    if (!alreadychecked)
+    {
+      SignalsSetALarm();
+      ChannelNumber = channelNb; //globally defines which channel number Im currently using
+      alreadychecked = true;
 
-//    if (timingMode == 1)
-//    {
+      //if statement that calls appropriate mode
       definitemode();
-//    }
-//    else (timingMode == 2)
-//    {
-//      inversetimemode();
-//    }
 
+      //      inversetimemode();
+    }
 
-  }
-  else
-  {
-    PIT1_Enable(false);
-    SignalsClearAll();
+    if (VRMS[ChannelNumber] > UPPERBOUND && VRMS[ChannelNumber] < LOWERBOUND && (ChannelNumber == channelNb) )
+    {
+      if(!alreadychecked)
+      {
+        alreadychecked = false;
+        PIT1_Enable(false);
+
+        // check to see if vrms is inbounds again
+        for (int i = 0; i <3 ; i++)
+        {
+          if (Samples[i].myVrms > UPPERBOUND || Samples[i].myVrms < LOWERBOUND)
+          {
+            ValuesReset();
+            return;
+          }
+        }
+      }
+
+      else
+      {
+        // clear all goodbois
+        PIT1_Enable(false);
+        ValuesReset();
+        SignalsClearAll();
+      }
+    }
+
   }
 }
 
@@ -174,11 +195,12 @@ void InverseCheck(void)
 
   else
   {
-    //ask fernando if you have to disable the pit before I clear values
+
     SignalsClearAll();
     ValuesReset();
   }
 }
+
 
 
 

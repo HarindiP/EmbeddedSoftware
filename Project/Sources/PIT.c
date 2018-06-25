@@ -144,12 +144,12 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
 
     //channel number has to go through 0->1->2 -- SHIT SO FAST PUT THIS IN CALLBACK BBY
 
-    for (ChannelNumber = 0 ; ChannelNumber < 2; ChannelNumber++)
-    {
-      Analog_Get(ChannelNumber,&(Samples[ChannelNumber].myArray[Samples[ChannelNumber].myposition]));
+      Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
+      Analog_Get(1,&(Samples[1].myArray[Samples[1].myposition]));
+      Analog_Get(2,&(Samples[2].myArray[Samples[2].myposition]));
+
       Samples[ChannelNumber].myposition++;
 
-    }
     if(Samples[ChannelNumber].myposition == 16) // Reset position at the end of the array
     {
       Samples[ChannelNumber].myposition = 0;

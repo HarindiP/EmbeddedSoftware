@@ -105,17 +105,21 @@ static void PITThread(void* pData)
   {
     OS_SemaphoreWait(PITAccess,0);
 
-    //Runs 16 times to update values into array
+    //The vrms for all 3 channels shoudl be in here
     static int16_t tempval[3];
 
-    // your bitch is losing marks here but if we can find faster ways of doing this shit future harindi can wory about that shit
-    for (ChannelNumber = 0 ; ChannelNumber < 2; ChannelNumber++)
-    {
-      tempval[ChannelNumber] = VRMS(Samples[ChannelNumber].myArray);
-      Samples[ChannelNumber].myVrms = VRMS(Samples[ChannelNumber].myArray);
 
-    }
-        //check to see if one is off
+      tempval[0] = VRMS(Samples[0].myArray);
+      tempval[1] = VRMS(Samples[1].myArray);
+      tempval[2] = VRMS(Samples[2].myArray);
+
+
+      Samples[0].myVrms = VRMS(Samples[0].myArray);
+      Samples[1].myVrms = VRMS(Samples[1].myArray);
+      Samples[2].myVrms = VRMS(Samples[2].myArray);
+
+
+        //check to see if one is of
      BoundsCheck(tempval, ChannelNumber);
   }
 }
@@ -130,8 +134,8 @@ static void PIT1Thread(void* pData)
   for(;;)
   { //after 5 seconds have passed
     OS_SemaphoreWait(PIT1Access,0);
-//    DefiniteCheck();
-    InverseCheck();
+    DefiniteCheck();
+//    InverseCheck();
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);
