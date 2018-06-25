@@ -159,7 +159,7 @@ void PIT0_Enable(const bool enable)
   }
 }
 
-void PIT1_Enable(uint8_t index, const bool enable)
+void PIT_Enable(uint8_t index, const bool enable)
 {
 
   switch (index)

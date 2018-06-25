@@ -19,6 +19,7 @@
 #define VRMS_MAX 3
 #define NB_OF_HARMONICS 7
 #define SAMPLING_PERIODE 1250000  //in nanosec
+#define PRECISION 0.05
 
 
 //ATTENTION negative values a bit wrong : 2^15/10 values, not (2^15 - 1)/10

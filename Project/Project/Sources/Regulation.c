@@ -9,6 +9,7 @@
 //Sample processing
 
 #include "Regulation.h"
+//#include "Flash.h"
 
 //Array of 16 samples for each chan
 int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
@@ -67,6 +68,7 @@ void DefiniteTimingRegulation(float* vrms)
       {
         Output_SetLower();
         SCP_Lowers++;
+//        Flash_Write8((uint8_t *)NvNbLowers, SCP_Lowers)
       }
       else if(!Regulation_AlarmSet[i])
       {
@@ -84,6 +86,7 @@ void DefiniteTimingRegulation(float* vrms)
       {
         Output_SetRaise();
         SCP_Raises++;
+//        Flash_Write8((uint8_t *)NvNbRaises, SCP_Raises);
       }
       else if(!Regulation_AlarmSet[i])
       {
@@ -151,10 +154,11 @@ void InverseTimingRegulation(float* vrms)
       {
         Output_SetLower();
         SCP_Lowers++;
+//        Flash_Write8((uint8_t *)NvNbLowers, SCP_Lowerss)
         firstCall[i] = true;
         deviation[i] = 0;
       }
-      else if((*(vrms+i) - VRMS_MAX) != deviation[i])
+      else if(!Regulation_AlarmSet[i] || ((*(vrms+i) - VRMS_MAX) - deviation[i] > PRECISION))
       {
         deviation[i] = *(vrms+i) - VRMS_MAX;
         Output_SetAlarm();
@@ -171,10 +175,11 @@ void InverseTimingRegulation(float* vrms)
       {
         Output_SetRaise();
         SCP_Raises++;
+//        Flash_Write8((uint8_t *)NvNbRaises, SCP_Raises);
         firstCall[i] = true;
         deviation[i] = 0;
       }
-      else if((VRMS_MIN - *(vrms+i)) != deviation[i])
+      else if(!Regulation_AlarmSet[i] || ((VRMS_MIN - *(vrms+i)) - deviation[i] > PRECISION))
       {
         deviation[i] = VRMS_MIN - *(vrms+i);
         Output_SetAlarm();
