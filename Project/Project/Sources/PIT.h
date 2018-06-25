@@ -52,7 +52,7 @@ void PIT0_Set(const uint32_t period, const bool restart);
  *                 FALSE if the PIT will use the new value after a trigger event.
  *  @note The function will enable the timer and interrupts for the PIT.
  */
-void PIT1_Set(const uint32_t period, const bool restart);
+void PIT_Set(uint8_t index, const uint32_t period, const bool restart);
 
 /*! @brief Enables or disables the PIT.
  *
@@ -64,10 +64,10 @@ void PIT0_Enable(const bool enable);
  *
  *  @param enable - TRUE if the PIT is to be enabled, FALSE if the PIT is to be disabled.
  */
-void PIT1_Enable(const bool enable);
+void PIT_Enable(uint8_t index, const bool enable);
 
 
-/*! @brief Interrupt service routine for the PIT. Takes a sample on channel A of the VRR.
+/*! @brief Interrupt service routine for the PIT0. Takes a sample on each channel of the VRR.
  *
  *  The periodic interrupt timer has timed out.
  *  The user callback function will be called.
@@ -81,13 +81,29 @@ void __attribute__ ((interrupt)) PIT0_ISR(void);
 // */
 //void PIT0Thread(void* pData);
 
-/*! @brief Interrupt service routine for the PIT.
+/*! @brief Interrupt service routine for the PIT1.
  *
  *  The periodic interrupt timer has timed out.
  *  The user callback function will be called.
  *  @note Assumes the PIT has been initialized.
  */
 void __attribute__ ((interrupt)) PIT1_ISR(void);
+
+/*! @brief Interrupt service routine for the PIT2.
+ *
+ *  The periodic interrupt timer has timed out.
+ *  The user callback function will be called.
+ *  @note Assumes the PIT has been initialized.
+ */
+void __attribute__ ((interrupt)) PIT2_ISR(void);
+
+/*! @brief Interrupt service routine for the PIT3.
+ *
+ *  The periodic interrupt timer has timed out.
+ *  The user callback function will be called.
+ *  @note Assumes the PIT has been initialized.
+ */
+void __attribute__ ((interrupt)) PIT3_ISR(void);
 
 ///*! @brief toggle green LED
 // *

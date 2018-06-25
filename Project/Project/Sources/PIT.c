@@ -70,16 +70,36 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
   /*Enable interupts from PIT Module*/
   NVICISER2 = (1 << (69 % 32));
 
+  //PIT2
+  /*Enable interupts*/
+  PIT_TCTRL2 |= PIT_TCTRL_TIE_MASK;
+  /*Initialise NVIC*/
+  //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=69
+  /*clears any pending requests*/
+  NVICICPR2 = (1 << (70 % 32));
+  /*Enable interupts from PIT Module*/
+  NVICISER2 = (1 << (70 % 32));
+
+  //PIT3
+  /*Enable interupts*/
+  PIT_TCTRL3 |= PIT_TCTRL_TIE_MASK;
+  /*Initialise NVIC*/
+  //NVICISER2 = (IQR%32)   IRQ%32  IPR=17 IRQ=69
+  /*clears any pending requests*/
+  NVICICPR2 = (1 << (71 % 32));
+  /*Enable interupts from PIT Module*/
+  NVICISER2 = (1 << (71 % 32));
+
   //Create Semaphore
-  PIT0Access = OS_SemaphoreCreate(0);
-  PIT1Access = OS_SemaphoreCreate(0);
+//  PIT0Access = OS_SemaphoreCreate(0);
+//  PIT1Access = OS_SemaphoreCreate(0);
 
 //  /*Enable timer*/
 //  PIT0_Enable(true);
-//  PIT1_Enable(true);
+//  PIT_Enable(true);
 //  /*Sets timer*/
 //  PIT0_Set(PITPeriod,true);
-//  PIT1_Set(PITPeriod,true);
+//  PIT_Set(PITPeriod,true);
 
 //  ExitCritical();
 
@@ -100,17 +120,43 @@ void PIT0_Set(const uint32_t period, const bool restart)
   PIT0_Enable(true);
 }
 
-void PIT1_Set(const uint32_t period, const bool restart)
+void PIT_Set(uint8_t index, const uint32_t period, const bool restart)
 {
-  if (restart)
+  switch (index)
   {
-    PIT1_Enable(false);
-  }
+    case 1 :
+        if (restart)
+        {
+          PIT_Enable(1,false);
+        }
 
-  PIT_LDVAL1 = (period / Clkperiod) * 1000000 - 1 ;
-//  PIT_LDVAL1 = (period / Clkperiod) -1 ;
-  PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
-  PIT1_Enable(true);
+        PIT_LDVAL1 = (period / Clkperiod) * 1000000 - 1 ;
+        PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
+        PIT_Enable(1,true);
+      break;
+    case 2 :
+      if (restart)
+      {
+        PIT_Enable(2,false);
+      }
+
+      PIT_LDVAL2 = (period / Clkperiod) * 1000000 - 1 ;
+      PIT_TCTRL2 |= PIT_TCTRL_TIE_MASK;
+      PIT_Enable(2,true);
+      break;
+    case 3 :
+      if (restart)
+      {
+        PIT_Enable(3,false);
+      }
+
+      PIT_LDVAL3 = (period / Clkperiod) * 1000000 - 1 ;
+      PIT_TCTRL3 |= PIT_TCTRL_TIE_MASK;
+      PIT_Enable(3,true);
+      break;
+    default :
+      break;
+  }
 }
 
 
@@ -126,15 +172,43 @@ void PIT0_Enable(const bool enable)
   }
 }
 
-void PIT1_Enable(const bool enable)
+void PIT1_Enable(uint8_t index, const bool enable)
 {
-  if (enable)
+
+  switch (index)
   {
-    (PIT_TCTRL1 |= PIT_TCTRL_TEN_MASK);
-  }
-  else
-  {
-    (PIT_TCTRL1 &= ~PIT_TCTRL_TEN_MASK); //disable
+    case 1 :
+      if (enable)
+      {
+        (PIT_TCTRL1 |= PIT_TCTRL_TEN_MASK);
+      }
+      else
+      {
+        (PIT_TCTRL1 &= ~PIT_TCTRL_TEN_MASK); //disable
+      }
+      break;
+    case 2 :
+      if (enable)
+      {
+        (PIT_TCTRL2 |= PIT_TCTRL_TEN_MASK);
+      }
+      else
+      {
+        (PIT_TCTRL2 &= ~PIT_TCTRL_TEN_MASK); //disable
+      }
+      break;
+    case 3 :
+      if (enable)
+      {
+        (PIT_TCTRL3 |= PIT_TCTRL_TEN_MASK);
+      }
+      else
+      {
+        (PIT_TCTRL3 &= ~PIT_TCTRL_TEN_MASK); //disable
+      }
+      break;
+    default :
+      break;
   }
 }
 
@@ -194,17 +268,34 @@ void __attribute__ ((interrupt)) PIT1_ISR(void)
   OS_ISREnter();
   /*Clear interupt flag*/
   PIT_TFLG1 |= PIT_TFLG_TIF_MASK;
-
-//  if (UserFunction)
-//  (*UserFunction)(UserArguments);
-
   //Turn off Green LED
   LEDs_Off(LED_GREEN);
-  Regulation_AlarmReached = true;
-  PIT1_Enable(false);
-//  LEDs_Toggle(LED_GREEN);
+  Regulation_AlarmReached[0] = true;
+  PIT_Enable(1,false);
+  OS_ISRExit();
+}
 
-//  OS_SemaphoreSignal(PIT1Access);
+void __attribute__ ((interrupt)) PIT2_ISR(void)
+{
+  OS_ISREnter();
+  /*Clear interupt flag*/
+  PIT_TFLG2 |= PIT_TFLG_TIF_MASK;
+  //Turn off Green LED
+  LEDs_Off(LED_GREEN);
+  Regulation_AlarmReached[1] = true;
+  PIT_Enable(2,false);
+  OS_ISRExit();
+}
+
+void __attribute__ ((interrupt)) PIT3_ISR(void)
+{
+  OS_ISREnter();
+  /*Clear interupt flag*/
+  PIT_TFLG3 |= PIT_TFLG_TIF_MASK;
+  //Turn off Green LED
+  LEDs_Off(LED_GREEN);
+  Regulation_AlarmReached[2] = true;
+  PIT_Enable(3,false);
   OS_ISRExit();
 }
 

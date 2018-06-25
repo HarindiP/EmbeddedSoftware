@@ -336,7 +336,9 @@ static void InitModulesThread(void* pData)
 
   //Start PIT for default sampling periode
   PIT0_Set(SAMPLING_PERIODE,true);
-  PIT1_Enable(false);
+  PIT_Enable(1,false);
+  PIT_Enable(2,false);
+  PIT_Enable(3,false);
 
   // We only do this once - therefore delete this thread
   OS_ThreadDelete(OS_PRIORITY_SELF);

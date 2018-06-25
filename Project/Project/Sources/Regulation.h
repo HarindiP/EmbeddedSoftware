@@ -32,16 +32,16 @@ extern OS_ECB* FullSampleTaken;
 //OS_ECB* SampleProcessed;
 
 //Bool signaled if the alarm has been set for more than 5sec
-bool Regulation_AlarmSet;
-bool Regulation_AlarmReached;
+bool Regulation_AlarmSet[3];
+bool Regulation_AlarmReached[3];
 
 float VRMS(int16_t* const sample);
 
-void RAS();
+void RAS(uint8_t index);
 
 void DefiniteTimingRegulation(float* vrms);
 
-uint32_t InverseTimer(float deviation, bool firstCall);
+uint32_t InverseTimer(uint8_t index, float deviation, bool firstCall);
 
 void InverseTimingRegulation(float* vrms);
 
