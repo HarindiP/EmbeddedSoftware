@@ -78,3 +78,10 @@ void SignalsClearAlarm(void)
 }
 
 
+void SignalsClearAll(void)
+{
+  SignalsClearAlarm();
+  SignalsClearHigher();
+  SignalsClearLower();
+}
+

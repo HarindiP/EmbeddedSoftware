@@ -24,7 +24,7 @@ extern channeldata Samples[3];
 extern int16_t vrmsValue;  //variable used by definite check that measures the voltage after 5 seconds
 
 
-
+void ValuesReset(void);
 
 void BoundsCheck(int16_t VRMS, int channelNb);
 

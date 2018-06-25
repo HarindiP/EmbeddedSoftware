@@ -51,9 +51,10 @@ OS_THREAD_STACK(PITThreadStack, THREAD_STACK_SIZE);
 OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 
 
-//variable
+//variable to hold data for 3 different channels
 channeldata Samples [3];
 
+//decides the channelNb
 
 //
 

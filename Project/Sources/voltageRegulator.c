@@ -21,11 +21,13 @@
 
 #define UPPERBOUND 9830.1 //3v 3276.7
 #define LOWERBOUND 6553.4//2v 6553.4
+#define BITS_PER_VOLT 3276.7 // used to find bits in volts form or the other way around
 
-//Checks to see which channel Number is being worked
+
+//Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 int ChannelNumber;
 
-//
+//local copy from the main
 channeldata Samples[3];
 
 //pointers to save the number of raises and lowers
@@ -39,6 +41,13 @@ float travelledtime = 0;
 float travelledpercentage = 0;
 float timeoutperiod = 0;
 
+void ValuesReset(void)
+{
+  float dev = 0;
+  float travelledtime = 0;
+  float travelledpercentage = 0;
+  float timeoutperiod = 0;
+}
 
 
 void BoundsCheck(int16_t VRMS, int channelNb)
@@ -47,15 +56,17 @@ void BoundsCheck(int16_t VRMS, int channelNb)
   {
     SignalsSetALarm();
     ChannelNumber = channelNb; //globally defines which channel number Im currently using
-//    definitemode();
+    //create a switch case that takes a certain variable number and choose between the 2
+
+
+
+//  definitemode();
     inversetimemode();
   }
   else
   {
     PIT1_Enable(false);
-    SignalsClearAlarm();
-    SignalsClearHigher();
-    SignalsClearLower();
+    SignalsClearAll();
   }
 }
 
@@ -90,9 +101,8 @@ void DefiniteCheck(void)
   }
   else
   {
-    SignalsClearAlarm();
-    SignalsClearHigher();
-    SignalsClearLower();
+    PIT1_Enable(false);
+    SignalsClearAll();
   }
 
 
@@ -103,11 +113,11 @@ void DefiniteCheck(void)
 void InverseCheck(void)
 {
   //check to see if dev is over upperbound
-  if ((Samples[0].myVrms > UPPERBOUND))
+  if ((Samples[ChannelNumber].myVrms > UPPERBOUND))
   {
     if (travelledpercentage < 100)  // AND make sure dev is never zero dev != 0
     {
-      dev = ((Samples[0].myVrms - UPPERBOUND) /  3276.7);
+      dev = ((Samples[ChannelNumber].myVrms - UPPERBOUND) /  BITS_PER_VOLT);
       timeoutperiod  = (5 / (2 * dev)) * 1000;  //in ms
 
       travelledtime += 10;
@@ -120,21 +130,18 @@ void InverseCheck(void)
       SignalsSetLower();
       NumofLowers++;
 
-      //values reset
-      dev = 0;
-      travelledtime = 0;
-      travelledpercentage = 0;
-      timeoutperiod = 0;
+      //values reset all the values used by inverse check since 100% is successfully finished
+      ValuesReset();
 
 
     }
 
   }
-  else if ((Samples[0].myVrms < LOWERBOUND))
+  else if ((Samples[ChannelNumber].myVrms < LOWERBOUND))
   {
     if (travelledpercentage < 100)  // AND make sure dev is never zero dev != 0
     {
-      dev = ((LOWERBOUND - Samples[0].myVrms) / 3276.7);
+      dev = ((LOWERBOUND - Samples[ChannelNumber].myVrms) / BITS_PER_VOLT);
       timeoutperiod  = (5 / (2 * dev)) * 1000;  //in ms
 
       travelledtime += 10;
@@ -147,11 +154,8 @@ void InverseCheck(void)
       SignalsSetHigher();
       NumofHighers++;
 
-      //values reset
-      dev = 0;
-      travelledtime = 0;
-      travelledpercentage = 0;
-      timeoutperiod = 0;
+      //values reset all the values used by inverse check since 100% is successfully finished
+      ValuesReset();
 
     }
 
@@ -159,9 +163,9 @@ void InverseCheck(void)
 
   else
   {
-    SignalsClearAlarm();
-    SignalsClearHigher();
-    SignalsClearLower();
+    //ask fernando if you have to disable the pit before I clear values
+    SignalsClearAll();
+    ValuesReset();
   }
 }
 

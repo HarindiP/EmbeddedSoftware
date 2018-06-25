@@ -21,7 +21,7 @@
 
 //
 #define NB_OF_SAMPLE 16
-#define BITS_PER_VOLT 3276.7  /* ie. each increment is an increase of 1V*/
+#define BITS_PER_VOLT 3276.7  /* ie. each increment is an increase of 1V will also be in voltage regulator file*/
 
 
 int16_t VRMS(int16_t Sample[NB_OF_SAMPLE])

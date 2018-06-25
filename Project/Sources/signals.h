@@ -59,7 +59,12 @@ void SignalsSetALarm(void);
  */
 void SignalsClearAlarm(void);
 
-
+/*! @brief Clears all the set Signals
+ *
+ *  @param
+ *  @note
+ */
+void SignalsClearAll(void);
 
 
 
