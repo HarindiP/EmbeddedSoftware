@@ -207,7 +207,8 @@ bool HandleRaises()
 
 bool GetVrms()
 {
-  return Packet_Put(0x18,Packet_Parameter1,(uint8_t)SCP_Vrms[Packet_Parameter1],0);  //TODO not sur, why uint16_t ???
+  uint8_t vrms = SCP_Vrms[Packet_Parameter1] * 100;
+  return Packet_Put(0x18,Packet_Parameter1,vrms / 100,vrms % 100); //TODO : OK ?
 }
 
 

@@ -9,6 +9,7 @@
 #define SOURCES_REGULATION_H_
 
 #include <math.h>
+#include "Cpu.h"
 #include "PIT.h"
 #include "SCP.h"
 #include "MK70F12.h"
@@ -40,15 +41,15 @@ void RAS();
 
 void DefiniteTimingRegulation(float* vrms);
 
-uint32_t InverseTimer(float deviation);
+uint32_t InverseTimer(float deviation, bool firstCall);
 
 void InverseTimingRegulation(float* vrms);
 
-/*! @brief Put an analog sample of the signal in Volt in the sample array
- *
- * @param channelNb the number of the channel to take the sample from
- */
-bool TakeSample(int16_t* const sampleArray, int16_t sample);
+///*! @brief Put an analog sample of the signal in Volt in the sample array
+// *
+// * @param channelNb the number of the channel to take the sample from
+// */
+//bool TakeSample(int16_t* const sampleArray, int16_t sample);
 
 ///*! @brief Thread to take a full sample
 // *

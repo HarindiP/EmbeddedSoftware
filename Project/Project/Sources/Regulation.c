@@ -10,8 +10,6 @@
 
 #include "Regulation.h"
 
-
-
 //Array of 16 samples for each chan
 int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
 int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
@@ -45,13 +43,17 @@ float VRMS(int16_t* sample)
 
 void RAS()
 {
+  //Clear Outputs
   Output_ClearLower();
   Output_ClearRaise();
   Output_ClearAlarm();
+  //Disable the alarm PIT
   PIT1_Enable(false);
-  LEDs_Off(LED_GREEN);
+  //Disable the alarm variables
   Regulation_AlarmSet = false;
   Regulation_AlarmReached = false;
+  //Turn off green LED
+  LEDs_Off(LED_GREEN);
 }
 
 void DefiniteTimingRegulation(float* vrms)
@@ -96,23 +98,22 @@ void DefiniteTimingRegulation(float* vrms)
   }
 }
 
-uint32_t InverseTimer(float deviation)
+
+/*BEWARE wrong if noduleClock isnt CPU bus clock*/
+uint32_t InverseTimer(float deviation, bool firstCall)
 {
-  static bool call = false;
   static uint32_t invTime;
-  if(!call)
+  if(firstCall)
   {
     invTime = (uint32_t) (DEFINITE_TIME / (2 * deviation));
-    call = true;
   }
   else
   {
-    uint32_t t_elapsed = (PIT_LDVAL1 - PIT_CVAL1) / 1000;
-    invTime = (uint32_t)((1 / (2 * deviation)) * (1 - (t_elapsed / invTime)));
+    uint32_t t_elapsed = ((PIT_LDVAL1 - PIT_CVAL1 + 1) * 1e3) / CPU_BUS_CLK_HZ;   //time elapsed in ms
+    invTime = (uint32_t)((DEFINITE_TIME / (2 * deviation)) * (1 - (t_elapsed / invTime)));
     if(invTime <= 0)
     {
-      call = false;
-      return 0;
+      return 1;
     }
   }
   return invTime;
@@ -120,6 +121,7 @@ uint32_t InverseTimer(float deviation)
 
 void InverseTimingRegulation(float* vrms)
 {
+  static bool firstCall = true;
   static float deviation = 0;
   if(*vrms > VRMS_MAX)
   {
@@ -127,15 +129,18 @@ void InverseTimingRegulation(float* vrms)
     {
       Output_SetLower();
       SCP_Lowers++;
+      firstCall = true;
+      deviation = 0;
     }
     else if((*vrms - VRMS_MAX) != deviation)
     {
       deviation = *vrms - VRMS_MAX;
       Output_SetAlarm();
       Regulation_AlarmSet = true;
-      PIT1_Set(InverseTimer(deviation),true);
+      PIT1_Set(InverseTimer(deviation, firstCall),true);
       //Turn on Green LED
       LEDs_On(LED_GREEN);
+      firstCall = false;
     }
   }
   else if (*vrms < VRMS_MIN)
@@ -144,36 +149,40 @@ void InverseTimingRegulation(float* vrms)
     {
       Output_SetRaise();
       SCP_Raises++;
+      firstCall = true;
+      deviation = 0;
     }
     else if((VRMS_MIN - *vrms) != deviation)
     {
       deviation = VRMS_MIN - *vrms;
       Output_SetAlarm();
       Regulation_AlarmSet = true;
-      PIT1_Set(InverseTimer(deviation),true);
+      PIT1_Set(InverseTimer(deviation, firstCall),true);
       //Turn on Green LED
       LEDs_On(LED_GREEN);
+      firstCall = false;
     }
   }
   else
   {
     RAS();
+    firstCall = true;
   }
 }
 
 
-bool TakeSample(int16_t* const sampleArray, int16_t sample)
-{
-  static uint8_t index = 0;
-  *(sampleArray+index) = sample;
-  index++;
-  //wrap index
-  if(index == NB_OF_SAMPLE)
-  {
-    index = 0;
-  }
-  return true;
-}
+//bool TakeSample(int16_t* const sampleArray, int16_t sample)
+//{
+//  static uint8_t index = 0;
+//  *(sampleArray+index) = sample;
+//  index++;
+//  //wrap index
+//  if(index == NB_OF_SAMPLE)
+//  {
+//    index = 0;
+//  }
+//  return true;
+//}
 
 
 //void Regulation_TakeSampleThread(void* pData)

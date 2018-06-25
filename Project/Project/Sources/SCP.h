@@ -158,6 +158,24 @@ bool SendTime();
  */
 bool SetTime();
 
+bool SendTimingMode();
+bool SetTimingMode();
+bool HandleTimingMode();
+bool SendNbLowers();
+bool ResetLowers();
+bool HandleLowers();
+bool SendNbRaises();
+bool ResetRaises();
+bool HandleRaises();
+
+/*! @brief Send the VRMS value of the required channel : parameter 1 is the channel,
+ *                                                      parameter 2 is the integer value in volts,
+ *                                                      parameter 3 is the decimal value in volt
+ *
+ *  @return true if vrms has been sent, false if not
+ */
+bool GetVrms();
+
 
 
 /*! @brief Private ACK checking function

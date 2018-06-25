@@ -95,7 +95,7 @@ void PIT0_Set(const uint32_t period, const bool restart)
   {
     PIT0_Enable(false);
   }
-  PIT_LDVAL0 = (period / Clkperiod) -1 ;
+  PIT_LDVAL0 = (period / Clkperiod) - 1 ;
   PIT_TCTRL0 |= PIT_TCTRL_TIE_MASK;
   PIT0_Enable(true);
 }
@@ -107,7 +107,7 @@ void PIT1_Set(const uint32_t period, const bool restart)
     PIT1_Enable(false);
   }
 
-  PIT_LDVAL1 = (period / Clkperiod) * 1000000 -1 ;
+  PIT_LDVAL1 = (period / Clkperiod) * 1000000 - 1 ;
 //  PIT_LDVAL1 = (period / Clkperiod) -1 ;
   PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
   PIT1_Enable(true);
@@ -150,15 +150,18 @@ void __attribute__ ((interrupt)) PIT0_ISR(void)
 
   static int nbSampleTaken = 0;
 
-  //Take a sample on chan A
-  int16_t sample;
+  //Take a sample on each channel
+//  int16_t sample;
+//  Analog_Get(0,&sample);
+//  TakeSample(Regulation_FullSampleA,sample);
+//  Analog_Get(1,&sample);
+//  TakeSample(Regulation_FullSampleB,sample);
+//  Analog_Get(2,&sample);
+//  TakeSample(Regulation_FullSampleC,sample);
 
-  Analog_Get(0,&sample);
-  TakeSample(Regulation_FullSampleA,sample);
-  Analog_Get(1,&sample);
-  TakeSample(Regulation_FullSampleB,sample);
-  Analog_Get(2,&sample);
-  TakeSample(Regulation_FullSampleC,sample);
+  Analog_Get(0,Regulation_FullSampleA + nbSampleTaken);
+  Analog_Get(1,Regulation_FullSampleB + nbSampleTaken);
+  Analog_Get(2,Regulation_FullSampleC + nbSampleTaken);
 
   nbSampleTaken++;
 

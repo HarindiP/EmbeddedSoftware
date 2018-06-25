@@ -25,8 +25,20 @@ float Frequencie_Ts; //in ms
 float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2)
 {
   float p = (y2 - y1) / (x2 - x1);
-  float x = ((y - y1) / p) + x1;
-  return x;
+  if(p > 0)
+  {
+    float x = ((y - y1) / p) + x1;
+    return x;
+  }
+  else if (p < 0)
+  {
+    float x = ((y - y2) / p) + x2;
+    return x;
+  }
+  else
+  {
+    return (y2 - y1) / 2;
+  }
 }
 
 //Calculate the average of the set of sample, which is apprximately the DC comp on the sinusoid
@@ -47,6 +59,11 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
   uint16_t i = 0;
   float zeros[2];
 
+  //I am taking the average period calc on 5 turn to be more accurate;
+  static uint8_t tour = 0;
+  static float ts_calc = 0;
+
+  //looking for 2 zeros !!! change with average if DC allowed
   while(k < 2 && i < NB_OF_SAMPLE - 1)
   {
     if(sampleArray[i] == 0 )
@@ -66,9 +83,32 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
     }
     i++;
   }
-  if ((zeros[1] - zeros[0]) != (*ts / 2))
+  tour++;
+
+  //if only 1 zero found, assume default freq
+  if(k == 1)
   {
-    *ts = 2 * (zeros[1] - zeros[0]);
+    ts_calc += 20 / 2;
+  }
+  //if none zeros found, go back to original freq
+  else if(k == 0)
+  {
+    *ts = 20;
+  }
+  //everything went well
+  else
+  {
+    ts_calc += (zeros[1] - zeros[0]);
+  }
+
+  if (tour == 5)
+  {
+    if ((ts_calc / 5) != (*ts / 2))
+    {
+      *ts = 2 * ts_calc / 5;
+    }
+    ts_calc = 0;
+    tour = 0;
   }
 }
 

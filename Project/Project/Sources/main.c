@@ -201,13 +201,16 @@ void Regulation_ProcessSampleThread(void* pData)
     {
       case DEFINITE_TIMER :
         DefiniteTimingRegulation(SCP_Vrms);
-        FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
+//        Analog_Put(3,VOLT_TO_ANALOG(SCP_Vrms[0]));
+//        FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
         //restart PIT to take a new set of sample
-        uint32_t sampling_period = (uint32_t)(Frequencie_Ts * 1000000 / 16);
+        uint32_t sampling_period = (uint32_t)((Frequencie_Ts /16) * 1000000);
         PIT0_Set(sampling_period,true);  //SAMPLING_PERIODE in ns
         break;
       case INVERSE_TIMER :
         InverseTimingRegulation(SCP_Vrms);
+        //restart PIT to take a new set of sample
+        PIT0_Set(1250000,true);  //SAMPLING_PERIODE in ns
         break;
       default :
         break;
@@ -227,7 +230,8 @@ static void InitModulesThread(void* pData)
   SCP_TowerNb.l = 5605;
   SCP_TowerMd.l = 0;
   //Init timing mode
-  SCP_RegMode = DEFINITE_TIMER;
+//  SCP_RegMode = DEFINITE_TIMER;
+  SCP_RegMode = INVERSE_TIMER;
   //Init Signal period in ms assuming a 50Hz signal
   Frequencie_Ts = 20;
   // Baud Rate and Module Clock
@@ -257,6 +261,8 @@ static void InitModulesThread(void* pData)
 
 //  // Initialise the low power timer to tick every 5 ms
 //  LPTMRInit(5);
+
+  //Tes inverse timer mode
 
   //writing Tower number and mode in flash
   if(Flash_AllocateVar((volatile void**)&NvTowerNb, sizeof(*NvTowerNb)))
@@ -288,9 +294,24 @@ static void InitModulesThread(void* pData)
 //    TakeSample(Regulation_FullSampleA, data);
 //    OS_TimeDelay(1);
 //  }
+
+
 //  //Test calcul VRMS
 //  float  Vrms = VRMS(Regulation_FullSampleA);
 //  Analog_Put(0,VOLT_TO_ANALOG(Vrms));
+
+
+//  /*Problem here !! oscillo says its 2.64V but test has the value 8192 which should be right for 2.5V ...*/
+//  //Test conversion analog/volt
+//  int16_t test = VOLT_TO_ANALOG(2.5);
+//  Analog_Put(3,test);
+
+//  //Test Inverse Timing
+//  uint32_t invTime = InverseTimer(2, true);
+//  PIT1_Set(DEFINITE_TIME,true);
+//  OS_TimeDelay(100); //200 * 10 ms = 2sec
+//  uint32_t t_elapsed = ((PIT_LDVAL1 - PIT_CVAL1 + 1) * 1e3) / CPU_BUS_CLK_HZ; //in ms
+//  PIT1_Enable(false);
 
 
   //Create 1sec Timer with FTM
