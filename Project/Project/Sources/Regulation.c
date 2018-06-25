@@ -62,6 +62,7 @@ void DefiniteTimingRegulation(float* vrms)
   {
     if(vrms[i] > VRMS_MAX)
     {
+      Output_SetAlarm();
       if(Regulation_AlarmReached[i])
       {
         Output_SetLower();
@@ -69,7 +70,6 @@ void DefiniteTimingRegulation(float* vrms)
       }
       else if(!Regulation_AlarmSet[i])
       {
-        Output_SetAlarm();
         Regulation_AlarmSet[i] = true;
   //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
         PIT_Set(i+1,DEFINITE_TIME,true);
@@ -79,6 +79,7 @@ void DefiniteTimingRegulation(float* vrms)
     }
     else if(vrms[i] < VRMS_MIN)
     {
+      Output_SetAlarm();
       if(Regulation_AlarmReached[i])
       {
         Output_SetRaise();
@@ -86,7 +87,6 @@ void DefiniteTimingRegulation(float* vrms)
       }
       else if(!Regulation_AlarmSet[i])
       {
-        Output_SetAlarm();
         Regulation_AlarmSet[i] = true;
   //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
         PIT_Set(i+1,DEFINITE_TIME,true);
@@ -130,7 +130,6 @@ uint32_t InverseTimer(uint8_t index, float deviation, bool firstCall)
         default :
           break;
     }
-
     invTime = (uint32_t)((DEFINITE_TIME / (2 * deviation)) * (1 - (t_elapsed / invTime)));
     if(invTime <= 1)
     {

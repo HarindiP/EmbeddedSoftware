@@ -120,7 +120,7 @@ bool ProgramByte(uint8_t address, uint8_t data)
   }
   else
   {
-      return Flash_Write8(&address, data);	//TODO : makes sense the & ?
+    return Flash_Write8(&address, data);	//TODO : makes sense the & ?
   }
 }
 

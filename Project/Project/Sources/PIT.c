@@ -122,41 +122,28 @@ void PIT0_Set(const uint32_t period, const bool restart)
 
 void PIT_Set(uint8_t index, const uint32_t period, const bool restart)
 {
+  if (restart)
+  {
+    PIT_Enable(index,false);
+  }
   switch (index)
   {
     case 1 :
-        if (restart)
-        {
-          PIT_Enable(1,false);
-        }
-
-        PIT_LDVAL1 = (period / Clkperiod) * 1000000 - 1 ;
-        PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
-        PIT_Enable(1,true);
+      PIT_LDVAL1 = (period / Clkperiod) * 1000000 - 1 ;
+      PIT_TCTRL1 |= PIT_TCTRL_TIE_MASK;
       break;
     case 2 :
-      if (restart)
-      {
-        PIT_Enable(2,false);
-      }
-
       PIT_LDVAL2 = (period / Clkperiod) * 1000000 - 1 ;
       PIT_TCTRL2 |= PIT_TCTRL_TIE_MASK;
-      PIT_Enable(2,true);
       break;
     case 3 :
-      if (restart)
-      {
-        PIT_Enable(3,false);
-      }
-
       PIT_LDVAL3 = (period / Clkperiod) * 1000000 - 1 ;
       PIT_TCTRL3 |= PIT_TCTRL_TIE_MASK;
-      PIT_Enable(3,true);
       break;
     default :
       break;
   }
+  PIT_Enable(index,true);
 }
 
 
