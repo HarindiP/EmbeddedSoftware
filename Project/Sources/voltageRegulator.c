@@ -23,12 +23,11 @@
 #define LOWERBOUND 6553.4//2v 6553.4
 #define BITS_PER_VOLT 3276.7 // used to find bits in volts form or the other way around
 
-
-//Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
-int ChannelNumber;
-
 //local copy from the main
 channeldata Samples[3];
+
+//Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
+int ChannelNumber = 0;
 
 //pointers to save the number of raises and lowers
 int NumofHighers;
@@ -50,25 +49,37 @@ void ValuesReset(void)
 }
 
 
-void BoundsCheck(int16_t VRMS, int channelNb)
-{
-  if (VRMS > UPPERBOUND || VRMS < LOWERBOUND)
-  {
-    SignalsSetALarm();
-    ChannelNumber = channelNb; //globally defines which channel number Im currently using
-    //create a switch case that takes a certain variable number and choose between the 2
+//create variable to check if it already havent been checked
+//bool alreadychecked = false
+//if alreadychecked != false
 
+//if variable
 
-
-//  definitemode();
-    inversetimemode();
-  }
-  else
-  {
-    PIT1_Enable(false);
-    SignalsClearAll();
-  }
-}
+//void BoundsCheck(int16_t VRMS[], int channelNb)
+//{
+//  if (VRMS[] > UPPERBOUND || VRMS[] < LOWERBOUND)
+//  {
+//    SignalsSetALarm();
+//    ChannelNumber = channelNb; //globally defines which channel number Im currently using
+//    //create a switch case that takes a certain variable number and choose between the 2 modes
+//
+//    if (timingMode == 1)
+//    {
+//      definitemode();
+//    }
+//    else (timingMode == 2)
+//    {
+//      inversetimemode();
+//    }
+//
+//
+//  }
+//  else
+//  {
+//    PIT1_Enable(false);
+//    SignalsClearAll();
+//  }
+//}
 
 
 

@@ -21,12 +21,16 @@ channeldata;
 //Initilising channel data
 extern channeldata Samples[3];
 
-extern int16_t vrmsValue;  //variable used by definite check that measures the voltage after 5 seconds
+
+
+
+//Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
+extern int ChannelNumber;
 
 
 void ValuesReset(void);
 
-void BoundsCheck(int16_t VRMS, int channelNb);
+void BoundsCheck(int16_t VRMS[], int channelNb);
 
 void definitemode(void);
 

@@ -106,20 +106,32 @@ static void PITThread(void* pData)
     OS_SemaphoreWait(PITAccess,0);
 
     //Runs 16 times to update values into array
-    static int16_t tempval;
-    Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
-    Samples[0].myposition++;
+    static int16_t tempval[3];
 
-    if(Samples[0].myposition == 16) // Reset position at the end of the array
+    //channel number has to go through 0->1->2 -- SHIT SO FAST PUT THIS IN CALLBACK BBY
+
+    for (ChannelNumber = 0 ; ChannelNumber < 2; ChannelNumber++)
     {
-      Samples[0].myposition = 0;
-      tempval = VRMS(Samples[0].myArray);
-      Samples[0].myVrms = VRMS(Samples[0].myArray);
+      Analog_Get(ChannelNumber,&(Samples[ChannelNumber].myArray[Samples[ChannelNumber].myposition]));
+      Samples[ChannelNumber].myposition++;
 
-      BoundsCheck(tempval, 0);  //The vrms value and the chanel number
-//      vrmsValue = tempval;
     }
 
+
+    // your bitch is losing marks here but if we can find faster ways of doing this shit future harindi can wory about that shit
+    for (ChannelNumber = 0; ChannelNumber <3 ; ChannelNumber++)
+    {
+      if(Samples[ChannelNumber].myposition == 16) // Reset position at the end of the array
+      {
+        Samples[ChannelNumber].myposition = 0;
+        tempval[ChannelNumber] = VRMS(Samples[ChannelNumber].myArray);
+        Samples[ChannelNumber].myVrms = VRMS(Samples[ChannelNumber].myArray);
+
+
+        //check to see if one is off
+//        BoundsCheck(tempval[ChannelNumber], ChannelNumber);
+      }
+    }
   }
 }
 
