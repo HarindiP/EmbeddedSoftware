@@ -55,31 +55,31 @@ void ValuesReset(void)
 
 //if variable
 
-//void BoundsCheck(int16_t VRMS[], int channelNb)
-//{
-//  if (VRMS[] > UPPERBOUND || VRMS[] < LOWERBOUND)
-//  {
-//    SignalsSetALarm();
-//    ChannelNumber = channelNb; //globally defines which channel number Im currently using
-//    //create a switch case that takes a certain variable number and choose between the 2 modes
-//
+void BoundsCheck(int16_t VRMS[], int channelNb)
+{
+  if (VRMS[ChannelNumber] > UPPERBOUND || VRMS[ChannelNumber] < LOWERBOUND)
+  {
+    SignalsSetALarm();
+    ChannelNumber = channelNb; //globally defines which channel number Im currently using
+    //create a switch case that takes a certain variable number and choose between the 2 modes
+
 //    if (timingMode == 1)
 //    {
-//      definitemode();
+      definitemode();
 //    }
 //    else (timingMode == 2)
 //    {
 //      inversetimemode();
 //    }
-//
-//
-//  }
-//  else
-//  {
-//    PIT1_Enable(false);
-//    SignalsClearAll();
-//  }
-//}
+
+
+  }
+  else
+  {
+    PIT1_Enable(false);
+    SignalsClearAll();
+  }
+}
 
 
 

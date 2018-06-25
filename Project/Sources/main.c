@@ -108,30 +108,15 @@ static void PITThread(void* pData)
     //Runs 16 times to update values into array
     static int16_t tempval[3];
 
-    //channel number has to go through 0->1->2 -- SHIT SO FAST PUT THIS IN CALLBACK BBY
-
+    // your bitch is losing marks here but if we can find faster ways of doing this shit future harindi can wory about that shit
     for (ChannelNumber = 0 ; ChannelNumber < 2; ChannelNumber++)
     {
-      Analog_Get(ChannelNumber,&(Samples[ChannelNumber].myArray[Samples[ChannelNumber].myposition]));
-      Samples[ChannelNumber].myposition++;
+      tempval[ChannelNumber] = VRMS(Samples[ChannelNumber].myArray);
+      Samples[ChannelNumber].myVrms = VRMS(Samples[ChannelNumber].myArray);
 
     }
-
-
-    // your bitch is losing marks here but if we can find faster ways of doing this shit future harindi can wory about that shit
-    for (ChannelNumber = 0; ChannelNumber <3 ; ChannelNumber++)
-    {
-      if(Samples[ChannelNumber].myposition == 16) // Reset position at the end of the array
-      {
-        Samples[ChannelNumber].myposition = 0;
-        tempval[ChannelNumber] = VRMS(Samples[ChannelNumber].myArray);
-        Samples[ChannelNumber].myVrms = VRMS(Samples[ChannelNumber].myArray);
-
-
         //check to see if one is off
-//        BoundsCheck(tempval[ChannelNumber], ChannelNumber);
-      }
-    }
+     BoundsCheck(tempval, ChannelNumber);
   }
 }
 

@@ -19,6 +19,7 @@
 #include "MK70F12.h"
 #include "PE_Types.h"
 #include "LEDs.h"
+#include "voltageRegulator.h"
 
 
 static uint32_t Clkperiod;
@@ -140,7 +141,21 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
   if (PIT_TFLG0 & PIT_TFLG_TIF_MASK) // Check if timeout has occurred
   {
     PIT_TFLG0 |= PIT_TFLG_TIF_MASK; // Clear timer interrupt flag
-    OS_SemaphoreSignal(PITAccess); // Signal PIT thread to tell it can run
+
+    //channel number has to go through 0->1->2 -- SHIT SO FAST PUT THIS IN CALLBACK BBY
+
+    for (ChannelNumber = 0 ; ChannelNumber < 2; ChannelNumber++)
+    {
+      Analog_Get(ChannelNumber,&(Samples[ChannelNumber].myArray[Samples[ChannelNumber].myposition]));
+      Samples[ChannelNumber].myposition++;
+
+    }
+    if(Samples[ChannelNumber].myposition == 16) // Reset position at the end of the array
+    {
+      Samples[ChannelNumber].myposition = 0;
+      OS_SemaphoreSignal(PITAccess); // Signal PIT thread to tell it can run
+    }
+
   }
 
   OS_ISRExit(); // End of servicing interrupt
