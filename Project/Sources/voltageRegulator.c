@@ -26,7 +26,8 @@
 //local copy from the main
 channeldata Samples[3];
 
-
+//Checks for timing mode
+Tmode SCP_TimingMode;
 
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 int ChannelNumber = 0;
@@ -65,11 +66,11 @@ void BoundsCheck(int16_t VRMS, int channelNb)
     ChannelNumber = channelNb; //globally defines which channel number Im currently using
 
     // toggles the modes famm!!
-    if (TimingMode == DEF_MODE)
+    if (SCP_TimingMode == DEF_MODE)
     {
       definitemode();
     }
-    else if (TimingMode == INV_MODE)
+    else if (SCP_TimingMode == INV_MODE)
     {
       inversetimemode();
     }

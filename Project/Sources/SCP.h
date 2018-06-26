@@ -33,6 +33,8 @@ typedef enum
   INV_MODE
 } Tmode;
 
+extern Tmode SCP_TimingMode;
+
 //Communication commands : PC to Tower
 /*Special - Get startup values
 Parameter 1: 0

@@ -23,6 +23,7 @@ channeldata;
 //Initilising channel data
 extern channeldata Samples[3];
 
+extern Tmode SCP_TimingMode;
 
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 extern int ChannelNumber;

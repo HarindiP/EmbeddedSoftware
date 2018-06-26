@@ -141,8 +141,15 @@ static void PIT1Thread(void* pData)
     OS_SemaphoreWait(PIT1Access,0);
 
     //create global variable that switches between the 2
-//    DefiniteCheck();
-    InverseCheck();
+    // toggles the modes famm!!
+    if (SCP_TimingMode == DEF_MODE)
+    {
+      DefiniteCheck();
+    }
+    else if (SCP_TimingMode == INV_MODE)
+    {
+      InverseCheck();
+    }
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);

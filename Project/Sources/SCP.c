@@ -22,6 +22,8 @@
 
 #include "OS.h"
 
+Tmode SCP_TimingMode;
+
 /*Tower Number*/
 uint16union_t SCP_TowerNb;
 /*Tower Mode*/
@@ -118,11 +120,20 @@ bool ProgramByte(uint8_t address, uint8_t data)
   }
 }
 
-bool HandleTimingMode()
-{
-
-  return true;
-}
+//bool HandleTimingMode()
+//{
+//  if ()
+//  {
+//    getmode();
+//  }
+//
+//  if()
+//  {
+//    setmode();
+//  }
+//
+//  return true;
+//}
 bool NbofRaises()
 {
   return true;
