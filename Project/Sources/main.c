@@ -106,7 +106,7 @@ static void PITThread(void* pData)
     OS_SemaphoreWait(PITAccess,0);
 
     //The vrms for all 3 channels shoudl be in here
-    static int16_t tempval[3];
+    static int16_t tempval[3] = {0, 0, 0};
 
 
       tempval[0] = VRMS(Samples[0].myArray);

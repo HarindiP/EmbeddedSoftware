@@ -742,7 +742,7 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x00000400                _cfm
                 0x00000410                . = ALIGN (0x4)
 
-.text           0x00000410     0x43f8
+.text           0x00000410     0x43e8
                 0x00000410                . = ALIGN (0x4)
  *(.text)
  .text          0x00000410       0x54 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
@@ -866,352 +866,353 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
  .text.PIT1_Enable
                 0x00001db0       0x40 ./Sources/PIT.o
                 0x00001db0                PIT1_Enable
- .text.PIT_ISR  0x00001df0       0xe4 ./Sources/PIT.o
+ .text.PIT_ISR  0x00001df0       0xd4 ./Sources/PIT.o
                 0x00001df0                PIT_ISR
  .text.PIT1_ISR
-                0x00001ed4       0x50 ./Sources/PIT.o
-                0x00001ed4                PIT1_ISR
+                0x00001ec4       0x50 ./Sources/PIT.o
+                0x00001ec4                PIT1_ISR
  .text.SCP_SendStartUpValues
-                0x00001f24       0x44 ./Sources/SCP.o
-                0x00001f24                SCP_SendStartUpValues
+                0x00001f14       0x44 ./Sources/SCP.o
+                0x00001f14                SCP_SendStartUpValues
  .text.SendVersion
-                0x00001f68       0x18 ./Sources/SCP.o
-                0x00001f68                SendVersion
+                0x00001f58       0x18 ./Sources/SCP.o
+                0x00001f58                SendVersion
  .text.HandleTowerNumber
-                0x00001f80       0x28 ./Sources/SCP.o
-                0x00001f80                HandleTowerNumber
+                0x00001f70       0x28 ./Sources/SCP.o
+                0x00001f70                HandleTowerNumber
  .text.SendTowerNumber
-                0x00001fa8       0x20 ./Sources/SCP.o
-                0x00001fa8                SendTowerNumber
+                0x00001f98       0x20 ./Sources/SCP.o
+                0x00001f98                SendTowerNumber
  .text.SetTowerNumber
-                0x00001fc8       0x40 ./Sources/SCP.o
-                0x00001fc8                SetTowerNumber
+                0x00001fb8       0x40 ./Sources/SCP.o
+                0x00001fb8                SetTowerNumber
  .text.HandleTowerMode
-                0x00002008       0x28 ./Sources/SCP.o
-                0x00002008                HandleTowerMode
+                0x00001ff8       0x28 ./Sources/SCP.o
+                0x00001ff8                HandleTowerMode
  .text.SendTowerMode
-                0x00002030       0x20 ./Sources/SCP.o
-                0x00002030                SendTowerMode
+                0x00002020       0x20 ./Sources/SCP.o
+                0x00002020                SendTowerMode
  .text.SetTowerMode
-                0x00002050       0x40 ./Sources/SCP.o
-                0x00002050                SetTowerMode
+                0x00002040       0x40 ./Sources/SCP.o
+                0x00002040                SetTowerMode
  .text.ReadByte
-                0x00002090       0x30 ./Sources/SCP.o
-                0x00002090                ReadByte
+                0x00002080       0x30 ./Sources/SCP.o
+                0x00002080                ReadByte
  .text.ProgramByte
-                0x000020c0       0x34 ./Sources/SCP.o
-                0x000020c0                ProgramByte
+                0x000020b0       0x34 ./Sources/SCP.o
+                0x000020b0                ProgramByte
  .text.SCP_Acknowledgement_Required
-                0x000020f4       0x30 ./Sources/SCP.o
-                0x000020f4                SCP_Acknowledgement_Required
- .text.ACK      0x00002124       0x24 ./Sources/SCP.o
-                0x00002124                ACK
- .text.NAK      0x00002148       0x30 ./Sources/SCP.o
-                0x00002148                NAK
+                0x000020e4       0x30 ./Sources/SCP.o
+                0x000020e4                SCP_Acknowledgement_Required
+ .text.ACK      0x00002114       0x24 ./Sources/SCP.o
+                0x00002114                ACK
+ .text.NAK      0x00002138       0x30 ./Sources/SCP.o
+                0x00002138                NAK
  .text.SCP_Packet_Handle
-                0x00002178       0x88 ./Sources/SCP.o
-                0x00002178                SCP_Packet_Handle
+                0x00002168       0x88 ./Sources/SCP.o
+                0x00002168                SCP_Packet_Handle
  .text.SCP_Packet_Handle_Ack
-                0x00002200       0x40 ./Sources/SCP.o
-                0x00002200                SCP_Packet_Handle_Ack
+                0x000021f0       0x40 ./Sources/SCP.o
+                0x000021f0                SCP_Packet_Handle_Ack
  .text.UART_Init
-                0x00002240      0x138 ./Sources/UART.o
-                0x00002240                UART_Init
+                0x00002230      0x138 ./Sources/UART.o
+                0x00002230                UART_Init
  .text.UART_InChar
-                0x00002378       0x20 ./Sources/UART.o
-                0x00002378                UART_InChar
+                0x00002368       0x20 ./Sources/UART.o
+                0x00002368                UART_InChar
  .text.UART_OutChar
-                0x00002398       0x38 ./Sources/UART.o
-                0x00002398                UART_OutChar
+                0x00002388       0x38 ./Sources/UART.o
+                0x00002388                UART_OutChar
  .text.UART_TxThread
-                0x000023d0       0x4c ./Sources/UART.o
-                0x000023d0                UART_TxThread
+                0x000023c0       0x4c ./Sources/UART.o
+                0x000023c0                UART_TxThread
  .text.UART_RxThread
-                0x0000241c       0x30 ./Sources/UART.o
-                0x0000241c                UART_RxThread
+                0x0000240c       0x30 ./Sources/UART.o
+                0x0000240c                UART_RxThread
  .text.UART_ISR
-                0x0000244c       0x94 ./Sources/UART.o
-                0x0000244c                UART_ISR
- .text.VRMS     0x000024e0       0x94 ./Sources/UsefulFunctions.o
-                0x000024e0                VRMS
+                0x0000243c       0x94 ./Sources/UART.o
+                0x0000243c                UART_ISR
+ .text.VRMS     0x000024d0       0x94 ./Sources/UsefulFunctions.o
+                0x000024d0                VRMS
  .text.HandlePacketThread
-                0x00002574       0x44 ./Sources/main.o
+                0x00002564       0x44 ./Sources/main.o
  .text.PITThread
-                0x000025b8       0x94 ./Sources/main.o
+                0x000025a8       0x94 ./Sources/main.o
  .text.PIT1Thread
-                0x0000264c       0x28 ./Sources/main.o
+                0x0000263c       0x28 ./Sources/main.o
  .text.InitModulesThread
-                0x00002674       0xdc ./Sources/main.o
- .text.main     0x00002750       0xb4 ./Sources/main.o
-                0x00002750                main
+                0x00002664       0xdc ./Sources/main.o
+ .text.main     0x00002740       0xb4 ./Sources/main.o
+                0x00002740                main
  .text.CheckSum
-                0x00002804       0x30 ./Sources/packet.o
-                0x00002804                CheckSum
+                0x000027f4       0x30 ./Sources/packet.o
+                0x000027f4                CheckSum
  .text.Packet_Init
-                0x00002834       0x2c ./Sources/packet.o
-                0x00002834                Packet_Init
+                0x00002824       0x2c ./Sources/packet.o
+                0x00002824                Packet_Init
  .text.Packet_Get
-                0x00002860       0xdc ./Sources/packet.o
-                0x00002860                Packet_Get
+                0x00002850       0xdc ./Sources/packet.o
+                0x00002850                Packet_Get
  .text.Packet_Put
-                0x0000293c       0x94 ./Sources/packet.o
-                0x0000293c                Packet_Put
+                0x0000292c       0x94 ./Sources/packet.o
+                0x0000292c                Packet_Put
  .text.SignalsSetHigher
-                0x000029d0       0x10 ./Sources/signals.o
-                0x000029d0                SignalsSetHigher
+                0x000029c0       0x10 ./Sources/signals.o
+                0x000029c0                SignalsSetHigher
  .text.SignalsClearHigher
-                0x000029e0       0x10 ./Sources/signals.o
-                0x000029e0                SignalsClearHigher
+                0x000029d0       0x10 ./Sources/signals.o
+                0x000029d0                SignalsClearHigher
  .text.SignalsSetLower
-                0x000029f0       0x10 ./Sources/signals.o
-                0x000029f0                SignalsSetLower
+                0x000029e0       0x10 ./Sources/signals.o
+                0x000029e0                SignalsSetLower
  .text.SignalsClearLower
-                0x00002a00       0x10 ./Sources/signals.o
-                0x00002a00                SignalsClearLower
+                0x000029f0       0x10 ./Sources/signals.o
+                0x000029f0                SignalsClearLower
  .text.SignalsSetALarm
-                0x00002a10       0x10 ./Sources/signals.o
-                0x00002a10                SignalsSetALarm
+                0x00002a00       0x10 ./Sources/signals.o
+                0x00002a00                SignalsSetALarm
  .text.SignalsClearAlarm
-                0x00002a20       0x10 ./Sources/signals.o
-                0x00002a20                SignalsClearAlarm
+                0x00002a10       0x10 ./Sources/signals.o
+                0x00002a10                SignalsClearAlarm
  .text.SignalsClearAll
-                0x00002a30       0x14 ./Sources/signals.o
-                0x00002a30                SignalsClearAll
+                0x00002a20       0x14 ./Sources/signals.o
+                0x00002a20                SignalsClearAll
  .text.ValuesReset
-                0x00002a44       0x28 ./Sources/voltageRegulator.o
-                0x00002a44                ValuesReset
- *fill*         0x00002a6c        0x4 
+                0x00002a34       0x28 ./Sources/voltageRegulator.o
+                0x00002a34                ValuesReset
+ *fill*         0x00002a5c        0x4 
  .text.BoundsCheck
-                0x00002a70      0x1b8 ./Sources/voltageRegulator.o
-                0x00002a70                BoundsCheck
+                0x00002a60      0x1b0 ./Sources/voltageRegulator.o
+                0x00002a60                BoundsCheck
  .text.definitemode
-                0x00002c28       0x14 ./Sources/voltageRegulator.o
-                0x00002c28                definitemode
- *fill*         0x00002c3c        0x4 
+                0x00002c10       0x14 ./Sources/voltageRegulator.o
+                0x00002c10                definitemode
+ *fill*         0x00002c24        0x4 
  .text.DefiniteCheck
-                0x00002c40       0xb0 ./Sources/voltageRegulator.o
-                0x00002c40                DefiniteCheck
+                0x00002c28       0xb0 ./Sources/voltageRegulator.o
+                0x00002c28                DefiniteCheck
  .text.__copy_rom_section
-                0x00002cf0       0xe4 ./Project_Settings/Startup_Code/startup.o
-                0x00002cf0                __copy_rom_section
+                0x00002cd8       0xe4 ./Project_Settings/Startup_Code/startup.o
+                0x00002cd8                __copy_rom_section
  .text.__copy_rom_sections_to_ram
-                0x00002dd4       0x9c ./Project_Settings/Startup_Code/startup.o
-                0x00002dd4                __copy_rom_sections_to_ram
+                0x00002dbc       0x9c ./Project_Settings/Startup_Code/startup.o
+                0x00002dbc                __copy_rom_sections_to_ram
  .text.__init_registers
-                0x00002e70       0x20 ./Project_Settings/Startup_Code/startup.o
-                0x00002e70                __init_registers
+                0x00002e58       0x20 ./Project_Settings/Startup_Code/startup.o
+                0x00002e58                __init_registers
  .text.__init_user
-                0x00002e90        0xc ./Project_Settings/Startup_Code/startup.o
-                0x00002e90                __init_user
+                0x00002e78        0xc ./Project_Settings/Startup_Code/startup.o
+                0x00002e78                __init_user
  .text.__thumb_startup
-                0x00002e9c       0x34 ./Project_Settings/Startup_Code/startup.o
-                0x00002e9c                __thumb_startup
+                0x00002e84       0x34 ./Project_Settings/Startup_Code/startup.o
+                0x00002e84                __thumb_startup
  .text.Cpu_Interrupt
-                0x00002ed0       0x18 ./Generated_Code/Cpu.o
-                0x00002ed0                Cpu_Interrupt
+                0x00002eb8       0x18 ./Generated_Code/Cpu.o
+                0x00002eb8                Cpu_Interrupt
  .text.__init_hardware
-                0x00002ee8      0x1cc ./Generated_Code/Cpu.o
-                0x00002ee8                __init_hardware
+                0x00002ed0      0x1cc ./Generated_Code/Cpu.o
+                0x00002ed0                __init_hardware
  .text.Cpu_SetBASEPRI
-                0x000030b4       0x18 ./Generated_Code/Cpu.o
-                0x000030b4                Cpu_SetBASEPRI
+                0x0000309c       0x18 ./Generated_Code/Cpu.o
+                0x0000309c                Cpu_SetBASEPRI
  .text.PE_low_level_init
-                0x000030cc       0xe4 ./Generated_Code/Cpu.o
-                0x000030cc                PE_low_level_init
- .text.OS_Init  0x000031b0      0x110 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000031b0                OS_Init
+                0x000030b4       0xe4 ./Generated_Code/Cpu.o
+                0x000030b4                PE_low_level_init
+ .text.OS_Init  0x00003198      0x110 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003198                OS_Init
  .text.OS_ISREnter
-                0x000032c0       0x20 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000032c0                OS_ISREnter
+                0x000032a8       0x20 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000032a8                OS_ISREnter
  .text.OS_ISRExit
-                0x000032e0       0x1c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000032e0                OS_ISRExit
+                0x000032c8       0x1c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000032c8                OS_ISRExit
  .text.OS_SemaphoreCreate
-                0x000032fc       0x90 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000032fc                OS_SemaphoreCreate
+                0x000032e4       0x90 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000032e4                OS_SemaphoreCreate
  .text.OS_SemaphoreSignal
-                0x0000338c       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x0000338c                OS_SemaphoreSignal
+                0x00003374       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003374                OS_SemaphoreSignal
  .text.OS_SemaphoreWait
-                0x000033d0       0x58 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000033d0                OS_SemaphoreWait
+                0x000033b8       0x58 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000033b8                OS_SemaphoreWait
  .text.OS_Start
-                0x00003428       0x10 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003428                OS_Start
+                0x00003410       0x10 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003410                OS_Start
  .text.OS_ThreadCreate
-                0x00003438      0x160 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003438                OS_ThreadCreate
+                0x00003420      0x160 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003420                OS_ThreadCreate
  .text.OS_ThreadDelete
-                0x00003598      0x18c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003598                OS_ThreadDelete
+                0x00003580      0x18c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003580                OS_ThreadDelete
  .text.EventThreadReady
-                0x00003724       0x68 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x0000370c       0x68 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.EventThreadWait
-                0x0000378c       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003774       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.EventTimeout
-                0x000037f0       0x40 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .text.Idle     0x00003830       0x18 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000037d8       0x40 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .text.Idle     0x00003818       0x18 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.FindFirstSet
-                0x00003848       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003830       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.Schedule
-                0x0000388c       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .text.TCBInit  0x000038f0       0xcc C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003874       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .text.TCBInit  0x000038d8       0xcc C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.TimeTick
-                0x000039bc       0x74 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000039a4       0x74 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ *fill*         0x00003a18        0x8 
  .text.OS_ContextSwitchISR
-                0x00003a30       0x70 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003a30                OS_ContextSwitchISR
+                0x00003a20       0x70 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003a20                OS_ContextSwitchISR
  .text.OS_SysTickISR
-                0x00003aa0       0x5c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003aa0                OS_SysTickISR
+                0x00003a90       0x5c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003a90                OS_SysTickISR
  .text.DACWrite
-                0x00003afc       0x6c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+                0x00003aec       0x6c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
  .text.Analog_Init
-                0x00003b68       0x7c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
-                0x00003b68                Analog_Init
+                0x00003b58       0x7c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+                0x00003b58                Analog_Init
  .text.Analog_Get
-                0x00003be4       0x78 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
-                0x00003be4                Analog_Get
+                0x00003bd4       0x78 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+                0x00003bd4                Analog_Get
  .text.Analog_Put
-                0x00003c5c       0x50 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
-                0x00003c5c                Analog_Put
+                0x00003c4c       0x50 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+                0x00003c4c                Analog_Put
  .text.InitChipSelectPins
-                0x00003cac       0x6c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x00003c9c       0x6c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
  .text.SetupModuleConfigurationRegister
-                0x00003d18      0x104 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x00003d08      0x104 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
  .text.SetBaudRate
-                0x00003e1c      0x15c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x00003e0c      0x15c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
  .text.SetDelayAfterTransfer
-                0x00003f78      0x168 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x00003f68      0x168 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
  .text.SetupClockAndTransferAttributesRegister
-                0x000040e0      0x16c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x000040d0      0x16c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
  .text.SPI_Init
-                0x0000424c       0x90 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
-                0x0000424c                SPI_Init
+                0x0000423c       0x90 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x0000423c                SPI_Init
  .text.SPI_SelectSlaveDevice
-                0x000042dc       0x6c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
-                0x000042dc                SPI_SelectSlaveDevice
+                0x000042cc       0x6c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x000042cc                SPI_SelectSlaveDevice
  .text.SPI_Exchange
-                0x00004348       0x94 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
-                0x00004348                SPI_Exchange
- .text.sqrt     0x000043dc       0xbc c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-w_sqrt.o)
-                0x000043dc                sqrt
+                0x00004338       0x94 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+                0x00004338                SPI_Exchange
+ .text.sqrt     0x000043cc       0xbc c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-w_sqrt.o)
+                0x000043cc                sqrt
  .text.__ieee754_sqrt
-                0x00004498      0x198 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-e_sqrt.o)
-                0x00004498                __ieee754_sqrt
+                0x00004488      0x198 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-e_sqrt.o)
+                0x00004488                __ieee754_sqrt
  .text.__fpclassifyd
-                0x00004630       0x54 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-s_fpclassify.o)
-                0x00004630                __fpclassifyd
- .text.matherr  0x00004684        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-s_matherr.o)
-                0x00004684                matherr
- .text.__errno  0x00004688        0xc c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-errno.o)
-                0x00004688                __errno
- .text.exit     0x00004694       0x28 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-exit.o)
-                0x00004694                exit
+                0x00004620       0x54 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-s_fpclassify.o)
+                0x00004620                __fpclassifyd
+ .text.matherr  0x00004674        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-s_matherr.o)
+                0x00004674                matherr
+ .text.__errno  0x00004678        0xc c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-errno.o)
+                0x00004678                __errno
+ .text.exit     0x00004684       0x28 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-exit.o)
+                0x00004684                exit
  .text.__libc_init_array
-                0x000046bc       0x4c c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-init.o)
-                0x000046bc                __libc_init_array
- .text.memset   0x00004708       0x10 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-memset.o)
-                0x00004708                memset
- .text._exit    0x00004718        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libnosys.a(_exit.o)
-                0x00004718                _exit
+                0x000046ac       0x4c c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-init.o)
+                0x000046ac                __libc_init_array
+ .text.memset   0x000046f8       0x10 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-memset.o)
+                0x000046f8                memset
+ .text._exit    0x00004708        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libnosys.a(_exit.o)
+                0x00004708                _exit
  *(.rodata)
- .rodata        0x0000471c        0x4 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .rodata        0x00004720       0xa0 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .rodata        0x0000470c        0x4 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .rodata        0x00004710       0xa0 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
  *(.rodata*)
  .rodata.PACKET_ACK_MASK
-                0x000047c0        0x1 ./Sources/packet.o
-                0x000047c0                PACKET_ACK_MASK
- *fill*         0x000047c1        0x3 
+                0x000047b0        0x1 ./Sources/packet.o
+                0x000047b0                PACKET_ACK_MASK
+ *fill*         0x000047b1        0x3 
  .rodata.SPI_SETUP
-                0x000047c4       0x1c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+                0x000047b4       0x1c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
  .rodata.str1.4
-                0x000047e0        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-w_sqrt.o)
+                0x000047d0        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libm.a(lib_a-w_sqrt.o)
  .rodata.str1.1
-                0x000047e8        0x2 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-impure.o)
- *fill*         0x000047ea        0x2 
+                0x000047d8        0x2 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-impure.o)
+ *fill*         0x000047da        0x2 
  .rodata._global_impure_ptr
-                0x000047ec        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-impure.o)
-                0x000047ec                _global_impure_ptr
+                0x000047dc        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu\libg_s.a(lib_a-impure.o)
+                0x000047dc                _global_impure_ptr
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x000047f0        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
+ .eh_frame      0x000047e0        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
  *(.init)
- .init          0x000047f0        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crti.o
-                0x000047f0                _init
- .init          0x000047f4        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
+ .init          0x000047e0        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crti.o
+                0x000047e0                _init
+ .init          0x000047e4        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
  *(.fini)
- .fini          0x000047fc        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crti.o
-                0x000047fc                _fini
- .fini          0x00004800        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
-                0x00004808                . = ALIGN (0x4)
-                0x00004808                _etext = .
+ .fini          0x000047ec        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crti.o
+                0x000047ec                _fini
+ .fini          0x000047f0        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
+                0x000047f8                . = ALIGN (0x4)
+                0x000047f8                _etext = .
 
-.vfp11_veneer   0x00004808        0x0
+.vfp11_veneer   0x000047f8        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x00004808        0x0
+.v4_bx          0x000047f8        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x00004808        0x0
+.iplt           0x000047f8        0x0
  .iplt          0x00000000        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x00004808        0x8
-                0x00004808                __exidx_start = .
+.ARM            0x000047f8        0x8
+                0x000047f8                __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x00004808        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu/crt0.o
- .ARM.exidx     0x00004810        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu\libgcc.a(_divdi3.o)
+ .ARM.exidx     0x000047f8        0x8 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7e-m/fpu/crt0.o
+ .ARM.exidx     0x00004800        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu\libgcc.a(_divdi3.o)
                                   0x8 (size before relaxing)
- .ARM.exidx     0x00004810        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu\libgcc.a(_udivdi3.o)
+ .ARM.exidx     0x00004800        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu\libgcc.a(_udivdi3.o)
                                   0x8 (size before relaxing)
-                0x00004810                __exidx_end = .
+                0x00004800                __exidx_end = .
 
-.rel.dyn        0x00004810        0x0
+.rel.dyn        0x00004800        0x0
  .rel.iplt      0x00000000        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
 
-.ctors          0x00004810        0x0
-                0x00004810                __CTOR_LIST__ = .
+.ctors          0x00004800        0x0
+                0x00004800                __CTOR_LIST__ = .
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
-                0x00004810                __CTOR_END__ = .
+                0x00004800                __CTOR_END__ = .
 
-.dtors          0x00004810        0x0
-                0x00004810                __DTOR_LIST__ = .
+.dtors          0x00004800        0x0
+                0x00004800                __DTOR_LIST__ = .
  *crtbegin.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
-                0x00004810                __DTOR_END__ = .
+                0x00004800                __DTOR_END__ = .
 
-.preinit_array  0x00004810        0x0
-                0x00004810                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x00004800        0x0
+                0x00004800                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x00004810                PROVIDE (__preinit_array_end, .)
+                0x00004800                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x00004810        0x4
-                0x00004810                PROVIDE (__init_array_start, .)
+.init_array     0x00004800        0x4
+                0x00004800                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
- .init_array    0x00004810        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
-                0x00004814                PROVIDE (__init_array_end, .)
+ .init_array    0x00004800        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
+                0x00004804                PROVIDE (__init_array_end, .)
 
-.fini_array     0x00004814        0x4
-                0x00004814                PROVIDE (__fini_array_start, .)
+.fini_array     0x00004804        0x4
+                0x00004804                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x00004814        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
-                0x00004818                PROVIDE (__fini_array_end, .)
-                0x00004818                ___ROM_AT = .
+ .fini_array    0x00004804        0x4 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
+                0x00004808                PROVIDE (__fini_array_end, .)
+                0x00004808                ___ROM_AT = .
 
-.data           0x1fff0000       0x68 load address 0x00004818
+.data           0x1fff0000       0x68 load address 0x00004808
                 0x1fff0000                . = ALIGN (0x4)
                 0x1fff0000                _sdata = .
  *(.data)
@@ -1228,16 +1229,16 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x1fff0068                . = ALIGN (0x4)
                 0x1fff0068                _edata = .
                 0x00000068                ___data_size = (_edata - _sdata)
-                0x00004880                ___m_data_20000000_ROMStart = (___ROM_AT + SIZEOF (.data))
+                0x00004870                ___m_data_20000000_ROMStart = (___ROM_AT + SIZEOF (.data))
 
-.jcr            0x1fff0068        0x0 load address 0x00004880
+.jcr            0x1fff0068        0x0 load address 0x00004870
  .jcr           0x1fff0068        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
 
-.igot.plt       0x1fff0068        0x0 load address 0x00004880
+.igot.plt       0x1fff0068        0x0 load address 0x00004870
  .igot.plt      0x00000000        0x0 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtbegin.o
 
 .m_data_20000000
-                0x20000000        0x0 load address 0x00004880
+                0x20000000        0x0 load address 0x00004870
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                ___m_data_20000000_RAMStart = .
  *(.m_data_20000000)
@@ -1246,7 +1247,7 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x00000000                ___m_data_20000000_ROMSize = (___m_data_20000000_RAMEnd - ___m_data_20000000_RAMStart)
                 0x20000000                . = ALIGN (0x4)
 
-.bss            0x1fff0068     0x6be4 load address 0x00004880
+.bss            0x1fff0068     0x6be4 load address 0x00004870
                 0x1fff0068                __START_BSS = .
                 0x1fff0068                PROVIDE (__bss_start__, __START_BSS)
  *(.bss)
@@ -1350,14 +1351,14 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x1fff6c4c                . = ALIGN (0x4)
                 0x1fff6c4c                __END_BSS = .
                 0x1fff6c4c                PROVIDE (__bss_end__, __END_BSS)
-                0x00004880                _romp_at = ((___ROM_AT + SIZEOF (.data)) + SIZEOF (.m_data_20000000))
+                0x00004870                _romp_at = ((___ROM_AT + SIZEOF (.data)) + SIZEOF (.m_data_20000000))
 
-.romp           0x1fff6c4c       0x24 load address 0x00004880
-                0x00004880                __S_romp = _romp_at
-                0x1fff6c4c        0x4 LONG 0x4818 ___ROM_AT
+.romp           0x1fff6c4c       0x24 load address 0x00004870
+                0x00004870                __S_romp = _romp_at
+                0x1fff6c4c        0x4 LONG 0x4808 ___ROM_AT
                 0x1fff6c50        0x4 LONG 0x1fff0000 _sdata
                 0x1fff6c54        0x4 LONG 0x68 ___data_size
-                0x1fff6c58        0x4 LONG 0x4880 ___m_data_20000000_ROMStart
+                0x1fff6c58        0x4 LONG 0x4870 ___m_data_20000000_ROMStart
                 0x1fff6c5c        0x4 LONG 0x20000000 ___m_data_20000000_RAMStart
                 0x1fff6c60        0x4 LONG 0x0 ___m_data_20000000_ROMSize
                 0x1fff6c64        0x4 LONG 0x0
@@ -1365,7 +1366,7 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x1fff6c6c        0x4 LONG 0x0
 
 ._user_heap_stack
-                0x1fff6c70      0x400 load address 0x000048a4
+                0x1fff6c70      0x400 load address 0x00004894
                 0x1fff6c70                . = ALIGN (0x4)
                 0x1fff6c70                PROVIDE (end, .)
                 0x1fff6c70                PROVIDE (_end, .)
@@ -1468,25 +1469,25 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x0000083e       0x22 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
 OUTPUT(Project.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x64db
+.debug_info     0x00000000     0x64d0
  .debug_info    0x00000000      0x217 ./Sources/FIFO.o
  .debug_info    0x00000217      0x7d9 ./Sources/FTM.o
  .debug_info    0x000009f0      0x678 ./Sources/Flash.o
  .debug_info    0x00001068      0x497 ./Sources/LEDs.o
- .debug_info    0x000014ff      0x6d9 ./Sources/PIT.o
- .debug_info    0x00001bd8      0x3e9 ./Sources/SCP.o
- .debug_info    0x00001fc1      0x9fa ./Sources/UART.o
- .debug_info    0x000029bb      0x155 ./Sources/UsefulFunctions.o
- .debug_info    0x00002b10      0x51f ./Sources/main.o
- .debug_info    0x0000302f      0x394 ./Sources/packet.o
- .debug_info    0x000033c3       0xee ./Sources/signals.o
- .debug_info    0x000034b1      0x27f ./Sources/voltageRegulator.o
- .debug_info    0x00003730      0x3b0 ./Project_Settings/Startup_Code/startup.o
- .debug_info    0x00003ae0      0xc82 ./Generated_Code/Cpu.o
- .debug_info    0x00004762      0x1ad ./Generated_Code/Vectors.o
- .debug_info    0x0000490f      0xd02 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_info    0x00005611      0x46a C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_info    0x00005a7b      0xa60 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_info    0x000014ff      0x6ce ./Sources/PIT.o
+ .debug_info    0x00001bcd      0x3e9 ./Sources/SCP.o
+ .debug_info    0x00001fb6      0x9fa ./Sources/UART.o
+ .debug_info    0x000029b0      0x155 ./Sources/UsefulFunctions.o
+ .debug_info    0x00002b05      0x51f ./Sources/main.o
+ .debug_info    0x00003024      0x394 ./Sources/packet.o
+ .debug_info    0x000033b8       0xee ./Sources/signals.o
+ .debug_info    0x000034a6      0x27f ./Sources/voltageRegulator.o
+ .debug_info    0x00003725      0x3b0 ./Project_Settings/Startup_Code/startup.o
+ .debug_info    0x00003ad5      0xc82 ./Generated_Code/Cpu.o
+ .debug_info    0x00004757      0x1ad ./Generated_Code/Vectors.o
+ .debug_info    0x00004904      0xd02 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_info    0x00005606      0x46a C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_info    0x00005a70      0xa60 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
 .debug_abbrev   0x00000000     0x1964
  .debug_abbrev  0x00000000       0xce ./Sources/FIFO.o
@@ -1623,25 +1624,25 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_macro   0x000340ba       0x10 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
  .debug_macro   0x000340ca       0x68 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
-.debug_line     0x00000000     0x38f3
+.debug_line     0x00000000     0x3900
  .debug_line    0x00000000      0x2de ./Sources/FIFO.o
  .debug_line    0x000002de      0x33b ./Sources/FTM.o
  .debug_line    0x00000619      0x33c ./Sources/Flash.o
  .debug_line    0x00000955      0x29e ./Sources/LEDs.o
- .debug_line    0x00000bf3      0x333 ./Sources/PIT.o
- .debug_line    0x00000f26      0x375 ./Sources/SCP.o
- .debug_line    0x0000129b      0x36c ./Sources/UART.o
- .debug_line    0x00001607      0x311 ./Sources/UsefulFunctions.o
- .debug_line    0x00001918      0x42f ./Sources/main.o
- .debug_line    0x00001d47      0x261 ./Sources/packet.o
- .debug_line    0x00001fa8      0x28e ./Sources/signals.o
- .debug_line    0x00002236      0x386 ./Sources/voltageRegulator.o
- .debug_line    0x000025bc      0x3e4 ./Project_Settings/Startup_Code/startup.o
- .debug_line    0x000029a0      0x283 ./Generated_Code/Cpu.o
- .debug_line    0x00002c23      0x367 ./Generated_Code/Vectors.o
- .debug_line    0x00002f8a      0x496 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_line    0x00003420      0x200 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_line    0x00003620      0x2d3 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_line    0x00000bf3      0x33d ./Sources/PIT.o
+ .debug_line    0x00000f30      0x375 ./Sources/SCP.o
+ .debug_line    0x000012a5      0x36c ./Sources/UART.o
+ .debug_line    0x00001611      0x311 ./Sources/UsefulFunctions.o
+ .debug_line    0x00001922      0x42f ./Sources/main.o
+ .debug_line    0x00001d51      0x261 ./Sources/packet.o
+ .debug_line    0x00001fb2      0x28e ./Sources/signals.o
+ .debug_line    0x00002240      0x389 ./Sources/voltageRegulator.o
+ .debug_line    0x000025c9      0x3e4 ./Project_Settings/Startup_Code/startup.o
+ .debug_line    0x000029ad      0x283 ./Generated_Code/Cpu.o
+ .debug_line    0x00002c30      0x367 ./Generated_Code/Vectors.o
+ .debug_line    0x00002f97      0x496 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_line    0x0000342d      0x200 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_line    0x0000362d      0x2d3 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
 .debug_str      0x00000000    0x8f59c
  .debug_str     0x00000000    0x8a688 ./Sources/FIFO.o
@@ -1652,15 +1653,15 @@ OUTPUT(Project.elf elf32-littlearm)
                               0x83405 (size before relaxing)
  .debug_str     0x0008b019       0xb8 ./Sources/LEDs.o
                               0x8a814 (size before relaxing)
- .debug_str     0x0008b0d1      0x131 ./Sources/PIT.o
-                              0x8a18c (size before relaxing)
- .debug_str     0x0008b202      0x22c ./Sources/SCP.o
+ .debug_str     0x0008b0d1      0x123 ./Sources/PIT.o
+                              0x8a17e (size before relaxing)
+ .debug_str     0x0008b1f4      0x22c ./Sources/SCP.o
                                0xa6a1 (size before relaxing)
- .debug_str     0x0008b42e      0x15a ./Sources/UART.o
+ .debug_str     0x0008b420      0x15a ./Sources/UART.o
                               0x8ac98 (size before relaxing)
- .debug_str     0x0008b588     0x1be6 ./Sources/UsefulFunctions.o
+ .debug_str     0x0008b57a     0x1be6 ./Sources/UsefulFunctions.o
                               0x84a95 (size before relaxing)
- .debug_str     0x0008d16e      0x1f6 ./Sources/main.o
+ .debug_str     0x0008d160      0x204 ./Sources/main.o
                               0x8aee3 (size before relaxing)
  .debug_str     0x0008d364       0x82 ./Sources/packet.o
                                0x33c2 (size before relaxing)

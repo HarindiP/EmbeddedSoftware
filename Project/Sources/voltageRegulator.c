@@ -57,48 +57,41 @@ bool alreadychecked = false;
 
 void BoundsCheck(int16_t VRMS[], int channelNb)
 {
-  if (VRMS[ChannelNumber] > UPPERBOUND || VRMS[ChannelNumber] < LOWERBOUND)
+  if ((VRMS[ChannelNumber] > UPPERBOUND || VRMS[ChannelNumber] < LOWERBOUND) && (!alreadychecked))
   {
+    alreadychecked = true;
     //if channel hasnt been checked
-    if (!alreadychecked)
+    SignalsSetALarm();
+    ChannelNumber = channelNb; //globally defines which channel number Im currently using
+
+
+    //if statement that calls appropriate mode
+    definitemode();
+
+    //      inversetimemode();
+  }
+
+
+  //makes sure to check the channels that havent been checked
+  if (VRMS[ChannelNumber] > UPPERBOUND && VRMS[ChannelNumber] < LOWERBOUND && (ChannelNumber == channelNb) && (alreadychecked))
+  {
+
+    alreadychecked = false;
+    PIT1_Enable(false);
+
+    // check to see if vrms is inbounds again where i is indicative of channel number
+    for (int i = 0; i <3 ; i++)
     {
-      SignalsSetALarm();
-      ChannelNumber = channelNb; //globally defines which channel number Im currently using
-      alreadychecked = true;
-
-      //if statement that calls appropriate mode
-      definitemode();
-
-      //      inversetimemode();
-    }
-
-    if (VRMS[ChannelNumber] > UPPERBOUND && VRMS[ChannelNumber] < LOWERBOUND && (ChannelNumber == channelNb) )
-    {
-      if(!alreadychecked)
+      if (Samples[i].myVrms > UPPERBOUND || Samples[i].myVrms < LOWERBOUND)
       {
-        alreadychecked = false;
-        PIT1_Enable(false);
-
-        // check to see if vrms is inbounds again
-        for (int i = 0; i <3 ; i++)
-        {
-          if (Samples[i].myVrms > UPPERBOUND || Samples[i].myVrms < LOWERBOUND)
-          {
-            ValuesReset();
-            return;
-          }
-        }
-      }
-
-      else
-      {
-        // clear all goodbois
-        PIT1_Enable(false);
         ValuesReset();
-        SignalsClearAll();
+        return;
       }
     }
-
+    // clear all goodbois
+  PIT1_Enable(false);
+  ValuesReset();
+  SignalsClearAll();
   }
 }
 

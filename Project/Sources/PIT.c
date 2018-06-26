@@ -148,11 +148,16 @@ void __attribute__ ((interrupt)) PIT_ISR(void)
       Analog_Get(1,&(Samples[1].myArray[Samples[1].myposition]));
       Analog_Get(2,&(Samples[2].myArray[Samples[2].myposition]));
 
-      Samples[ChannelNumber].myposition++;
+      Samples[0].myposition++;
+      Samples[1].myposition++;
+      Samples[2].myposition++;
 
-    if(Samples[ChannelNumber].myposition == 16) // Reset position at the end of the array
+    if((Samples[0].myposition == 16) && (Samples[1].myposition == 16) && (Samples[2].myposition == 16)) // Reset position at the end of the array
     {
-      Samples[ChannelNumber].myposition = 0;
+      Samples[0].myposition = 0;
+      Samples[1].myposition = 0;
+      Samples[2].myposition = 0;
+
       OS_SemaphoreSignal(PITAccess); // Signal PIT thread to tell it can run
     }
 
