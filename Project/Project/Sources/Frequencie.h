@@ -21,7 +21,7 @@
 extern float Frequencie_Ts; //in nanosec
 
 
-float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2);
+float Interpolation( uint16_t y, float x1, float x2, float y1, float y2);
 
 int16_t Average(int16_t* const sample);
 

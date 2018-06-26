@@ -18,7 +18,10 @@
 
 // new types
 #include "types.h"
+#include "OS.h"
 
+//Semaphore Access
+OS_ECB* FlashAccess;
 
 // FLASH data access
 #define _FB(flashAddress)  *(uint8_t  volatile *)(flashAddress)

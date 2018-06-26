@@ -13,7 +13,7 @@
  */
 /* MODULE SCP */
 
-#include "types.h"
+
 #include "SCP.h"
 #include "Flash.h"
 #include "packet.h"

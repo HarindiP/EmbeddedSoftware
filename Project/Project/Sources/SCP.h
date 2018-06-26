@@ -16,6 +16,8 @@
 #ifndef SOURCES_SCP_H_
 #define SOURCES_SCP_H_
 
+#include "types.h"
+
 /*Tower Number*/
 extern uint16union_t SCP_TowerNb;
 /*Tower Mode*/

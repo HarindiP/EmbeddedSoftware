@@ -41,24 +41,19 @@ void FIFO_Init(TFIFO * const FIFO)
  */
 void FIFO_Put(TFIFO * const FIFO, const uint8_t data)
 {
-
     /*If buffer is not full, put data in at the next available space and update Fifo parameters*/
     OS_SemaphoreWait(FIFO->SpaceAvailable, 0);
-
     OS_DisableInterrupts();
     FIFO->Buffer[FIFO->End]=data;
     FIFO->End++;
     /*Makes sure Fifo Buffer circular*/
     if (FIFO->End==FIFO_SIZE)
     {
-	FIFO->End=0;
+      FIFO->End=0;
     }
 
     OS_EnableInterrupts();
-
     OS_SemaphoreSignal(FIFO->ItemAvailable);
-
-
 }
 
 /*! @brief Get one character from the FIFO.

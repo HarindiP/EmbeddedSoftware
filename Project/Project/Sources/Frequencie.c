@@ -22,7 +22,7 @@ float Frequencie_Ts; //in ms
 //}
 
 //Linear interpolation : find the x of a specific image y between two given points
-float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2)
+float Interpolation( uint16_t y, float x1, float x2, float y1, float y2)
 {
   float p = (y2 - y1) / (x2 - x1);
   if(p > 0)
@@ -58,16 +58,9 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
   uint8_t k = 0;
   uint16_t i = 0;
   float zeros[2];
-  int16_t temparray[16];
-  for(int q = 0;q<NB_OF_SAMPLE; q++)
-  {
-    temparray[q]=sampleArray[q];
-  }
-
-  //I am taking the average period calc on 5 turn to be more accurate;
+  //I am taking the average period calculated on 5 turn to be more accurate;
   static uint8_t tour = 0;
   static float ts_calc = 0;
-
   //looking for 2 zeros !!! change with average if DC allowed
   while(k < 2 && i < NB_OF_SAMPLE - 1)
   {
@@ -83,7 +76,8 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
     }
     if (((sampleArray[i] - 0) * (sampleArray[i+1] - 0)) < 0)
     {
-      zeros[k] =  Interpolation(0,*ts * i / NB_OF_SAMPLE,*ts * (i + 1) / NB_OF_SAMPLE,sampleArray[i],sampleArray[i+1]);
+      zeros[k] =  Interpolation(0,*ts * i / NB_OF_SAMPLE,*ts * (i + 1) / NB_OF_SAMPLE,ANALOG_TO_VOLT(sampleArray[i]),ANALOG_TO_VOLT(sampleArray[i+1]));
+//      zeros[k] = (ANALOG_TO_VOLT(sampleArray[i]) / (ANALOG_TO_VOLT(sampleArray[i]) - ANALOG_TO_VOLT(sampleArray[i+1]))) + i;
       k++;
     }
     i++;
@@ -93,24 +87,36 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
   //if only 1 zero found, assume default freq
   if(k == 1)
   {
-    ts_calc += 20 / 2;
+    ts_calc += SIGNAL_PERIOD / 2;
   }
   //if none zeros found, go back to original freq
   else if(k == 0)
   {
-    *ts = 20;
+    *ts = SIGNAL_PERIOD;
   }
   //everything went well
   else
   {
     ts_calc += (zeros[1] - zeros[0]);
   }
-
   if (tour == 5)
   {
-    if ((ts_calc / 5) != (*ts / 2))
+    ts_calc /= 5;
+    if(ts_calc > (1000 / (FREQ_MIN * 2)) || ts_calc < (1000 / (FREQ_MAX * 2)))
     {
-      *ts = 2 * ts_calc / 5;
+      *ts = SIGNAL_PERIOD;
+    }
+    else
+    {
+      float error = (ts_calc - (*ts / 2));
+      if(error < 0)
+      {
+        error *= -1;
+      }
+      if (error > 0.05)
+      {
+        *ts = 2 * ts_calc;
+      }
     }
     ts_calc = 0;
     tour = 0;

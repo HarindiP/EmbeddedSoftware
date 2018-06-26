@@ -21,7 +21,9 @@
 #define NB_OF_HARMONICS 7
 #define SAMPLING_PERIODE 1250000  //in nanosec
 #define PRECISION 0.05
-
+#define SIGNAL_PERIOD 20 //in ms
+#define FREQ_MAX 52.5
+#define FREQ_MIN 47.5
 
 //ATTENTION negative values a bit wrong : 2^15/10 values, not (2^15 - 1)/10
 #define VOLT_TO_ANALOG(x) (int16_t)(x*3276.8)

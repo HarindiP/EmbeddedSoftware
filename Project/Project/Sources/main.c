@@ -216,7 +216,7 @@ void Regulation_ProcessSampleThread(void* pData)
     }
     else
     {
-//      FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
+      FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
       //restart PIT to take a new set of sample
       uint32_t sampling_period = (uint32_t)((Frequencie_Ts /16) * 1000000);
       PIT0_Set(sampling_period,true);  //SAMPLING_PERIODE in ns

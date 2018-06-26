@@ -14,8 +14,6 @@
 /* MODULE flash */
 
 
-// new types
-#include "types.h"
 #include "Flash.h"
 #include "MK70F12.h"
 
@@ -54,17 +52,22 @@ static bool LaunchCommand(TFCCOB* commonCommandObject)		//chap 30 p806
 }
 static bool WritePhrase(const uint32_t address, const uint64union_t phrase)
 {
+  OS_SemaphoreWait(FlashAccess,0);
+  OS_DisableInterrupts();
   /*create variable, put right values into right regs and then execute right command : program here*/
   TFCCOB writephrase;
   writephrase.address_0_7 = address;
   writephrase.address_8_15 = address >> 8;
   writephrase.address_16_23 = address >> 16 ;
 
-
   //how to write a unit64union to unint8_t[8] -ask danon :)
   writephrase.cmd_data.data = phrase.l;
   writephrase.fcmd = FLASH_PROGRAM_PHRASE;
-  return (LaunchCommand(&writephrase));
+
+  bool success = LaunchCommand(&writephrase);
+  OS_EnableInterrupts();
+  OS_SemaphoreSignal(FlashAccess);
+  return (success);
 
 }
 static bool EraseSector(const uint32_t address)
@@ -82,7 +85,9 @@ static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
 {
   //Checks if EraseSector function is successful in the right location
   if (EraseSector(FLASH_DATA_START))
-      return WritePhrase(address,phrase);
+  {
+    return WritePhrase(address,phrase);
+  }
   return false;
 }
 
@@ -92,6 +97,7 @@ static bool ModifyPhrase(const uint32_t address, const uint64union_t phrase)
  */
 bool Flash_Init(void)
 {
+  FlashAccess = OS_SemaphoreCreate(1);
   return true;
 }
 
@@ -112,27 +118,26 @@ bool Flash_AllocateVar(volatile void** variable, const uint8_t size)
 {
   static uint8_t flashMemoryMap = 0; //0b0000000
   if(size == 1 || size == 2 || size == 4)
+  {
+    uint8_t chosenAddress = 1;	//0b00000001
+    for (int i = 1; i < size ; i++)
     {
-      uint8_t chosenAddress = 1;	//0b00000001
-      for (int i = 1; i < size ; i++)
-	{
-	  chosenAddress |= chosenAddress<<1;	//0b00000001 -> 0b00000011 ...
-	}
-      while(chosenAddress!=0)
-	{
-	  if(!(flashMemoryMap & chosenAddress))		//if there is a space big enough there, done !
-	    {
-	      variable = (void*)(FLASH_DATA_START + chosenAddress);  //"volatile " before "void" create a warning
-	      flashMemoryMap |= chosenAddress;	//store the chose address as taken
-	      return true;
-	    }
-	  else		//otherwise check the next area of the adequate size
-	    {
-	      chosenAddress = chosenAddress<<size;
-	    }
-
-	}
+      chosenAddress |= chosenAddress<<1;	//0b00000001 -> 0b00000011 ...
     }
+    while(chosenAddress!=0)
+    {
+      if(!(flashMemoryMap & chosenAddress))		//if there is a space big enough there, done !
+      {
+        variable = (void*)(FLASH_DATA_START + chosenAddress);  //"volatile " before "void" create a warning
+        flashMemoryMap |= chosenAddress;	//store the chose address as taken
+        return true;
+      }
+      else		//otherwise check the next area of the adequate size
+      {
+        chosenAddress = chosenAddress<<size;
+      }
+    }
+  }
   return false;
 }
 

@@ -10,8 +10,6 @@
 
 #include <math.h>
 #include "Cpu.h"
-#include "PIT.h"
-#include "SCP.h"
 #include "MK70F12.h"
 #include "Requirements.h"
 #include "types.h"
@@ -19,6 +17,8 @@
 #include "Output.h"
 #include "Analog.h"
 #include "Flash.h"
+#include "PIT.h"
+#include "SCP.h"
 
 
 //Array of 16 samples for each chan
