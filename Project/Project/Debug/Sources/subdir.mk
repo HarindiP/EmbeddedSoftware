@@ -15,6 +15,8 @@ C_SRCS += \
 ../Sources/Regulation.c \
 ../Sources/SCP.c \
 ../Sources/UART.c \
+../Sources/kiss_fft.c \
+../Sources/kiss_fftr.c \
 ../Sources/main.c \
 ../Sources/packet.c 
 
@@ -30,6 +32,8 @@ OBJS += \
 ./Sources/Regulation.o \
 ./Sources/SCP.o \
 ./Sources/UART.o \
+./Sources/kiss_fft.o \
+./Sources/kiss_fftr.o \
 ./Sources/main.o \
 ./Sources/packet.o 
 
@@ -45,6 +49,8 @@ C_DEPS += \
 ./Sources/Regulation.d \
 ./Sources/SCP.d \
 ./Sources/UART.d \
+./Sources/kiss_fft.d \
+./Sources/kiss_fftr.d \
 ./Sources/main.d \
 ./Sources/packet.d 
 

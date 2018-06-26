@@ -1,0 +1,173 @@
+\hypertarget{group___u_a_r_t__module}{}\section{U\+A\+R\+T module documentation}
+\label{group___u_a_r_t__module}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___u_a_r_t__module_gae5760d1a086ec79a33901db253000af9}{U\+A\+R\+T\+\_\+\+Init} (const uint32\+\_\+t baud\+Rate, const uint32\+\_\+t module\+Clk)
+\begin{DoxyCompactList}\small\item\em Sets up the U\+A\+R\+T interface before first use. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_r_t__module_ga03049bcc3bf9af2a75ee77016d3b0d60}{U\+A\+R\+T\+\_\+\+In\+Char} (uint8\+\_\+t $\ast$const data\+Ptr)
+\begin{DoxyCompactList}\small\item\em Get a character from the receive F\+I\+F\+O if it is not empty. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_r_t__module_gab20ebaeefd1f29d31e098ade31189dda}{U\+A\+R\+T\+\_\+\+Out\+Char} (const uint8\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Put a byte in the transmit F\+I\+F\+O if it is not full. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga799b375101827a18f652a3f28ecefcd0}{U\+A\+R\+T\+\_\+\+Poll} (void)
+\begin{DoxyCompactList}\small\item\em Poll the U\+A\+R\+T status register to try and receive and/or transmit one character. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga72031655bb0728aa5e701a65c4f3fa62}{U\+A\+R\+T\+\_\+\+Tx\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Put the byte to transmit from Tx\+F\+I\+F\+O to U\+A\+R\+T\+\_\+\+D reg. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga20003aaea607f87360fb19e1df094f18}{U\+A\+R\+T\+\_\+\+Rx\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Put the received byte in the Rx\+F\+I\+F\+O. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga1a1ed9b995de07b2b35c3ccfd22aed49}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((interrupt)) U\+A\+R\+T\+\_\+\+I\+S\+R(void)
+\begin{DoxyCompactList}\small\item\em Interrupt service routine for the U\+A\+R\+T. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___u_a_r_t__module_ga9fdc983f10464a64606f74d04e32cd05}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Tx\+Access}\label{group___u_a_r_t__module_ga9fdc983f10464a64606f74d04e32cd05}
+
+\item 
+\hypertarget{group___u_a_r_t__module_gadaab27949614ce2304fbe020b64a960a}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Rx\+Access}\label{group___u_a_r_t__module_gadaab27949614ce2304fbe020b64a960a}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___u_a_r_t__module_ga1a1ed9b995de07b2b35c3ccfd22aed49}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+((interrupt)) U\+A\+R\+T\+\_\+\+I\+S\+R(void)}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+attribute\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{(interrupt)}]{}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_ga1a1ed9b995de07b2b35c3ccfd22aed49}
+
+
+Interrupt service routine for the U\+A\+R\+T. 
+
+\begin{DoxyNote}{Note}
+Assumes the U\+A\+R\+T has been initialized. 
+\end{DoxyNote}
+\hypertarget{group___u_a_r_t__module_ga03049bcc3bf9af2a75ee77016d3b0d60}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!U\+A\+R\+T\+\_\+\+In\+Char@{U\+A\+R\+T\+\_\+\+In\+Char}}
+\index{U\+A\+R\+T\+\_\+\+In\+Char@{U\+A\+R\+T\+\_\+\+In\+Char}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{U\+A\+R\+T\+\_\+\+In\+Char(uint8\+\_\+t $\ast$const data\+Ptr)}]{\setlength{\rightskip}{0pt plus 5cm}bool U\+A\+R\+T\+\_\+\+In\+Char (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$const}]{data\+Ptr}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_ga03049bcc3bf9af2a75ee77016d3b0d60}
+
+
+Get a character from the receive F\+I\+F\+O if it is not empty. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+Ptr} & A pointer to memory to store the retrieved byte. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if the receive F\+I\+F\+O returned a character. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Assumes that U\+A\+R\+T\+\_\+\+Init has been called. 
+\end{DoxyNote}
+\hypertarget{group___u_a_r_t__module_gae5760d1a086ec79a33901db253000af9}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!U\+A\+R\+T\+\_\+\+Init@{U\+A\+R\+T\+\_\+\+Init}}
+\index{U\+A\+R\+T\+\_\+\+Init@{U\+A\+R\+T\+\_\+\+Init}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{U\+A\+R\+T\+\_\+\+Init(const uint32\+\_\+t baud\+Rate, const uint32\+\_\+t module\+Clk)}]{\setlength{\rightskip}{0pt plus 5cm}bool U\+A\+R\+T\+\_\+\+Init (
+\begin{DoxyParamCaption}
+\item[{const uint32\+\_\+t}]{baud\+Rate, }
+\item[{const uint32\+\_\+t}]{module\+Clk}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_gae5760d1a086ec79a33901db253000af9}
+
+
+Sets up the U\+A\+R\+T interface before first use. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em baud\+Rate} & The desired baud rate in bits/sec. \\
+\hline
+{\em module\+Clk} & The module clock rate in Hz \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if the U\+A\+R\+T was successfully initialized.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em baud\+Rate} & The desired baud rate in bits/sec. \\
+\hline
+{\em module\+Clk} & The module clock rate in Hz. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if the U\+A\+R\+T was successfully initialized. 
+\end{DoxyReturn}
+\hypertarget{group___u_a_r_t__module_gab20ebaeefd1f29d31e098ade31189dda}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!U\+A\+R\+T\+\_\+\+Out\+Char@{U\+A\+R\+T\+\_\+\+Out\+Char}}
+\index{U\+A\+R\+T\+\_\+\+Out\+Char@{U\+A\+R\+T\+\_\+\+Out\+Char}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{U\+A\+R\+T\+\_\+\+Out\+Char(const uint8\+\_\+t data)}]{\setlength{\rightskip}{0pt plus 5cm}bool U\+A\+R\+T\+\_\+\+Out\+Char (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{data}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_gab20ebaeefd1f29d31e098ade31189dda}
+
+
+Put a byte in the transmit F\+I\+F\+O if it is not full. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The byte to be placed in the transmit F\+I\+F\+O. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if the data was placed in the transmit F\+I\+F\+O. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Assumes that U\+A\+R\+T\+\_\+\+Init has been called. 
+\end{DoxyNote}
+\hypertarget{group___u_a_r_t__module_ga799b375101827a18f652a3f28ecefcd0}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!U\+A\+R\+T\+\_\+\+Poll@{U\+A\+R\+T\+\_\+\+Poll}}
+\index{U\+A\+R\+T\+\_\+\+Poll@{U\+A\+R\+T\+\_\+\+Poll}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{U\+A\+R\+T\+\_\+\+Poll(void)}]{\setlength{\rightskip}{0pt plus 5cm}void U\+A\+R\+T\+\_\+\+Poll (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_ga799b375101827a18f652a3f28ecefcd0}
+
+
+Poll the U\+A\+R\+T status register to try and receive and/or transmit one character. 
+
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Assumes that U\+A\+R\+T\+\_\+\+Init has been called. 
+\end{DoxyNote}
+\hypertarget{group___u_a_r_t__module_ga20003aaea607f87360fb19e1df094f18}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!U\+A\+R\+T\+\_\+\+Rx\+Thread@{U\+A\+R\+T\+\_\+\+Rx\+Thread}}
+\index{U\+A\+R\+T\+\_\+\+Rx\+Thread@{U\+A\+R\+T\+\_\+\+Rx\+Thread}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{U\+A\+R\+T\+\_\+\+Rx\+Thread(void $\ast$p\+Data)}]{\setlength{\rightskip}{0pt plus 5cm}void U\+A\+R\+T\+\_\+\+Rx\+Thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{p\+Data}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_ga20003aaea607f87360fb19e1df094f18}
+
+
+Put the received byte in the Rx\+F\+I\+F\+O. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+Data} & is not used but is required by the O\+S to create a thread. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group___u_a_r_t__module_ga72031655bb0728aa5e701a65c4f3fa62}{}\index{U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}!U\+A\+R\+T\+\_\+\+Tx\+Thread@{U\+A\+R\+T\+\_\+\+Tx\+Thread}}
+\index{U\+A\+R\+T\+\_\+\+Tx\+Thread@{U\+A\+R\+T\+\_\+\+Tx\+Thread}!U\+A\+R\+T module documentation@{U\+A\+R\+T module documentation}}
+\subsubsection[{U\+A\+R\+T\+\_\+\+Tx\+Thread(void $\ast$p\+Data)}]{\setlength{\rightskip}{0pt plus 5cm}void U\+A\+R\+T\+\_\+\+Tx\+Thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{p\+Data}
+\end{DoxyParamCaption}
+)}\label{group___u_a_r_t__module_ga72031655bb0728aa5e701a65c4f3fa62}
+
+
+Put the byte to transmit from Tx\+F\+I\+F\+O to U\+A\+R\+T\+\_\+\+D reg. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+Data} & is not used but is required by the O\+S to create a thread. \\
+\hline
+\end{DoxyParams}

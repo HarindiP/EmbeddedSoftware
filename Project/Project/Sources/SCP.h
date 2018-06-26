@@ -126,11 +126,13 @@ bool SetTowerNumber();
  *  @return true if values has been sent/set, false if not
  */
 bool HandleTowerMode();
+
 /*! @brief Send the Tower Mode
  *
  *  @return true if mode has been sent, false if not
  */
 bool SendTowerMode();
+
 /*! @brief Set the new Tower Mode and send it
  *
  *  @return true if mode has been set and sent, false if not
@@ -143,6 +145,7 @@ bool SetTowerMode();
  *  @return   true if the byte has been sent, false if not
  */
 bool ReadByte(uint8_t address);
+
 /*! @brief Write a byte in the flash memory at the given address
  *
  *  @param   address : The address were the desired byte is written
@@ -156,31 +159,85 @@ bool ProgramByte(uint8_t address, uint8_t data);
  *  @return true if time has been sent, false if not
  */
 bool SendTime();
+
 /*! @brief Set the curent time
  *
  *  @return true if time has been set, false if not
  */
 bool SetTime();
 
+/*! @brief Send the Timing Mode
+ *
+ *  @return true if mode has been sent, false if not
+ */
 bool SendTimingMode();
+
+/*! @brief Set and send the Timing Mode
+ *
+ *  @return true if mode has been sent, false if not
+ */
 bool SetTimingMode();
+
+/*! @brief Identify the Timing Mode command : set or just send it
+ *
+ *  @return true if values has been sent/set, false if not
+ */
 bool HandleTimingMode();
+
+/*! @brief Send the number of Lowers occured
+ *
+ *  @return true if number of Lowers has been sent, false if not
+ */
 bool SendNbLowers();
+
+/*! @brief Reset the number of Lowers occured to 0
+ *
+ *  @return true if number of Lowers has been reset, false if not
+ */
 bool ResetLowers();
+
+/*! @brief Identify the Lowers command : reset or just send it
+ *
+ *  @return true if values has been sent/set, false if not
+ */
 bool HandleLowers();
+
+/*! @brief Send the number of Raisers occured
+ *
+ *  @return true if number of Raisers has been sent, false if not
+ */
 bool SendNbRaises();
+
+/*! @brief Reset the number of Raisers occured to 0
+ *
+ *  @return true if number of Raisers has been reset, false if not
+ */
 bool ResetRaises();
+
+/*! @brief Identify the Raisers command : reset or just send it
+ *
+ *  @return true if values has been sent/set, false if not
+ */
 bool HandleRaises();
+
+/*! @brief Send the current frequency of the signal
+ *
+ *  @return true if frequency has been sent, false if not
+ */
 bool GetFrequency();
 
-/*! @brief Send the VRMS value of the required channel : parameter 1 is the channel,
- *                                                      parameter 2 is the integer value in volts,
- *                                                      parameter 3 is the decimal value in volt
+/*! @brief Send the VRMS value of the required channel :  parameter 1 is the channel,
+ *                                                        parameter 2 is the integer value in volts,
+ *                                                        parameter 3 is the decimal value in volt
  *
  *  @return true if vrms has been sent, false if not
  */
 bool GetVrms();
 
+/*! @brief Send the amplitude of the 8 firsts harmonics of the Spectrum of the input signal
+ *
+ *  @return true if amplitudes has been sent, false if not
+ */
 bool GetSpectrum();
 
 /*! @brief Private ACK checking function
@@ -188,11 +245,13 @@ bool GetSpectrum();
  *  @return bool - TRUE if acknowledgement required
  */
 bool SCP_Acknowledgement_Required(const uint8_t command);
+
 /*! @brief Acknowledge that the command has been taken care of
  *
  *  @return true if acknowledgement went right
  */
 bool ACK();
+
 /*! @brief UnAcknowledge that the command has not been taken care of
  *
  *  @return true if unacknowledgement went right
@@ -204,6 +263,7 @@ bool NAK();
  *  @return true if the action went well
  */
 bool SCP_Packet_Handle();
+
 /*! @brief  Identify the command with an acknowledgement requirement received
  *          and call the right function to do as told and acknowledge
  *

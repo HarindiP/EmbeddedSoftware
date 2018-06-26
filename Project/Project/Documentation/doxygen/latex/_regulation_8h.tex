@@ -1,0 +1,67 @@
+\hypertarget{_regulation_8h}{}\section{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+Regulation.h File Reference}
+\label{_regulation_8h}\index{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+Regulation.\+h@{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+Regulation.\+h}}
+
+
+Regulation functions.  
+
+
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Cpu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}M\+K70\+F12.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Requirements.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}O\+S.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Output.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Analog.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Flash.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}P\+I\+T.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}S\+C\+P.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___regulation__module_gaecb14fdd80805f02ca967b49a1bc2e20}{V\+R\+M\+S} (int16\+\_\+t $\ast$sample)
+\begin{DoxyCompactList}\small\item\em !!! D\+E\+F\+I\+N\+I\+R L\+E\+S T\+E\+M\+P\+S E\+N N\+A\+N\+O\+S\+E\+C\+O\+N\+D\+E\+S P\+A\+R\+C\+E Q\+U\+E C\+E S\+O\+N\+T D\+E\+S I\+N\+T !!!! \end{DoxyCompactList}\item 
+void \hyperlink{group___regulation__module_ga244fefc49036b90bb0f7f006bf5b84ef}{R\+A\+S} (uint8\+\_\+t index)
+\begin{DoxyCompactList}\small\item\em Everything is fine, clear every alarm signal and raise and lower. \end{DoxyCompactList}\item 
+void \hyperlink{group___regulation__module_gace524fa89c705529ef2d4088a07fe54b}{Regulation\+\_\+\+Definite\+Timing} (float $\ast$vrms)
+\begin{DoxyCompactList}\small\item\em Regulate the Vrms in Definite Time mode. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{group___regulation__module_gaf6f9cb6155a90f14471a17f55bcd9ae4}{Inverse\+Timer} (uint8\+\_\+t index, float deviation, bool first\+Call)
+\begin{DoxyCompactList}\small\item\em Claculate the time to wait. \end{DoxyCompactList}\item 
+void \hyperlink{group___regulation__module_gac992375e081f2af601f878f18a32fa5d}{Regulation\+\_\+\+Inverse\+Timing} (float $\ast$vrms)
+\begin{DoxyCompactList}\small\item\em Regulate the Vrms in Inverse Timing mode. \end{DoxyCompactList}\item 
+void \hyperlink{group___regulation__module_ga3a5fb5a92290ae37379c5c002b050e78}{Regulation\+\_\+\+Take\+Sample} ()
+\begin{DoxyCompactList}\small\item\em Put an analog sample of the signal in the sample array for each channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___regulation__module_gaca8446a5b4993285eaebecdc4aac5767}{}int16\+\_\+t {\bfseries Regulation\+\_\+\+Full\+Sample\+A} \mbox{[}N\+B\+\_\+\+O\+F\+\_\+\+S\+A\+M\+P\+L\+E\mbox{]}\label{group___regulation__module_gaca8446a5b4993285eaebecdc4aac5767}
+
+\item 
+\hypertarget{group___regulation__module_gaee80c31edce76d7310e64bb28d24cc40}{}int16\+\_\+t {\bfseries Regulation\+\_\+\+Full\+Sample\+B} \mbox{[}N\+B\+\_\+\+O\+F\+\_\+\+S\+A\+M\+P\+L\+E\mbox{]}\label{group___regulation__module_gaee80c31edce76d7310e64bb28d24cc40}
+
+\item 
+\hypertarget{group___regulation__module_ga90cf29f5dc7c877d9b4de61068bfa7ed}{}int16\+\_\+t {\bfseries Regulation\+\_\+\+Full\+Sample\+C} \mbox{[}N\+B\+\_\+\+O\+F\+\_\+\+S\+A\+M\+P\+L\+E\mbox{]}\label{group___regulation__module_ga90cf29f5dc7c877d9b4de61068bfa7ed}
+
+\item 
+\hypertarget{group___regulation__module_ga65eb073a4239a77c443ed61dcbfb330b}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Full\+Sample\+Taken}\label{group___regulation__module_ga65eb073a4239a77c443ed61dcbfb330b}
+
+\item 
+\hypertarget{group___regulation__module_ga8aae7cd1cc9dc9ba8cdd97b5a4cc7033}{}bool {\bfseries Regulation\+\_\+\+Alarm\+Set} \mbox{[}3\mbox{]}\label{group___regulation__module_ga8aae7cd1cc9dc9ba8cdd97b5a4cc7033}
+
+\item 
+\hypertarget{group___regulation__module_gafd77dc132fa8aed0354fd60317064bfa}{}bool {\bfseries Regulation\+\_\+\+Alarm\+Reached} \mbox{[}3\mbox{]}\label{group___regulation__module_gafd77dc132fa8aed0354fd60317064bfa}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Regulation functions. 
+
+This contains the functions used for the V\+R\+R
+
+\begin{DoxyAuthor}{Author}
+Coralie 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018-\/05-\/20 
+\end{DoxyDate}

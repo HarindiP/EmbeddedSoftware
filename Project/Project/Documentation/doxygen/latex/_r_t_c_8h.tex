@@ -1,0 +1,34 @@
+\hypertarget{_r_t_c_8h}{}\section{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+R\+T\+C.h File Reference}
+\label{_r_t_c_8h}\index{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+R\+T\+C.\+h@{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+R\+T\+C.\+h}}
+
+
+Routines for controlling the Real Time Clock (R\+T\+C) on the T\+W\+R-\/\+K70\+F120\+M.  
+
+
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___r_t_c__module_ga1eff20f412d72f94182b7fca0b3b0925}{R\+T\+C\+\_\+\+Init} (void($\ast$user\+Function)(void $\ast$), void $\ast$user\+Arguments)
+\begin{DoxyCompactList}\small\item\em Initializes the R\+T\+C before first use. \end{DoxyCompactList}\item 
+void \hyperlink{group___r_t_c__module_gacbe916e4fad6bfc2ffcde604fa6afb52}{R\+T\+C\+\_\+\+Set} (const uint8\+\_\+t hours, const uint8\+\_\+t minutes, const uint8\+\_\+t seconds)
+\begin{DoxyCompactList}\small\item\em Sets the value of the real time clock. \end{DoxyCompactList}\item 
+void \hyperlink{group___r_t_c__module_ga46e1f15e3b27e2de58d7f213a3bc865d}{R\+T\+C\+\_\+\+Get} (uint8\+\_\+t $\ast$const hours, uint8\+\_\+t $\ast$const minutes, uint8\+\_\+t $\ast$const seconds)
+\begin{DoxyCompactList}\small\item\em Gets the value of the real time clock. \end{DoxyCompactList}\item 
+void \hyperlink{group___r_t_c__module_ga262860b0fb4ad2359a9000edd719d490}{R\+T\+C\+\_\+\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Toggle the yellow L\+E\+D and send time every second. \end{DoxyCompactList}\item 
+void \hyperlink{group___r_t_c__module_ga445500277ba0e363873b34cffc015745}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((interrupt))
+\begin{DoxyCompactList}\small\item\em Interrupt service routine for the R\+T\+C. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Routines for controlling the Real Time Clock (R\+T\+C) on the T\+W\+R-\/\+K70\+F120\+M. 
+
+This contains the functions for operating the real time clock (R\+T\+C).
+
+\begin{DoxyAuthor}{Author}
+P\+Mc\+L 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2015-\/08-\/24 
+\end{DoxyDate}

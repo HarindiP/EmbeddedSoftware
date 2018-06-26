@@ -1,9 +1,17 @@
-/*
- * frequencie.c
+/*! @file Frequencie.c
  *
- *  Created on: 18/09/06
- *      Author: Coralie K.
+ *  @brief Frequencie functions
+ *
+ *  This contains the functions used to track the signals frequency and to calculate the FFT.
+ *
+ *  @author Coralie
+ *  @date 2018-05-20
  */
+/*!
+ **  @addtogroup Frequencie_module Frequencie module documentation
+ **  @{
+ */
+/* MODULE Frequencie */
 
 
 #include "Frequencie.h"
@@ -53,7 +61,7 @@ int16_t Average(int16_t* const sample)
 }
 
 //To improve : compare to the average value of the samples, not to 0 (*(Sample+i) - avg)
-void FrequencyTracking(int16_t* const sampleArray, float* ts)
+void Frequencie_Tracking(int16_t* const sampleArray, float* ts)
 {
   uint8_t k = 0;
   uint16_t i = 0;
@@ -127,7 +135,7 @@ void Frequencie_FFT(int16_t* sampleArray, float* amplitude)
 {
   uint8_t mem[1024];
   size_t sizeMem = sizeof(mem);
-  kiss_fftr_cfg cfg = kiss_fftr_alloc( 16 ,0, mem, &sizeMem);
+  kiss_fftr_cfg cfg = kiss_fftr_alloc(16, 0, mem, &sizeMem);
 
   kiss_fft_scalar Input[16];
   kiss_fft_cpx Output[9];
@@ -143,3 +151,7 @@ void Frequencie_FFT(int16_t* sampleArray, float* amplitude)
     *(amplitude+i) = sqrt(pow(Output[i].r,2) + pow(Output[i].i,2)) ;
   }
 }
+
+/*!
+ ** @}
+ */

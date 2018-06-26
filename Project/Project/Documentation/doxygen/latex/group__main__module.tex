@@ -1,0 +1,109 @@
+\hypertarget{group__main__module}{}\section{main module documentation}
+\label{group__main__module}\index{main module documentation@{main module documentation}}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_analog_thread_data}{Analog\+Thread\+Data}
+\begin{DoxyCompactList}\small\item\em Data structure used to pass Analog configuration to a user thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__main__module_ga90b7a8cb7bc3fdbd98014a3e15ee6e9a}{}\#define {\bfseries T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}~1024\label{group__main__module_ga90b7a8cb7bc3fdbd98014a3e15ee6e9a}
+
+\item 
+\hypertarget{group__main__module_ga300da08cc989dc0963caf3a5afc024b8}{}\#define {\bfseries N\+B\+\_\+\+A\+N\+A\+L\+O\+G\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}~3\label{group__main__module_ga300da08cc989dc0963caf3a5afc024b8}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct_analog_thread_data}{Analog\+Thread\+Data} \hyperlink{group__main__module_gae5f40603a116adc42529ceedda6942c7}{T\+Analog\+Thread\+Data}
+\begin{DoxyCompactList}\small\item\em Data structure used to pass Analog configuration to a user thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__main__module_gac2875955d67e96abf6cfa8aaad5e9f75}{O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K} (Init\+Modules\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)
+\item 
+\hypertarget{group__main__module_ga863739b8166c7847e6fc32abf299778f}{}{\bfseries O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K} (Handle\+Packet\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)\label{group__main__module_ga863739b8166c7847e6fc32abf299778f}
+
+\item 
+\hypertarget{group__main__module_ga778895bd4e748afb96680200b9c95639}{}{\bfseries O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K} (Tx\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)\label{group__main__module_ga778895bd4e748afb96680200b9c95639}
+
+\item 
+\hypertarget{group__main__module_ga1d037f91698507378c2715a141f03cd7}{}{\bfseries O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K} (Rx\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)\label{group__main__module_ga1d037f91698507378c2715a141f03cd7}
+
+\item 
+\hypertarget{group__main__module_gaf542ff0cb6e301b6f9f38531adcf0413}{}{\bfseries O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K} (R\+T\+C\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)\label{group__main__module_gaf542ff0cb6e301b6f9f38531adcf0413}
+
+\item 
+\hypertarget{group__main__module_ga2f432c35e60d035b5e50e153be074577}{}{\bfseries O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K} (Process\+Sample\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)\label{group__main__module_ga2f432c35e60d035b5e50e153be074577}
+
+\item 
+\hypertarget{group__main__module_gaeac4abe1062c9f3b5d9eb540e300482a}{}void {\bfseries L\+P\+T\+M\+R\+Init} (const uint16\+\_\+t count)\label{group__main__module_gaeac4abe1062c9f3b5d9eb540e300482a}
+
+\item 
+\hypertarget{group__main__module_ga445500277ba0e363873b34cffc015745}{}void {\bfseries \+\_\+\+\_\+attribute\+\_\+\+\_\+} ((interrupt))\label{group__main__module_ga445500277ba0e363873b34cffc015745}
+
+\item 
+void \hyperlink{group__main__module_ga3aea5cbfda7d1e940bde7a210faffbcc}{Regulation\+\_\+\+Process\+Sample\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Sample Treatment Thread. \end{DoxyCompactList}\item 
+void \hyperlink{group__main__module_ga57d918b99919e3a8dd4e1b736370015a}{Analog\+Loopback\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Samples a value on an A\+D\+C channel and sends it to the corresponding D\+A\+C channel. \end{DoxyCompactList}\item 
+\hypertarget{group__main__module_ga840291bc02cba5474a4cb46a9b9566fe}{}int {\bfseries main} (void)\label{group__main__module_ga840291bc02cba5474a4cb46a9b9566fe}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__main__module_ga299a41ec770254e51a51bc1cabf58cf6}{}\hyperlink{struct_t_f_t_m_channel}{T\+F\+T\+M\+Channel} {\bfseries Timer1\+Sec}\label{group__main__module_ga299a41ec770254e51a51bc1cabf58cf6}
+
+\item 
+\hypertarget{group__main__module_ga65eb073a4239a77c443ed61dcbfb330b}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Full\+Sample\+Taken}\label{group__main__module_ga65eb073a4239a77c443ed61dcbfb330b}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{group__main__module_gae5f40603a116adc42529ceedda6942c7}{}\index{main module documentation@{main module documentation}!T\+Analog\+Thread\+Data@{T\+Analog\+Thread\+Data}}
+\index{T\+Analog\+Thread\+Data@{T\+Analog\+Thread\+Data}!main module documentation@{main module documentation}}
+\subsubsection[{T\+Analog\+Thread\+Data}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Analog\+Thread\+Data}  {\bf T\+Analog\+Thread\+Data}}\label{group__main__module_gae5f40603a116adc42529ceedda6942c7}
+
+
+Data structure used to pass Analog configuration to a user thread. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group__main__module_ga57d918b99919e3a8dd4e1b736370015a}{}\index{main module documentation@{main module documentation}!Analog\+Loopback\+Thread@{Analog\+Loopback\+Thread}}
+\index{Analog\+Loopback\+Thread@{Analog\+Loopback\+Thread}!main module documentation@{main module documentation}}
+\subsubsection[{Analog\+Loopback\+Thread(void $\ast$p\+Data)}]{\setlength{\rightskip}{0pt plus 5cm}void Analog\+Loopback\+Thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{p\+Data}
+\end{DoxyParamCaption}
+)}\label{group__main__module_ga57d918b99919e3a8dd4e1b736370015a}
+
+
+Samples a value on an A\+D\+C channel and sends it to the corresponding D\+A\+C channel. 
+
+\hypertarget{group__main__module_gac2875955d67e96abf6cfa8aaad5e9f75}{}\index{main module documentation@{main module documentation}!O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K@{O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K}}
+\index{O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K@{O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K}!main module documentation@{main module documentation}}
+\subsubsection[{O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K(\+Init\+Modules\+Thread\+Stack, T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E)}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K (
+\begin{DoxyParamCaption}
+\item[{Init\+Modules\+Thread\+Stack}]{, }
+\item[{T\+H\+R\+E\+A\+D\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}]{}
+\end{DoxyParamCaption}
+)}\label{group__main__module_gac2875955d67e96abf6cfa8aaad5e9f75}
+The stack for the L\+E\+D Init thread. \hypertarget{group__main__module_ga3aea5cbfda7d1e940bde7a210faffbcc}{}\index{main module documentation@{main module documentation}!Regulation\+\_\+\+Process\+Sample\+Thread@{Regulation\+\_\+\+Process\+Sample\+Thread}}
+\index{Regulation\+\_\+\+Process\+Sample\+Thread@{Regulation\+\_\+\+Process\+Sample\+Thread}!main module documentation@{main module documentation}}
+\subsubsection[{Regulation\+\_\+\+Process\+Sample\+Thread(void $\ast$p\+Data)}]{\setlength{\rightskip}{0pt plus 5cm}void Regulation\+\_\+\+Process\+Sample\+Thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{p\+Data}
+\end{DoxyParamCaption}
+)}\label{group__main__module_ga3aea5cbfda7d1e940bde7a210faffbcc}
+
+
+Sample Treatment Thread. 
+

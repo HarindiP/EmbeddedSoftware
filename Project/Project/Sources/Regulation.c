@@ -1,9 +1,17 @@
-/*
- * Regulation.c
+/*! @file Regulation.c
  *
- *  Created on: 20 Jun 2018
- *      Author: 13115605
+ *  @brief Regulation functions
+ *
+ *  This contains the functions used for the VRR
+ *
+ *  @author Coralie
+ *  @date 2018-05-20
  */
+/*!
+ **  @addtogroup Regulation_module Regulation module documentation
+ **  @{
+ */
+/* MODULE Regulation */
 
 
 //Sample processing
@@ -57,7 +65,7 @@ void RAS(uint8_t index)
 //  LEDs_Off(LED_GREEN);
 }
 
-void DefiniteTimingRegulation(float* vrms)
+void Regulation_DefiniteTiming(float* vrms)
 {
   for (int i = 0; i < 3; i++)
   {
@@ -142,7 +150,7 @@ uint32_t InverseTimer(uint8_t index, float deviation, bool firstCall)
   return invTime;
 }
 
-void InverseTimingRegulation(float* vrms)
+void Regulation_InverseTiming(float* vrms)
 {
   static float deviation[3] = {0,0,0};
   static bool firstCall[3] = {true, true, true};
@@ -248,4 +256,6 @@ void Regulation_TakeSample()
 //}
 
 
-
+/*!
+ ** @}
+ */

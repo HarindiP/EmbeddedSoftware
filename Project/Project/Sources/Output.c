@@ -1,9 +1,17 @@
-/*
- * output.c
+/*! @file Output.c
  *
- *  Created on: 9 Jun 2018
- *      Author: 13115605
+ *  @brief Output functions
+ *
+ *  This contains the functions used to manage the Alarm, Raise and Lower Output
+ *
+ *  @author Coralie
+ *  @date 2018-05-20
  */
+/*!
+ **  @addtogroup Output_module Output module documentation
+ **  @{
+ */
+/* MODULE Output */
 
 #include "analog.h"
 #include "Requirements.h"
@@ -40,3 +48,8 @@ void Output_ClearLower()
 {
   Analog_Put(1,VOLT_TO_ANALOG(OUTPUT_LOW));
 }
+
+
+/*!
+ ** @}
+ */

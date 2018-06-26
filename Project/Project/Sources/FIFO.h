@@ -57,7 +57,7 @@ void FIFO_Put(TFIFO * const FIFO, const uint8_t data);
  *
  *  @param FIFO A pointer to a FIFO struct with data to be retrieved.
  *  @param dataPtr A pointer to a memory location to place the retrieved byte.
- *  .
+ *
  *  @note Assumes that FIFO_Init has been called.
  */
 void FIFO_Get(TFIFO * const FIFO, uint8_t * const dataPtr);

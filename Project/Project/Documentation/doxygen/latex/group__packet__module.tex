@@ -1,0 +1,163 @@
+\hypertarget{group__packet__module}{}\section{packet module documentation}
+\label{group__packet__module}\index{packet module documentation@{packet module documentation}}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \hyperlink{union_t_packet}{T\+Packet}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__packet__module_ga5916165249c1d4739d21a001d5a4775d}{}\#define {\bfseries P\+A\+C\+K\+E\+T\+\_\+\+N\+B\+\_\+\+B\+Y\+T\+E\+S}~5\label{group__packet__module_ga5916165249c1d4739d21a001d5a4775d}
+
+\item 
+\hypertarget{group__packet__module_ga0a6b54bd6327268c60b131046279dc73}{}\#define {\bfseries Packet\+\_\+\+Command}~Packet.\+packet\+Struct.\+command\label{group__packet__module_ga0a6b54bd6327268c60b131046279dc73}
+
+\item 
+\hypertarget{group__packet__module_gac57a9c4b28d49a596ca5fa943e40b9af}{}\#define {\bfseries Packet\+\_\+\+Parameter1}~Packet.\+packet\+Struct.\+parameters.\+separate.\+parameter1\label{group__packet__module_gac57a9c4b28d49a596ca5fa943e40b9af}
+
+\item 
+\hypertarget{group__packet__module_ga45a05df635f3e5b1395d008f1901a4d1}{}\#define {\bfseries Packet\+\_\+\+Parameter2}~Packet.\+packet\+Struct.\+parameters.\+separate.\+parameter2\label{group__packet__module_ga45a05df635f3e5b1395d008f1901a4d1}
+
+\item 
+\hypertarget{group__packet__module_ga625e727e1e36680f574a360bc3747695}{}\#define {\bfseries Packet\+\_\+\+Parameter3}~Packet.\+packet\+Struct.\+parameters.\+separate.\+parameter3\label{group__packet__module_ga625e727e1e36680f574a360bc3747695}
+
+\item 
+\hypertarget{group__packet__module_ga263d9441afcb8d453f9d25e637d34907}{}\#define {\bfseries Packet\+\_\+\+Parameter12}~Packet.\+packet\+Struct.\+parameters.\+combined12.\+parameter12\label{group__packet__module_ga263d9441afcb8d453f9d25e637d34907}
+
+\item 
+\hypertarget{group__packet__module_ga59d544f3e4a53730d58061ec7203f7ed}{}\#define {\bfseries Packet\+\_\+\+Parameter23}~Packet.\+packet\+Struct.\+parameters.\+combined23.\+parameter23\label{group__packet__module_ga59d544f3e4a53730d58061ec7203f7ed}
+
+\item 
+\hypertarget{group__packet__module_gade7afcb767f4375a5728e1804376bd1b}{}\#define {\bfseries Packet\+\_\+\+Checksum}~Packet.\+packet\+Struct.\+checksum\label{group__packet__module_gade7afcb767f4375a5728e1804376bd1b}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{group__packet__module_ga32abc25e2e7edcf4baa2cb9df991239c}{Check\+Sum} (const uint8\+\_\+t command, const uint8\+\_\+t parameter1, const uint8\+\_\+t parameter2, const uint8\+\_\+t parameter3)
+\begin{DoxyCompactList}\small\item\em Private Generating checksum function. \end{DoxyCompactList}\item 
+bool \hyperlink{group__packet__module_ga6e29b4c842299ec1e69d03dae775e0e9}{Packet\+\_\+\+Acknowledgement\+\_\+\+Required} (const uint8\+\_\+t command)
+\begin{DoxyCompactList}\small\item\em Private A\+C\+K checking function. \end{DoxyCompactList}\item 
+bool \hyperlink{group__packet__module_ga414aa3f521fdfd6e4586d98a946b6ab2}{Packet\+\_\+\+Init} (const uint32\+\_\+t baud\+Rate, const uint32\+\_\+t module\+Clk)
+\begin{DoxyCompactList}\small\item\em Initializes the packets by calling the initialization routines of the supporting software modules. \end{DoxyCompactList}\item 
+bool \hyperlink{group__packet__module_gac58a17928cd5e556e1567b2fde9f88f0}{Packet\+\_\+\+Get} (void)
+\begin{DoxyCompactList}\small\item\em Attempts to get a packet from the received data. \end{DoxyCompactList}\item 
+bool \hyperlink{group__packet__module_ga431a1e1da25a8214a502ec81f88fc3f1}{Packet\+\_\+\+Put} (const uint8\+\_\+t command, const uint8\+\_\+t parameter1, const uint8\+\_\+t parameter2, const uint8\+\_\+t parameter3)
+\begin{DoxyCompactList}\small\item\em Builds a packet and places it in the transmit F\+I\+F\+O buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__packet__module_gac74c1cf77ae5807a61baefd6df20201e}{}\hyperlink{union_t_packet}{T\+Packet} {\bfseries Packet}\label{group__packet__module_gac74c1cf77ae5807a61baefd6df20201e}
+
+\item 
+\hypertarget{group__packet__module_ga9cda254b674885270fe8312184892e76}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Packet\+Access}\label{group__packet__module_ga9cda254b674885270fe8312184892e76}
+
+\item 
+\hypertarget{group__packet__module_gaf473e320ff2c4865eb932b3803e4e753}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Packet\+\_\+\+Ready}\label{group__packet__module_gaf473e320ff2c4865eb932b3803e4e753}
+
+\item 
+\hypertarget{group__packet__module_ga5faca24c448374dc4656ebc31afcae0b}{}const uint8\+\_\+t {\bfseries P\+A\+C\+K\+E\+T\+\_\+\+A\+C\+K\+\_\+\+M\+A\+S\+K} = 0b10000000\label{group__packet__module_ga5faca24c448374dc4656ebc31afcae0b}
+
+\item 
+\hypertarget{group__packet__module_gaf473e320ff2c4865eb932b3803e4e753}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries Packet\+\_\+\+Ready}\label{group__packet__module_gaf473e320ff2c4865eb932b3803e4e753}
+
+\item 
+\hypertarget{group__packet__module_gac74c1cf77ae5807a61baefd6df20201e}{}\hyperlink{union_t_packet}{T\+Packet} {\bfseries Packet}\label{group__packet__module_gac74c1cf77ae5807a61baefd6df20201e}
+
+\item 
+\hypertarget{group__packet__module_ga5faca24c448374dc4656ebc31afcae0b}{}const uint8\+\_\+t {\bfseries P\+A\+C\+K\+E\+T\+\_\+\+A\+C\+K\+\_\+\+M\+A\+S\+K}\label{group__packet__module_ga5faca24c448374dc4656ebc31afcae0b}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__packet__module_ga32abc25e2e7edcf4baa2cb9df991239c}{}\index{packet module documentation@{packet module documentation}!Check\+Sum@{Check\+Sum}}
+\index{Check\+Sum@{Check\+Sum}!packet module documentation@{packet module documentation}}
+\subsubsection[{Check\+Sum(const uint8\+\_\+t command, const uint8\+\_\+t parameter1, const uint8\+\_\+t parameter2, const uint8\+\_\+t parameter3)}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t Check\+Sum (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{command, }
+\item[{const uint8\+\_\+t}]{parameter1, }
+\item[{const uint8\+\_\+t}]{parameter2, }
+\item[{const uint8\+\_\+t}]{parameter3}
+\end{DoxyParamCaption}
+)}\label{group__packet__module_ga32abc25e2e7edcf4baa2cb9df991239c}
+
+
+Private Generating checksum function. 
+
+\begin{DoxyReturn}{Returns}
+uint8\+\_\+t -\/ Packet Check\+Sum 
+\end{DoxyReturn}
+\hypertarget{group__packet__module_ga6e29b4c842299ec1e69d03dae775e0e9}{}\index{packet module documentation@{packet module documentation}!Packet\+\_\+\+Acknowledgement\+\_\+\+Required@{Packet\+\_\+\+Acknowledgement\+\_\+\+Required}}
+\index{Packet\+\_\+\+Acknowledgement\+\_\+\+Required@{Packet\+\_\+\+Acknowledgement\+\_\+\+Required}!packet module documentation@{packet module documentation}}
+\subsubsection[{Packet\+\_\+\+Acknowledgement\+\_\+\+Required(const uint8\+\_\+t command)}]{\setlength{\rightskip}{0pt plus 5cm}bool Packet\+\_\+\+Acknowledgement\+\_\+\+Required (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{command}
+\end{DoxyParamCaption}
+)}\label{group__packet__module_ga6e29b4c842299ec1e69d03dae775e0e9}
+
+
+Private A\+C\+K checking function. 
+
+Private acknowledgement checking function.
+
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if acknowledgement required 
+\end{DoxyReturn}
+\hypertarget{group__packet__module_gac58a17928cd5e556e1567b2fde9f88f0}{}\index{packet module documentation@{packet module documentation}!Packet\+\_\+\+Get@{Packet\+\_\+\+Get}}
+\index{Packet\+\_\+\+Get@{Packet\+\_\+\+Get}!packet module documentation@{packet module documentation}}
+\subsubsection[{Packet\+\_\+\+Get(void)}]{\setlength{\rightskip}{0pt plus 5cm}bool Packet\+\_\+\+Get (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{group__packet__module_gac58a17928cd5e556e1567b2fde9f88f0}
+
+
+Attempts to get a packet from the received data. 
+
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if a valid packet was received. 
+\end{DoxyReturn}
+\hypertarget{group__packet__module_ga414aa3f521fdfd6e4586d98a946b6ab2}{}\index{packet module documentation@{packet module documentation}!Packet\+\_\+\+Init@{Packet\+\_\+\+Init}}
+\index{Packet\+\_\+\+Init@{Packet\+\_\+\+Init}!packet module documentation@{packet module documentation}}
+\subsubsection[{Packet\+\_\+\+Init(const uint32\+\_\+t baud\+Rate, const uint32\+\_\+t module\+Clk)}]{\setlength{\rightskip}{0pt plus 5cm}bool Packet\+\_\+\+Init (
+\begin{DoxyParamCaption}
+\item[{const uint32\+\_\+t}]{baud\+Rate, }
+\item[{const uint32\+\_\+t}]{module\+Clk}
+\end{DoxyParamCaption}
+)}\label{group__packet__module_ga414aa3f521fdfd6e4586d98a946b6ab2}
+
+
+Initializes the packets by calling the initialization routines of the supporting software modules. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em baud\+Rate} & The desired baud rate in bits/sec. \\
+\hline
+{\em module\+Clk} & The module clock rate in Hz. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if the packet module was successfully initialized. 
+\end{DoxyReturn}
+\hypertarget{group__packet__module_ga431a1e1da25a8214a502ec81f88fc3f1}{}\index{packet module documentation@{packet module documentation}!Packet\+\_\+\+Put@{Packet\+\_\+\+Put}}
+\index{Packet\+\_\+\+Put@{Packet\+\_\+\+Put}!packet module documentation@{packet module documentation}}
+\subsubsection[{Packet\+\_\+\+Put(const uint8\+\_\+t command, const uint8\+\_\+t parameter1, const uint8\+\_\+t parameter2, const uint8\+\_\+t parameter3)}]{\setlength{\rightskip}{0pt plus 5cm}bool Packet\+\_\+\+Put (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{command, }
+\item[{const uint8\+\_\+t}]{parameter1, }
+\item[{const uint8\+\_\+t}]{parameter2, }
+\item[{const uint8\+\_\+t}]{parameter3}
+\end{DoxyParamCaption}
+)}\label{group__packet__module_ga431a1e1da25a8214a502ec81f88fc3f1}
+
+
+Builds a packet and places it in the transmit F\+I\+F\+O buffer. 
+
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if a valid packet was sent. 
+\end{DoxyReturn}

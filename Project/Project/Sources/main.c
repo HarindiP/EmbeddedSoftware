@@ -201,11 +201,11 @@ void Regulation_ProcessSampleThread(void* pData)
     switch (SCP_RegMode)
     {
       case DEFINITE_TIMER :
-        DefiniteTimingRegulation(SCP_Vrms);
+        Regulation_DefiniteTiming(SCP_Vrms);
 //        Analog_Put(3,VOLT_TO_ANALOG(SCP_Vrms[0]));
         break;
       case INVERSE_TIMER :
-        InverseTimingRegulation(SCP_Vrms);
+        Regulation_InverseTiming(SCP_Vrms);
         break;
       default :
         break;
@@ -216,7 +216,7 @@ void Regulation_ProcessSampleThread(void* pData)
     }
     else
     {
-      FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
+      Frequencie_Tracking(Regulation_FullSampleA,&Frequencie_Ts);
       //restart PIT to take a new set of sample
       uint32_t sampling_period = (uint32_t)((Frequencie_Ts /16) * 1000000);
       PIT0_Set(sampling_period,true);  //SAMPLING_PERIODE in ns

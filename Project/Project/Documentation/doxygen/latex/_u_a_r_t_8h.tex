@@ -1,0 +1,39 @@
+\hypertarget{_u_a_r_t_8h}{}\section{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+U\+A\+R\+T.h File Reference}
+\label{_u_a_r_t_8h}\index{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+U\+A\+R\+T.\+h@{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+U\+A\+R\+T.\+h}}
+
+
+I/\+O routines for U\+A\+R\+T communications on the T\+W\+R-\/\+K70\+F120\+M.  
+
+
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}O\+S.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___u_a_r_t__module_gae5760d1a086ec79a33901db253000af9}{U\+A\+R\+T\+\_\+\+Init} (const uint32\+\_\+t baud\+Rate, const uint32\+\_\+t module\+Clk)
+\begin{DoxyCompactList}\small\item\em Sets up the U\+A\+R\+T interface before first use. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_r_t__module_ga03049bcc3bf9af2a75ee77016d3b0d60}{U\+A\+R\+T\+\_\+\+In\+Char} (uint8\+\_\+t $\ast$const data\+Ptr)
+\begin{DoxyCompactList}\small\item\em Get a character from the receive F\+I\+F\+O if it is not empty. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_r_t__module_gab20ebaeefd1f29d31e098ade31189dda}{U\+A\+R\+T\+\_\+\+Out\+Char} (const uint8\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Put a byte in the transmit F\+I\+F\+O if it is not full. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga799b375101827a18f652a3f28ecefcd0}{U\+A\+R\+T\+\_\+\+Poll} (void)
+\begin{DoxyCompactList}\small\item\em Poll the U\+A\+R\+T status register to try and receive and/or transmit one character. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga72031655bb0728aa5e701a65c4f3fa62}{U\+A\+R\+T\+\_\+\+Tx\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Put the byte to transmit from Tx\+F\+I\+F\+O to U\+A\+R\+T\+\_\+\+D reg. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga20003aaea607f87360fb19e1df094f18}{U\+A\+R\+T\+\_\+\+Rx\+Thread} (void $\ast$p\+Data)
+\begin{DoxyCompactList}\small\item\em Put the received byte in the Rx\+F\+I\+F\+O. \end{DoxyCompactList}\item 
+void \hyperlink{group___u_a_r_t__module_ga1a1ed9b995de07b2b35c3ccfd22aed49}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((interrupt)) U\+A\+R\+T\+\_\+\+I\+S\+R(void)
+\begin{DoxyCompactList}\small\item\em Interrupt service routine for the U\+A\+R\+T. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I/\+O routines for U\+A\+R\+T communications on the T\+W\+R-\/\+K70\+F120\+M. 
+
+This contains the functions for operating the U\+A\+R\+T (serial port).
+
+\begin{DoxyAuthor}{Author}
+P\+Mc\+L 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2015-\/07-\/23 
+\end{DoxyDate}

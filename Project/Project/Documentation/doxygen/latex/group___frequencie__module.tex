@@ -1,0 +1,116 @@
+\hypertarget{group___frequencie__module}{}\section{Frequencie module documentation}
+\label{group___frequencie__module}\index{Frequencie module documentation@{Frequencie module documentation}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___frequencie__module_gadb3e5a4fd082adf7933bae7a82e21d0a}{Interpolation} (uint16\+\_\+t y, float x1, float x2, float y1, float y2)
+\begin{DoxyCompactList}\small\item\em Calculate the object of y using linear interpolation with 2 points (x1,y1) and (x2,y2) \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{group___frequencie__module_ga2e0fb698150c1de92af41dd1a2db80a2}{Average} (int16\+\_\+t $\ast$const sample)
+\begin{DoxyCompactList}\small\item\em Calculate the average value of a given array. \end{DoxyCompactList}\item 
+void \hyperlink{group___frequencie__module_gae419a54c77a33cce33d54db76113da40}{Frequencie\+\_\+\+Tracking} (int16\+\_\+t $\ast$const sample\+Array, float $\ast$Ts)
+\begin{DoxyCompactList}\small\item\em Calculate the period of the input signal. \end{DoxyCompactList}\item 
+void \hyperlink{group___frequencie__module_ga827ee7dcb292c550565952392fbb5ddd}{Frequencie\+\_\+\+F\+F\+T} (int16\+\_\+t $\ast$sample\+Array, float $\ast$amplitude)
+\begin{DoxyCompactList}\small\item\em Calculate the amplitude of the pics of the F\+F\+T of the input signal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___frequencie__module_gafe7248b27df8dfb738e2effe7c584f7f}{}float {\bfseries Frequencie\+\_\+\+Ts}\label{group___frequencie__module_gafe7248b27df8dfb738e2effe7c584f7f}
+
+\item 
+\hypertarget{group___frequencie__module_gafe7248b27df8dfb738e2effe7c584f7f}{}float {\bfseries Frequencie\+\_\+\+Ts}\label{group___frequencie__module_gafe7248b27df8dfb738e2effe7c584f7f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___frequencie__module_ga2e0fb698150c1de92af41dd1a2db80a2}{}\index{Frequencie module documentation@{Frequencie module documentation}!Average@{Average}}
+\index{Average@{Average}!Frequencie module documentation@{Frequencie module documentation}}
+\subsubsection[{Average(int16\+\_\+t $\ast$const sample)}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t Average (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$const}]{sample}
+\end{DoxyParamCaption}
+)}\label{group___frequencie__module_ga2e0fb698150c1de92af41dd1a2db80a2}
+
+
+Calculate the average value of a given array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sample} & \+: the array we want to calculate the average from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the average valur (int16\+\_\+t) 
+\end{DoxyReturn}
+\hypertarget{group___frequencie__module_ga827ee7dcb292c550565952392fbb5ddd}{}\index{Frequencie module documentation@{Frequencie module documentation}!Frequencie\+\_\+\+F\+F\+T@{Frequencie\+\_\+\+F\+F\+T}}
+\index{Frequencie\+\_\+\+F\+F\+T@{Frequencie\+\_\+\+F\+F\+T}!Frequencie module documentation@{Frequencie module documentation}}
+\subsubsection[{Frequencie\+\_\+\+F\+F\+T(int16\+\_\+t $\ast$sample\+Array, float $\ast$amplitude)}]{\setlength{\rightskip}{0pt plus 5cm}void Frequencie\+\_\+\+F\+F\+T (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$}]{sample\+Array, }
+\item[{float $\ast$}]{amplitude}
+\end{DoxyParamCaption}
+)}\label{group___frequencie__module_ga827ee7dcb292c550565952392fbb5ddd}
+
+
+Calculate the amplitude of the pics of the F\+F\+T of the input signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sample\+Array} & \+: the array containing 16 samples of the input signal \\
+\hline
+{\em amplitude} & \+: the array where to store the amplitudes calculated \\
+\hline
+\end{DoxyParams}
+\hypertarget{group___frequencie__module_gae419a54c77a33cce33d54db76113da40}{}\index{Frequencie module documentation@{Frequencie module documentation}!Frequencie\+\_\+\+Tracking@{Frequencie\+\_\+\+Tracking}}
+\index{Frequencie\+\_\+\+Tracking@{Frequencie\+\_\+\+Tracking}!Frequencie module documentation@{Frequencie module documentation}}
+\subsubsection[{Frequencie\+\_\+\+Tracking(int16\+\_\+t $\ast$const sample\+Array, float $\ast$\+Ts)}]{\setlength{\rightskip}{0pt plus 5cm}void Frequencie\+\_\+\+Tracking (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$const}]{sample\+Array, }
+\item[{float $\ast$}]{Ts}
+\end{DoxyParamCaption}
+)}\label{group___frequencie__module_gae419a54c77a33cce33d54db76113da40}
+
+
+Calculate the period of the input signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sample\+Array} & \+: the array containing 16 samples of the input signal \\
+\hline
+{\em Ts} & \+: a pointer to the supposed signal period \\
+\hline
+\end{DoxyParams}
+\hypertarget{group___frequencie__module_gadb3e5a4fd082adf7933bae7a82e21d0a}{}\index{Frequencie module documentation@{Frequencie module documentation}!Interpolation@{Interpolation}}
+\index{Interpolation@{Interpolation}!Frequencie module documentation@{Frequencie module documentation}}
+\subsubsection[{Interpolation(uint16\+\_\+t y, float x1, float x2, float y1, float y2)}]{\setlength{\rightskip}{0pt plus 5cm}float Interpolation (
+\begin{DoxyParamCaption}
+\item[{uint16\+\_\+t}]{y, }
+\item[{float}]{x1, }
+\item[{float}]{x2, }
+\item[{float}]{y1, }
+\item[{float}]{y2}
+\end{DoxyParamCaption}
+)}\label{group___frequencie__module_gadb3e5a4fd082adf7933bae7a82e21d0a}
+
+
+Calculate the object of y using linear interpolation with 2 points (x1,y1) and (x2,y2) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em y} & \+: the image of the object we are looking for \\
+\hline
+{\em x1} & \+: X value of the first point \\
+\hline
+{\em y1} & \+: Y value of the first point \\
+\hline
+{\em x2} & \+: X value of the second point \\
+\hline
+{\em y2} & \+: Y value of the second point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the object of the y value (float) 
+\end{DoxyReturn}

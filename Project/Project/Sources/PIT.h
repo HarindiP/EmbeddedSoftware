@@ -51,6 +51,7 @@ void PIT0_Set(const uint32_t period, const bool restart);
 
 /*! @brief Sets the value of the desired period of the PIT.
  *
+ *  @param index - the number of the PIT to set
  *  @param period The desired value of the timer period in nanoseconds.
  *  @param restart TRUE if the PIT is disabled, a new value set, and then enabled.
  *                 FALSE if the PIT will use the new value after a trigger event.
@@ -66,6 +67,7 @@ void PIT0_Enable(const bool enable);
 
 /*! @brief Enables or disables the PIT.
  *
+ *  @param index - the number of the PIT to enable
  *  @param enable - TRUE if the PIT is to be enabled, FALSE if the PIT is to be disabled.
  */
 void PIT_Enable(uint8_t index, const bool enable);
@@ -79,10 +81,7 @@ void PIT_Enable(uint8_t index, const bool enable);
  */
 void __attribute__ ((interrupt)) PIT0_ISR(void);
 
-///*! @brief
-// *
-// *  @param pData is not used but is required by the OS to create a thread.
-// */
+
 //void PIT0Thread(void* pData);
 
 /*! @brief Interrupt service routine for the PIT1.
@@ -109,10 +108,7 @@ void __attribute__ ((interrupt)) PIT2_ISR(void);
  */
 void __attribute__ ((interrupt)) PIT3_ISR(void);
 
-///*! @brief toggle green LED
-// *
-// *  @param pData is not used but is required by the OS to create a thread.
-// */
+
 //void PIT1Thread(void* pData);
 
 #endif

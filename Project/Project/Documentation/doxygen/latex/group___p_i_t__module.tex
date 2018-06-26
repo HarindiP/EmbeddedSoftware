@@ -1,0 +1,171 @@
+\hypertarget{group___p_i_t__module}{}\section{P\+I\+T module documentation}
+\label{group___p_i_t__module}\index{P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___p_i_t__module_gae69097a83912a25b357df1046aea9b52}{P\+I\+T\+\_\+\+Init} (const uint32\+\_\+t module\+Clk, void($\ast$user\+Function)(void $\ast$), void $\ast$user\+Arguments)
+\begin{DoxyCompactList}\small\item\em Sets up the P\+I\+T before first use. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga665cdbb8fcf7421d67707b7eb9b07613}{P\+I\+T0\+\_\+\+Set} (const uint32\+\_\+t period, const bool restart)
+\begin{DoxyCompactList}\small\item\em Sets the value of the desired period of the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga556ce13d8cd621be74e66ddb738f9f14}{P\+I\+T\+\_\+\+Set} (uint8\+\_\+t index, const uint32\+\_\+t period, const bool restart)
+\begin{DoxyCompactList}\small\item\em Sets the value of the desired period of the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga58a66eb7931c1d1ff075b7d5f63c5a90}{P\+I\+T0\+\_\+\+Enable} (const bool enable)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga71229c1a14b8d91a133ace8ff3acf3ba}{P\+I\+T\+\_\+\+Enable} (uint8\+\_\+t index, const bool enable)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga04dff669ed70d772aff393a56e90b824}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((interrupt)) P\+I\+T0\+\_\+\+I\+S\+R(void)
+\begin{DoxyCompactList}\small\item\em Interrupt service routine for the P\+I\+T0. Takes a sample on each channel of the V\+R\+R. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___p_i_t__module_ga8eff530e10471a146df3fb2f5703a620}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries P\+I\+T0\+Access}\label{group___p_i_t__module_ga8eff530e10471a146df3fb2f5703a620}
+
+\item 
+\hypertarget{group___p_i_t__module_ga2c8c530faa5d69fa166f042c338c6ac3}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries P\+I\+T1\+Access}\label{group___p_i_t__module_ga2c8c530faa5d69fa166f042c338c6ac3}
+
+\item 
+\hypertarget{group___p_i_t__module_gafd77dc132fa8aed0354fd60317064bfa}{}bool {\bfseries Regulation\+\_\+\+Alarm\+Reached} \mbox{[}3\mbox{]}\label{group___p_i_t__module_gafd77dc132fa8aed0354fd60317064bfa}
+
+\item 
+\hypertarget{group___p_i_t__module_ga8eff530e10471a146df3fb2f5703a620}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries P\+I\+T0\+Access}\label{group___p_i_t__module_ga8eff530e10471a146df3fb2f5703a620}
+
+\item 
+\hypertarget{group___p_i_t__module_ga2c8c530faa5d69fa166f042c338c6ac3}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries P\+I\+T1\+Access}\label{group___p_i_t__module_ga2c8c530faa5d69fa166f042c338c6ac3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___p_i_t__module_ga04dff669ed70d772aff393a56e90b824}{}\index{P\+I\+T module documentation@{P\+I\+T module documentation}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+((interrupt)) P\+I\+T0\+\_\+\+I\+S\+R(void)}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+\+\_\+attribute\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{(interrupt)}]{}
+\end{DoxyParamCaption}
+)}\label{group___p_i_t__module_ga04dff669ed70d772aff393a56e90b824}
+
+
+Interrupt service routine for the P\+I\+T0. Takes a sample on each channel of the V\+R\+R. 
+
+Interrupt service routine for the P\+I\+T3.
+
+Interrupt service routine for the P\+I\+T2.
+
+Interrupt service routine for the P\+I\+T1.
+
+The periodic interrupt timer has timed out. The user callback function will be called. \begin{DoxyNote}{Note}
+Assumes the P\+I\+T has been initialized. 
+\end{DoxyNote}
+\hypertarget{group___p_i_t__module_ga58a66eb7931c1d1ff075b7d5f63c5a90}{}\index{P\+I\+T module documentation@{P\+I\+T module documentation}!P\+I\+T0\+\_\+\+Enable@{P\+I\+T0\+\_\+\+Enable}}
+\index{P\+I\+T0\+\_\+\+Enable@{P\+I\+T0\+\_\+\+Enable}!P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsubsection[{P\+I\+T0\+\_\+\+Enable(const bool enable)}]{\setlength{\rightskip}{0pt plus 5cm}void P\+I\+T0\+\_\+\+Enable (
+\begin{DoxyParamCaption}
+\item[{const bool}]{enable}
+\end{DoxyParamCaption}
+)}\label{group___p_i_t__module_ga58a66eb7931c1d1ff075b7d5f63c5a90}
+
+
+Enables or disables the P\+I\+T. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enable} & -\/ T\+R\+U\+E if the P\+I\+T is to be enabled, F\+A\+L\+S\+E if the P\+I\+T is to be disabled. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group___p_i_t__module_ga665cdbb8fcf7421d67707b7eb9b07613}{}\index{P\+I\+T module documentation@{P\+I\+T module documentation}!P\+I\+T0\+\_\+\+Set@{P\+I\+T0\+\_\+\+Set}}
+\index{P\+I\+T0\+\_\+\+Set@{P\+I\+T0\+\_\+\+Set}!P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsubsection[{P\+I\+T0\+\_\+\+Set(const uint32\+\_\+t period, const bool restart)}]{\setlength{\rightskip}{0pt plus 5cm}void P\+I\+T0\+\_\+\+Set (
+\begin{DoxyParamCaption}
+\item[{const uint32\+\_\+t}]{period, }
+\item[{const bool}]{restart}
+\end{DoxyParamCaption}
+)}\label{group___p_i_t__module_ga665cdbb8fcf7421d67707b7eb9b07613}
+
+
+Sets the value of the desired period of the P\+I\+T. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em period} & The desired value of the timer period in nanoseconds. \\
+\hline
+{\em restart} & T\+R\+U\+E if the P\+I\+T is disabled, a new value set, and then enabled. F\+A\+L\+S\+E if the P\+I\+T will use the new value after a trigger event. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The function will enable the timer and interrupts for the P\+I\+T. 
+\end{DoxyNote}
+\hypertarget{group___p_i_t__module_ga71229c1a14b8d91a133ace8ff3acf3ba}{}\index{P\+I\+T module documentation@{P\+I\+T module documentation}!P\+I\+T\+\_\+\+Enable@{P\+I\+T\+\_\+\+Enable}}
+\index{P\+I\+T\+\_\+\+Enable@{P\+I\+T\+\_\+\+Enable}!P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsubsection[{P\+I\+T\+\_\+\+Enable(uint8\+\_\+t index, const bool enable)}]{\setlength{\rightskip}{0pt plus 5cm}void P\+I\+T\+\_\+\+Enable (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{index, }
+\item[{const bool}]{enable}
+\end{DoxyParamCaption}
+)}\label{group___p_i_t__module_ga71229c1a14b8d91a133ace8ff3acf3ba}
+
+
+Enables or disables the P\+I\+T. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & -\/ the number of the P\+I\+T to enable \\
+\hline
+{\em enable} & -\/ T\+R\+U\+E if the P\+I\+T is to be enabled, F\+A\+L\+S\+E if the P\+I\+T is to be disabled. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group___p_i_t__module_gae69097a83912a25b357df1046aea9b52}{}\index{P\+I\+T module documentation@{P\+I\+T module documentation}!P\+I\+T\+\_\+\+Init@{P\+I\+T\+\_\+\+Init}}
+\index{P\+I\+T\+\_\+\+Init@{P\+I\+T\+\_\+\+Init}!P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsubsection[{P\+I\+T\+\_\+\+Init(const uint32\+\_\+t module\+Clk, void($\ast$user\+Function)(void $\ast$), void $\ast$user\+Arguments)}]{\setlength{\rightskip}{0pt plus 5cm}bool P\+I\+T\+\_\+\+Init (
+\begin{DoxyParamCaption}
+\item[{const uint32\+\_\+t}]{module\+Clk, }
+\item[{void($\ast$)(void $\ast$)}]{user\+Function, }
+\item[{void $\ast$}]{user\+Arguments}
+\end{DoxyParamCaption}
+)}\label{group___p_i_t__module_gae69097a83912a25b357df1046aea9b52}
+
+
+Sets up the P\+I\+T before first use. 
+
+Enables the P\+I\+T and freezes the timer when debugging. 
+\begin{DoxyParams}{Parameters}
+{\em module\+Clk} & The module clock rate in Hz. \\
+\hline
+{\em user\+Function} & is a pointer to a user callback function. \\
+\hline
+{\em user\+Arguments} & is a pointer to the user arguments to use with the user callback function. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if the P\+I\+T was successfully initialized. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Assumes that module\+Clk has a period which can be expressed as an integral number of nanoseconds. 
+\end{DoxyNote}
+\hypertarget{group___p_i_t__module_ga556ce13d8cd621be74e66ddb738f9f14}{}\index{P\+I\+T module documentation@{P\+I\+T module documentation}!P\+I\+T\+\_\+\+Set@{P\+I\+T\+\_\+\+Set}}
+\index{P\+I\+T\+\_\+\+Set@{P\+I\+T\+\_\+\+Set}!P\+I\+T module documentation@{P\+I\+T module documentation}}
+\subsubsection[{P\+I\+T\+\_\+\+Set(uint8\+\_\+t index, const uint32\+\_\+t period, const bool restart)}]{\setlength{\rightskip}{0pt plus 5cm}void P\+I\+T\+\_\+\+Set (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{index, }
+\item[{const uint32\+\_\+t}]{period, }
+\item[{const bool}]{restart}
+\end{DoxyParamCaption}
+)}\label{group___p_i_t__module_ga556ce13d8cd621be74e66ddb738f9f14}
+
+
+Sets the value of the desired period of the P\+I\+T. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & -\/ the number of the P\+I\+T to set \\
+\hline
+{\em period} & The desired value of the timer period in nanoseconds. \\
+\hline
+{\em restart} & T\+R\+U\+E if the P\+I\+T is disabled, a new value set, and then enabled. F\+A\+L\+S\+E if the P\+I\+T will use the new value after a trigger event. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The function will enable the timer and interrupts for the P\+I\+T. 
+\end{DoxyNote}

@@ -11,8 +11,10 @@ Sources/main.o: ../Sources/main.c \
  ../Sources/types.h ../Sources/UART.h ../Sources/packet.h \
  C:\Users\13115605\Documents\workspace\es18aut35\Project\Project\Library/OS.H \
  ../Sources/FIFO.h ../Sources/SCP.h ../Sources/LEDs.h ../Sources/Flash.h \
- ../Sources/PIT.h ../Sources/RTC.h ../Sources/FTM.h \
- ../Sources/Frequencie.h ../Sources/Requirements.h \
+ ../Sources/PIT.h \
+ C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Generated_Code/PE_Types.h \
+ ../Sources/Requirements.h ../Sources/RTC.h ../Sources/FTM.h \
+ ../Sources/Frequencie.h ../Sources/kiss_fftr.h ../Sources/kiss_fft.h \
  ../Sources/Regulation.h ../Sources/Output.h \
  C:\Users\13115605\Documents\workspace\es18aut35\Project\Project\Library/Analog.h
 
@@ -52,13 +54,19 @@ C:\Users\13115605\Documents\workspace\es18aut35\Project\Project\Library/OS.H:
 
 ../Sources/PIT.h:
 
+C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Generated_Code/PE_Types.h:
+
+../Sources/Requirements.h:
+
 ../Sources/RTC.h:
 
 ../Sources/FTM.h:
 
 ../Sources/Frequencie.h:
 
-../Sources/Requirements.h:
+../Sources/kiss_fftr.h:
+
+../Sources/kiss_fft.h:
 
 ../Sources/Regulation.h:
 

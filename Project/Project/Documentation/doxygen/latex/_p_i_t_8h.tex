@@ -1,0 +1,52 @@
+\hypertarget{_p_i_t_8h}{}\section{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+P\+I\+T.h File Reference}
+\label{_p_i_t_8h}\index{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+P\+I\+T.\+h@{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+P\+I\+T.\+h}}
+
+
+Routines for controlling Periodic Interrupt Timer (P\+I\+T) on the T\+W\+R-\/\+K70\+F120\+M.  
+
+
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}M\+K70\+F12.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}O\+S.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}P\+E\+\_\+\+Types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Requirements.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___p_i_t__module_gae69097a83912a25b357df1046aea9b52}{P\+I\+T\+\_\+\+Init} (const uint32\+\_\+t module\+Clk, void($\ast$user\+Function)(void $\ast$), void $\ast$user\+Arguments)
+\begin{DoxyCompactList}\small\item\em Sets up the P\+I\+T before first use. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga665cdbb8fcf7421d67707b7eb9b07613}{P\+I\+T0\+\_\+\+Set} (const uint32\+\_\+t period, const bool restart)
+\begin{DoxyCompactList}\small\item\em Sets the value of the desired period of the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga556ce13d8cd621be74e66ddb738f9f14}{P\+I\+T\+\_\+\+Set} (uint8\+\_\+t index, const uint32\+\_\+t period, const bool restart)
+\begin{DoxyCompactList}\small\item\em Sets the value of the desired period of the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga58a66eb7931c1d1ff075b7d5f63c5a90}{P\+I\+T0\+\_\+\+Enable} (const bool enable)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga71229c1a14b8d91a133ace8ff3acf3ba}{P\+I\+T\+\_\+\+Enable} (uint8\+\_\+t index, const bool enable)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+I\+T. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_t__module_ga04dff669ed70d772aff393a56e90b824}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((interrupt)) P\+I\+T0\+\_\+\+I\+S\+R(void)
+\begin{DoxyCompactList}\small\item\em Interrupt service routine for the P\+I\+T0. Takes a sample on each channel of the V\+R\+R. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___p_i_t__module_gafd77dc132fa8aed0354fd60317064bfa}{}bool {\bfseries Regulation\+\_\+\+Alarm\+Reached} \mbox{[}3\mbox{]}\label{group___p_i_t__module_gafd77dc132fa8aed0354fd60317064bfa}
+
+\item 
+\hypertarget{group___p_i_t__module_ga8eff530e10471a146df3fb2f5703a620}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries P\+I\+T0\+Access}\label{group___p_i_t__module_ga8eff530e10471a146df3fb2f5703a620}
+
+\item 
+\hypertarget{group___p_i_t__module_ga2c8c530faa5d69fa166f042c338c6ac3}{}O\+S\+\_\+\+E\+C\+B $\ast$ {\bfseries P\+I\+T1\+Access}\label{group___p_i_t__module_ga2c8c530faa5d69fa166f042c338c6ac3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Routines for controlling Periodic Interrupt Timer (P\+I\+T) on the T\+W\+R-\/\+K70\+F120\+M. 
+
+This contains the functions for operating the periodic interrupt timer (P\+I\+T).
+
+\begin{DoxyAuthor}{Author}
+Harindi\&Coralie 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2015-\/08-\/22 
+\end{DoxyDate}

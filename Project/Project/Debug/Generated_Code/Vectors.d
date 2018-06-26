@@ -7,6 +7,8 @@ Generated_Code/Vectors.o: ../Generated_Code/Vectors.c \
  C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/UART.h \
  C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/types.h \
  C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/PIT.h \
+ C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Generated_Code/PE_Types.h \
+ C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/Requirements.h \
  C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/RTC.h \
  C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/FTM.h
 
@@ -29,6 +31,10 @@ C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/UART.h:
 C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/types.h:
 
 C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/PIT.h:
+
+C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Generated_Code/PE_Types.h:
+
+C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/Requirements.h:
 
 C:/Users/13115605/Documents/workspace/es18aut35/Project/Project/Sources/RTC.h:
 

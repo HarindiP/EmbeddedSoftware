@@ -1,16 +1,23 @@
-/*
- * requirements.h
+/*! @file Requirements.h
  *
- *  Created on: 9 Jun 2018
- *      Author: 13115605
+ *  @brief Required limits
+ *
+ *  This contains the macros for the limits defined in the project requirements.
+ *
+ *  @author Coralie
+ *  @date 2018-05-20
  */
+/*!
+ **  @addtogroup Requirements_module Requirements module documentation
+ **  @{
+ */
+/* MODULE Requirements */
 
 #ifndef SOURCES_REQUIREMENTS_H_
 #define SOURCES_REQUIREMENTS_H_
 
 
 #define NB_OF_SAMPLE 16
-//#define DEFINITE_TIME 5000000000
 #define DEFINITE_TIME 5000 //in ms
 #define NB_OF_PHASES 3
 #define VOLT_OUT_MIN 0
@@ -26,8 +33,22 @@
 #define FREQ_MIN 47.5
 
 //ATTENTION negative values a bit wrong : 2^15/10 values, not (2^15 - 1)/10
+/*! @brief Converte the volt value into analog value
+ *
+ *  @param   x : the value in volt (float)
+ *  @return   the value in analog (int16_t)
+ */
 #define VOLT_TO_ANALOG(x) (int16_t)(x*3276.8)
+/*! @brief Converte the analog value into Volt
+ *
+ *  @param   x : the value in analog (int16_t)
+ *  @return   the value in volt (float)
+ */
 #define ANALOG_TO_VOLT(x) ((float)x/3276.8)
 
 
 #endif /* SOURCES_REQUIREMENTS_H_ */
+
+/*!
+ ** @}
+ */

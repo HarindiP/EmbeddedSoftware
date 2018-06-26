@@ -1,0 +1,113 @@
+\hypertarget{_s_c_p_8c}{}\section{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+S\+C\+P.c File Reference}
+\label{_s_c_p_8c}\index{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+S\+C\+P.\+c@{C\+:/\+Users/13115605/\+Documents/workspace/es18aut35/\+Project/\+Project/sources/\+S\+C\+P.\+c}}
+
+
+Serial Communication Protocol.  
+
+
+{\ttfamily \#include \char`\"{}S\+C\+P.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Flash.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}packet.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}R\+T\+C.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}P\+E\+\_\+\+Types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}O\+S.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}frequencie.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}regulation.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___s_c_p__module_gac0f02823b3b6cbfd179d7f3317152c5b}{S\+C\+P\+\_\+\+Send\+Start\+Up\+Values} ()
+\begin{DoxyCompactList}\small\item\em Send the start up values when tower is initialized. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga98c8a1e3b4553e906617ccaae8af008e}{Send\+Version} ()
+\begin{DoxyCompactList}\small\item\em Send Tower version. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gae7a31e8ab754938e945e3c1b64268cbb}{Handle\+Tower\+Number} ()
+\begin{DoxyCompactList}\small\item\em Identify the Tower Number command \+: set or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga097e050546e21ec862137610d6d314a8}{Send\+Tower\+Number} ()
+\begin{DoxyCompactList}\small\item\em Send the Tower Number. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gadb167a851345d70c7f7e1cb238f9bd57}{Set\+Tower\+Number} ()
+\begin{DoxyCompactList}\small\item\em Set the new Tower Number and send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga57b51fbbcf8a00f4cda682a78c5d1674}{Handle\+Tower\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Identify the Tower Mode command \+: set or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga0d7538989aee917b7ede2fe6d36bb82a}{Send\+Tower\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Send the Tower Mode. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gab486e85eb7b3460ddd55676e0f56abb0}{Set\+Tower\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Set the new Tower Mode and send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga24195e0e379030d35021f9ec93829da3}{Read\+Byte} (uint8\+\_\+t address)
+\begin{DoxyCompactList}\small\item\em Read the byte in the flash memory at the given address. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gabe70b58ed934f2c3f907f0f2dfd36c0a}{Program\+Byte} (uint8\+\_\+t address, uint8\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Write a byte in the flash memory at the given address. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gae39df37fd0f630802e9cda681d75e8f1}{Send\+Time} ()
+\begin{DoxyCompactList}\small\item\em Send the curent time. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga063fcccd9bdf53ff2ab9466909a29d4b}{Set\+Time} ()
+\begin{DoxyCompactList}\small\item\em Set the curent time. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga6060eac950a51b240f85d8be45ebed6a}{Send\+Timing\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Send the Timing Mode. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga0d5baebea20182b8c9f9e355e3be0f82}{Set\+Timing\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Set and send the Timing Mode. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gacfa38bcf6c7c72d172f2991d3c0eb786}{Handle\+Timing\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Identify the Timing Mode command \+: set or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga805f224220d816ef125133958c7c29f7}{Send\+Nb\+Lowers} ()
+\begin{DoxyCompactList}\small\item\em Send the number of Lowers occured. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gabde4829070e5dc36f3f42a1efc913e3d}{Reset\+Lowers} ()
+\begin{DoxyCompactList}\small\item\em Reset the number of Lowers occured to 0. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gadba1e1a64dcea76cfc2209babc9a3078}{Handle\+Lowers} ()
+\begin{DoxyCompactList}\small\item\em Identify the Lowers command \+: reset or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga6af72d5fe27167f3d906ae9368a515d0}{Send\+Nb\+Raises} ()
+\begin{DoxyCompactList}\small\item\em Send the number of Raisers occured. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga703956599f2e3aa20974182a82c14b0f}{Reset\+Raises} ()
+\begin{DoxyCompactList}\small\item\em Reset the number of Raisers occured to 0. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gad048cc275f45cfec91a6ee1bdb8fa750}{Handle\+Raises} ()
+\begin{DoxyCompactList}\small\item\em Identify the Raisers command \+: reset or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga4880211d225c0d9616819ea355533e2e}{Get\+Frequency} ()
+\begin{DoxyCompactList}\small\item\em Send the current frequency of the signal. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga4b2906757d866b1ffa1e9f12114c2c98}{Get\+Vrms} ()
+\begin{DoxyCompactList}\small\item\em Send the V\+R\+M\+S value of the required channel \+: parameter 1 is the channel, parameter 2 is the integer value in volts, parameter 3 is the decimal value in volt. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gab384b45751d5c4b6bebd8339872eb637}{Get\+Spectrum} ()
+\begin{DoxyCompactList}\small\item\em Send the amplitude of the 8 firsts harmonics of the Spectrum of the input signal. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gabc6a4b87b02de3d83d34127472211c9d}{S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required} (const uint8\+\_\+t command)
+\begin{DoxyCompactList}\small\item\em Private A\+C\+K checking function. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga7928b6536c5cd2fa5deba5e4a15aabc4}{A\+C\+K} ()
+\begin{DoxyCompactList}\small\item\em Acknowledge that the command has been taken care of. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga84aa9cef78a0bfeec15dce98d521be73}{N\+A\+K} ()
+\begin{DoxyCompactList}\small\item\em Un\+Acknowledge that the command has not been taken care of. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga6667a17ea92e069382606d0210baf231}{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle} ()
+\begin{DoxyCompactList}\small\item\em Identify the command received and call the right function to do as told. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga4daffa90d8a7df765394d5f1137157ed}{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack} ()
+\begin{DoxyCompactList}\small\item\em Identify the command with an acknowledgement requirement received and call the right function to do as told and acknowledge. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___s_c_p__module_ga727c97dcbd2e19a00d892aca39e0097a}{}\hyperlink{unionuint16union__t}{uint16union\+\_\+t} {\bfseries S\+C\+P\+\_\+\+Tower\+Nb}\label{group___s_c_p__module_ga727c97dcbd2e19a00d892aca39e0097a}
+
+\item 
+\hypertarget{group___s_c_p__module_ga69c2de9e11e5ddfba7205b3f524f1c1f}{}\hyperlink{unionuint16union__t}{uint16union\+\_\+t} {\bfseries S\+C\+P\+\_\+\+Tower\+Md}\label{group___s_c_p__module_ga69c2de9e11e5ddfba7205b3f524f1c1f}
+
+\item 
+\hypertarget{group___s_c_p__module_gaeb164700ae3836fed0739751d5003738}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Protocol\+Mode}\label{group___s_c_p__module_gaeb164700ae3836fed0739751d5003738}
+
+\item 
+\hypertarget{group___s_c_p__module_gae99e4120b5bf2e256f3584da4fec325d}{}T\+Regulation\+Mode {\bfseries S\+C\+P\+\_\+\+Reg\+Mode}\label{group___s_c_p__module_gae99e4120b5bf2e256f3584da4fec325d}
+
+\item 
+\hypertarget{group___s_c_p__module_ga971d9b8e06fdd683a197338d12efe0d1}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Lowers}\label{group___s_c_p__module_ga971d9b8e06fdd683a197338d12efe0d1}
+
+\item 
+\hypertarget{group___s_c_p__module_ga08fd5dd441c9442040727c43cceb6c02}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Raises}\label{group___s_c_p__module_ga08fd5dd441c9442040727c43cceb6c02}
+
+\item 
+\hypertarget{group___s_c_p__module_gade83b6fed342cc3d11d6f8d804d56e23}{}float {\bfseries S\+C\+P\+\_\+\+Vrms} \mbox{[}3\mbox{]} = \{0,0,0\}\label{group___s_c_p__module_gade83b6fed342cc3d11d6f8d804d56e23}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Serial Communication Protocol. 
+
+This contains the functions needed for the serial communication.
+
+\begin{DoxyAuthor}{Author}
+Coralie\&Harindi 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018-\/04-\/14 
+\end{DoxyDate}

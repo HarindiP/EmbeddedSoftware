@@ -1,0 +1,578 @@
+\hypertarget{group___s_c_p__module}{}\section{S\+C\+P module documentation}
+\label{group___s_c_p__module}\index{S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___s_c_p__module_ga9580c54a77113586428691a51e58bc13}{}\#define {\bfseries Get\+\_\+\+Start\+\_\+\+Up\+\_\+\+Values}~0x04\label{group___s_c_p__module_ga9580c54a77113586428691a51e58bc13}
+
+\item 
+\hypertarget{group___s_c_p__module_gada81cbe0d982ed38b2dd9939eb1f245e}{}\#define {\bfseries Get\+\_\+\+Version}~0x09\label{group___s_c_p__module_gada81cbe0d982ed38b2dd9939eb1f245e}
+
+\item 
+\hypertarget{group___s_c_p__module_ga1f409a2cb870fcfff3924ad37d126376}{}\#define {\bfseries Tower\+\_\+\+Number}~0x0\+B\label{group___s_c_p__module_ga1f409a2cb870fcfff3924ad37d126376}
+
+\item 
+\hypertarget{group___s_c_p__module_gac653df0f2f6f61d516dc4afd2d911619}{}\#define {\bfseries Tower\+\_\+\+Mode}~0x0\+D\label{group___s_c_p__module_gac653df0f2f6f61d516dc4afd2d911619}
+
+\item 
+\hypertarget{group___s_c_p__module_ga33b1d1578163d60356da3a7e8aca1ca3}{}\#define {\bfseries Flash\+\_\+\+Read\+\_\+\+Byte}~0x08\label{group___s_c_p__module_ga33b1d1578163d60356da3a7e8aca1ca3}
+
+\item 
+\hypertarget{group___s_c_p__module_ga33f1f48497708eb145c9fb3e66f054ec}{}\#define {\bfseries Flash\+\_\+\+Program\+\_\+\+Byte}~0x07\label{group___s_c_p__module_ga33f1f48497708eb145c9fb3e66f054ec}
+
+\item 
+\hypertarget{group___s_c_p__module_gaec5039d66182749e977fb4fee3090d83}{}\#define {\bfseries Time}~0x0\+C\label{group___s_c_p__module_gaec5039d66182749e977fb4fee3090d83}
+
+\item 
+\hypertarget{group___s_c_p__module_gaf9684ac38f1c2917034bd8e112857fcb}{}\#define {\bfseries Timing\+\_\+\+Mode}~0x10\label{group___s_c_p__module_gaf9684ac38f1c2917034bd8e112857fcb}
+
+\item 
+\hypertarget{group___s_c_p__module_gab360f253ed6112328116f393b42c9284}{}\#define {\bfseries Number\+\_\+\+Of\+\_\+\+Raises}~0x11\label{group___s_c_p__module_gab360f253ed6112328116f393b42c9284}
+
+\item 
+\hypertarget{group___s_c_p__module_ga083c72ca9995d6758137206d9714bbb9}{}\#define {\bfseries Number\+\_\+\+Of\+\_\+\+Lowers}~0x12\label{group___s_c_p__module_ga083c72ca9995d6758137206d9714bbb9}
+
+\item 
+\hypertarget{group___s_c_p__module_ga9d6e4ba5e64162b629a361315a795a0b}{}\#define {\bfseries Frequency}~0x17\label{group___s_c_p__module_ga9d6e4ba5e64162b629a361315a795a0b}
+
+\item 
+\hypertarget{group___s_c_p__module_gaf75c0f2a0922387af48c63b9b85e68e1}{}\#define {\bfseries Voltage}~0x18\label{group___s_c_p__module_gaf75c0f2a0922387af48c63b9b85e68e1}
+
+\item 
+\hypertarget{group___s_c_p__module_ga64dcfd704dddb1d0404cd49a6282ee3e}{}\#define {\bfseries Spectrum}~0x19\label{group___s_c_p__module_ga64dcfd704dddb1d0404cd49a6282ee3e}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___s_c_p__module_gac0f02823b3b6cbfd179d7f3317152c5b}{S\+C\+P\+\_\+\+Send\+Start\+Up\+Values} ()
+\begin{DoxyCompactList}\small\item\em Send the start up values when tower is initialized. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga98c8a1e3b4553e906617ccaae8af008e}{Send\+Version} ()
+\begin{DoxyCompactList}\small\item\em Send Tower version. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gae7a31e8ab754938e945e3c1b64268cbb}{Handle\+Tower\+Number} ()
+\begin{DoxyCompactList}\small\item\em Identify the Tower Number command \+: set or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga097e050546e21ec862137610d6d314a8}{Send\+Tower\+Number} ()
+\begin{DoxyCompactList}\small\item\em Send the Tower Number. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gadb167a851345d70c7f7e1cb238f9bd57}{Set\+Tower\+Number} ()
+\begin{DoxyCompactList}\small\item\em Set the new Tower Number and send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga57b51fbbcf8a00f4cda682a78c5d1674}{Handle\+Tower\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Identify the Tower Mode command \+: set or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga0d7538989aee917b7ede2fe6d36bb82a}{Send\+Tower\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Send the Tower Mode. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gab486e85eb7b3460ddd55676e0f56abb0}{Set\+Tower\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Set the new Tower Mode and send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga24195e0e379030d35021f9ec93829da3}{Read\+Byte} (uint8\+\_\+t address)
+\begin{DoxyCompactList}\small\item\em Read the byte in the flash memory at the given address. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gabe70b58ed934f2c3f907f0f2dfd36c0a}{Program\+Byte} (uint8\+\_\+t address, uint8\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Write a byte in the flash memory at the given address. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gae39df37fd0f630802e9cda681d75e8f1}{Send\+Time} ()
+\begin{DoxyCompactList}\small\item\em Send the curent time. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga063fcccd9bdf53ff2ab9466909a29d4b}{Set\+Time} ()
+\begin{DoxyCompactList}\small\item\em Set the curent time. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga6060eac950a51b240f85d8be45ebed6a}{Send\+Timing\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Send the Timing Mode. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga0d5baebea20182b8c9f9e355e3be0f82}{Set\+Timing\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Set and send the Timing Mode. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gacfa38bcf6c7c72d172f2991d3c0eb786}{Handle\+Timing\+Mode} ()
+\begin{DoxyCompactList}\small\item\em Identify the Timing Mode command \+: set or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga805f224220d816ef125133958c7c29f7}{Send\+Nb\+Lowers} ()
+\begin{DoxyCompactList}\small\item\em Send the number of Lowers occured. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gabde4829070e5dc36f3f42a1efc913e3d}{Reset\+Lowers} ()
+\begin{DoxyCompactList}\small\item\em Reset the number of Lowers occured to 0. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gadba1e1a64dcea76cfc2209babc9a3078}{Handle\+Lowers} ()
+\begin{DoxyCompactList}\small\item\em Identify the Lowers command \+: reset or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga6af72d5fe27167f3d906ae9368a515d0}{Send\+Nb\+Raises} ()
+\begin{DoxyCompactList}\small\item\em Send the number of Raisers occured. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga703956599f2e3aa20974182a82c14b0f}{Reset\+Raises} ()
+\begin{DoxyCompactList}\small\item\em Reset the number of Raisers occured to 0. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gad048cc275f45cfec91a6ee1bdb8fa750}{Handle\+Raises} ()
+\begin{DoxyCompactList}\small\item\em Identify the Raisers command \+: reset or just send it. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga4880211d225c0d9616819ea355533e2e}{Get\+Frequency} ()
+\begin{DoxyCompactList}\small\item\em Send the current frequency of the signal. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga4b2906757d866b1ffa1e9f12114c2c98}{Get\+Vrms} ()
+\begin{DoxyCompactList}\small\item\em Send the V\+R\+M\+S value of the required channel \+: parameter 1 is the channel, parameter 2 is the integer value in volts, parameter 3 is the decimal value in volt. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gab384b45751d5c4b6bebd8339872eb637}{Get\+Spectrum} ()
+\begin{DoxyCompactList}\small\item\em Send the amplitude of the 8 firsts harmonics of the Spectrum of the input signal. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_gabc6a4b87b02de3d83d34127472211c9d}{S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required} (const uint8\+\_\+t command)
+\begin{DoxyCompactList}\small\item\em Private A\+C\+K checking function. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga7928b6536c5cd2fa5deba5e4a15aabc4}{A\+C\+K} ()
+\begin{DoxyCompactList}\small\item\em Acknowledge that the command has been taken care of. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga84aa9cef78a0bfeec15dce98d521be73}{N\+A\+K} ()
+\begin{DoxyCompactList}\small\item\em Un\+Acknowledge that the command has not been taken care of. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga6667a17ea92e069382606d0210baf231}{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle} ()
+\begin{DoxyCompactList}\small\item\em Identify the command received and call the right function to do as told. \end{DoxyCompactList}\item 
+bool \hyperlink{group___s_c_p__module_ga4daffa90d8a7df765394d5f1137157ed}{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack} ()
+\begin{DoxyCompactList}\small\item\em Identify the command with an acknowledgement requirement received and call the right function to do as told and acknowledge. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___s_c_p__module_ga727c97dcbd2e19a00d892aca39e0097a}{}\hyperlink{unionuint16union__t}{uint16union\+\_\+t} {\bfseries S\+C\+P\+\_\+\+Tower\+Nb}\label{group___s_c_p__module_ga727c97dcbd2e19a00d892aca39e0097a}
+
+\item 
+\hypertarget{group___s_c_p__module_ga69c2de9e11e5ddfba7205b3f524f1c1f}{}\hyperlink{unionuint16union__t}{uint16union\+\_\+t} {\bfseries S\+C\+P\+\_\+\+Tower\+Md}\label{group___s_c_p__module_ga69c2de9e11e5ddfba7205b3f524f1c1f}
+
+\item 
+\hypertarget{group___s_c_p__module_gaeb164700ae3836fed0739751d5003738}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Protocol\+Mode}\label{group___s_c_p__module_gaeb164700ae3836fed0739751d5003738}
+
+\item 
+\hypertarget{group___s_c_p__module_gae99e4120b5bf2e256f3584da4fec325d}{}T\+Regulation\+Mode {\bfseries S\+C\+P\+\_\+\+Reg\+Mode}\label{group___s_c_p__module_gae99e4120b5bf2e256f3584da4fec325d}
+
+\item 
+\hypertarget{group___s_c_p__module_ga971d9b8e06fdd683a197338d12efe0d1}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Lowers}\label{group___s_c_p__module_ga971d9b8e06fdd683a197338d12efe0d1}
+
+\item 
+\hypertarget{group___s_c_p__module_ga08fd5dd441c9442040727c43cceb6c02}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Raises}\label{group___s_c_p__module_ga08fd5dd441c9442040727c43cceb6c02}
+
+\item 
+\hypertarget{group___s_c_p__module_gade83b6fed342cc3d11d6f8d804d56e23}{}float {\bfseries S\+C\+P\+\_\+\+Vrms} \mbox{[}3\mbox{]} = \{0,0,0\}\label{group___s_c_p__module_gade83b6fed342cc3d11d6f8d804d56e23}
+
+\item 
+\hypertarget{group___s_c_p__module_ga727c97dcbd2e19a00d892aca39e0097a}{}\hyperlink{unionuint16union__t}{uint16union\+\_\+t} {\bfseries S\+C\+P\+\_\+\+Tower\+Nb}\label{group___s_c_p__module_ga727c97dcbd2e19a00d892aca39e0097a}
+
+\item 
+\hypertarget{group___s_c_p__module_ga69c2de9e11e5ddfba7205b3f524f1c1f}{}\hyperlink{unionuint16union__t}{uint16union\+\_\+t} {\bfseries S\+C\+P\+\_\+\+Tower\+Md}\label{group___s_c_p__module_ga69c2de9e11e5ddfba7205b3f524f1c1f}
+
+\item 
+\hypertarget{group___s_c_p__module_gaeb164700ae3836fed0739751d5003738}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Protocol\+Mode}\label{group___s_c_p__module_gaeb164700ae3836fed0739751d5003738}
+
+\item 
+\hypertarget{group___s_c_p__module_gae99e4120b5bf2e256f3584da4fec325d}{}T\+Regulation\+Mode {\bfseries S\+C\+P\+\_\+\+Reg\+Mode}\label{group___s_c_p__module_gae99e4120b5bf2e256f3584da4fec325d}
+
+\item 
+\hypertarget{group___s_c_p__module_ga971d9b8e06fdd683a197338d12efe0d1}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Lowers}\label{group___s_c_p__module_ga971d9b8e06fdd683a197338d12efe0d1}
+
+\item 
+\hypertarget{group___s_c_p__module_ga08fd5dd441c9442040727c43cceb6c02}{}uint8\+\_\+t {\bfseries S\+C\+P\+\_\+\+Raises}\label{group___s_c_p__module_ga08fd5dd441c9442040727c43cceb6c02}
+
+\item 
+\hypertarget{group___s_c_p__module_gade83b6fed342cc3d11d6f8d804d56e23}{}float {\bfseries S\+C\+P\+\_\+\+Vrms} \mbox{[}3\mbox{]}\label{group___s_c_p__module_gade83b6fed342cc3d11d6f8d804d56e23}
+
+\item 
+\hypertarget{group___s_c_p__module_gafe7248b27df8dfb738e2effe7c584f7f}{}float {\bfseries Frequencie\+\_\+\+Ts}\label{group___s_c_p__module_gafe7248b27df8dfb738e2effe7c584f7f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___s_c_p__module_ga7928b6536c5cd2fa5deba5e4a15aabc4}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!A\+C\+K@{A\+C\+K}}
+\index{A\+C\+K@{A\+C\+K}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{A\+C\+K()}]{\setlength{\rightskip}{0pt plus 5cm}bool A\+C\+K (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga7928b6536c5cd2fa5deba5e4a15aabc4}
+
+
+Acknowledge that the command has been taken care of. 
+
+\begin{DoxyReturn}{Returns}
+true if acknowledgement went right 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga4880211d225c0d9616819ea355533e2e}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Get\+Frequency@{Get\+Frequency}}
+\index{Get\+Frequency@{Get\+Frequency}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Get\+Frequency()}]{\setlength{\rightskip}{0pt plus 5cm}bool Get\+Frequency (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga4880211d225c0d9616819ea355533e2e}
+
+
+Send the current frequency of the signal. 
+
+\begin{DoxyReturn}{Returns}
+true if frequency has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gab384b45751d5c4b6bebd8339872eb637}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Get\+Spectrum@{Get\+Spectrum}}
+\index{Get\+Spectrum@{Get\+Spectrum}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Get\+Spectrum()}]{\setlength{\rightskip}{0pt plus 5cm}bool Get\+Spectrum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gab384b45751d5c4b6bebd8339872eb637}
+
+
+Send the amplitude of the 8 firsts harmonics of the Spectrum of the input signal. 
+
+\begin{DoxyReturn}{Returns}
+true if amplitudes has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga4b2906757d866b1ffa1e9f12114c2c98}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Get\+Vrms@{Get\+Vrms}}
+\index{Get\+Vrms@{Get\+Vrms}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Get\+Vrms()}]{\setlength{\rightskip}{0pt plus 5cm}bool Get\+Vrms (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga4b2906757d866b1ffa1e9f12114c2c98}
+
+
+Send the V\+R\+M\+S value of the required channel \+: parameter 1 is the channel, parameter 2 is the integer value in volts, parameter 3 is the decimal value in volt. 
+
+\begin{DoxyReturn}{Returns}
+true if vrms has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gadba1e1a64dcea76cfc2209babc9a3078}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Handle\+Lowers@{Handle\+Lowers}}
+\index{Handle\+Lowers@{Handle\+Lowers}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Handle\+Lowers()}]{\setlength{\rightskip}{0pt plus 5cm}bool Handle\+Lowers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gadba1e1a64dcea76cfc2209babc9a3078}
+
+
+Identify the Lowers command \+: reset or just send it. 
+
+\begin{DoxyReturn}{Returns}
+true if values has been sent/set, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gad048cc275f45cfec91a6ee1bdb8fa750}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Handle\+Raises@{Handle\+Raises}}
+\index{Handle\+Raises@{Handle\+Raises}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Handle\+Raises()}]{\setlength{\rightskip}{0pt plus 5cm}bool Handle\+Raises (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gad048cc275f45cfec91a6ee1bdb8fa750}
+
+
+Identify the Raisers command \+: reset or just send it. 
+
+\begin{DoxyReturn}{Returns}
+true if values has been sent/set, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gacfa38bcf6c7c72d172f2991d3c0eb786}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Handle\+Timing\+Mode@{Handle\+Timing\+Mode}}
+\index{Handle\+Timing\+Mode@{Handle\+Timing\+Mode}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Handle\+Timing\+Mode()}]{\setlength{\rightskip}{0pt plus 5cm}bool Handle\+Timing\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gacfa38bcf6c7c72d172f2991d3c0eb786}
+
+
+Identify the Timing Mode command \+: set or just send it. 
+
+\begin{DoxyReturn}{Returns}
+true if values has been sent/set, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga57b51fbbcf8a00f4cda682a78c5d1674}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Handle\+Tower\+Mode@{Handle\+Tower\+Mode}}
+\index{Handle\+Tower\+Mode@{Handle\+Tower\+Mode}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Handle\+Tower\+Mode()}]{\setlength{\rightskip}{0pt plus 5cm}bool Handle\+Tower\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga57b51fbbcf8a00f4cda682a78c5d1674}
+
+
+Identify the Tower Mode command \+: set or just send it. 
+
+\begin{DoxyReturn}{Returns}
+true if values has been sent/set, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gae7a31e8ab754938e945e3c1b64268cbb}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Handle\+Tower\+Number@{Handle\+Tower\+Number}}
+\index{Handle\+Tower\+Number@{Handle\+Tower\+Number}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Handle\+Tower\+Number()}]{\setlength{\rightskip}{0pt plus 5cm}bool Handle\+Tower\+Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gae7a31e8ab754938e945e3c1b64268cbb}
+
+
+Identify the Tower Number command \+: set or just send it. 
+
+\begin{DoxyReturn}{Returns}
+true if values has been sent/set, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga84aa9cef78a0bfeec15dce98d521be73}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!N\+A\+K@{N\+A\+K}}
+\index{N\+A\+K@{N\+A\+K}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{N\+A\+K()}]{\setlength{\rightskip}{0pt plus 5cm}bool N\+A\+K (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga84aa9cef78a0bfeec15dce98d521be73}
+
+
+Un\+Acknowledge that the command has not been taken care of. 
+
+\begin{DoxyReturn}{Returns}
+true if unacknowledgement went right 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gabe70b58ed934f2c3f907f0f2dfd36c0a}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Program\+Byte@{Program\+Byte}}
+\index{Program\+Byte@{Program\+Byte}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Program\+Byte(uint8\+\_\+t address, uint8\+\_\+t data)}]{\setlength{\rightskip}{0pt plus 5cm}bool Program\+Byte (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{address, }
+\item[{uint8\+\_\+t}]{data}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gabe70b58ed934f2c3f907f0f2dfd36c0a}
+
+
+Write a byte in the flash memory at the given address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & \+: The address were the desired byte is written \\
+\hline
+{\em data} & \+: The byte to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the byte has been written, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga24195e0e379030d35021f9ec93829da3}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Read\+Byte@{Read\+Byte}}
+\index{Read\+Byte@{Read\+Byte}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Read\+Byte(uint8\+\_\+t address)}]{\setlength{\rightskip}{0pt plus 5cm}bool Read\+Byte (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{address}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga24195e0e379030d35021f9ec93829da3}
+
+
+Read the byte in the flash memory at the given address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & \+: The address were the desired byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the byte has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gabde4829070e5dc36f3f42a1efc913e3d}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Reset\+Lowers@{Reset\+Lowers}}
+\index{Reset\+Lowers@{Reset\+Lowers}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Reset\+Lowers()}]{\setlength{\rightskip}{0pt plus 5cm}bool Reset\+Lowers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gabde4829070e5dc36f3f42a1efc913e3d}
+
+
+Reset the number of Lowers occured to 0. 
+
+\begin{DoxyReturn}{Returns}
+true if number of Lowers has been reset, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga703956599f2e3aa20974182a82c14b0f}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Reset\+Raises@{Reset\+Raises}}
+\index{Reset\+Raises@{Reset\+Raises}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Reset\+Raises()}]{\setlength{\rightskip}{0pt plus 5cm}bool Reset\+Raises (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga703956599f2e3aa20974182a82c14b0f}
+
+
+Reset the number of Raisers occured to 0. 
+
+\begin{DoxyReturn}{Returns}
+true if number of Raisers has been reset, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gabc6a4b87b02de3d83d34127472211c9d}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required@{S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required}}
+\index{S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required@{S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required(const uint8\+\_\+t command)}]{\setlength{\rightskip}{0pt plus 5cm}bool S\+C\+P\+\_\+\+Acknowledgement\+\_\+\+Required (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{command}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gabc6a4b87b02de3d83d34127472211c9d}
+
+
+Private A\+C\+K checking function. 
+
+\begin{DoxyReturn}{Returns}
+bool -\/ T\+R\+U\+E if acknowledgement required 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga6667a17ea92e069382606d0210baf231}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!S\+C\+P\+\_\+\+Packet\+\_\+\+Handle@{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle}}
+\index{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle@{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle()}]{\setlength{\rightskip}{0pt plus 5cm}bool S\+C\+P\+\_\+\+Packet\+\_\+\+Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga6667a17ea92e069382606d0210baf231}
+
+
+Identify the command received and call the right function to do as told. 
+
+\begin{DoxyReturn}{Returns}
+true if the action went well 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga4daffa90d8a7df765394d5f1137157ed}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack@{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack}}
+\index{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack@{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack()}]{\setlength{\rightskip}{0pt plus 5cm}bool S\+C\+P\+\_\+\+Packet\+\_\+\+Handle\+\_\+\+Ack (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga4daffa90d8a7df765394d5f1137157ed}
+
+
+Identify the command with an acknowledgement requirement received and call the right function to do as told and acknowledge. 
+
+\begin{DoxyReturn}{Returns}
+true if the action went well 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gac0f02823b3b6cbfd179d7f3317152c5b}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!S\+C\+P\+\_\+\+Send\+Start\+Up\+Values@{S\+C\+P\+\_\+\+Send\+Start\+Up\+Values}}
+\index{S\+C\+P\+\_\+\+Send\+Start\+Up\+Values@{S\+C\+P\+\_\+\+Send\+Start\+Up\+Values}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{S\+C\+P\+\_\+\+Send\+Start\+Up\+Values()}]{\setlength{\rightskip}{0pt plus 5cm}bool S\+C\+P\+\_\+\+Send\+Start\+Up\+Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gac0f02823b3b6cbfd179d7f3317152c5b}
+
+
+Send the start up values when tower is initialized. 
+
+\begin{DoxyReturn}{Returns}
+true if values has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga805f224220d816ef125133958c7c29f7}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Nb\+Lowers@{Send\+Nb\+Lowers}}
+\index{Send\+Nb\+Lowers@{Send\+Nb\+Lowers}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Nb\+Lowers()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Nb\+Lowers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga805f224220d816ef125133958c7c29f7}
+
+
+Send the number of Lowers occured. 
+
+\begin{DoxyReturn}{Returns}
+true if number of Lowers has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga6af72d5fe27167f3d906ae9368a515d0}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Nb\+Raises@{Send\+Nb\+Raises}}
+\index{Send\+Nb\+Raises@{Send\+Nb\+Raises}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Nb\+Raises()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Nb\+Raises (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga6af72d5fe27167f3d906ae9368a515d0}
+
+
+Send the number of Raisers occured. 
+
+\begin{DoxyReturn}{Returns}
+true if number of Raisers has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gae39df37fd0f630802e9cda681d75e8f1}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Time@{Send\+Time}}
+\index{Send\+Time@{Send\+Time}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Time()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gae39df37fd0f630802e9cda681d75e8f1}
+
+
+Send the curent time. 
+
+\begin{DoxyReturn}{Returns}
+true if time has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga6060eac950a51b240f85d8be45ebed6a}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Timing\+Mode@{Send\+Timing\+Mode}}
+\index{Send\+Timing\+Mode@{Send\+Timing\+Mode}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Timing\+Mode()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Timing\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga6060eac950a51b240f85d8be45ebed6a}
+
+
+Send the Timing Mode. 
+
+\begin{DoxyReturn}{Returns}
+true if mode has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga0d7538989aee917b7ede2fe6d36bb82a}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Tower\+Mode@{Send\+Tower\+Mode}}
+\index{Send\+Tower\+Mode@{Send\+Tower\+Mode}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Tower\+Mode()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Tower\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga0d7538989aee917b7ede2fe6d36bb82a}
+
+
+Send the Tower Mode. 
+
+\begin{DoxyReturn}{Returns}
+true if mode has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga097e050546e21ec862137610d6d314a8}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Tower\+Number@{Send\+Tower\+Number}}
+\index{Send\+Tower\+Number@{Send\+Tower\+Number}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Tower\+Number()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Tower\+Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga097e050546e21ec862137610d6d314a8}
+
+
+Send the Tower Number. 
+
+\begin{DoxyReturn}{Returns}
+true if number has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga98c8a1e3b4553e906617ccaae8af008e}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Send\+Version@{Send\+Version}}
+\index{Send\+Version@{Send\+Version}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Send\+Version()}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\+Version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga98c8a1e3b4553e906617ccaae8af008e}
+
+
+Send Tower version. 
+
+\begin{DoxyReturn}{Returns}
+true if value has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga063fcccd9bdf53ff2ab9466909a29d4b}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Set\+Time@{Set\+Time}}
+\index{Set\+Time@{Set\+Time}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Set\+Time()}]{\setlength{\rightskip}{0pt plus 5cm}bool Set\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga063fcccd9bdf53ff2ab9466909a29d4b}
+
+
+Set the curent time. 
+
+\begin{DoxyReturn}{Returns}
+true if time has been set, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_ga0d5baebea20182b8c9f9e355e3be0f82}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Set\+Timing\+Mode@{Set\+Timing\+Mode}}
+\index{Set\+Timing\+Mode@{Set\+Timing\+Mode}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Set\+Timing\+Mode()}]{\setlength{\rightskip}{0pt plus 5cm}bool Set\+Timing\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_ga0d5baebea20182b8c9f9e355e3be0f82}
+
+
+Set and send the Timing Mode. 
+
+\begin{DoxyReturn}{Returns}
+true if mode has been sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gab486e85eb7b3460ddd55676e0f56abb0}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Set\+Tower\+Mode@{Set\+Tower\+Mode}}
+\index{Set\+Tower\+Mode@{Set\+Tower\+Mode}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Set\+Tower\+Mode()}]{\setlength{\rightskip}{0pt plus 5cm}bool Set\+Tower\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gab486e85eb7b3460ddd55676e0f56abb0}
+
+
+Set the new Tower Mode and send it. 
+
+\begin{DoxyReturn}{Returns}
+true if mode has been set and sent, false if not 
+\end{DoxyReturn}
+\hypertarget{group___s_c_p__module_gadb167a851345d70c7f7e1cb238f9bd57}{}\index{S\+C\+P module documentation@{S\+C\+P module documentation}!Set\+Tower\+Number@{Set\+Tower\+Number}}
+\index{Set\+Tower\+Number@{Set\+Tower\+Number}!S\+C\+P module documentation@{S\+C\+P module documentation}}
+\subsubsection[{Set\+Tower\+Number()}]{\setlength{\rightskip}{0pt plus 5cm}bool Set\+Tower\+Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group___s_c_p__module_gadb167a851345d70c7f7e1cb238f9bd57}
+
+
+Set the new Tower Number and send it. 
+
+\begin{DoxyReturn}{Returns}
+true if number has been set and sent, false if not 
+\end{DoxyReturn}
