@@ -173,8 +173,14 @@ bool ReadByte(uint8_t address);
 bool ProgramByte(uint8_t address, uint8_t data);
 
 bool HandleTimingMode();
-bool NbofRaises();
-bool NbofLowers();
+
+bool SendTimingMode();
+
+bool SetTimingMode();
+
+//bool NbofRaises();
+//
+//bool NbofLowers();
 
 
 /*! @brief Private ACK checking function

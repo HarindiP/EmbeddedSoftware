@@ -1,50 +1,50 @@
-/*! @file
- *
- *  @brief Functions for comparing and selecting minimum values read from ADC
- *
- *  analogMeasure.c
- *
- *  @author 12443166
- *  @date 6 Jun 2018
- */
-
- /*!
-  *  @addtogroup analogMeasure_module analogMeasure module documentation
-  *  @{
-  */
-
-#include "analog.h"
-#include "types.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include "UsefulFunctions.h"
-#include "PIT.h"
-#include "voltageRegulator.h"
-#include "analogmeasure.h"
-#include "signals.h"
-
-
-int16_t firstMin; // This is going to be the minimum one
-int16_t firstMinAux;
-int16_t secondMin; // This is going to be the next or previous value to the minimum one
-int16_t secondMinAux;
-int firstMinPosition; // Position in myArray of minimum positive value
-int secondMinPosition; // Position in myArray of second minimum positive value
-int16_t period; // The period value aux in int
-float finalPeriod; // Period value in float
-int arrayPosition;
-int16_t vrmsValue;
-int32_t measurementsFreq = 1250000;
-
-
-
-
-/*! @brief Compares the new measured value with the ones already stored
- *
- *  @param value It is the new measured value
- *  @param position It is the position of the read value
- *  @note It is supposed that the ADC has been initialized
- */
+///*! @file
+// *
+// *  @brief Functions for comparing and selecting minimum values read from ADC
+// *
+// *  analogMeasure.c
+// *
+// *  @author 12443166
+// *  @date 6 Jun 2018
+// */
+//
+// /*!
+//  *  @addtogroup analogMeasure_module analogMeasure module documentation
+//  *  @{
+//  */
+//
+//#include "analog.h"
+//#include "types.h"
+//#include "stdio.h"
+//#include "stdlib.h"
+//#include "UsefulFunctions.h"
+//#include "PIT.h"
+//#include "voltageRegulator.h"
+//#include "analogmeasure.h"
+//#include "signals.h"
+//
+//
+//int16_t firstMin; // This is going to be the minimum one
+//int16_t firstMinAux;
+//int16_t secondMin; // This is going to be the next or previous value to the minimum one
+//int16_t secondMinAux;
+//int firstMinPosition; // Position in myArray of minimum positive value
+//int secondMinPosition; // Position in myArray of second minimum positive value
+//int16_t period; // The period value aux in int
+//float finalPeriod; // Period value in float
+//int arrayPosition;
+//int16_t vrmsValue;
+//int32_t measurementsFreq = 1250000;
+//
+//
+//
+//
+///*! @brief Compares the new measured value with the ones already stored
+// *
+// *  @param value It is the new measured value
+// *  @param position It is the position of the read value
+// *  @note It is supposed that the ADC has been initialized
+// */
 //void compareMinimum(float value, int position)
 //{
 //  if(value < firstMin)
@@ -62,7 +62,7 @@ int32_t measurementsFreq = 1250000;
 //    secondMinPosition = position;
 //  }
 //}
-//
+////
 //void calculation (int minimumPosition, int16_t minimum, int16_t minimumAux)
 //{
 //
@@ -194,11 +194,11 @@ int32_t measurementsFreq = 1250000;
 //    }
 //  }
 //}
-//
-///*! @brief Calculates the lowest value (absolute value) of the array and its position
-// *
-// *  @note It is supposed that the ADC has been initialized
-// */
+////
+/////*! @brief Calculates the lowest value (absolute value) of the array and its position
+//// *
+//// *  @note It is supposed that the ADC has been initialized
+//// */
 //void calculateMinimum(void)
 //{
 //  for(int i = 0; i < (sizeof(myArray)/sizeof(int16_t)); i++) // We check from second position to the previous of the last one
@@ -249,28 +249,28 @@ int32_t measurementsFreq = 1250000;
 //  calculation(minimumPosition, minimum, minimumAux); // Calculation for the second minimum
 //
 //}
-
-/*! @brief It reads a value from the ADC and put it in myArray
- *
- *  @note It is supposed that the ADC has been initialized
- *  @note Needs to be called sixteen times to fill the array
- */
-//void UpdateInput(void)
-//{
-//  static int16_t tempval;
-//  Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
-//  Samples[0].myposition++;
 //
-//  if(Samples[0].myposition == 16) // Reset position at the end of the array
-//  {
-//    Samples[0].myposition = 0;
-//    tempval = VRMS(Samples[0].myArray);
-//    BoundsCheck(tempval);
-//    vrmsValue = tempval;
+///*! @brief It reads a value from the ADC and put it in myArray
+// *
+// *  @note It is supposed that the ADC has been initialized
+// *  @note Needs to be called sixteen times to fill the array
+// */
+////void UpdateInput(void)
+////{
+////  static int16_t tempval;
+////  Analog_Get(0,&(Samples[0].myArray[Samples[0].myposition]));
+////  Samples[0].myposition++;
+////
+////  if(Samples[0].myposition == 16) // Reset position at the end of the array
+////  {
+////    Samples[0].myposition = 0;
+////    tempval = VRMS(Samples[0].myArray);
+////    BoundsCheck(tempval);
+////    vrmsValue = tempval;
+////
+////  }
+////}
 //
-//  }
-//}
-
-/*!
- * @}
-*/
+///*!
+// * @}
+//*/

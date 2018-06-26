@@ -120,28 +120,46 @@ bool ProgramByte(uint8_t address, uint8_t data)
   }
 }
 
-//bool HandleTimingMode()
+bool HandleTimingMode()
+{
+  if(Packet_Parameter1 == 0)   // Command is : get Timing Mode
+  {
+    return SendTimingMode();
+  }
+  else if ((Packet_Parameter1==1) || (Packet_Parameter1==2))  //Command is : set Timing Mode
+  {
+    return SetTimingMode();
+  }
+}
+
+bool SendTimingMode()
+{
+  return Packet_Put(0x10, (uint8_t)SCP_TimingMode, 0, 0);
+}
+
+bool SetTimingMode()
+{
+  SCP_TimingMode = Packet_Parameter1 - 1;
+  return true;
+}
+
+
+//bool NbofRaises()
 //{
-//  if ()
+//  if(Packet_Parameter1 == 1)   // Command is : get Timing Mode
 //  {
-//    getmode();
+//    SendRaises();
 //  }
-//
-//  if()
+//  else if (Packet_Parameter2==2)  //Command is : set Tower Mode
 //  {
-//    setmode();
+//    SetRaises();
 //  }
-//
+//}
+
+//bool NbofLowers()
+//{
 //  return true;
 //}
-bool NbofRaises()
-{
-  return true;
-}
-bool NbofLowers()
-{
-  return true;
-}
 
 
 /*Acknowledgement and NonAcknowledgement functions*/
@@ -179,6 +197,9 @@ bool SCP_Packet_Handle()
       break;
     case Flash_Program_Byte :
       return ProgramByte(Packet_Parameter1,Packet_Parameter3);
+      break;
+    case Timing_Mode :
+      return HandleTimingMode();
       break;
     default:	//Unknown command
       //Do nothing or return command with NAK
