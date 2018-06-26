@@ -20,6 +20,10 @@
 #include "types.h"
 #include "MK70F12.h"
 #include "OS.h"
+#include "PE_Types.h"
+#include "Requirements.h"
+
+extern bool Regulation_AlarmReached[3];
 
 //Semaphore to acces the Thread
 OS_ECB* PIT0Access;

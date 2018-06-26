@@ -17,6 +17,7 @@
 #define VOLT_OUT_MAX 5
 #define VRMS_MIN 2
 #define VRMS_MAX 3
+#define VRMS_AVG 2.5
 #define NB_OF_HARMONICS 7
 #define SAMPLING_PERIODE 1250000  //in nanosec
 #define PRECISION 0.05

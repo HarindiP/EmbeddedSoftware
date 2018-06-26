@@ -58,6 +58,11 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
   uint8_t k = 0;
   uint16_t i = 0;
   float zeros[2];
+  int16_t temparray[16];
+  for(int q = 0;q<NB_OF_SAMPLE; q++)
+  {
+    temparray[q]=sampleArray[q];
+  }
 
   //I am taking the average period calc on 5 turn to be more accurate;
   static uint8_t tour = 0;
@@ -112,4 +117,23 @@ void FrequencyTracking(int16_t* const sampleArray, float* ts)
   }
 }
 
+void Frequencie_FFT(int16_t* sampleArray, float* amplitude)
+{
+  uint8_t mem[1024];
+  size_t sizeMem = sizeof(mem);
+  kiss_fftr_cfg cfg = kiss_fftr_alloc( 16 ,0, mem, &sizeMem);
 
+  kiss_fft_scalar Input[16];
+  kiss_fft_cpx Output[9];
+
+  for(int i = 0; i<16; i++)
+  {
+    Input[i] = ANALOG_TO_VOLT(*(sampleArray+i));
+  }
+  kiss_fftr( cfg , Input , Output );
+
+  for(int i = 0; i < 9; i++)
+  {
+    *(amplitude+i) = sqrt(pow(Output[i].r,2) + pow(Output[i].i,2)) ;
+  }
+}

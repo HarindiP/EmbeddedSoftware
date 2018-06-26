@@ -86,6 +86,8 @@ Parameter 3: seconds (0-59)*/
 #define Voltage 0x18
 #define Spectrum 0x19
 
+extern float Frequencie_Ts;
+
 
 //Communication functions :
 
@@ -167,6 +169,7 @@ bool HandleLowers();
 bool SendNbRaises();
 bool ResetRaises();
 bool HandleRaises();
+bool GetFrequency();
 
 /*! @brief Send the VRMS value of the required channel : parameter 1 is the channel,
  *                                                      parameter 2 is the integer value in volts,
@@ -176,7 +179,7 @@ bool HandleRaises();
  */
 bool GetVrms();
 
-
+bool GetSpectrum();
 
 /*! @brief Private ACK checking function
  *

@@ -20,6 +20,8 @@
 #include "RTC.h"
 #include "PE_Types.h"
 #include "OS.h"
+#include "frequencie.h"
+#include "regulation.h"
 
 /*Tower Number*/
 uint16union_t SCP_TowerNb;
@@ -205,10 +207,28 @@ bool HandleRaises()
   }
 }
 
+bool GetFrequency()
+{
+  uint16_t tempfreq = 10000 / Frequencie_Ts;    //unit is dHz : 49.7Hz --> 479 dHz
+  return  Packet_Put(0x17,((uint16union_t)tempfreq).s.Lo,((uint16union_t)tempfreq).s.Hi,0);
+}
 bool GetVrms()
 {
-  uint8_t vrms = SCP_Vrms[Packet_Parameter1] * 100;
-  return Packet_Put(0x18,Packet_Parameter1,vrms / 100,vrms % 100); //TODO : OK ?
+  uint16_t vrms = SCP_Vrms[Packet_Parameter1] * 100;
+  return Packet_Put(0x18,Packet_Parameter1,((uint16union_t)vrms).s.Lo,((uint16union_t)vrms).s.Hi); //TODO : OK ?
+}
+
+bool GetSpectrum()
+{
+  float amplitude[9];
+  Frequencie_FFT(Regulation_FullSampleA, amplitude);
+  bool sent = false;
+  for(int i = 0; i < 8; i++)
+  {
+    uint16_t tempAmp = *(amplitude+i+1);
+    sent &= Packet_Put(0x19,i,((uint16union_t)tempAmp).s.Lo,((uint16union_t)tempAmp).s.Hi);
+  }
+  return sent;
 }
 
 
@@ -260,8 +280,14 @@ bool SCP_Packet_Handle()
     case Number_Of_Raises :
       return HandleRaises();
       break;
+    case Frequency :
+      return GetFrequency();
+      break;
     case Voltage :
       return GetVrms();
+      break;
+    case Spectrum :
+      return GetSpectrum();
       break;
     default:	//Unknown command
       //Do nothing or return command with NAK

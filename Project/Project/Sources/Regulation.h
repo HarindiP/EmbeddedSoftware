@@ -13,7 +13,6 @@
 #include "PIT.h"
 #include "SCP.h"
 #include "MK70F12.h"
-#include "LEDs.h"
 #include "Requirements.h"
 #include "types.h"
 #include "OS.h"
@@ -22,10 +21,10 @@
 #include "Flash.h"
 
 
-//Array of 16 samples
-extern int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
-extern int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
-extern int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
+//Array of 16 samples for each chan
+int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
+int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
+int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
 //Semaphores
 //OS_ECB* SampleTaken;
 extern OS_ECB* FullSampleTaken;
@@ -33,7 +32,7 @@ extern OS_ECB* FullSampleTaken;
 
 //Bool signaled if the alarm has been set for more than 5sec
 bool Regulation_AlarmSet[3];
-bool Regulation_AlarmReached[3];
+extern bool Regulation_AlarmReached[3];
 
 float VRMS(int16_t* const sample);
 
@@ -45,11 +44,11 @@ uint32_t InverseTimer(uint8_t index, float deviation, bool firstCall);
 
 void InverseTimingRegulation(float* vrms);
 
-///*! @brief Put an analog sample of the signal in Volt in the sample array
-// *
-// * @param channelNb the number of the channel to take the sample from
-// */
-//bool TakeSample(int16_t* const sampleArray, int16_t sample);
+/*! @brief Put an analog sample of the signal in Volt in the sample array
+ *
+ * @param channelNb the number of the channel to take the sample from
+ */
+void Regulation_TakeSample();
 
 ///*! @brief Thread to take a full sample
 // *

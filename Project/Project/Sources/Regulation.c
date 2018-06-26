@@ -9,12 +9,12 @@
 //Sample processing
 
 #include "Regulation.h"
-//#include "Flash.h"
+//#include "LEDs.h"
 
-//Array of 16 samples for each chan
-int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
-int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
-int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
+////Array of 16 samples for each chan
+//int16_t Regulation_FullSampleA[NB_OF_SAMPLE];
+//int16_t Regulation_FullSampleB[NB_OF_SAMPLE];
+//int16_t Regulation_FullSampleC[NB_OF_SAMPLE];
 
 //Alarm signal
 bool Regulation_AlarmSet[3] = {false,false,false};
@@ -53,8 +53,8 @@ void RAS(uint8_t index)
   //Disable the alarm variables
   Regulation_AlarmSet[index] = false;
   Regulation_AlarmReached[index] = false;
-  //Turn off green LED
-  LEDs_Off(LED_GREEN);
+//  //Turn off green LED
+//  LEDs_Off(LED_GREEN);
 }
 
 void DefiniteTimingRegulation(float* vrms)
@@ -75,8 +75,8 @@ void DefiniteTimingRegulation(float* vrms)
         Regulation_AlarmSet[i] = true;
   //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
         PIT_Set(i+1,DEFINITE_TIME,true);
-        //Turn on Green LED
-        LEDs_On(LED_GREEN);
+//        //Turn on Green LED
+//        LEDs_On(LED_GREEN);
       }
     }
     else if(vrms[i] < VRMS_MIN)
@@ -93,8 +93,8 @@ void DefiniteTimingRegulation(float* vrms)
         Regulation_AlarmSet[i] = true;
   //      OS_TimeDelay(500); //Wait 5s = 500*clock ticks, 1 clock tick = 10ms
         PIT_Set(i+1,DEFINITE_TIME,true);
-        //Turn on Green LED
-        LEDs_On(LED_GREEN);
+//        //Turn on Green LED
+//        LEDs_On(LED_GREEN);
       }
     }
     else
@@ -160,12 +160,12 @@ void InverseTimingRegulation(float* vrms)
       }
       else if(!Regulation_AlarmSet[i] || ((*(vrms+i) - VRMS_MAX) - deviation[i] > PRECISION))
       {
-        deviation[i] = *(vrms+i) - VRMS_MAX;
+        deviation[i] = *(vrms+i) - VRMS_AVG;
         Output_SetAlarm();
         Regulation_AlarmSet[i] = true;
         PIT_Set(i+1,InverseTimer(i,deviation[i], firstCall[i]),true);
-        //Turn on Green LED
-        LEDs_On(LED_GREEN);
+//        //Turn on Green LED
+//        LEDs_On(LED_GREEN);
         firstCall[i] = false;
       }
     }
@@ -181,12 +181,12 @@ void InverseTimingRegulation(float* vrms)
       }
       else if(!Regulation_AlarmSet[i] || ((VRMS_MIN - *(vrms+i)) - deviation[i] > PRECISION))
       {
-        deviation[i] = VRMS_MIN - *(vrms+i);
+        deviation[i] = VRMS_AVG - *(vrms+i);
         Output_SetAlarm();
         Regulation_AlarmSet[i] = true;
         PIT_Set(i,InverseTimer(i,deviation[i], firstCall[i]),true);
-        //Turn on Green LED
-        LEDs_On(LED_GREEN);
+//        //Turn on Green LED
+//        LEDs_On(LED_GREEN);
         firstCall[i] = false;
       }
     }
@@ -200,8 +200,8 @@ void InverseTimingRegulation(float* vrms)
 }
 
 
-//bool TakeSample(int16_t* const sampleArray, int16_t sample)
-//{
+void Regulation_TakeSample()
+{
 //  static uint8_t index = 0;
 //  *(sampleArray+index) = sample;
 //  index++;
@@ -210,8 +210,24 @@ void InverseTimingRegulation(float* vrms)
 //  {
 //    index = 0;
 //  }
-//  return true;
-//}
+
+  static int nbSampleTaken = 0;
+
+  Analog_Get(0,Regulation_FullSampleA + nbSampleTaken);
+  Analog_Get(1,Regulation_FullSampleB + nbSampleTaken);
+  Analog_Get(2,Regulation_FullSampleC + nbSampleTaken);
+
+  nbSampleTaken++;
+
+  if(nbSampleTaken == NB_OF_SAMPLE)
+  {
+    nbSampleTaken = 0;
+    //Stop taking samples
+    PIT0_Enable(false);
+    //Signal the treatment thread
+    OS_SemaphoreSignal(FullSampleTaken);
+  }
+}
 
 
 //void Regulation_TakeSampleThread(void* pData)

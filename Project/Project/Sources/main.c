@@ -50,6 +50,7 @@
 #include "Requirements.h"
 #include "Regulation.h"
 
+
 // ----------------------------------------
 // Thread set up
 // ----------------------------------------
@@ -202,18 +203,23 @@ void Regulation_ProcessSampleThread(void* pData)
       case DEFINITE_TIMER :
         DefiniteTimingRegulation(SCP_Vrms);
 //        Analog_Put(3,VOLT_TO_ANALOG(SCP_Vrms[0]));
-//        FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
-        //restart PIT to take a new set of sample
-        uint32_t sampling_period = (uint32_t)((Frequencie_Ts /16) * 1000000);
-        PIT0_Set(sampling_period,true);  //SAMPLING_PERIODE in ns
         break;
       case INVERSE_TIMER :
         InverseTimingRegulation(SCP_Vrms);
-        //restart PIT to take a new set of sample
-        PIT0_Set(1250000,true);  //SAMPLING_PERIODE in ns
         break;
       default :
         break;
+    }
+    if(SCP_Vrms[0] < 1.5)
+    {
+      PIT0_Set(SAMPLING_PERIODE,true);
+    }
+    else
+    {
+//      FrequencyTracking(Regulation_FullSampleA,&Frequencie_Ts);
+      //restart PIT to take a new set of sample
+      uint32_t sampling_period = (uint32_t)((Frequencie_Ts /16) * 1000000);
+      PIT0_Set(sampling_period,true);  //SAMPLING_PERIODE in ns
     }
   }
 }
@@ -230,8 +236,8 @@ static void InitModulesThread(void* pData)
   SCP_TowerNb.l = 5605;
   SCP_TowerMd.l = 0;
   //Init timing mode
-//  SCP_RegMode = DEFINITE_TIMER;
-  SCP_RegMode = INVERSE_TIMER;
+  SCP_RegMode = DEFINITE_TIMER;
+//  SCP_RegMode = INVERSE_TIMER;
   //Init Signal period in ms assuming a 50Hz signal
   Frequencie_Ts = 20;
   // Baud Rate and Module Clock
@@ -246,7 +252,7 @@ static void InitModulesThread(void* pData)
   LEDs_Init();
   //Init Timers
   FTM_Init();
-  PIT_Init(moduleClk, NULL, NULL);
+  PIT_Init(moduleClk, Regulation_TakeSample, NULL);
   RTC_Init(NULL, NULL);
   //Init Flash
   Flash_Init();
@@ -295,11 +301,9 @@ static void InitModulesThread(void* pData)
 //    OS_TimeDelay(1);
 //  }
 
-
 //  //Test calcul VRMS
 //  float  Vrms = VRMS(Regulation_FullSampleA);
 //  Analog_Put(0,VOLT_TO_ANALOG(Vrms));
-
 
 //  /*Problem here !! oscillo says its 2.64V but test has the value 8192 which should be right for 2.5V ...*/
 //  //Test conversion analog/volt
@@ -312,6 +316,22 @@ static void InitModulesThread(void* pData)
 //  OS_TimeDelay(100); //200 * 10 ms = 2sec
 //  uint32_t t_elapsed = ((PIT_LDVAL1 - PIT_CVAL1 + 1) * 1e3) / CPU_BUS_CLK_HZ; //in ms
 //  PIT1_Enable(false);
+
+
+
+  //Test PFFFT
+
+//  PFFFT_Setup *OurSetUp = pffft_new_setup(144, PFFFT_REAL);
+//  float SampleForFFT[144];
+//  float SampleOutFFT[144];
+//  float *Area;
+//  for(int i = 0; i<144; i++)
+//  {
+//    int16_t tempsample;
+//    Analog_Get(0,&tempsample);
+//    *(SampleForFFT+i) = ANALOG_TO_VOLT(tempsample);
+//    OS_TimeDelay(1);
+//  }
 
 
   //Create 1sec Timer with FTM

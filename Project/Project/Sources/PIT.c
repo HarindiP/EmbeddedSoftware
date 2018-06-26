@@ -14,17 +14,12 @@
 /* MODULE PIT */
 
 // new types
-#include "types.h"
 #include "PIT.h"
-#include "MK70F12.h"
-#include "PE_Types.h"
-#include "LEDs.h"
-#include "Regulation.h"
-#include "Requirements.h"
 
 
 static uint32_t Clkperiod; //ask coralie if it should be static
 const static uint32_t PITPeriod = 5e+8; /*500ms to nanoseconds*/	// MOVE TO MAIN!!!!
+
 static void (*UserFunction)(void*);
 static void* UserArguments;
 
@@ -206,35 +201,9 @@ void __attribute__ ((interrupt)) PIT0_ISR(void)
   /*Clear interupt flag*/
   PIT_TFLG0 |= PIT_TFLG_TIF_MASK;
 
-//  if (UserFunction)
-//  (*UserFunction)(UserArguments);
+  if (UserFunction)
+  (*UserFunction)(UserArguments);
 
-  static int nbSampleTaken = 0;
-
-  //Take a sample on each channel
-//  int16_t sample;
-//  Analog_Get(0,&sample);
-//  TakeSample(Regulation_FullSampleA,sample);
-//  Analog_Get(1,&sample);
-//  TakeSample(Regulation_FullSampleB,sample);
-//  Analog_Get(2,&sample);
-//  TakeSample(Regulation_FullSampleC,sample);
-
-  Analog_Get(0,Regulation_FullSampleA + nbSampleTaken);
-  Analog_Get(1,Regulation_FullSampleB + nbSampleTaken);
-  Analog_Get(2,Regulation_FullSampleC + nbSampleTaken);
-
-  nbSampleTaken++;
-
-  if(nbSampleTaken == NB_OF_SAMPLE)
-  {
-    nbSampleTaken = 0;
-    //Stop taking samples
-    PIT0_Enable(false);
-    //Signal the treatment thread
-    OS_SemaphoreSignal(FullSampleTaken);
-  }
-//  OS_SemaphoreSignal(PIT0Access);
   OS_ISRExit();
 }
 
@@ -255,8 +224,8 @@ void __attribute__ ((interrupt)) PIT1_ISR(void)
   OS_ISREnter();
   /*Clear interupt flag*/
   PIT_TFLG1 |= PIT_TFLG_TIF_MASK;
-  //Turn off Green LED
-  LEDs_Off(LED_GREEN);
+//  //Turn off Green LED
+//  LEDs_Off(LED_GREEN);
   Regulation_AlarmReached[0] = true;
   PIT_Enable(1,false);
   OS_ISRExit();
@@ -267,8 +236,8 @@ void __attribute__ ((interrupt)) PIT2_ISR(void)
   OS_ISREnter();
   /*Clear interupt flag*/
   PIT_TFLG2 |= PIT_TFLG_TIF_MASK;
-  //Turn off Green LED
-  LEDs_Off(LED_GREEN);
+//  //Turn off Green LED
+//  LEDs_Off(LED_GREEN);
   Regulation_AlarmReached[1] = true;
   PIT_Enable(2,false);
   OS_ISRExit();
@@ -279,8 +248,8 @@ void __attribute__ ((interrupt)) PIT3_ISR(void)
   OS_ISREnter();
   /*Clear interupt flag*/
   PIT_TFLG3 |= PIT_TFLG_TIF_MASK;
-  //Turn off Green LED
-  LEDs_Off(LED_GREEN);
+//  //Turn off Green LED
+//  LEDs_Off(LED_GREEN);
   Regulation_AlarmReached[2] = true;
   PIT_Enable(3,false);
   OS_ISRExit();

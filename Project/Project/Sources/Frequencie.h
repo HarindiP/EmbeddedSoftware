@@ -9,6 +9,8 @@
 #define SOURCES_FREQUENCIE_H_
 
 #include "types.h"
+#include "kiss_fftr.h"
+#include <math.h>
 
 
 ////ATTENTION negative values a bit wrong : 2^15/10 values, not (2^15 - 1)/10
@@ -24,6 +26,8 @@ float Interpolation( uint16_t y, float x1, float x2, uint16_t y1, uint16_t y2);
 int16_t Average(int16_t* const sample);
 
 void FrequencyTracking(int16_t* const sampleArray, float* Ts);
+
+void Frequencie_FFT(int16_t* sampleArray, float* amplitude);
 
 
 #endif /* SOURCES_FREQUENCIE_H_ */
