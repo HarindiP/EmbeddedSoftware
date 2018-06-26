@@ -35,9 +35,10 @@
 #include "analog.h"
 #include "FTM.h"
 #include "Flash.h"
-#include "analogmeasure.h"
+//#include "analogmeasure.h"
 #include "UsefulFunctions.h"
 #include "voltageRegulator.h"
+#include "frequencytracking.h"
 
 // Arbitrary thread stack size - big enough for stacking of interrupts and OS use.
 #define THREAD_STACK_SIZE 1024
@@ -124,6 +125,7 @@ static void PITThread(void* pData)
      {
        //check to see if one is of
        BoundsCheck(tempval[i], i);
+       calcminimum();
      }
 
   }

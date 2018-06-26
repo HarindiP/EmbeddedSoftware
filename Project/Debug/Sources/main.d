@@ -11,8 +11,8 @@ Sources/main.o: ../Sources/main.c \
  ../Sources/FIFO.h ../Sources/SCP.h ../Sources/LEDs.h ../Sources/PIT.h \
  C:\Users\12443166\Documents\git\es18aut35\Project\Library/analog.h \
  C:/Users/12443166/Documents/git/es18aut35/Project/Sources/types.h \
- ../Sources/FTM.h ../Sources/Flash.h ../Sources/analogmeasure.h \
- ../Sources/UsefulFunctions.h ../Sources/voltageRegulator.h
+ ../Sources/FTM.h ../Sources/Flash.h ../Sources/UsefulFunctions.h \
+ ../Sources/voltageRegulator.h ../Sources/frequencytracking.h
 
 C:/Users/12443166/Documents/git/es18aut35/Project/Generated_Code/Cpu.h:
 
@@ -52,8 +52,8 @@ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/types.h:
 
 ../Sources/Flash.h:
 
-../Sources/analogmeasure.h:
-
 ../Sources/UsefulFunctions.h:
 
 ../Sources/voltageRegulator.h:
+
+../Sources/frequencytracking.h:
