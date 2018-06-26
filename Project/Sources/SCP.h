@@ -26,6 +26,13 @@ extern uint16union_t SCP_TowerMd;
 volatile uint16union_t *NvTowerNb;
 volatile uint16union_t *NvTowerMd;
 
+//Create an enum that toggles between mode
+typedef enum
+{
+  DEF_MODE,
+  INV_MODE
+} Tmode;
+
 //Communication commands : PC to Tower
 /*Special - Get startup values
 Parameter 1: 0
@@ -83,11 +90,25 @@ Parameter 2:  0 = asynchronous for a “set”, 0 for a “get”
 Parameter 3: 0 */
 #define Protocol_Mode 0x0A
 
-/*Accelerometer – Value
-Parameter 1: x-axis MSB
-Parameter 2: y-axis MSB
-Parameter 3: z-axis MSB */
-#define Accel_Value 0x10
+/*Timing – Mode
+Parameter 1:  0 = get Timing mode
+              1 = set definite Mode (5 seconds)
+              2 = set inverse Mode
+Parameter 2:  0
+              0
+Parameter 3: 0 */
+#define Timing_Mode 0x10
+
+#define Number_of_Raises 0x11
+
+#define Number_of_Lowers 0x12
+
+#define Frequency 0x17
+
+#define Voltage 0x18
+
+#define Spectrum 0x19
+
 
 //Communication functions :
 
@@ -149,10 +170,9 @@ bool ReadByte(uint8_t address);
  */
 bool ProgramByte(uint8_t address, uint8_t data);
 
-/*! @brief Send the curent time
- *
- *  @return true if time has been sent, false if not
- */
+bool HandleTimingMode();
+bool NbofRaises();
+bool NbofLowers();
 
 
 /*! @brief Private ACK checking function

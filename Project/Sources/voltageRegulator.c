@@ -26,6 +26,8 @@
 //local copy from the main
 channeldata Samples[3];
 
+
+
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 int ChannelNumber = 0;
 
@@ -49,37 +51,41 @@ void ValuesReset(void)
 }
 
 
-//create variable to check if it already havent been checked
+//create variable to check if channel is in question already havent been checked
 bool alreadychecked = false;
-//if alreadychecked != false
 
-//if variable
 
-void BoundsCheck(int16_t VRMS[], int channelNb)
+
+void BoundsCheck(int16_t VRMS, int channelNb)
 {
-  if ((VRMS[ChannelNumber] > UPPERBOUND || VRMS[ChannelNumber] < LOWERBOUND) && (!alreadychecked))
+  if ((VRMS > UPPERBOUND || VRMS < LOWERBOUND) && (!alreadychecked))
   {
-    alreadychecked = true;
-    //if channel hasnt been checked
-    SignalsSetALarm();
+    alreadychecked = true;  //If the channel hadnt been already checked
+    SignalsSetALarm();  //Set this goober
     ChannelNumber = channelNb; //globally defines which channel number Im currently using
 
+    // toggles the modes famm!!
+    if (TimingMode == DEF_MODE)
+    {
+      definitemode();
+    }
+    else if (TimingMode == INV_MODE)
+    {
+      inversetimemode();
+    }
 
-    //if statement that calls appropriate mode
-    definitemode();
-
-    //      inversetimemode();
   }
 
 
   //makes sure to check the channels that havent been checked
-  if (VRMS[ChannelNumber] > UPPERBOUND && VRMS[ChannelNumber] < LOWERBOUND && (ChannelNumber == channelNb) && (alreadychecked))
+  if (VRMS < UPPERBOUND && VRMS > LOWERBOUND && (ChannelNumber == channelNb) && (alreadychecked))
   {
 
     alreadychecked = false;
     PIT1_Enable(false);
 
     // check to see if vrms is inbounds again where i is indicative of channel number
+    //if other channels are out of bounds stay yo ass there else clear this bitch
     for (int i = 0; i <3 ; i++)
     {
       if (Samples[i].myVrms > UPPERBOUND || Samples[i].myVrms < LOWERBOUND)
@@ -118,11 +124,15 @@ void DefiniteCheck(void)
   {
     SignalsSetLower();
     NumofLowers++;
+
+    //Flash write8 this into memory
   }
   else if (newVRMS < LOWERBOUND)
   {
     SignalsSetHigher();
     NumofHighers++;
+
+    //flash write8 this into memory
   }
   else
   {

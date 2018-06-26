@@ -118,10 +118,12 @@ static void PITThread(void* pData)
       Samples[1].myVrms = VRMS(Samples[1].myArray);
       Samples[2].myVrms = VRMS(Samples[2].myArray);
 
+
+      //where i is indicative og the channel
      for (int i =0; i <3; i++)
      {
        //check to see if one is of
-       BoundsCheck(tempval, i);
+       BoundsCheck(tempval[i], i);
      }
 
   }
@@ -137,8 +139,10 @@ static void PIT1Thread(void* pData)
   for(;;)
   { //after 5 seconds have passed
     OS_SemaphoreWait(PIT1Access,0);
-    DefiniteCheck();
-//    InverseCheck();
+
+    //create global variable that switches between the 2
+//    DefiniteCheck();
+    InverseCheck();
 
       //Toggle Green LED
     LEDs_Toggle(LED_GREEN);

@@ -26,6 +26,8 @@
 uint16union_t SCP_TowerNb;
 /*Tower Mode*/
 uint16union_t SCP_TowerMd;
+/*Timing Mode*/
+Tmode SCP_TimingMode;
 
 /*Communication functions : */
 
@@ -114,6 +116,20 @@ bool ProgramByte(uint8_t address, uint8_t data)
   {
       return Flash_Write8(&address, data);	//TODO : makes sense the & ?
   }
+}
+
+bool HandleTimingMode()
+{
+
+  return true;
+}
+bool NbofRaises()
+{
+  return true;
+}
+bool NbofLowers()
+{
+  return true;
 }
 
 

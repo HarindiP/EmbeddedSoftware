@@ -8,6 +8,8 @@
 #ifndef SOURCES_VOLTAGEREGULATOR_H_
 #define SOURCES_VOLTAGEREGULATOR_H_
 
+#include "SCP.h"
+
 //define a struct used to navigate all channels on through out the code
 typedef struct
 {
@@ -22,15 +24,13 @@ channeldata;
 extern channeldata Samples[3];
 
 
-
-
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 extern int ChannelNumber;
 
 
 void ValuesReset(void);
 
-void BoundsCheck(int16_t VRMS[], int channelNb);
+void BoundsCheck(int16_t VRMS, int channelNb);
 
 void definitemode(void);
 

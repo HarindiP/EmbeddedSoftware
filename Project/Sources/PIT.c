@@ -20,6 +20,7 @@
 #include "PE_Types.h"
 #include "LEDs.h"
 #include "voltageRegulator.h"
+#include "analog.h"
 
 
 static uint32_t Clkperiod;
@@ -28,10 +29,11 @@ static uint32_t Clkperiod;
 OS_ECB* PITAccess;  //used for vrms every 1.25ms
 OS_ECB* PIT1Access; //used for vrms every 5s
 
+
 bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userArguments)
 {
   /*Gets the period of the clock from Freq*/
-  Clkperiod = 1e9 / moduleClk ;
+  Clkperiod = 1e9 / moduleClk;
 
   /*Enable clock gate to PIT module*/
   SIM_SCGC6 |= SIM_SCGC6_PIT_MASK;
@@ -64,12 +66,6 @@ bool PIT_Init(const uint32_t moduleClk, void (*userFunction)(void*), void* userA
 
   //Create Semaphore for PIT1
   PIT1Access = OS_SemaphoreCreate(0);
-
-  /*Enable timer*/
-//  PIT_Enable(true);
-//
-//  /*Enable timer*/
-//  PIT1_Enable(true);
 
 
   return true;
