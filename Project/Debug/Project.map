@@ -937,128 +937,127 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
  .text.HandlePacketThread
                 0x00002564       0x44 ./Sources/main.o
  .text.PITThread
-                0x000025a8       0x94 ./Sources/main.o
+                0x000025a8       0x9c ./Sources/main.o
  .text.PIT1Thread
-                0x0000263c       0x28 ./Sources/main.o
+                0x00002644       0x28 ./Sources/main.o
  .text.InitModulesThread
-                0x00002664       0xdc ./Sources/main.o
- .text.main     0x00002740       0xb4 ./Sources/main.o
-                0x00002740                main
+                0x0000266c       0xdc ./Sources/main.o
+ .text.main     0x00002748       0xb4 ./Sources/main.o
+                0x00002748                main
  .text.CheckSum
-                0x000027f4       0x30 ./Sources/packet.o
-                0x000027f4                CheckSum
+                0x000027fc       0x30 ./Sources/packet.o
+                0x000027fc                CheckSum
  .text.Packet_Init
-                0x00002824       0x2c ./Sources/packet.o
-                0x00002824                Packet_Init
+                0x0000282c       0x2c ./Sources/packet.o
+                0x0000282c                Packet_Init
  .text.Packet_Get
-                0x00002850       0xdc ./Sources/packet.o
-                0x00002850                Packet_Get
+                0x00002858       0xdc ./Sources/packet.o
+                0x00002858                Packet_Get
  .text.Packet_Put
-                0x0000292c       0x94 ./Sources/packet.o
-                0x0000292c                Packet_Put
+                0x00002934       0x94 ./Sources/packet.o
+                0x00002934                Packet_Put
  .text.SignalsSetHigher
-                0x000029c0       0x10 ./Sources/signals.o
-                0x000029c0                SignalsSetHigher
+                0x000029c8       0x10 ./Sources/signals.o
+                0x000029c8                SignalsSetHigher
  .text.SignalsClearHigher
-                0x000029d0       0x10 ./Sources/signals.o
-                0x000029d0                SignalsClearHigher
+                0x000029d8       0x10 ./Sources/signals.o
+                0x000029d8                SignalsClearHigher
  .text.SignalsSetLower
-                0x000029e0       0x10 ./Sources/signals.o
-                0x000029e0                SignalsSetLower
+                0x000029e8       0x10 ./Sources/signals.o
+                0x000029e8                SignalsSetLower
  .text.SignalsClearLower
-                0x000029f0       0x10 ./Sources/signals.o
-                0x000029f0                SignalsClearLower
+                0x000029f8       0x10 ./Sources/signals.o
+                0x000029f8                SignalsClearLower
  .text.SignalsSetALarm
-                0x00002a00       0x10 ./Sources/signals.o
-                0x00002a00                SignalsSetALarm
+                0x00002a08       0x10 ./Sources/signals.o
+                0x00002a08                SignalsSetALarm
  .text.SignalsClearAlarm
-                0x00002a10       0x10 ./Sources/signals.o
-                0x00002a10                SignalsClearAlarm
+                0x00002a18       0x10 ./Sources/signals.o
+                0x00002a18                SignalsClearAlarm
  .text.SignalsClearAll
-                0x00002a20       0x14 ./Sources/signals.o
-                0x00002a20                SignalsClearAll
+                0x00002a28       0x14 ./Sources/signals.o
+                0x00002a28                SignalsClearAll
  .text.ValuesReset
-                0x00002a34       0x28 ./Sources/voltageRegulator.o
-                0x00002a34                ValuesReset
- *fill*         0x00002a5c        0x4 
+                0x00002a3c       0x28 ./Sources/voltageRegulator.o
+                0x00002a3c                ValuesReset
+ *fill*         0x00002a64        0x4 
  .text.BoundsCheck
-                0x00002a60      0x1b0 ./Sources/voltageRegulator.o
-                0x00002a60                BoundsCheck
+                0x00002a68      0x1b0 ./Sources/voltageRegulator.o
+                0x00002a68                BoundsCheck
  .text.definitemode
-                0x00002c10       0x14 ./Sources/voltageRegulator.o
-                0x00002c10                definitemode
- *fill*         0x00002c24        0x4 
+                0x00002c18       0x14 ./Sources/voltageRegulator.o
+                0x00002c18                definitemode
+ *fill*         0x00002c2c        0x4 
  .text.DefiniteCheck
-                0x00002c28       0xb0 ./Sources/voltageRegulator.o
-                0x00002c28                DefiniteCheck
+                0x00002c30       0xb0 ./Sources/voltageRegulator.o
+                0x00002c30                DefiniteCheck
  .text.__copy_rom_section
-                0x00002cd8       0xe4 ./Project_Settings/Startup_Code/startup.o
-                0x00002cd8                __copy_rom_section
+                0x00002ce0       0xe4 ./Project_Settings/Startup_Code/startup.o
+                0x00002ce0                __copy_rom_section
  .text.__copy_rom_sections_to_ram
-                0x00002dbc       0x9c ./Project_Settings/Startup_Code/startup.o
-                0x00002dbc                __copy_rom_sections_to_ram
+                0x00002dc4       0x9c ./Project_Settings/Startup_Code/startup.o
+                0x00002dc4                __copy_rom_sections_to_ram
  .text.__init_registers
-                0x00002e58       0x20 ./Project_Settings/Startup_Code/startup.o
-                0x00002e58                __init_registers
+                0x00002e60       0x20 ./Project_Settings/Startup_Code/startup.o
+                0x00002e60                __init_registers
  .text.__init_user
-                0x00002e78        0xc ./Project_Settings/Startup_Code/startup.o
-                0x00002e78                __init_user
+                0x00002e80        0xc ./Project_Settings/Startup_Code/startup.o
+                0x00002e80                __init_user
  .text.__thumb_startup
-                0x00002e84       0x34 ./Project_Settings/Startup_Code/startup.o
-                0x00002e84                __thumb_startup
+                0x00002e8c       0x34 ./Project_Settings/Startup_Code/startup.o
+                0x00002e8c                __thumb_startup
  .text.Cpu_Interrupt
-                0x00002eb8       0x18 ./Generated_Code/Cpu.o
-                0x00002eb8                Cpu_Interrupt
+                0x00002ec0       0x18 ./Generated_Code/Cpu.o
+                0x00002ec0                Cpu_Interrupt
  .text.__init_hardware
-                0x00002ed0      0x1cc ./Generated_Code/Cpu.o
-                0x00002ed0                __init_hardware
+                0x00002ed8      0x1cc ./Generated_Code/Cpu.o
+                0x00002ed8                __init_hardware
  .text.Cpu_SetBASEPRI
-                0x0000309c       0x18 ./Generated_Code/Cpu.o
-                0x0000309c                Cpu_SetBASEPRI
+                0x000030a4       0x18 ./Generated_Code/Cpu.o
+                0x000030a4                Cpu_SetBASEPRI
  .text.PE_low_level_init
-                0x000030b4       0xe4 ./Generated_Code/Cpu.o
-                0x000030b4                PE_low_level_init
- .text.OS_Init  0x00003198      0x110 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003198                OS_Init
+                0x000030bc       0xe4 ./Generated_Code/Cpu.o
+                0x000030bc                PE_low_level_init
+ .text.OS_Init  0x000031a0      0x110 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000031a0                OS_Init
  .text.OS_ISREnter
-                0x000032a8       0x20 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000032a8                OS_ISREnter
+                0x000032b0       0x20 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000032b0                OS_ISREnter
  .text.OS_ISRExit
-                0x000032c8       0x1c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000032c8                OS_ISRExit
+                0x000032d0       0x1c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000032d0                OS_ISRExit
  .text.OS_SemaphoreCreate
-                0x000032e4       0x90 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000032e4                OS_SemaphoreCreate
+                0x000032ec       0x90 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000032ec                OS_SemaphoreCreate
  .text.OS_SemaphoreSignal
-                0x00003374       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003374                OS_SemaphoreSignal
+                0x0000337c       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x0000337c                OS_SemaphoreSignal
  .text.OS_SemaphoreWait
-                0x000033b8       0x58 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x000033b8                OS_SemaphoreWait
+                0x000033c0       0x58 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000033c0                OS_SemaphoreWait
  .text.OS_Start
-                0x00003410       0x10 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003410                OS_Start
+                0x00003418       0x10 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003418                OS_Start
  .text.OS_ThreadCreate
-                0x00003420      0x160 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003420                OS_ThreadCreate
+                0x00003428      0x160 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003428                OS_ThreadCreate
  .text.OS_ThreadDelete
-                0x00003580      0x18c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
-                0x00003580                OS_ThreadDelete
+                0x00003588      0x18c C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003588                OS_ThreadDelete
  .text.EventThreadReady
-                0x0000370c       0x68 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003714       0x68 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.EventThreadWait
-                0x00003774       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x0000377c       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.EventTimeout
-                0x000037d8       0x40 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .text.Idle     0x00003818       0x18 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x000037e0       0x40 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .text.Idle     0x00003820       0x18 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.FindFirstSet
-                0x00003830       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x00003838       0x44 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.Schedule
-                0x00003874       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .text.TCBInit  0x000038d8       0xcc C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+                0x0000387c       0x64 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .text.TCBInit  0x000038e0       0xcc C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.TimeTick
-                0x000039a4       0x74 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- *fill*         0x00003a18        0x8 
+                0x000039ac       0x74 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
  .text.OS_ContextSwitchISR
                 0x00003a20       0x70 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
                 0x00003a20                OS_ContextSwitchISR
@@ -1469,7 +1468,7 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x0000083e       0x22 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
 OUTPUT(Project.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x64d0
+.debug_info     0x00000000     0x64db
  .debug_info    0x00000000      0x217 ./Sources/FIFO.o
  .debug_info    0x00000217      0x7d9 ./Sources/FTM.o
  .debug_info    0x000009f0      0x678 ./Sources/Flash.o
@@ -1478,18 +1477,18 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_info    0x00001bcd      0x3e9 ./Sources/SCP.o
  .debug_info    0x00001fb6      0x9fa ./Sources/UART.o
  .debug_info    0x000029b0      0x155 ./Sources/UsefulFunctions.o
- .debug_info    0x00002b05      0x51f ./Sources/main.o
- .debug_info    0x00003024      0x394 ./Sources/packet.o
- .debug_info    0x000033b8       0xee ./Sources/signals.o
- .debug_info    0x000034a6      0x27f ./Sources/voltageRegulator.o
- .debug_info    0x00003725      0x3b0 ./Project_Settings/Startup_Code/startup.o
- .debug_info    0x00003ad5      0xc82 ./Generated_Code/Cpu.o
- .debug_info    0x00004757      0x1ad ./Generated_Code/Vectors.o
- .debug_info    0x00004904      0xd02 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_info    0x00005606      0x46a C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_info    0x00005a70      0xa60 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_info    0x00002b05      0x52a ./Sources/main.o
+ .debug_info    0x0000302f      0x394 ./Sources/packet.o
+ .debug_info    0x000033c3       0xee ./Sources/signals.o
+ .debug_info    0x000034b1      0x27f ./Sources/voltageRegulator.o
+ .debug_info    0x00003730      0x3b0 ./Project_Settings/Startup_Code/startup.o
+ .debug_info    0x00003ae0      0xc82 ./Generated_Code/Cpu.o
+ .debug_info    0x00004762      0x1ad ./Generated_Code/Vectors.o
+ .debug_info    0x0000490f      0xd02 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_info    0x00005611      0x46a C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_info    0x00005a7b      0xa60 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
-.debug_abbrev   0x00000000     0x1964
+.debug_abbrev   0x00000000     0x1973
  .debug_abbrev  0x00000000       0xce ./Sources/FIFO.o
  .debug_abbrev  0x000000ce      0x1d8 ./Sources/FTM.o
  .debug_abbrev  0x000002a6      0x1cc ./Sources/Flash.o
@@ -1498,16 +1497,16 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_abbrev  0x00000790      0x14e ./Sources/SCP.o
  .debug_abbrev  0x000008de      0x1f9 ./Sources/UART.o
  .debug_abbrev  0x00000ad7       0xaf ./Sources/UsefulFunctions.o
- .debug_abbrev  0x00000b86      0x16f ./Sources/main.o
- .debug_abbrev  0x00000cf5      0x108 ./Sources/packet.o
- .debug_abbrev  0x00000dfd       0x45 ./Sources/signals.o
- .debug_abbrev  0x00000e42      0x115 ./Sources/voltageRegulator.o
- .debug_abbrev  0x00000f57      0x189 ./Project_Settings/Startup_Code/startup.o
- .debug_abbrev  0x000010e0      0x185 ./Generated_Code/Cpu.o
- .debug_abbrev  0x00001265       0xe1 ./Generated_Code/Vectors.o
- .debug_abbrev  0x00001346      0x2f8 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_abbrev  0x0000163e      0x151 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_abbrev  0x0000178f      0x1d5 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_abbrev  0x00000b86      0x17e ./Sources/main.o
+ .debug_abbrev  0x00000d04      0x108 ./Sources/packet.o
+ .debug_abbrev  0x00000e0c       0x45 ./Sources/signals.o
+ .debug_abbrev  0x00000e51      0x115 ./Sources/voltageRegulator.o
+ .debug_abbrev  0x00000f66      0x189 ./Project_Settings/Startup_Code/startup.o
+ .debug_abbrev  0x000010ef      0x185 ./Generated_Code/Cpu.o
+ .debug_abbrev  0x00001274       0xe1 ./Generated_Code/Vectors.o
+ .debug_abbrev  0x00001355      0x2f8 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_abbrev  0x0000164d      0x151 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_abbrev  0x0000179e      0x1d5 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
 .debug_aranges  0x00000000      0x578
  .debug_aranges
@@ -1624,7 +1623,7 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_macro   0x000340ba       0x10 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
  .debug_macro   0x000340ca       0x68 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
-.debug_line     0x00000000     0x3900
+.debug_line     0x00000000     0x38ed
  .debug_line    0x00000000      0x2de ./Sources/FIFO.o
  .debug_line    0x000002de      0x33b ./Sources/FTM.o
  .debug_line    0x00000619      0x33c ./Sources/Flash.o
@@ -1633,16 +1632,16 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_line    0x00000f30      0x375 ./Sources/SCP.o
  .debug_line    0x000012a5      0x36c ./Sources/UART.o
  .debug_line    0x00001611      0x311 ./Sources/UsefulFunctions.o
- .debug_line    0x00001922      0x42f ./Sources/main.o
- .debug_line    0x00001d51      0x261 ./Sources/packet.o
- .debug_line    0x00001fb2      0x28e ./Sources/signals.o
- .debug_line    0x00002240      0x389 ./Sources/voltageRegulator.o
- .debug_line    0x000025c9      0x3e4 ./Project_Settings/Startup_Code/startup.o
- .debug_line    0x000029ad      0x283 ./Generated_Code/Cpu.o
- .debug_line    0x00002c30      0x367 ./Generated_Code/Vectors.o
- .debug_line    0x00002f97      0x496 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_line    0x0000342d      0x200 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_line    0x0000362d      0x2d3 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_line    0x00001922      0x41c ./Sources/main.o
+ .debug_line    0x00001d3e      0x261 ./Sources/packet.o
+ .debug_line    0x00001f9f      0x28e ./Sources/signals.o
+ .debug_line    0x0000222d      0x389 ./Sources/voltageRegulator.o
+ .debug_line    0x000025b6      0x3e4 ./Project_Settings/Startup_Code/startup.o
+ .debug_line    0x0000299a      0x283 ./Generated_Code/Cpu.o
+ .debug_line    0x00002c1d      0x367 ./Generated_Code/Vectors.o
+ .debug_line    0x00002f84      0x496 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_line    0x0000341a      0x200 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_line    0x0000361a      0x2d3 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
 .debug_str      0x00000000    0x8f59c
  .debug_str     0x00000000    0x8a688 ./Sources/FIFO.o
@@ -1661,13 +1660,13 @@ OUTPUT(Project.elf elf32-littlearm)
                               0x8ac98 (size before relaxing)
  .debug_str     0x0008b57a     0x1be6 ./Sources/UsefulFunctions.o
                               0x84a95 (size before relaxing)
- .debug_str     0x0008d160      0x204 ./Sources/main.o
-                              0x8aee3 (size before relaxing)
- .debug_str     0x0008d364       0x82 ./Sources/packet.o
+ .debug_str     0x0008d160      0x1f6 ./Sources/main.o
+                              0x8aed5 (size before relaxing)
+ .debug_str     0x0008d356       0x82 ./Sources/packet.o
                                0x33c2 (size before relaxing)
- .debug_str     0x0008d3e6       0x8d ./Sources/signals.o
+ .debug_str     0x0008d3d8       0x8d ./Sources/signals.o
                                0x303c (size before relaxing)
- .debug_str     0x0008d473      0x106 ./Sources/voltageRegulator.o
+ .debug_str     0x0008d465      0x114 ./Sources/voltageRegulator.o
                               0x83003 (size before relaxing)
  .debug_str     0x0008d579     0x1147 ./Project_Settings/Startup_Code/startup.o
                               0x853f8 (size before relaxing)

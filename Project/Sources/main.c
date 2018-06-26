@@ -118,9 +118,12 @@ static void PITThread(void* pData)
       Samples[1].myVrms = VRMS(Samples[1].myArray);
       Samples[2].myVrms = VRMS(Samples[2].myArray);
 
+     for (int i =0; i <3; i++)
+     {
+       //check to see if one is of
+       BoundsCheck(tempval, i);
+     }
 
-        //check to see if one is of
-     BoundsCheck(tempval, ChannelNumber);
   }
 }
 
