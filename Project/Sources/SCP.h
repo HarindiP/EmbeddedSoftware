@@ -231,6 +231,19 @@ bool SendLowers();
  */
 bool ResetLowers();
 
+/*! @brief Get the present frequency
+ *
+ *  @param
+ *  @return   true if the frequency has been sent, false if not
+ */
+bool GetFreq();
+
+/*! @brief Set the vrms value
+ *
+ *  @param
+ *  @return   true if the values has been sent, false if not
+ */
+bool GetVrms();
 
 /*! @brief Private ACK checking function
  *

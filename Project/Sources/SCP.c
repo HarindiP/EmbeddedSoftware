@@ -36,6 +36,13 @@ uint8_t SCP_NbHighers;
 
 /*Number of Lowers*/
 uint8_t SCP_NbLowers;
+
+/*Frequency global value*/
+uint16_t FreqPeriod;
+
+/*Vrms global value*/
+uint16_t FreqPeriod;
+
 /*Communication functions : */
 
 bool SCP_SendStartUpValues()
@@ -201,24 +208,22 @@ bool ResetLowers()
   return SendLowers;
 }
 
-
-//bool NbofRaises()
+//bool GetFreq()
 //{
-//  if(Packet_Parameter1 == 1)   // Command is : get Timing Mode
-//  {
-//    SendRaises();
-//  }
-//  else if (Packet_Parameter2==2)  //Command is : set Tower Mode
-//  {
-//    SetRaises();
-//  }
+//  uint16_t tempFreq = 10000 / FreqPeriod; //the freq that would have set if frequency would have worked.
+//  return Packet_Put(0x17, (uint16union_t)tempFreq.s.Lo , (uint16union_t)tempFreq.s.Hi,  0);
 //}
 
-//bool NbofLowers()
+/*! @brief Set the vrms value
+ *
+ *  @param
+ *  @return   true if the values has been sent, false if not
+ */
+//bool GetVrms()
 //{
-//  return true;
+//  uint16t globalVrms = globalvoltage * 100;
+//  return PacketPut(0x18,Packet_Parameter1,((uint16union_t)globalVrms).s.Lo,((uint16union_t)globalVrms).s.Hi);
 //}
-
 
 /*Acknowledgement and NonAcknowledgement functions*/
 bool SCP_Acknowledgement_Required(const uint8_t command)
@@ -265,6 +270,10 @@ bool SCP_Packet_Handle()
     case Number_of_Raises :
       return HandleHighers();
       break;
+//    case Frequency :
+//      return GetFreq();
+//    case Voltage :
+//      return GetVrms();
     default:	//Unknown command
       //Do nothing or return command with NAK
       //Packet_Put(0b1000000 | Packet_Command,Packet_Parameter1,Packet_Parameter2,Packet_Parameter3);

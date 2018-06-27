@@ -13,6 +13,8 @@ C_SRCS += \
 ../Sources/UART.c \
 ../Sources/calc.c \
 ../Sources/frequencytracking.c \
+../Sources/kiss_fft.c \
+../Sources/kiss_fftr.c \
 ../Sources/main.c \
 ../Sources/packet.c \
 ../Sources/signals.c \
@@ -28,6 +30,8 @@ OBJS += \
 ./Sources/UART.o \
 ./Sources/calc.o \
 ./Sources/frequencytracking.o \
+./Sources/kiss_fft.o \
+./Sources/kiss_fftr.o \
 ./Sources/main.o \
 ./Sources/packet.o \
 ./Sources/signals.o \
@@ -43,6 +47,8 @@ C_DEPS += \
 ./Sources/UART.d \
 ./Sources/calc.d \
 ./Sources/frequencytracking.d \
+./Sources/kiss_fft.d \
+./Sources/kiss_fftr.d \
 ./Sources/main.d \
 ./Sources/packet.d \
 ./Sources/signals.d \
