@@ -1885,7 +1885,7 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x1fff42b8     0x1000 ./Sources/main.o
  .bss.PIT1ThreadStack
                 0x1fff52b8     0x1000 ./Sources/main.o
- .bss.tempval.6832
+ .bss.tempval.6835
                 0x1fff62b8        0x8 ./Sources/main.o
  .bss.count.4145
                 0x1fff62c0        0x1 ./Sources/packet.o
@@ -2101,7 +2101,7 @@ LOAD c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-
                 0x000008ab       0x22 c:/freescale/kds_3.0.0/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv7e-m/fpu/crtn.o
 OUTPUT(Project.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x6b04
+.debug_info     0x00000000     0x6b26
  .debug_info    0x00000000      0x217 ./Sources/FIFO.o
  .debug_info    0x00000217      0x7d9 ./Sources/FTM.o
  .debug_info    0x000009f0      0x678 ./Sources/Flash.o
@@ -2110,19 +2110,19 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_info    0x00001c39      0x50b ./Sources/SCP.o
  .debug_info    0x00002144      0x9fa ./Sources/UART.o
  .debug_info    0x00002b3e      0x155 ./Sources/calc.o
- .debug_info    0x00002c93      0x3a7 ./Sources/frequencytracking.o
- .debug_info    0x0000303a      0x555 ./Sources/main.o
- .debug_info    0x0000358f      0x394 ./Sources/packet.o
- .debug_info    0x00003923       0xee ./Sources/signals.o
- .debug_info    0x00003a11      0x348 ./Sources/voltageRegulator.o
- .debug_info    0x00003d59      0x3b0 ./Project_Settings/Startup_Code/startup.o
- .debug_info    0x00004109      0xc82 ./Generated_Code/Cpu.o
- .debug_info    0x00004d8b      0x1ad ./Generated_Code/Vectors.o
- .debug_info    0x00004f38      0xd02 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_info    0x00005c3a      0x46a C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_info    0x000060a4      0xa60 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_info    0x00002c93      0x3c9 ./Sources/frequencytracking.o
+ .debug_info    0x0000305c      0x555 ./Sources/main.o
+ .debug_info    0x000035b1      0x394 ./Sources/packet.o
+ .debug_info    0x00003945       0xee ./Sources/signals.o
+ .debug_info    0x00003a33      0x348 ./Sources/voltageRegulator.o
+ .debug_info    0x00003d7b      0x3b0 ./Project_Settings/Startup_Code/startup.o
+ .debug_info    0x0000412b      0xc82 ./Generated_Code/Cpu.o
+ .debug_info    0x00004dad      0x1ad ./Generated_Code/Vectors.o
+ .debug_info    0x00004f5a      0xd02 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_info    0x00005c5c      0x46a C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_info    0x000060c6      0xa60 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
-.debug_abbrev   0x00000000     0x1b6c
+.debug_abbrev   0x00000000     0x1b86
  .debug_abbrev  0x00000000       0xce ./Sources/FIFO.o
  .debug_abbrev  0x000000ce      0x1d8 ./Sources/FTM.o
  .debug_abbrev  0x000002a6      0x1cc ./Sources/Flash.o
@@ -2131,17 +2131,17 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_abbrev  0x0000079a      0x194 ./Sources/SCP.o
  .debug_abbrev  0x0000092e      0x1f9 ./Sources/UART.o
  .debug_abbrev  0x00000b27       0xaf ./Sources/calc.o
- .debug_abbrev  0x00000bd6      0x163 ./Sources/frequencytracking.o
- .debug_abbrev  0x00000d39      0x17e ./Sources/main.o
- .debug_abbrev  0x00000eb7      0x108 ./Sources/packet.o
- .debug_abbrev  0x00000fbf       0x45 ./Sources/signals.o
- .debug_abbrev  0x00001004      0x15b ./Sources/voltageRegulator.o
- .debug_abbrev  0x0000115f      0x189 ./Project_Settings/Startup_Code/startup.o
- .debug_abbrev  0x000012e8      0x185 ./Generated_Code/Cpu.o
- .debug_abbrev  0x0000146d       0xe1 ./Generated_Code/Vectors.o
- .debug_abbrev  0x0000154e      0x2f8 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
- .debug_abbrev  0x00001846      0x151 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
- .debug_abbrev  0x00001997      0x1d5 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_abbrev  0x00000bd6      0x17d ./Sources/frequencytracking.o
+ .debug_abbrev  0x00000d53      0x17e ./Sources/main.o
+ .debug_abbrev  0x00000ed1      0x108 ./Sources/packet.o
+ .debug_abbrev  0x00000fd9       0x45 ./Sources/signals.o
+ .debug_abbrev  0x0000101e      0x15b ./Sources/voltageRegulator.o
+ .debug_abbrev  0x00001179      0x189 ./Project_Settings/Startup_Code/startup.o
+ .debug_abbrev  0x00001302      0x185 ./Generated_Code/Cpu.o
+ .debug_abbrev  0x00001487       0xe1 ./Generated_Code/Vectors.o
+ .debug_abbrev  0x00001568      0x2f8 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_abbrev  0x00001860      0x151 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_abbrev  0x000019b1      0x1d5 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
 .debug_aranges  0x00000000      0x5f8
  .debug_aranges
@@ -2285,7 +2285,7 @@ OUTPUT(Project.elf elf32-littlearm)
  .debug_line    0x00003882      0x200 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
  .debug_line    0x00003a82      0x2d3 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
 
-.debug_str      0x00000000    0x8f7d3
+.debug_str      0x00000000    0x8f7dc
  .debug_str     0x00000000    0x8a688 ./Sources/FIFO.o
                               0x8a80b (size before relaxing)
  .debug_str     0x0008a688      0x404 ./Sources/FTM.o
@@ -2302,27 +2302,27 @@ OUTPUT(Project.elf elf32-littlearm)
                               0x8ac98 (size before relaxing)
  .debug_str     0x0008b6b6     0x1bef ./Sources/calc.o
                               0x84a99 (size before relaxing)
- .debug_str     0x0008d2a5     0x108f ./Sources/frequencytracking.o
-                               0x5db7 (size before relaxing)
- .debug_str     0x0008e334      0x1a0 ./Sources/main.o
+ .debug_str     0x0008d2a5     0x1098 ./Sources/frequencytracking.o
+                               0x5dc0 (size before relaxing)
+ .debug_str     0x0008e33d      0x1a0 ./Sources/main.o
                               0x8af4b (size before relaxing)
- .debug_str     0x0008e4d4       0x82 ./Sources/packet.o
+ .debug_str     0x0008e4dd       0x82 ./Sources/packet.o
                                0x33c2 (size before relaxing)
- .debug_str     0x0008e556       0x8d ./Sources/signals.o
+ .debug_str     0x0008e55f       0x8d ./Sources/signals.o
                                0x3031 (size before relaxing)
- .debug_str     0x0008e5e3       0xfb ./Sources/voltageRegulator.o
+ .debug_str     0x0008e5ec       0xfb ./Sources/voltageRegulator.o
                               0x8317a (size before relaxing)
- .debug_str     0x0008e6de      0x218 ./Project_Settings/Startup_Code/startup.o
+ .debug_str     0x0008e6e7      0x218 ./Project_Settings/Startup_Code/startup.o
                               0x853f8 (size before relaxing)
- .debug_str     0x0008e8f6      0x20b ./Generated_Code/Cpu.o
+ .debug_str     0x0008e8ff      0x20b ./Generated_Code/Cpu.o
                               0x8aa29 (size before relaxing)
- .debug_str     0x0008eb01       0x1c ./Generated_Code/Vectors.o
+ .debug_str     0x0008eb0a       0x1c ./Generated_Code/Vectors.o
                               0x8ac84 (size before relaxing)
- .debug_str     0x0008eb1d      0x3a5 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
+ .debug_str     0x0008eb26      0x3a5 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libOS.a(OS.o)
                               0x8ad2a (size before relaxing)
- .debug_str     0x0008eec2      0x567 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
+ .debug_str     0x0008eecb      0x567 C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(analog.o)
                                0x3866 (size before relaxing)
- .debug_str     0x0008f429      0x3aa C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
+ .debug_str     0x0008f432      0x3aa C:\Users\12443166\Documents\git\es18aut35\Project\Library\libAnalog.a(SPI.o)
                               0x83389 (size before relaxing)
 
 .comment        0x00000000       0x70

@@ -180,7 +180,7 @@ void freqtracking(void)
     freqmeasurement = 1250000;
   }
 
-
+  void FFT_Freq(int16_t* samples, float* amplitude);
 
 
 
