@@ -96,10 +96,11 @@ Parameter 3: 0 */
 Parameter 1:  0 = get Timing mode
               1 = set definite Mode (5 seconds)
               2 = set inverse Mode
-Parameter 2:  0
-              0
+Parameter 2:  0 = definite mode
+              0 = inverse mode
 Parameter 3: 0 */
 #define Timing_Mode 0x10
+
 
 #define Number_of_Raises 0x11
 
@@ -171,16 +172,64 @@ bool ReadByte(uint8_t address);
  *  @return   true if the byte has been written, false if not
  */
 bool ProgramByte(uint8_t address, uint8_t data);
-
+/*! @brief Identify the Timing mode command :  set or just send it
+ *
+ *  @param
+ *  @return   true if the values have been sent, false if not
+ */
 bool HandleTimingMode();
 
+/*! @brief Send the timing mode
+ *
+ *  @param
+ *  @return   true if the mode has been sent, false if not
+ */
 bool SendTimingMode();
 
+/*! @brief Set the timing mode
+ *
+ *  @param
+ *  @return   true if the mode has been sent, false if not
+ */
 bool SetTimingMode();
 
-//bool NbofRaises();
-//
-//bool NbofLowers();
+/*! @brief Identify the Highers command :  reset or just send it
+ *
+ *  @param
+ *  @return   true if the values have been set/sent, false if not
+ */
+bool HandleHighers();
+/*! @brief Send the Nb of Highers occured
+ *
+ *  @param
+ *  @return   true if the values has been sent, false if not
+ */
+bool SendHighers();
+/*! @brief Reset the Nb of Highers occured
+ *
+ *  @param
+ *  @return   true if the values has been sent, false if not
+ */
+bool ResetHigher();
+
+/*! @brief Identify the Lowers command :  reset or just send it
+ *
+ *  @param
+ *  @return   true if the values have been set/sent, false if not
+ */
+bool HandleLowers();
+/*! @brief Send the Nb of Lowers occured
+ *
+ *  @param
+ *  @return   true if the values has been sent, false if not
+ */
+bool SendLowers();
+/*! @brief Set the Nb of Lowers occured
+ *
+ *  @param
+ *  @return   true if the values has been sent, false if not
+ */
+bool ResetLowers();
 
 
 /*! @brief Private ACK checking function

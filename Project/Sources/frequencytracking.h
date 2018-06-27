@@ -8,8 +8,9 @@
 #ifndef SOURCES_FREQUENCYTRACKING_H_
 #define SOURCES_FREQUENCYTRACKING_H_
 
-//channeldata Samples[3];
+#include "voltageRegulator.h"
 
 void calcminimum(void);
-
+void ZeroCrossing(void);
+void InterpoleMeDad(void);
 #endif /* SOURCES_FREQUENCYTRACKING_H_ */

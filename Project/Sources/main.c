@@ -125,7 +125,10 @@ static void PITThread(void* pData)
      {
        //check to see if one is of
        BoundsCheck(tempval[i], i);
-       calcminimum();
+
+
+//       calcminimum();
+//       ZeroCrossing();
      }
 
   }
@@ -237,6 +240,19 @@ static void InitModulesThread(void* pData)
   if(Flash_AllocateVar((volatile void**)&NvTowerMd, sizeof(*NvTowerMd)))
     if(NvTowerMd->l == 0xFFFF)
       Flash_Write16((uint16_t *)NvTowerMd, SCP_TowerMd.l);
+
+//  //Writing the mode, the number of raises and lowers in main
+//  if(Flash_AllocateVar((volatile void**)&NvTimeMd, sizeof(*NvTimeMd)))
+//      if(NvTimeMd->l == 0xFFFF)
+//        Flash_Write16((uint16_t *)NvTimeMd, SCP_TimingMode);
+//
+//  if(Flash_AllocateVar((volatile void**)&NvLowerNbs, sizeof(*NvLowerNbs)))
+//      if(NvLowerNbs->l == 0xFFFF)
+//        Flash_Write16((uint16_t *)NvLowerNbs, SCP_NbLowers);
+//
+//  if(Flash_AllocateVar((volatile void**)&NvHigherNbs, sizeof(*NvTowerMd)))
+//      if(NvTowerMd->l == 0xFFFF)
+//        Flash_Write16((uint16_t *)NvTowerMd, SCP_NbHighers);
 
   //Start PIT for 1sec
   PIT_Set(1250000,true);

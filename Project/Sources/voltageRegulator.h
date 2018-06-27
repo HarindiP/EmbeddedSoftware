@@ -25,6 +25,12 @@ extern channeldata Samples[3];
 
 extern Tmode SCP_TimingMode;
 
+extern uint8_t SCP_NbHighers;
+
+
+extern uint8_t SCP_NbLowers;
+
+
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 extern int ChannelNumber;
 

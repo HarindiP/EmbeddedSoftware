@@ -31,6 +31,11 @@ uint16union_t SCP_TowerMd;
 /*Timing Mode*/
 Tmode SCP_TimingMode;
 
+/*Number of Higher*/
+uint8_t SCP_NbHighers;
+
+/*Number of Lowers*/
+uint8_t SCP_NbLowers;
 /*Communication functions : */
 
 bool SCP_SendStartUpValues()
@@ -140,7 +145,60 @@ bool SendTimingMode()
 bool SetTimingMode()
 {
   SCP_TimingMode = Packet_Parameter1 - 1;
-  return true;
+//  Flash_Write8(); If Timing mode into flash
+  return SendTimingMode();
+}
+
+
+bool HandleHighers()
+{
+  if (Packet_Parameter1 == 0)
+  {
+    return SendHighers();
+  }
+  else if(Packet_Parameter1 == 1)
+  {
+    return ResetHigher();
+  }
+}
+
+bool SendHighers()
+{
+  //  Flash_Write8((uint8_t)* NvHigherNbs, SCP_NbHighers); //number of highers
+  return Packet_Put(0x11, SCP_NbHighers, 0, 0);
+}
+
+bool ResetHigher()
+{
+  SCP_NbHighers = 0;
+//  Flash_Write8((uint8_t)* NvHigherNbs, SCP_NbHighers); //number of highers
+  return SendHighers();
+
+}
+
+bool HandleLowers()
+{
+  if (Packet_Parameter1 == 0)
+  {
+    return SendLowers;
+  }
+  else if (Packet_Parameter1 == 1)
+  {
+    return ResetLowers;
+  }
+}
+
+bool SendLowers()
+{
+//  Flash_Write8((uint8_t)* NvLowerNbs, SCP_NbLowers); //number of lowers
+  return Packet_Put(0x11, SCP_NbLowers, 0, 0);
+}
+
+bool ResetLowers()
+{
+  SCP_NbLowers = 0;
+//  Flash_Write8((uint8_t)* NvLowerNbs, SCP_NbLowers); //number of lowers
+  return SendLowers;
 }
 
 
@@ -200,6 +258,12 @@ bool SCP_Packet_Handle()
       break;
     case Timing_Mode :
       return HandleTimingMode();
+      break;
+    case Number_of_Lowers :
+      return HandleLowers();
+      break;
+    case Number_of_Raises :
+      return HandleHighers();
       break;
     default:	//Unknown command
       //Do nothing or return command with NAK

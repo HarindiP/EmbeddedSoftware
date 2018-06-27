@@ -32,10 +32,11 @@ Tmode SCP_TimingMode;
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 int ChannelNumber = 0;
 
-//pointers to save the number of raises and lowers
-int NumofHighers;
-int NumofLowers;
+/*Number of Higher*/
+uint8_t SCP_NbHighers;
 
+/*Number of Lowers*/
+uint8_t SCP_NbLowers;
 
 //value reset
 float dev = 0;
@@ -124,14 +125,14 @@ void DefiniteCheck(void)
   if (newVRMS > UPPERBOUND)
   {
     SignalsSetLower();
-    NumofLowers++;
+    SCP_NbLowers++;
 
     //Flash write8 this into memory
   }
   else if (newVRMS < LOWERBOUND)
   {
     SignalsSetHigher();
-    NumofHighers++;
+    SCP_NbHighers++;
 
     //flash write8 this into memory
   }
@@ -164,7 +165,7 @@ void InverseCheck(void)
     else
     {
       SignalsSetLower();
-      NumofLowers++;
+      SCP_NbLowers++;
 
       //values reset all the values used by inverse check since 100% is successfully finished
       ValuesReset();
@@ -188,7 +189,7 @@ void InverseCheck(void)
     else
     {
       SignalsSetHigher();
-      NumofHighers++;
+      SCP_NbHighers++;
 
       //values reset all the values used by inverse check since 100% is successfully finished
       ValuesReset();
