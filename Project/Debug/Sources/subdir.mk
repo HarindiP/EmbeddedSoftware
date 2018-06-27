@@ -11,8 +11,7 @@ C_SRCS += \
 ../Sources/PIT.c \
 ../Sources/SCP.c \
 ../Sources/UART.c \
-../Sources/UsefulFunctions.c \
-../Sources/analogmeasure.c \
+../Sources/calc.c \
 ../Sources/frequencytracking.c \
 ../Sources/main.c \
 ../Sources/packet.c \
@@ -27,8 +26,7 @@ OBJS += \
 ./Sources/PIT.o \
 ./Sources/SCP.o \
 ./Sources/UART.o \
-./Sources/UsefulFunctions.o \
-./Sources/analogmeasure.o \
+./Sources/calc.o \
 ./Sources/frequencytracking.o \
 ./Sources/main.o \
 ./Sources/packet.o \
@@ -43,8 +41,7 @@ C_DEPS += \
 ./Sources/PIT.d \
 ./Sources/SCP.d \
 ./Sources/UART.d \
-./Sources/UsefulFunctions.d \
-./Sources/analogmeasure.d \
+./Sources/calc.d \
 ./Sources/frequencytracking.d \
 ./Sources/main.d \
 ./Sources/packet.d \

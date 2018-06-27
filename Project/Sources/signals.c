@@ -8,7 +8,7 @@
 /*Space to create the limits and check whether in bounds*/
 
 #include "analog.h"
-#include "UsefulFunctions.h"
+#include "calc.h"
 
 #define BITS_PER_VOLT 3276.7
 

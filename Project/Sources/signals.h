@@ -1,5 +1,5 @@
 /*
- * output.h
+ * signals.h
  *
  *  Created on: 13 Jun 2018
  *      Author: 12443166
@@ -31,7 +31,7 @@ void SignalsClearHigher(void);
 /*! @brief Sets the lower signal when voltage above limit
  *
  *  @param
- *  @note It is supposed that the ADC has been initialized
+ *  @note
  */
 void SignalsSetLower(void);
 
@@ -39,7 +39,7 @@ void SignalsSetLower(void);
 /*! @brief clears the lower signal when voltage back into limitation
  *
  *  @param
- *  @note It is supposed that the ADC has been initialized
+ *  @note
  */
 void SignalsClearLower(void);
 

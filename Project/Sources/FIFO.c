@@ -21,7 +21,6 @@
  */
 
 
-
 void FIFO_Init(TFIFO * const FIFO)
 {
   /*No data in the buffer*/

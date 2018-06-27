@@ -22,12 +22,8 @@ channeldata;
 
 //Initilising channel data
 extern channeldata Samples[3];
-
 extern Tmode SCP_TimingMode;
-
 extern uint8_t SCP_NbHighers;
-
-
 extern uint8_t SCP_NbLowers;
 
 
@@ -35,16 +31,56 @@ extern uint8_t SCP_NbLowers;
 extern int ChannelNumber;
 
 
+/*! @brief Resets the initialising variable for inverse check
+ *
+ *
+ */
+
 void ValuesReset(void);
 
+/*! @brief Checks the 3 channels constantly to check if in boundaries before any of the modes set
+ *
+ *  @param VRMS : The vrms value of a sample
+ *  @param channelNb : The coresponding channel number
+ *
+ *  @note Once on on channel, check the others
+ */
 void BoundsCheck(int16_t VRMS, int channelNb);
 
+/*! @brief Sets the Pit timer for 5000 ms
+ *
+ *  @param
+ *  @param
+ *
+ *  @note
+ */
 void definitemode(void);
 
+/*! @brief Sets the timer to a 10ms
+ *
+ *  @param
+ *  @param
+ *
+ *  @note
+ */
 void inversetimemode(void);
 
+/*! @brief Checks the bounds after the timer is done to call Higher and Lower Signals
+ *
+ *  @param
+ *  @param
+ *
+ *  @note
+ */
 void DefiniteCheck (void);
 
+/*! @brief Checks the bounds after the timer is done to call Higher and Lower Signals
+ *
+ *  @param
+ *  @param
+ *
+ *  @note
+ */
 void InverseCheck(void);
 
 

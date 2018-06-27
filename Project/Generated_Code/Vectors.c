@@ -66,8 +66,8 @@
 #include "analog.h"
 #include "FTM.h"
 #include "Flash.h"
-#include "analogmeasure.h"
-#include "UsefulFunctions.h"
+#include "frequencytracking.h"
+#include "calc.h"
 void __attribute__ ((interrupt)) LPTimer_ISR(void);
 
   /* ISR prototype */

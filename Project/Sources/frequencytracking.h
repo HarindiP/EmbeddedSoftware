@@ -11,6 +11,8 @@
 #include "voltageRegulator.h"
 
 void calcminimum(void);
-void ZeroCrossing(void);
-void InterpoleMeDad(void);
+int16_t AdjecentFind(int16_t position);
+int32_t Interpolation(int16_t min, int16_t minaux);
+void freqtracking(void);
+
 #endif /* SOURCES_FREQUENCYTRACKING_H_ */

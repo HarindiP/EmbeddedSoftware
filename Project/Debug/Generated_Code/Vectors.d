@@ -17,8 +17,10 @@ Generated_Code/Vectors.o: ../Generated_Code/Vectors.c \
  C:\Users\12443166\Documents\git\es18aut35\Project\Library/analog.h \
  C:/Users/12443166/Documents/git/es18aut35/Project/Sources/FTM.h \
  C:/Users/12443166/Documents/git/es18aut35/Project/Sources/Flash.h \
- C:/Users/12443166/Documents/git/es18aut35/Project/Sources/analogmeasure.h \
- C:/Users/12443166/Documents/git/es18aut35/Project/Sources/UsefulFunctions.h
+ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/frequencytracking.h \
+ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/voltageRegulator.h \
+ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/SCP.h \
+ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/calc.h
 
 ../Generated_Code/Cpu.h:
 
@@ -60,6 +62,10 @@ C:/Users/12443166/Documents/git/es18aut35/Project/Sources/FTM.h:
 
 C:/Users/12443166/Documents/git/es18aut35/Project/Sources/Flash.h:
 
-C:/Users/12443166/Documents/git/es18aut35/Project/Sources/analogmeasure.h:
+C:/Users/12443166/Documents/git/es18aut35/Project/Sources/frequencytracking.h:
 
-C:/Users/12443166/Documents/git/es18aut35/Project/Sources/UsefulFunctions.h:
+C:/Users/12443166/Documents/git/es18aut35/Project/Sources/voltageRegulator.h:
+
+C:/Users/12443166/Documents/git/es18aut35/Project/Sources/SCP.h:
+
+C:/Users/12443166/Documents/git/es18aut35/Project/Sources/calc.h:

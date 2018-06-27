@@ -10,46 +10,43 @@
 #include "math.h"
 #include "string.h"
 
-
 #define ABS -1;
 #define NB_OF_SAMPLES 16
 
 channeldata Samples[3];
 
-//int16_t myArray[16] = {-3, -8, -4, -1, 9, 12, 2, 4, 9, 15, 9, 7, -11, -7, -6, -5};
-
-//check to see if between 2 zero crossing should be half the number of samples
+//variables to hold the min values in array
 static int16_t firstmin;
 static int16_t secondmin;
 
-
+//variable to hold the minimum values position
 static int16_t firstminpos;
 static int16_t secondminpos;
 
-
-//variable to save the value of the variable the crosses the zero crossing
-static int16_t consecMinOne;
-
+//global variable with the 2 zero crossings
 
 int32_t freqmeasurement = 1250000;
 
+int32_t Zerocrossing1;
+int32_t Zerocrossing2;
 
-
+extern float frequency;
 
 //calculates the minimum value of the array and their position in the array
 void calcminimum(void)
 {
-//  int16_t myArray[16] = {-3, -8, -4, -1, 9, 12, 2, 4, 9, 15, 9, 7, -11, -7, -6, -5};
   channeldata Samples[3];
+
+
+  /********************************abs value**********************************************/
   for(int i = 0; i < NB_OF_SAMPLES; i++)
   {
     if((Samples[0].myArray[i]) < 0 )
     {
       Samples[0].myArray[i] *= -1;
     }
-
   }
-
+  /**************************************************************************************/
   // interate through the number of samples FOR Loop
   for(int i = 0; i < NB_OF_SAMPLES; i++)
   {
@@ -68,7 +65,7 @@ void calcminimum(void)
       secondmin = firstmin;
       firstmin = Samples[0].myArray[i];
 
-      //keeps track of the position of the positio
+      //keeps track of the positions
       secondminpos = firstminpos;
       firstminpos = i;
 
@@ -80,48 +77,111 @@ void calcminimum(void)
       secondminpos = i;
     }
   }
-  ZeroCrossing();
+
+  // Assume that the 2 closest values to the x axis is found
+  /***************************************************************************************/
+  //find the second value that crosses the x-axis
+  int16_t Min1aux = AdjecentFind(firstminpos);
+  int16_t Min2Aux = AdjecentFind(secondminpos);
+
+  //find the new zero crossing between the postive and negative value
+  Zerocrossing1 = Interpolation(firstmin, Min1aux);
+  Zerocrossing2 = Interpolation(secondmin,Min2Aux);
+
+
+  /***************************************************************************************/
+
 }
 
 
-void ZeroCrossing(void)
+int16_t AdjecentFind(int16_t position)
 {
-  //this bit better fucking find if both variable have opposites signs
+  //4 if statements that check to see if the which adjecent value has an opposite sign
+  int16_t minAux;
 
-  if ((firstminpos > 0) && (firstminpos < 16))
+  if ((position > 0) && (position < 16))
   {
-        if((Samples[0].myArray[firstminpos] > 0) && (Samples[0].myArray[firstminpos + 1] < 0))
-          consecMinOne = Samples[0].myArray[firstminpos - 1];
+        if((Samples[0].myArray[position] > 0) && (Samples[0].myArray[position + 1] < 0))
+          return minAux = Samples[0].myArray[position - 1];
 
-        else if((Samples[0].myArray[firstminpos] > 0) && (Samples[0].myArray[firstminpos - 1] < 0))
-          consecMinOne = Samples[0].myArray[firstminpos - 1];
+        else if((Samples[0].myArray[position] > 0) && (Samples[0].myArray[position - 1] < 0))
+          return minAux = Samples[0].myArray[position - 1];
 
-        else if((Samples[0].myArray[firstminpos] < 0) && (Samples[0].myArray[firstminpos + 1] > 0))
-          consecMinOne = Samples[0].myArray[firstminpos + 1];
+        else if((Samples[0].myArray[position] < 0) && (Samples[0].myArray[position + 1] > 0))
+          return minAux = Samples[0].myArray[position + 1];
 
-        else if((Samples[0].myArray[firstminpos] < 0) && (Samples[0].myArray[firstminpos - 1] > 0))
-          consecMinOne = Samples[0].myArray[firstminpos - 1];
+        else if((Samples[0].myArray[position] < 0) && (Samples[0].myArray[position - 1] > 0))
+          return minAux = Samples[0].myArray[position - 1];
   }
 }
 
-//interpolation function thats takes in the 2 minimum values and there positions in the array
-//void InterpoleMeDad(void)
-//{
-//  //sum of the minimum values
-//  float firstmin;
-//  float consecMinOne; //the values of minimum and the value that crosses zero axis bois
-//  float frac = firstmin / (fabs(firstmin) + fabs(consecMinOne));
-//  float crossingpoint = freqmeasurement * frac;
-//
-//  //if firstmin and secondmoin
-//  float timeofcrossing = freqmeasurement * (firstmin + crossingpoint);
-//
-//  //timeofcrossing = freqmeasurement * (minimum position + or - crossing point)
-//
-//  //return timeofcrossing;
-//
-//}
+//interpolation function thats takes in the 2 minimum values find zero crossing
+int32_t Interpolation(int16_t min, int16_t minaux)
+{
+  int16_t crossingpoint;
+  int16_t timeofcrossing;
+
+  crossingpoint = (min / ((min) + (minaux))) * freqmeasurement;
+
+  if ((min) || (min > 0 && minaux <0))
+  {
+    timeofcrossing = (freqmeasurement * min) - crossingpoint;
+    return (int32_t)timeofcrossing;
+  }
+  else
+  {
+    timeofcrossing = (freqmeasurement * min) + crossingpoint;
+    return (int32_t)timeofcrossing;
+  }
+}
+
+
+void freqtracking(void)
+{
+  int32_t zero1 = Zerocrossing1;
+  int32_t zero2 = Zerocrossing2;
+
+  /***************************************/
+  if (zero1 < 0 )
+  {
+    zero1 *= -1;
+  }
+
+  if (zero2 < 0 )
+    {
+      zero2 *= -1;
+    }
+  /****************************************/
+
+  int32_t halfperiod = zero2 - zero1;
+
+  if (halfperiod == 0)
+  {
+    frequency = 50;
+    freqmeasurement = 1250000;
+  }
+  else
+  {
+    int32_t fullperiod = halfperiod * 2;
+
+    //calculates new sampling period
+    freqmeasurement = fullperiod/16;
+
+    //time in seconds
+    float periodsinsec= (float)fullperiod/ 1000000000;
+    frequency = 1 / periodsinsec;
+
+  }
+  //Makes sure frequency is in bounds
+  if (frequency < 47.5 || frequency > 52.5)
+  {
+    //set to defaults values
+    frequency = 50;
+    freqmeasurement = 1250000;
+  }
 
 
 
-//once we have 2 minimums
+
+
+}

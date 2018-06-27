@@ -14,8 +14,8 @@
 #include <types.h>
 #include "PIT.h"
 #include "OS.h"
-#include "UsefulFunctions.h"
-#include "analogmeasure.h"
+#include "calc.h"
+#include "frequencytracking.h"
 #include "voltageRegulator.h"
 #include "signals.h"
 
@@ -32,11 +32,14 @@ Tmode SCP_TimingMode;
 //Checks to see which channel Number is being worked //if check channel is channel number use channel number to check the appropriate
 int ChannelNumber = 0;
 
-/*Number of Higher*/
+//Number of Higher
 uint8_t SCP_NbHighers;
 
-/*Number of Lowers*/
+//Number of Lowers
 uint8_t SCP_NbLowers;
+
+//check if channel in question already havent been checked
+bool alreadychecked = false;
 
 //value reset
 float dev = 0;
@@ -53,20 +56,15 @@ void ValuesReset(void)
 }
 
 
-//create variable to check if channel is in question already havent been checked
-bool alreadychecked = false;
-
-
-
 void BoundsCheck(int16_t VRMS, int channelNb)
 {
   if ((VRMS > UPPERBOUND || VRMS < LOWERBOUND) && (!alreadychecked))
   {
-    alreadychecked = true;  //If the channel hadnt been already checked
-    SignalsSetALarm();  //Set this goober
+    alreadychecked = true;  // sets if already hasnt checked
+    SignalsSetALarm();
     ChannelNumber = channelNb; //globally defines which channel number Im currently using
 
-    // toggles the modes famm!!
+    // toggles the modes
     if (SCP_TimingMode == DEF_MODE)
     {
       definitemode();
@@ -75,19 +73,16 @@ void BoundsCheck(int16_t VRMS, int channelNb)
     {
       inversetimemode();
     }
-
   }
 
 
   //makes sure to check the channels that havent been checked
   if (VRMS < UPPERBOUND && VRMS > LOWERBOUND && (ChannelNumber == channelNb) && (alreadychecked))
   {
-
     alreadychecked = false;
     PIT1_Enable(false);
 
     // check to see if vrms is inbounds again where i is indicative of channel number
-    //if other channels are out of bounds stay yo ass there else clear this bitch
     for (int i = 0; i <3 ; i++)
     {
       if (Samples[i].myVrms > UPPERBOUND || Samples[i].myVrms < LOWERBOUND)
@@ -96,7 +91,7 @@ void BoundsCheck(int16_t VRMS, int channelNb)
         return;
       }
     }
-    // clear all goodbois
+    // clear all
   PIT1_Enable(false);
   ValuesReset();
   SignalsClearAll();
@@ -127,14 +122,14 @@ void DefiniteCheck(void)
     SignalsSetLower();
     SCP_NbLowers++;
 
-    //Flash write8 this into memory
+    //Flash_Write8((int8_t* NvLowerNbs),SCP_NbLowers);
   }
   else if (newVRMS < LOWERBOUND)
   {
     SignalsSetHigher();
     SCP_NbHighers++;
 
-    //flash write8 this into memory
+    //Flash_Write8((int8_t* NvHigherNbs),SCP_NbHighers);
   }
   else
   {
@@ -152,13 +147,13 @@ void InverseCheck(void)
   //check to see if dev is over upperbound
   if ((Samples[ChannelNumber].myVrms > UPPERBOUND))
   {
-    if (travelledpercentage < 100)  // AND make sure dev is never zero dev != 0
+    if (travelledpercentage < 100)  // initially travels from 0->100
     {
       dev = ((Samples[ChannelNumber].myVrms - UPPERBOUND) /  BITS_PER_VOLT);
-      timeoutperiod  = (5 / (2 * dev)) * 1000;  //in ms
+      timeoutperiod  = (5 / (2 * dev)) * 1000;  //calculate delay
 
       travelledtime += 10;
-      travelledpercentage = 100 * (travelledtime / timeoutperiod);
+      travelledpercentage = 100 * (travelledtime / timeoutperiod); //
 
     }
 
@@ -166,6 +161,7 @@ void InverseCheck(void)
     {
       SignalsSetLower();
       SCP_NbLowers++;
+      //Flash_Write8((int8_t* NvLowerNbs),SCP_NbLowers);
 
       //values reset all the values used by inverse check since 100% is successfully finished
       ValuesReset();
@@ -176,10 +172,10 @@ void InverseCheck(void)
   }
   else if ((Samples[ChannelNumber].myVrms < LOWERBOUND))
   {
-    if (travelledpercentage < 100)  // AND make sure dev is never zero dev != 0
+    if (travelledpercentage < 100)  // initially travels from 0->100
     {
       dev = ((LOWERBOUND - Samples[ChannelNumber].myVrms) / BITS_PER_VOLT);
-      timeoutperiod  = (5 / (2 * dev)) * 1000;  //in ms
+      timeoutperiod  = (5 / (2 * dev)) * 1000;  //calculate delay
 
       travelledtime += 10;
       travelledpercentage = 100 * (travelledtime / timeoutperiod);
@@ -191,16 +187,14 @@ void InverseCheck(void)
       SignalsSetHigher();
       SCP_NbHighers++;
 
+      //Flash_Write8((int8_t* NvHigherNbs),SCP_NbHighers);
+
       //values reset all the values used by inverse check since 100% is successfully finished
       ValuesReset();
-
     }
-
   }
-
   else
   {
-
     SignalsClearAll();
     ValuesReset();
   }

@@ -35,8 +35,7 @@
 #include "analog.h"
 #include "FTM.h"
 #include "Flash.h"
-//#include "analogmeasure.h"
-#include "UsefulFunctions.h"
+#include "calc.h"
 #include "voltageRegulator.h"
 #include "frequencytracking.h"
 
@@ -54,10 +53,6 @@ OS_THREAD_STACK(PIT1ThreadStack, THREAD_STACK_SIZE);
 
 //variable to hold data for 3 different channels
 channeldata Samples [3];
-
-//decides the channelNb
-
-//
 
 ///*! @brief Data structure used to pass LED configuration to a user thread
 // *
@@ -110,14 +105,14 @@ static void PITThread(void* pData)
     static int16_t tempval[3] = {0, 0, 0};
 
 
-      tempval[0] = VRMS(Samples[0].myArray);
-      tempval[1] = VRMS(Samples[1].myArray);
-      tempval[2] = VRMS(Samples[2].myArray);
+      tempval[0] = calc_VRMS(Samples[0].myArray);
+      tempval[1] = calc_VRMS(Samples[1].myArray);
+      tempval[2] = calc_VRMS(Samples[2].myArray);
 
 
-      Samples[0].myVrms = VRMS(Samples[0].myArray);
-      Samples[1].myVrms = VRMS(Samples[1].myArray);
-      Samples[2].myVrms = VRMS(Samples[2].myArray);
+      Samples[0].myVrms = calc_VRMS(Samples[0].myArray);
+      Samples[1].myVrms = calc_VRMS(Samples[1].myArray);
+      Samples[2].myVrms = calc_VRMS(Samples[2].myArray);
 
 
       //where i is indicative og the channel
@@ -126,9 +121,6 @@ static void PITThread(void* pData)
        //check to see if one is of
        BoundsCheck(tempval[i], i);
 
-
-//       calcminimum();
-//       ZeroCrossing();
      }
 
   }
@@ -155,8 +147,7 @@ static void PIT1Thread(void* pData)
     {
       InverseCheck();
     }
-
-      //Toggle Green LED
+    //Toggle Green LED
     LEDs_Toggle(LED_GREEN);
     }
 }
@@ -213,7 +204,6 @@ static void InitModulesThread(void* pData)
   SCP_TowerNb.l = 5605;
   SCP_TowerMd.l = 0;
 
-
   // Baud Rate and Module Clock
   uint32_t baudRate = 115200;
   uint32_t moduleClk = CPU_BUS_CLK_HZ;
@@ -227,8 +217,7 @@ static void InitModulesThread(void* pData)
   PIT_Init(moduleClk, NULL, NULL);
   //Init Flash
   Flash_Init();
-
-  //analog initilisation
+  //Analog initilisation
   (void) Analog_Init(CPU_BUS_CLK_HZ);
 
 
@@ -252,7 +241,7 @@ static void InitModulesThread(void* pData)
 //
 //  if(Flash_AllocateVar((volatile void**)&NvHigherNbs, sizeof(*NvTowerMd)))
 //      if(NvTowerMd->l == 0xFFFF)
-//        Flash_Write16((uint16_t *)NvTowerMd, SCP_NbHighers);
+//        Flash_Write16((uint16_t *)NvHigherNbs, SCP_NbHighers);
 
   //Start PIT for 1sec
   PIT_Set(1250000,true);
